@@ -13,7 +13,6 @@ public class HongkongProjectApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		int test = 10/0;
 	}
 
 }
