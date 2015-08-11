@@ -22,7 +22,7 @@ public class HomeController {
         LOGGER.debug("Getting Home Page");
         System.out.println("hostname : "+System.getProperty("HOSTNAME"));
         System.out.println("context_name : "+System.getProperty("CONTEXT_NAME"));
-        System.out.println(System.getProperties());
+        System.out.println(System.getProperty("os.name"));
         return "home";
     }
     
