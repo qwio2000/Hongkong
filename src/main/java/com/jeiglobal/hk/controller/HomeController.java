@@ -20,9 +20,6 @@ public class HomeController {
     @RequestMapping("/")
     public String getHomePage() {
         LOGGER.debug("Getting Home Page");
-        System.out.println("hostname : "+System.getProperty("HOSTNAME"));
-        System.out.println("context_name : "+System.getProperty("CONTEXT_NAME"));
-        System.out.println(System.getProperty("os.name"));
         return "home";
     }
     
@@ -30,6 +27,6 @@ public class HomeController {
     @RequestMapping("/test")
     public String getBoardSubject(@RequestParam(defaultValue="1", required=false)int boardIdx){
     	LOGGER.info("### Get Board Subject : BoardIdx is {}", boardIdx);
-    	return mapper.getBoardSubject(boardIdx);
+    	return boardIdx+". boardSubject : "+mapper.getBoardSubject(boardIdx);
     }
 }
