@@ -12,6 +12,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.*;
 import org.springframework.jdbc.datasource.*;
 
+/**
+ * 클래스명 : BeanConfiguration.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * ConnectSetting에 저장된 정보를 이용하여 DB 연결 설정
+ */
 @Configuration
 @MapperScan(basePackages="com.jeiglobal.hk.repository")
 public class BeanConfiguration {

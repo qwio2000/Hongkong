@@ -8,7 +8,15 @@ import org.springframework.web.bind.annotation.*;
 
 import com.jeiglobal.hk.repository.*;
 
-
+/**
+ * 클래스명 : HomeController.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * HomeController
+ */
 @Controller
 public class HomeController {
 
