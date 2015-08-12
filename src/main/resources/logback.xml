@@ -5,7 +5,7 @@
 			<property name="directory" value="/home/log"/>
 		</then>
 		<else>
-			<property name="directory" value="E:/log"/>
+			<property name="directory" value="C:/log"/>
 		</else>
 	</if>
 	

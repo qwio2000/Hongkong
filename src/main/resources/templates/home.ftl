@@ -1,3 +1,4 @@
+<#import "/spring.ftl" as spring/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,7 +6,8 @@
 </head>
 <body>
 	<div id="wrapper">
-		HOME!!!!
+		HOME!!!!<br/>
+		<@spring.message "MyName.SecondName"/>
 	</div>
 </body>
 </html>
