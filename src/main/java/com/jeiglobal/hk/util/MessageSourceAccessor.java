@@ -3,7 +3,16 @@ package com.jeiglobal.hk.util;
 import java.util.*;
 
 import org.springframework.context.*;
-
+/**
+ * 클래스명 : MessageSourceAccesor.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * properties에 저장된 메시지를 읽어오는 역할을 하는 Util 클래스
+ * 
+ */
 public class MessageSourceAccessor {
 
 	private MessageSource messageSource;
