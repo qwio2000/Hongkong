@@ -8,7 +8,7 @@
 	<div id="wrapper">
 		HOME!!!!<br/>
 		<@spring.message "MyName.SecondName"/>
-		closed 테스트ㅋㅋㅋ
+		resolve
 	</div>
 </body>
 </html>
