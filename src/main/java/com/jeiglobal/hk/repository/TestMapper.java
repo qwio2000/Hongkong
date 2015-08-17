@@ -10,6 +10,7 @@ package com.jeiglobal.hk.repository;
  * src/main/resource/mapper/TestMapper.xml과 매핑되는 인터페이스
  * 
  */
+@PrimaryRepositoryAnnoInterface
 public interface TestMapper {
 
 	public String getBoardSubject(int boardIdx);

@@ -23,9 +23,10 @@ import com.jeiglobal.hk.util.*;
 public class HomeController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
-
 	@Autowired
-	private TestMapper mapper;
+	private TestMapper testMapper;
+	@Autowired
+	private MssqlRepository mssqlRepository;
 	@Autowired
 	private MessageSourceAccessor messageSource;// message 사용
 
@@ -36,7 +37,7 @@ public class HomeController {
 	}
 
 	@ResponseBody
-	@RequestMapping("/test")
+	@RequestMapping("/mysql")
 	public String getBoardSubject(
 			@RequestParam(defaultValue = "1", required = false) int boardIdx, Locale locale) {
 		//Default Locale : ko_KR => message_ko_KR.properties에 존재하는 메세지를 읽음
@@ -47,6 +48,13 @@ public class HomeController {
 		Locale enLocale = new Locale("en_US");
 		LOGGER.info("### en_US Message : Code is {}, Message is {}","MyName.FirstName", messageSource.getMessage("MyName.FirstName", enLocale));
 		LOGGER.info("### en_US Message : Code is {}, Message is {}","MyName.SecondName", messageSource.getMessage("MyName.SecondName", enLocale));
-		return boardIdx + ". boardSubject : "+ mapper.getBoardSubject(boardIdx);
+		return "boardIdx : "+boardIdx+", boardSubject : "+testMapper.getBoardSubject(boardIdx);
+	}
+	@ResponseBody
+	@RequestMapping("/mssql")
+	public String getSHA256(
+			@RequestParam(defaultValue = "00713", required = false) String empKey) {
+		String pwdHash = mssqlRepository.getPwdHash(empKey);
+		return "pwdHash : "+pwdHash;
 	}
 }
