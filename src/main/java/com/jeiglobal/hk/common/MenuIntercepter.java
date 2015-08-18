@@ -7,7 +7,6 @@ import java.util.*;
 import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.security.acls.model.*;
 import org.springframework.security.core.*;
 import org.springframework.security.core.context.*;
 import org.springframework.security.web.context.*;
