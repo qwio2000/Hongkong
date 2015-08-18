@@ -5,9 +5,9 @@ import java.util.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
-import com.jeiglobal.hk.repository.*;
 import com.jeiglobal.hk.util.*;
 
 /**
@@ -24,42 +24,40 @@ public class HomeController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 	@Autowired
-	private TestMapper testMapper;
-	@Autowired
-	private MssqlRepository mssqlRepository;
-	@Autowired
 	private MessageSourceAccessor messageSource;// message 사용
 
-	@RequestMapping("/")
-	public String getHomePage() {
-		LOGGER.debug("Getting Home Page");
-		return "home";
-	}
-	@RequestMapping("/login")
-	public String getLoginPage() {
-		LOGGER.debug("Getting Login Page");
+	@RequestMapping(value={"/","/login"})
+	public String getLoginPage(Model model, 
+			@RequestParam(value="error", required=false) String error,
+			@RequestParam(value="returl", required=false) String returl) {
+		if(error != null) {
+    		model.addAttribute("error",error);
+    		LOGGER.debug("Getting login page, error={}", error);
+    	}else{
+    		LOGGER.debug("Getting Login Page");
+    	}
+		model.addAttribute("returl", returl);
+		LOGGER.debug("### Return Url : {}", returl);
 		return "login";
 	}
 
+	@RequestMapping(value={"/layout"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String getLayoutPage() {
+		LOGGER.debug("Getting Layout Page");
+		return "layout";
+	}
+
 	@ResponseBody
-	@RequestMapping("/mysql")
-	public String getBoardSubject(
-			@RequestParam(defaultValue = "1", required = false) int boardIdx, Locale locale) {
+	@RequestMapping("/message")
+	public String getBoardSubject(Locale locale) {
 		//Default Locale : ko_KR => message_ko_KR.properties에 존재하는 메세지를 읽음
-		LOGGER.info("### Get Board Subject : BoardIdx is {}", boardIdx);
 		LOGGER.info("### ko_KR Message : Code is {}, Message is {}","MyName.FirstName", messageSource.getMessage("MyName.FirstName", locale));
 		LOGGER.info("### ko_KR Message : Code is {}, Message is {}","MyName.SecondName", messageSource.getMessage("MyName.SecondName", locale));
 		//Locale을 영어로 변경 => message_en_US.properties에 존재하는 메세지를 읽음
 		Locale enLocale = new Locale("en_US");
 		LOGGER.info("### en_US Message : Code is {}, Message is {}","MyName.FirstName", messageSource.getMessage("MyName.FirstName", enLocale));
 		LOGGER.info("### en_US Message : Code is {}, Message is {}","MyName.SecondName", messageSource.getMessage("MyName.SecondName", enLocale));
-		return "boardIdx : "+boardIdx+", boardSubject : "+testMapper.getBoardSubject(boardIdx);
+		return "Message Test in Log";
 	}
-	@ResponseBody
-	@RequestMapping("/mssql")
-	public String getSHA256(
-			@RequestParam(defaultValue = "00713", required = false) String empKey) {
-		String pwdHash = mssqlRepository.getPwdHash(empKey);
-		return "pwdHash : "+pwdHash;
-	}
+	
 }

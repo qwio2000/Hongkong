@@ -1,11 +1,13 @@
 package com.jeiglobal.hk.common;
 
-import org.springframework.boot.autoconfigure.security.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
-import org.springframework.core.annotation.*;
-import org.springframework.security.config.annotation.method.configuration.*;
+import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.*;
 import org.springframework.security.config.annotation.web.configuration.*;
+import org.springframework.security.web.savedrequest.*;
+
+import com.jeiglobal.hk.auth.*;
 
 /**
  * 클래스명 : SecurityConfig.java
@@ -17,14 +19,64 @@ import org.springframework.security.config.annotation.web.configuration.*;
  * 시큐리티 설정 파일
  */
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+@EnableWebSecurity
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-    	  http.authorizeRequests()
-		          .antMatchers("/**").permitAll()
-		          .anyRequest().authenticated();
-    }
+	@Autowired
+	private AuthenticationProviderImpl authenticationProvider;
+	@Autowired
+	private AuthenticationSuccessHandlerImpl authenticationSuccessHandler;	
+	@Autowired
+	private AuthenticationFailureHandlerImpl authenticationFailureHandler;
+	@Autowired
+	private AuthenticationEntryPointImpl authenticationEntryPoint;	
+	@Autowired
+	private LogoutSuccessHandlerImpl logoutSuccessHandler;
+	@Autowired
+	private SecurityContextRepositoryImpl securityContextRepository;
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth)
+		throws Exception {
+		auth.authenticationProvider(authenticationProvider);
+	}
+	
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		//아래 패턴과 같은 요청이 들어오면 시큐리티 적용 안하고 무시
+		web.ignoring().antMatchers("/public/js/**","/public/css/**","/public/img/**","/favicon.ico");
+	}
+	
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+			http
+				.securityContext().securityContextRepository(securityContextRepository)
+			.and()
+				.csrf().disable()
+				.authorizeRequests()
+				.antMatchers("/login","/").permitAll()
+				.antMatchers("/adminManager/**").hasAuthority("SUPERADMIN")
+				.anyRequest().authenticated()
+			.and()
+				.formLogin()
+					.usernameParameter("memberId")
+					.passwordParameter("memberPassword")
+					.loginProcessingUrl("/loginCheck")
+					.successHandler(authenticationSuccessHandler)
+					.failureHandler(authenticationFailureHandler)
+					.permitAll()
+			.and()
+				.logout()
+					.logoutUrl("/logout")
+					.logoutSuccessUrl("/login")
+					.logoutSuccessHandler(logoutSuccessHandler)
+					.permitAll()
+			.and()
+				.httpBasic()
+			.and()
+				.exceptionHandling()
+					.authenticationEntryPoint(authenticationEntryPoint)
+			.and()
+				.requestCache().requestCache(new NullRequestCache());
+	}
 }
