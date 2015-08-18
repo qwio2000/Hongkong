@@ -35,6 +35,11 @@ public class HomeController {
 		LOGGER.debug("Getting Home Page");
 		return "home";
 	}
+	@RequestMapping("/login")
+	public String getLoginPage() {
+		LOGGER.debug("Getting Login Page");
+		return "login";
+	}
 
 	@ResponseBody
 	@RequestMapping("/mysql")
