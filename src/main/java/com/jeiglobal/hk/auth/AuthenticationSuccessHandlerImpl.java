@@ -31,7 +31,7 @@ import com.jeiglobal.hk.service.auth.*;
 @Component
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 	
-	final static String DEFAULT_INDEX_URL = "/layout";
+	final static String DEFAULT_INDEX_URL = "/memberCard";
 	
 	@Autowired
 	private AuthoritiesService authoritiesService;

@@ -44,4 +44,9 @@ public class BeanConfiguration {
 		registrationBean.setFilter(characterEncodingFilter);
 		return registrationBean;
 	}
+	
+	@Bean
+	public MenuIntercepter menuIntercepter(){
+		return new MenuIntercepter();
+	}
 }

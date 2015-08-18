@@ -26,7 +26,7 @@
 	
 		<!-- container -->
 		<div id="loginContainer">
-		<h2><img src="/public/img/login/h2_login.gif" alt="로그인" /><@security.authorize access="isAuthenticated()">&nbsp;&nbsp;<@security.authentication property="principal.empKey" /> 님 환영합니다. <a style="float:right;" href="/layout"><img style="width:100px;height:50px;" src="/public/img/btn_go.gif"/></a></@security.authorize></h2>
+		<h2><img src="/public/img/login/h2_login.gif" alt="로그인" /><@security.authorize access="isAuthenticated()">&nbsp;&nbsp;<@security.authentication property="principal.empKey" /> 님 환영합니다. <a style="float:right;" href="/memberCard"><img style="width:100px;height:50px;" src="/public/img/btn_go.gif"/></a></@security.authorize></h2>
 			<form name="loginFrm" id="loginFrm" method="post" action="/loginCheck" style="margin:0px;">
 				<div class="login-box">
 				<@security.authorize access="! isAuthenticated()">

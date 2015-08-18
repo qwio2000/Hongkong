@@ -54,7 +54,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 		
 		List<GrantedAuthority> authorities = getAuthorities(loginInfo.getMemberId());
 		return new UsernamePasswordAuthenticationToken(new LoginInfo(loginInfo.getMemberId(),loginInfo.getMemberPassword()
-				,loginInfo.getMemberEnabled(),loginInfo.getEmpName(),loginInfo.getJisaCD(),loginInfo.getDepid1(),loginInfo.getDepid2(),loginInfo.getEmpKey(),loginInfo.getEmpKeyLvCD(),loginInfo.getDepMngCD(),loginInfo.getEncodeCookie()),null,authorities);
+				,loginInfo.getMemberEnabled(),loginInfo.getJisaCD(),loginInfo.getDepid1(),loginInfo.getDepid2(),loginInfo.getEmpKey(),loginInfo.getEmpName(),loginInfo.getEmpKeyLvCD(),loginInfo.getDepMngCD(),loginInfo.getEncodeCookie()),null,authorities);
 	}
 
 	private List<GrantedAuthority> getAuthorities(String memberId) {

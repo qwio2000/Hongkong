@@ -27,11 +27,11 @@ import com.jeiglobal.hk.service.auth.*;
  * 
  * 시큐리티 Context를 만들고 Context에 Authentication 정보 주입
  * 
- * 1. 컨텍스트 객체 생성 및 초기화
+ * 1. 컨텍스트 객체를 로드한 후 Authentication이 없는 경우 2~5를 진행, 있으면 그대로 반환
  * 2. 쿠키 값에 AUTHId라는 이름으로 된 값과 AUTHKey로 된 값을 load
  * 3. 읽어온 값으로 globalbiz.ComLoginInfo 테이블에 일치하는 계정이 있는지 확인
  * 4. 있으면 해당 계정의 정보와 권한을 얻어온다.
- * 5. 계정의 정보와 권한으로 Authentication 객체를 생성 후 SecurityContext에 주입 
+ * 5. 계정의 정보와 권한으로 Authentication 객체를 생성 후 SecurityContext에 저장 
  */
 @Component
 public class SecurityContextRepositoryImpl implements SecurityContextRepository{
@@ -39,45 +39,52 @@ public class SecurityContextRepositoryImpl implements SecurityContextRepository{
 	@Autowired
 	private AuthoritiesService authoritiesService;
 	
+	private SecurityContext ctx;
+	
+	private HttpSessionSecurityContextRepository contextRep;
+	
 	@Override
 	public SecurityContext loadContext(
 			HttpRequestResponseHolder requestResponseHolder) {
-		SecurityContext ctx = SecurityContextHolder.createEmptyContext();
-		Map<String,Object> map = new HashMap<String, Object>();
-		
-		map = getAuthCookieValue(requestResponseHolder.getRequest());
-		
-		if(map != null && !map.isEmpty() && map.containsKey("AUTHId") && map.containsKey("AUTHKey")){
-			String userName = map.get("AUTHId").toString();
-			String encodeCookie = map.get("AUTHKey").toString();
+		contextRep = new HttpSessionSecurityContextRepository();
+		ctx = contextRep.loadContext(requestResponseHolder);
+		if(ctx.getAuthentication() == null){
 			
-			long cnt = authoritiesService.countMemberByIdAndEncodeCookie(userName, encodeCookie);
+			Map<String,Object> map = new HashMap<String, Object>();
 			
-			if(cnt == 1){
-				List<GrantedAuthority> authorities = new ArrayList<>();
+			map = getAuthCookieValue(requestResponseHolder.getRequest());
+			
+			if(map != null && !map.isEmpty() && map.containsKey("AUTHId") && map.containsKey("AUTHKey")){
+				String userName = map.get("AUTHId").toString();
+				String encodeCookie = map.get("AUTHKey").toString();
 				
-				List<Authority> memberAuthories = authoritiesService.findPermissionById(userName);
+				long cnt = authoritiesService.countMemberByIdAndEncodeCookie(userName, encodeCookie);
 				
-				for(int i = 0; i < memberAuthories.size(); i++){
-					authorities.add(new SimpleGrantedAuthority(memberAuthories.get(i).getAuthority()));
+				if(cnt == 1){
+					List<GrantedAuthority> authorities = new ArrayList<>();
+					
+					List<Authority> memberAuthories = authoritiesService.findPermissionById(userName);
+					
+					for(int i = 0; i < memberAuthories.size(); i++){
+						authorities.add(new SimpleGrantedAuthority(memberAuthories.get(i).getAuthority()));
+					}
+					
+					LoginInfo member = authoritiesService.findMemberById(userName);
+					member.setMemberPassword("");
+					member.setEncodeCookie("");
+					
+					Authentication authentication = new UsernamePasswordAuthenticationToken(member,"",authorities);
+					ctx.setAuthentication(authentication);
 				}
-				
-				LoginInfo member = authoritiesService.findMemberById(userName);
-				member.setMemberPassword("");
-				member.setEncodeCookie("");
-				
-				Authentication authentication = new UsernamePasswordAuthenticationToken(member,"",authorities);
-				ctx.setAuthentication(authentication);
 			}
 		}
-		
 		return ctx;
 	}
 
 	@Override
 	public boolean containsContext(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		return false;
+		return contextRep.containsContext(request);
 	}
 	
 	
@@ -85,6 +92,7 @@ public class SecurityContextRepositoryImpl implements SecurityContextRepository{
 	public void saveContext(SecurityContext context,
 			HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
+		contextRep.saveContext(ctx, request, response);
 	}
 	
 	private Map<String,Object> getAuthCookieValue(HttpServletRequest request){

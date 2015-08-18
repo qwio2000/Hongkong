@@ -41,10 +41,15 @@ public class HomeController {
 		return "login";
 	}
 
-	@RequestMapping(value={"/layout"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@RequestMapping(value={"/memberCard"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getLayoutPage() {
 		LOGGER.debug("Getting Layout Page");
 		return "layout";
+	}
+	@RequestMapping(value={"/subul"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String getSubulPage() {
+		LOGGER.debug("Getting Subul Page");
+		return "subul";
 	}
 
 	@ResponseBody
