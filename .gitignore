@@ -5,6 +5,7 @@
 *~
 /build
 /code
+/lib
 .classpath
 .project
 .settings
