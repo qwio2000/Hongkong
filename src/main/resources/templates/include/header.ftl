@@ -9,7 +9,7 @@
 <title>${title?default('')}</title>
 <link rel="stylesheet" type="text/css" href="/public/css/common.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/layout_center.css" />
-<link rel="stylesheet" type="text/css" href="/public/css/jquery-ui.1.11.4.min.css" />
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
 <#if headerCss?has_content>
 	<#list headerCss as css>
 		<link rel="stylesheet" type="text/css" href="/public/css/${css}.css" />

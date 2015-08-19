@@ -4,6 +4,16 @@ import java.sql.Timestamp;
 
 import lombok.*;
 
+/**
+ * 
+ * 클래스명 : GlobalMenu.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * 메뉴 처리에 필요한 객체
+ */
 @Data
 public class GlobalMenu {
 

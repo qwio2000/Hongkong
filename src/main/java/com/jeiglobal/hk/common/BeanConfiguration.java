@@ -4,6 +4,7 @@ import org.springframework.boot.context.embedded.*;
 import org.springframework.context.*;
 import org.springframework.context.annotation.*;
 import org.springframework.web.filter.*;
+import org.springframework.web.servlet.config.annotation.*;
 
 import com.jeiglobal.hk.util.*;
 
@@ -17,7 +18,7 @@ import com.jeiglobal.hk.util.*;
  * Bean 설정 관련 파일
  */
 @Configuration
-public class BeanConfiguration {
+public class BeanConfiguration extends WebMvcConfigurerAdapter {
 
 	/**
 	 * Message를 이용하기 위한 Bean 설정
@@ -44,7 +45,10 @@ public class BeanConfiguration {
 		registrationBean.setFilter(characterEncodingFilter);
 		return registrationBean;
 	}
-	
+	/**
+	 * 메뉴 인터셉터 Bean 설정
+	 * @return
+	 */
 	@Bean
 	public MenuIntercepter menuIntercepter(){
 		return new MenuIntercepter();

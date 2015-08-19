@@ -7,7 +7,16 @@ import org.springframework.stereotype.*;
 
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.repository.auth.*;
-
+/**
+ * 
+ * 클래스명 : AuthoritiesService.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * 로그인에 관련된 비즈니스 로직을 처리하는 서비스
+ */
 @Service
 public class AuthoritiesService {
 	@Autowired

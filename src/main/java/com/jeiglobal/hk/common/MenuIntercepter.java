@@ -17,7 +17,16 @@ import org.springframework.web.servlet.handler.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.menu.*;
 import com.jeiglobal.hk.service.menu.*;
-
+/**
+ * 
+ * 클래스명 : MenuIntercepter.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * 컨트롤러에 가기 전 메뉴에 관련된 정보를 처리하는 인터셉터
+ */
 public class MenuIntercepter extends HandlerInterceptorAdapter{
 	
 	@Autowired
@@ -41,7 +50,6 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 		String currentUrl = request.getRequestURI();
 		List<GlobalMenu> menuList = menuService.menuList(0,loginInfo.getJisaCD(),loginInfo.getEmpKeyLvCD(),loginInfo.getDepMngCD(),"1");
 		List<GlobalMenu> leftMenuList = new ArrayList<GlobalMenu>();
-		
 		if(menuList == null){
 			if(authentication.getAuthorities().contains("SUPERADMIN")){
 				return true;
@@ -94,9 +102,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 				}
 			}else{
 				LOGGER.debug("Invalid Url : {}", currentUrl);
-				PrintWriter writer = response.getWriter();
-				response.setContentType("text/html;charset=UTF-8");
-				String scriptMessage = "<script language='javascript'>alert('";
+				
 				boolean t = false;
 				for (GrantedAuthority globalMenu : authentication.getAuthorities()) {
 					if("SUPERADMIN".equals(globalMenu.getAuthority())){
@@ -104,12 +110,16 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 					}
 				}
 				if(t){
-					scriptMessage += "유효한 URL이 아닙니다. 관리자');";
+					LOGGER.debug("관리자 권한 Login User = {}", loginInfo.getMemberId());
+					return true;
 				}else{
+					PrintWriter writer = response.getWriter();
+					response.setContentType("text/html;charset=UTF-8");
+					String scriptMessage = "<script language='javascript'>alert('";
 					scriptMessage += "유효한 URL이 아닙니다.');";
+					scriptMessage += "history.back();</script>";
+					writer.write(scriptMessage);
 				}
-				scriptMessage += "history.back();</script>";
-				writer.write(scriptMessage);
 				return false;
 			}
 			

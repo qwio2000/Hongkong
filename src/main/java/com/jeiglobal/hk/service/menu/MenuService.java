@@ -12,7 +12,16 @@ import org.springframework.transaction.annotation.*;
 import com.jeiglobal.hk.domain.menu.*;
 import com.jeiglobal.hk.repository.menu.*;
 
-
+/**
+ * 
+ * 클래스명 : MenuService.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * 메뉴에 관련된 비즈니스 로직을 처리하는 서비스
+ */
 @Service
 public class MenuService {
 	
