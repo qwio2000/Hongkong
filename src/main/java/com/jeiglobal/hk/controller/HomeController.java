@@ -64,5 +64,11 @@ public class HomeController {
 		LOGGER.info("### en_US Message : Code is {}, Message is {}","MyName.SecondName", messageSource.getMessage("MyName.SecondName", enLocale));
 		return "Message Test in Log";
 	}
+	/**
+	 * favicon.ico 요청 시 No Mapping Log 방지하기 위해 만듬 
+	 */
+	@RequestMapping("favicon.ico")
+    @ResponseBody
+    void favicon() {}
 	
 }

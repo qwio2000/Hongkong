@@ -2,6 +2,8 @@ package com.jeiglobal.hk.common;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.*;
 
 
@@ -34,7 +36,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// TODO Auto-generated method stub
-		registry.addInterceptor(beanConfiguration.menuIntercepter()).addPathPatterns("/**").excludePathPatterns("","/","/login","/public/**");
+		registry.addInterceptor(beanConfiguration.menuIntercepter()).addPathPatterns("/**").excludePathPatterns("","/","/login","/public/**","/error");
 	}
 	
 }

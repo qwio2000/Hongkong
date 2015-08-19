@@ -6,6 +6,7 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.*;
 import org.springframework.security.core.context.*;
@@ -22,6 +23,8 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 	@Autowired
 	private MenuService menuService;
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(MenuIntercepter.class);
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
@@ -36,14 +39,6 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		String currentUrl = request.getRequestURI();
-		if ("/error".equals(currentUrl)) {
-			PrintWriter writer = response.getWriter();
-			response.setContentType("text/html;charset=UTF-8");
-			String scriptMessage = "<script language='javascript'>alert('Controller에 등록된 RequestMapping이 존재하지 않습니다.');";
-			scriptMessage += "history.back();</script>";
-			writer.write(scriptMessage);
-			return false;
-		}
 		List<GlobalMenu> menuList = menuService.menuList(0,loginInfo.getJisaCD(),loginInfo.getEmpKeyLvCD(),loginInfo.getDepMngCD(),"1");
 		List<GlobalMenu> leftMenuList = new ArrayList<GlobalMenu>();
 		
@@ -98,6 +93,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 					}
 				}
 			}else{
+				LOGGER.debug("Invalid Url : {}", currentUrl);
 				PrintWriter writer = response.getWriter();
 				response.setContentType("text/html;charset=UTF-8");
 				String scriptMessage = "<script language='javascript'>alert('";
