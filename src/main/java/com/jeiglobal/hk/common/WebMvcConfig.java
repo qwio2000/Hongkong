@@ -2,8 +2,6 @@ package com.jeiglobal.hk.common;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
-import org.springframework.stereotype.*;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.*;
 
 
