@@ -41,7 +41,7 @@ public class HomeController {
 		return "login";
 	}
 
-	@RequestMapping(value={"mMenuLink","","/agree","/board","/classChange","/emptyHakjuk","/huheiList","/inventory"
+	@RequestMapping(value={"mMenuLink","","/agree","/community/notice","/classChange","/emptyHakjuk","/huheiList","/inventory"
 			,"/ipgum","/iphei","/jindo","/manageFA","/manageInfo","/memberCard","/misu","/monthSiljuk","/qna"
 			,"/saleResult","/siljuk","/study","/studyState","/subul"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getLayoutPage() {

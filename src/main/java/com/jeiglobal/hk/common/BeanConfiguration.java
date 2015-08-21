@@ -53,4 +53,15 @@ public class BeanConfiguration extends WebMvcConfigurerAdapter {
 	public MenuIntercepter menuIntercepter(){
 		return new MenuIntercepter();
 	}
+	/**
+	 * PUT method Filter
+	 * @return
+	 */
+	@Bean
+	public FilterRegistrationBean httpPutFormContentFilter() {
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+		filterRegistrationBean.setFilter(new HttpPutFormContentFilter());
+		filterRegistrationBean.setOrder(10);
+		return filterRegistrationBean;
+	}
 }
