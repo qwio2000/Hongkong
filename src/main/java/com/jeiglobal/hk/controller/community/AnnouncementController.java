@@ -8,7 +8,8 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
-import com.jeiglobal.hk.util.*;
+import com.jeiglobal.hk.service.community.*;
+import com.jeiglobal.hk.utils.*;
 
 /**
  * 클래스명 : AnnouncementController.java
@@ -24,13 +25,18 @@ import com.jeiglobal.hk.util.*;
 public class AnnouncementController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AnnouncementController.class);
+	private static final int PAGE_BLOCK_SIZE = 10;
+	private static final int PAGE_SIZE = 10;
 	
 	@Autowired
 	private MessageSourceAccessor messageSource;// message 사용
 	
+	@Autowired
+	private AnnouncementService announcementService;
+	
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getNoticesPage(Model model){
+	public String getAnnouncementsPage(Model model){
 		LOGGER.debug("Getting Notices List Page");
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("announcement");
@@ -38,5 +44,32 @@ public class AnnouncementController {
 		return "community/announcement/list";
 	}
 	
+	@RequestMapping(value="/{pageNum:[0-9]+}",method = {RequestMethod.GET, RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> getAnnouncementsListJson(Model model, 
+			@PathVariable int pageNum,
+			@RequestParam(value="searchField", required=false) String searchField,
+			@RequestParam(value="searchValue", required=false) String searchValue){
+		LOGGER.debug("Getting Notices List Articles");
+		LOGGER.debug("searchField : {}, searchValue : {}", searchField, searchValue);
+		int totalRowCnt = announcementService.getArticleCnt(searchField, searchValue);
+		LOGGER.debug("totalRowCount : {}", totalRowCnt);
+		PageUtil pageUtil = new	PageUtil(pageNum, totalRowCnt, PAGE_SIZE, PAGE_BLOCK_SIZE);
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("pageInfo",pageUtil);
+		map.put("articles",announcementService.getArticles(pageUtil.getStartRow(),pageUtil.getEndRow(), searchField, searchValue));
+		
+		return map;
+	}
+	
+//	@RequestMapping(value="/{boardIdx}", method = {RequestMethod.GET, RequestMethod.HEAD})
+//	public String getAnnouncementPage(Model model){
+//		LOGGER.debug("Getting Notices List Page");
+//		List<String> headerScript = new ArrayList<String>();
+//		headerScript.add("announcement");
+//		model.addAttribute("headerScript", headerScript);
+//		return "community/announcement/list";
+//	}
 	
 }

@@ -1,98 +1,53 @@
 $(function(){
 	$.extend({
-				paging : function(thisPage, pageNum, blockSize) {
-					var pageUnit = blockSize;// 블럭 단위
-					var totPages = pageNum; // 총페이지수
-					var thisBlock = Math.ceil(thisPage / pageUnit); // 현재 페이징블럭
-					var startPage, endPage; // 현재 페이징블럭 처음, 마지막 페지이
-					var preBlock, nextBlock; // 이전, 다음 페이징 블럭
-					var html = "";
+		pageUtil : function(pageNum, totalPageCnt, rowBlockSize,startPageNum,endPageNum) {
+			var thisBlock = Math.ceil(pageNum / rowBlockSize); // 현재 페이징블럭
+			var preBlock, nextBlock; // 이전, 다음 페이징 블럭
+			var html = "";
 
-					if (pageNum > 0) {
-						// 현재 페이지블럭의 시작페이지번호, 전페이지번호
-						if (thisBlock > 1) {
-							startPage = (thisBlock - 1) * pageUnit + 1;
-							preBlock = startPage - 1;
-						} else {
-							startPage = preBlock = 1;
-						}
-
-						// 현재 페이지블럭의 끝페이지번호, 다음페이지번호
-						if ((thisBlock * pageUnit) >= totPages) {
-							endPage = totPages;
-							nextBlock = endPage;
-						} else {
-							endPage = thisBlock * pageUnit;
-							nextBlock = endPage + 1
-						}
-
-						if (thisPage > 1) {
-							html += "<a href='javascript:;' pageNo='1' class='naviPage'>처음</a> "; // 맨처음으로
-							// 가기
-							if (preBlock > 1) {
-								html += "<a href='javascript:;' pageNo='"
-										+ preBlock
-										+ "' class='naviPage'>이전</a> "; // 현재블럭의
-								// 전페이지
-							}
-						}
-
-						for (i = startPage; i <= endPage; i++) {
-							if (i != thisPage) {
-								html += " <a href='javascript:;' pageNo='" + i
-										+ "' class='naviPage'>" + i + "</a> ";
-							} else {
-								html += "<a href='javascript:;' pageNo='"
-										+ i
-										+ "' class='naviPage' style='color:red;'>"
-										+ i + "</a>";
-							}
-						}
-
-						if (thisPage != totPages) {
-							html += "<a href='javascript:;' pageNo='"
-									+ nextBlock + "' class='naviPage'>다음</a> "; // 현재
-							// 블럭의
-							// 다음페이지
-							html += "<a href='javascript:;' pageNo='"
-									+ totPages + "' class='naviPage'>끝</a> "; // 맨끝으로
-							// 가기
-						}
-					}
-					return html;
-				},
-				locationGubun:function(url, gubun) {
-					if ((url=='/memberCard/memberJindoInfo' && document.Qry2FormName.searchKwamok.value=='all'&&gubun=='2')||
-							(url=='/memberCard/jindoSearch'&& document.Qry2FormName.searchKwamok.value=='all'&&gubun=='2')) {
-						alert('진도는 전체를 선택할 수 없습니다.');
-						return;
-					}
-					if(gubun == '1'){
-						document.Qry2FormName.searchKwamok.value ='';
-					}
-					document.Qry2FormName.action = url;
-					document.Qry2FormName.submit();
-	    		},
-	    		
-	    		//전화번호, 핸드폰 번호 형식 체크
-				telCheck:function(msg,str) {
-					var pattern = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
-					if(!pattern.test(msg)){
-					    alert(str + " 형식이 올바르지 않습니다.\n\n{2,3}-{3,4}-{4}자리로 입력해 주십시오.\n");
-					    return false;
-					}
-					return true;
-				},
-
-				//email 형식 체크
-				emailCheck:function(msg,str) {
-					var pattern = /([0-9a-zA-Z_-]+)@([0-9a-zA-Z_-]+)\.([0-9a-zA-Z_-]+)/; //pattern = /(\S+)@(\S+)\.(\S+)/; 이메일주소에 한글 사용시
-					if(!pattern.test(msg)){
-					    alert(str + " 형식을 맞춰주세요. 예)hong@korea.com");
-					    return false;
-					}
-					return true;
+			if (totalPageCnt > 0) {
+				// 현재 페이지블럭의 시작페이지번호, 전페이지번호
+				if (thisBlock > 1) {
+					startPageNum = (thisBlock - 1) * rowBlockSize + 1;
+					preBlock = startPageNum - 1;
+				} else {
+					startPageNum = preBlock = 1;
 				}
+
+				// 현재 페이지블럭의 끝페이지번호, 다음페이지번호
+				if ((thisBlock * rowBlockSize) >= totalPageCnt) {
+					endPageNum = totalPageCnt;
+					nextBlock = endPageNum;
+				} else {
+					endPageNum = thisBlock * rowBlockSize;
+					nextBlock = endPageNum + 1
+				}
+				
+				if(pageNum > 1){
+					html += "<a class='first naviPage' pageNo='1' href='javascript:;'><img alt='처음' src='/public/img/community/announcement/btn_paging_first.gif'></a> "; // 맨처음으로 가기
+					
+					if (preBlock > 1) {
+						html += "<a class='prev naviPage' pageNo='"+preBlock+"' href='javascript:;'><img alt='이전' src='/public/img/community/announcement/btn_paging_prev.gif'></a> "; // 현재블럭의 전페이지
+					}
+				}
+
+				for (i = startPageNum; i <= endPageNum; i++) {
+					if(i != pageNum){
+						html += " <a class='naviPage' href='javascript:;' pageNo='"+i+"'>"+i+"</a> ";
+					} else {
+						html += "<a class='current' href='javascript:;' pageNo='"+i+"'>"+i+"</a>";
+					}
+				}
+
+				if(pageNum != totalPageCnt){
+					if(nextBlock < totalPageCnt ){
+						html += "<a class='next naviPage' pageNo='"+nextBlock+"' href='javascript:;'><img alt='다음' src='/public/img/community/announcement/btn_paging_next.gif'></a> "; // 현재 블럭의 다음페이지
+					}
+					html += "<a class='last naviPage' pageNo='"+totalPageCnt+"' href='javascript:;'><img alt='끝' src='/public/img/community/announcement/btn_paging_last.gif'></a> "; // 맨끝으로 가기
+				}
+			}
+			return html;
+		}
 	});
 	$(".datePicker").datepicker(
 			{

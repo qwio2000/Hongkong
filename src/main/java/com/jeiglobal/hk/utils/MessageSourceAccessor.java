@@ -1,4 +1,4 @@
-package com.jeiglobal.hk.util;
+package com.jeiglobal.hk.utils;
 
 import java.util.*;
 

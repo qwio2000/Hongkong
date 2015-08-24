@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.community.AnnouncementRepository">
+	<select id="findTotalArticleCount" resultType="int">
+		SELECT COUNT(*) FROM globalbiz.Announcement
+		<where>
+			boardDeleteYN = 'N'
+			<if test="searchField != null and searchValue != ''">
+				AND ${searchField} like CONCAT('%', #{searchValue}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="findAnnouncements" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.community.Announcement">
+		SELECT boardIdx, memberId, boardSubject, boardContent, boardReadCount, DATE_FORMAT(boardRegDate, '%Y-%m-%d %H:%i') AS boardRegDate 
+		FROM globalbiz.Announcement
+		<where>
+			boardDeleteYN = 'N'
+			<if test="searchField != null and searchValue != ''">
+				AND ${searchField} like CONCAT('%', #{searchValue}, '%')
+			</if>
+		</where>
+		ORDER BY boardRegDate DESC
+		LIMIT #{startRow}, #{endRow}
+	</select>
+</mapper>

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.web.filter.*;
 import org.springframework.web.servlet.config.annotation.*;
 
-import com.jeiglobal.hk.util.*;
+import com.jeiglobal.hk.utils.*;
 
 /**
  * 클래스명 : BeanConfiguration.java
