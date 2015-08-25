@@ -3,8 +3,10 @@ package com.jeiglobal.hk.service.community;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.core.context.*;
 import org.springframework.stereotype.*;
 
+import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.community.*;
 import com.jeiglobal.hk.repository.community.*;
 /**
@@ -38,6 +40,23 @@ public class AnnouncementService {
 		paramMap.put("searchField", searchField);
 		paramMap.put("searchValue", searchValue);
 		return announcementRepository.findAnnouncements(paramMap);
+	}
+
+	public Announcement getAnnouncementByIdx(int idx) {
+		announcementRepository.updateAnnouncementReadCount(idx);
+		return announcementRepository.findAnnouncement(idx);
+	}
+
+	public int addAnnouncement(Announcement announcement) {
+		// TODO Auto-generated method stub
+		announcement.setMemberId(((LoginInfo)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId());
+		announcementRepository.insertAnnouncement(announcement);
+		return announcement.getBoardIdx();
+	}
+
+	public int removeAnnouncementByIdx(int idx) {
+		// TODO Auto-generated method stub
+		return announcementRepository.deleteAnnouncement(idx);
 	}
 	
 }

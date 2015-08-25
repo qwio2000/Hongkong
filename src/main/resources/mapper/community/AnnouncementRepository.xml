@@ -23,4 +23,30 @@
 		ORDER BY boardRegDate DESC
 		LIMIT #{startRow}, #{endRow}
 	</select>
+	
+	<select id="findAnnouncement" parameterType="int" resultType="com.jeiglobal.hk.domain.community.Announcement">
+		SELECT boardIdx, memberId, boardSubject, boardContent, boardReadCount, DATE_FORMAT(boardRegDate, '%Y-%m-%d %H:%i') AS boardRegDate 
+		FROM globalbiz.Announcement
+		<where>
+			boardIdx = #{idx} AND boardDeleteYN = 'N'
+		</where>
+	</select>
+	
+	<update id="updateAnnouncementReadCount">
+		UPDATE globalbiz.Announcement SET boardReadCount = boardReadCount + 1
+		<where>
+			boardIDx = #{idx} AND boardDeleteYN = 'N'
+		</where>
+	</update>
+	<insert id="insertAnnouncement" parameterType="com.jeiglobal.hk.domain.community.Announcement" useGeneratedKeys="true" keyProperty="boardIdx">
+		INSERT INTO globalbiz.Announcement(memberId, boardKindCode, boardSubject, boardContent, boardDeleteYN, boardReadCount, boardRegDate) 
+			VALUES(#{memberId}, '1', #{boardSubject}, #{boardContent}, 'N', 0, NOW())
+	</insert>
+	
+	<update id="deleteAnnouncement">
+		UPDATE globalbiz.Announcement SET boardDeleteYN = 'Y'
+		<where>
+			boardIDx = #{idx} AND boardDeleteYN = 'N'
+		</where>
+	</update>
 </mapper>

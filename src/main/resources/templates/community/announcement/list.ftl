@@ -28,7 +28,7 @@
 					</ul>
 				</div>
 				<div class="mgt-20 search-class">
-					<input name='pageNum' id="pageNum" type='hidden' value='1'/>
+					<input name='pageNum' id="pageNum" type='hidden' value='${pageNum }'/>
 					<fieldset>
 						<legend></legend>
 						<p>
@@ -85,7 +85,7 @@
 			<td>{{boardNo @index}}</td>
 			<td>
 				<p class="tb_1">
-					<a href='/community/announcements/{{boardIdx}}'>{{boardSubject}}</a>
+					<a href='/community/announcements/{{boardIdx}}?pageNum={{../pageInfo.pageNum}}'>{{boardSubject}}</a>
 				</p>
 			</td>
 			<td>{{memberId}}</td>

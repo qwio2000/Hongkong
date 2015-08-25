@@ -22,5 +22,13 @@ public interface AnnouncementRepository {
 	public int findTotalArticleCount(Map<String, Object> paramMap);
 
 	public List<Announcement> findAnnouncements(Map<String, Object> paramMap);
+
+	public Announcement findAnnouncement(int idx);
+
+	public void updateAnnouncementReadCount(int idx);
+
+	public void insertAnnouncement(Announcement announcement);
+
+	public int deleteAnnouncement(int idx);
 	
 }

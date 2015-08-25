@@ -2,7 +2,7 @@ $(function(){
 	$.extend({
 		getBoardList:function(){
 			var pageNum = $("#pageNum").val();
-			var searchUrl = "/community/announcements/"+pageNum;
+			var searchUrl = "/community/announcements/page/"+pageNum;
 			var searchField = $("#searchField").val();
 			var searchValue = $.trim($("#searchValue").val());
 			var paramData = {"searchField":searchField, "searchValue":searchValue};
@@ -65,7 +65,10 @@ $(function(){
 			});
 		}
 	});
-	$.getBoardList();
+	
+	//리스트 페이지인 경우 getBoardList 호출
+	if(window.location.pathname == '/community/announcements')
+		$.getBoardList();
 	// paging 클릭
 	$(".paging").on("click","a.naviPage",function() {
 		var pageNum = $(this).attr('pageNo');	
@@ -76,5 +79,29 @@ $(function(){
 	$("#searchBtn").on("click",function() {
 		$("#pageNum").val("1");
 		$.getBoardList();
+	});
+	
+	$("#submitBtn").on("click",function() {
+		$("#announcementFrm").submit();
+	});
+	
+	$("#deleteBtn").on("click",function() {
+		if(!confirm('정말 삭제 하시겠습니까?')){
+			return;
+		}
+		var boardIdx = $('#boardIdx').val();
+		$.ajax({
+			url: "/community/announcements/"+boardIdx,
+			type:"delete",
+			cache: false,
+			async: true,
+			success: function(jsonData, textStatus, XMLHttpRequest) {
+				alert(jsonData.msg);
+				location.href="/community/announcements";
+			},
+			error:function (xhr, ajaxOptions, thrownError){	
+				alert(thrownError);
+			}
+		});
 	});
 });
