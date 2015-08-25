@@ -33,19 +33,6 @@ public class BeanConfiguration extends WebMvcConfigurerAdapter {
 	}
 	
 	/**
-	 * 필터 등록 Bean 설정
-	 * 현재 : CharacterEncodingFilter 등록
-	 * @return
-	 */
-	@Bean
-	public FilterRegistrationBean filterRegistrationBean() {
-		FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-		characterEncodingFilter.setEncoding("UTF-8");
-		registrationBean.setFilter(characterEncodingFilter);
-		return registrationBean;
-	}
-	/**
 	 * 메뉴 인터셉터 Bean 설정
 	 * @return
 	 */
@@ -60,7 +47,7 @@ public class BeanConfiguration extends WebMvcConfigurerAdapter {
 	@Bean
 	public FilterRegistrationBean httpPutFormContentFilter() {
 		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-		filterRegistrationBean.setFilter(new HttpPutFormContentFilter());
+		filterRegistrationBean.setFilter(new HiddenHttpMethodFilter());
 		filterRegistrationBean.setOrder(10);
 		return filterRegistrationBean;
 	}

@@ -35,9 +35,10 @@
 	<update id="updateAnnouncementReadCount">
 		UPDATE globalbiz.Announcement SET boardReadCount = boardReadCount + 1
 		<where>
-			boardIDx = #{idx} AND boardDeleteYN = 'N'
+			boardIdx = #{idx} AND boardDeleteYN = 'N'
 		</where>
 	</update>
+	
 	<insert id="insertAnnouncement" parameterType="com.jeiglobal.hk.domain.community.Announcement" useGeneratedKeys="true" keyProperty="boardIdx">
 		INSERT INTO globalbiz.Announcement(memberId, boardKindCode, boardSubject, boardContent, boardDeleteYN, boardReadCount, boardRegDate) 
 			VALUES(#{memberId}, '1', #{boardSubject}, #{boardContent}, 'N', 0, NOW())
@@ -46,7 +47,17 @@
 	<update id="deleteAnnouncement">
 		UPDATE globalbiz.Announcement SET boardDeleteYN = 'Y'
 		<where>
-			boardIDx = #{idx} AND boardDeleteYN = 'N'
+			boardIdx = #{idx} AND boardDeleteYN = 'N'
+		</where>
+	</update>
+	
+	<update id="updateAnnouncement">
+		UPDATE globalbiz.Announcement 
+		SET boardSubject = #{announcement.boardSubject}, 
+			boardContent = #{announcement.boardContent},
+			boardUptDate = NOW()
+		<where>
+			boardIdx = #{idx}
 		</where>
 	</update>
 </mapper>

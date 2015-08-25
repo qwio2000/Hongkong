@@ -58,5 +58,13 @@ public class AnnouncementService {
 		// TODO Auto-generated method stub
 		return announcementRepository.deleteAnnouncement(idx);
 	}
+
+	public int setAnnouncementByIdx(int idx, Announcement announcement) {
+		// TODO Auto-generated method stub
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("idx", idx);
+		paramMap.put("announcement", announcement);
+		return announcementRepository.updateAnnouncement(paramMap);
+	}
 	
 }

@@ -30,5 +30,7 @@ public interface AnnouncementRepository {
 	public void insertAnnouncement(Announcement announcement);
 
 	public int deleteAnnouncement(int idx);
+
+	public int updateAnnouncement(Map<String, Object> paramMap);
 	
 }

@@ -28,6 +28,7 @@ import com.jeiglobal.hk.utils.*;
 public class AnnouncementController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AnnouncementController.class);
+	
 	private static final int PAGE_BLOCK_SIZE = 10;
 	private static final int PAGE_SIZE = 10;
 	
@@ -138,5 +139,27 @@ public class AnnouncementController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msg", alertMsg);
 		return map;
+	}
+	
+	@RequestMapping(value="/{idx:[0-9]+}",method = {RequestMethod.PUT})
+	public String setAnnouncement(Model model,
+			@PathVariable int idx, 
+			@RequestParam(value="submitType") int submitType,
+			Announcement announcement,
+			Locale locale) {
+		LOGGER.debug("Editing Announcement : idx = {}, announcement = {}", idx, announcement);
+		int updateRowCount = announcementService.setAnnouncementByIdx(idx, announcement);
+		String alertMsg = "";
+		Object[] MessageArgs = {"수정"};
+		if(updateRowCount > 0) {
+			LOGGER.info("announcement Update Success : boardIdx = {}", idx);
+			alertMsg = messageSource.getMessage("Community.Announcement.Success", MessageArgs, locale);
+		}else{
+			LOGGER.error("announcement Update Error : {}", announcement);
+			alertMsg = messageSource.getMessage("Community.Announcement.Error", MessageArgs, locale);
+		}
+		model.addAttribute("message", alertMsg);
+		model.addAttribute("url", "/community/announcements/"+idx);
+		return "alertAndRedirect";
 	}
 }

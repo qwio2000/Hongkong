@@ -82,7 +82,13 @@ $(function(){
 	});
 	
 	$("#submitBtn").on("click",function() {
-		$("#announcementFrm").submit();
+		var submitType = $("#submitType").val();
+		if(submitType == "0"){
+			$("#announcementFrm").submit();
+		}else{
+			
+		}
+		
 	});
 	
 	$("#deleteBtn").on("click",function() {

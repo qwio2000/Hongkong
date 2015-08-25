@@ -29,7 +29,10 @@
 				</div>
 				<br/><br/>
 				<div class="tbl-type-F">
-					<form id="announcementFrm" action="/community/announcements" method="POST">
+<!-- 					<form id="announcementFrm" action="/community/announcements" method="POST"> -->
+					<form id="announcementFrm" action="/community/announcements/${article?if_exists.boardIdx?default("") }" method="POST">
+					<input type="hidden" name="_method" value="put" />
+					<input type="hidden" name="submitType" id="submitType" value="<#if article??>1<#else>0</#if>"/>
 					<table width="100%" cellSpacing="0" summary="">
 						<colgroup>
 							<col width="95">
@@ -63,6 +66,7 @@
 						</tr>
 						</tbody>
 					</table>
+					<input type="submit" value="test"/>
 					</form>
 				</div>
 				<div class="btn-box float-r">
