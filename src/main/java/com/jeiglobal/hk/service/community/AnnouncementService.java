@@ -96,8 +96,9 @@ public class AnnouncementService {
 		return announcementRepository.deleteAnnouncement(idx);
 	}
 
-	public int setAnnouncementByIdx(int idx, Announcement announcement) {
+	public int setAnnouncementByIdx(int idx, Announcement announcement, List<MultipartFile> mf) throws IllegalStateException, IOException {
 		// TODO Auto-generated method stub
+		insertAttachFiles(mf, idx);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("idx", idx);
 		paramMap.put("announcement", announcement);
@@ -122,5 +123,20 @@ public class AnnouncementService {
 	public File getDownloadFile(String fileName) {
 		// TODO Auto-generated method stub
 		return new File(uploadPath + File.separator + fileName);
+	}
+
+	public int removeAttachFileByFileIdx(int fileIdx) {
+		// TODO Auto-generated method stub
+		AttachFile attachFile = announcementRepository.findAttachFile(fileIdx);
+		deleteAttachFile(attachFile);
+		return announcementRepository.deleteAttachFileByFileIdx(fileIdx);
+	}
+
+	private void deleteAttachFile(AttachFile attachFile) {
+		// TODO Auto-generated method stub
+		File realFile = new File(attachFile.getFileUrl()+File.separator+attachFile.getFileName());
+		if(realFile.exists()){
+			realFile.delete();
+		}
 	}
 }

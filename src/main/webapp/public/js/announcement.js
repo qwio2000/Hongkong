@@ -63,6 +63,27 @@ $(function(){
 					alert(thrownError);
 				}
 			});
+		},
+		fileDelete:function(boardIdx, fileIdx, index){
+			if(!confirm('정말 첨부파일을 삭제 하시겠습니까?')){
+				return;
+			}
+			alert(boardIdx);
+			alert(fileIdx);
+			$.ajax({
+				url: "/community/announcements/"+boardIdx+"/"+fileIdx,
+				type:"delete",
+				cache: false,
+				async: true,
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					$("#attachFile"+index).empty();
+					$("#attachFile"+index).append("<input type='file' name='attachFile'/>");
+					alert(jsonData.msg);
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(thrownError);
+				}
+			});
 		}
 	});
 	
@@ -84,10 +105,8 @@ $(function(){
 	$("#submitBtn").on("click",function() {
 		var submitType = $("#submitType").val();
 		if(submitType == "0"){
-			$("#method").val("");
 			$("#announcementFrm").submit();
 		}else if(submitType == "1"){
-			$("#method").val("PUT");
 			$("#announcementFrm").submit();
 		}
 		
@@ -112,4 +131,5 @@ $(function(){
 			}
 		});
 	});
+	
 });

@@ -31,7 +31,6 @@
 				<div class="tbl-type-F">
 <!-- 					<form id="announcementFrm" action="/community/announcements" method="POST"> -->
 					<form id="announcementFrm" action="/community/announcements/${article?if_exists.boardIdx?default("") }" method="POST" enctype="multipart/form-data">
-					<input type="hidden" name="_method" id="method" value="put" />
 					<input type="hidden" name="submitType" id="submitType" value="<#if article??>1<#else>0</#if>"/>
 					<table width="100%" cellSpacing="0" summary="">
 						<colgroup>
@@ -54,8 +53,31 @@
 							<th>파일첨부</th>
 							<td colspan="3">
 								<div class="td-left">
-									파일 1 : <input type="file" name="attachFile"/><br/>
-									파일 2 : <input type="file" name="attachFile"/>
+									<#if article??>
+										<div id="attachFile1">
+										<#if article?if_exists.attachFiles[0]?if_exists.fileOriginalName??>
+											<a class="attachFileDeleteBtn" style="cursor: pointer;" onclick="$.fileDelete('${article?if_exists.boardIdx?default("") }','${article?if_exists.attachFiles[0]?if_exists.fileIdx}','1');"><img width="10px" height="10px" src="/public/img/btn_gal_close.png"/></a>
+											${article?if_exists.attachFiles[0]?if_exists.fileOriginalName }
+										<#else>
+											<input type="file" name="attachFile"/>
+										</#if>
+										</div>
+										<div id="attachFile2">
+										<#if article?if_exists.attachFiles[1]?if_exists.fileOriginalName??>
+										<a class="attachFileDeleteBtn" style="cursor: pointer;" onclick="$.fileDelete('${article?if_exists.boardIdx?default("") }','${article?if_exists.attachFiles[1]?if_exists.fileIdx}','2');"><img width="10px" height="10px" src="/public/img/btn_gal_close.png"/></a>
+											${article.attachFiles[1]?if_exists.fileOriginalName }
+										<#else>
+											<input type="file" name="attachFile"/>
+										</#if>
+										</div>
+									<#else>
+										<div id="attachFile1">
+											<input type="file" name="attachFile"/>
+										</div>
+										<div id="attachFile2">
+											<input type="file" name="attachFile"/>
+										</div>
+									</#if>
 								</div>
 							</td>
 						</tr>

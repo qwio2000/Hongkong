@@ -20,7 +20,7 @@
 				AND ${searchField} like CONCAT('%', #{searchValue}, '%')
 			</if>
 		</where>
-		ORDER BY boardRegDate DESC
+		ORDER BY boardRegDate DESC, boardIdx DESC 
 		LIMIT #{startRow}, #{endRow}
 	</select>
 	
@@ -81,4 +81,19 @@
 			fileIdx = #{fileIdx}
 		</where>
 	</update>
+	
+	<select id="findAttachFile" parameterType="int" resultType="com.jeiglobal.hk.domain.community.AttachFile">
+		SELECT fileIdx, boardIdx, fileOriginalName, fileName, fileSize, fileUrl, fileExt, fileDownloadCount 
+		FROM globalbiz.AttachFile
+		<where>
+			fileIdx = #{fileIdx}
+		</where>
+	</select>
+	
+	<delete id="deleteAttachFileByFileIdx" parameterType="int">
+		DELETE FROM globalbiz.AttachFile 
+		<where>
+			fileIdx = #{fileIdx}
+		</where>
+	</delete>
 </mapper>

@@ -1,4 +1,4 @@
-package com.jeiglobal.hk.common;
+package com.jeiglobal.hk.common.config;
 
 import org.springframework.boot.context.embedded.*;
 import org.springframework.context.*;
@@ -6,6 +6,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.web.filter.*;
 import org.springframework.web.servlet.config.annotation.*;
 
+import com.jeiglobal.hk.common.*;
 import com.jeiglobal.hk.utils.*;
 
 /**

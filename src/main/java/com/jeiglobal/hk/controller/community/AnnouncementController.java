@@ -98,7 +98,6 @@ public class AnnouncementController {
 	public String addAnnouncement(Model model, 
 			Announcement announcement, 
 			MultipartHttpServletRequest mreq,
-			HttpServletResponse response,
 			Locale locale) throws Exception{
 		List<MultipartFile> mf = mreq.getFiles("attachFile");
 		LOGGER.debug("Add Adding Announcement : {}", announcement);
@@ -113,7 +112,7 @@ public class AnnouncementController {
 			alertMsg = messageSource.getMessage("Community.Announcement.Success", MessageArgs, locale);
 		}
 		model.addAttribute("message", alertMsg);
-		model.addAttribute("url", "/community/announcements");
+		model.addAttribute("url", "/community/announcements/"+addIdx);
 		return "alertAndRedirect";
 	}
 	
@@ -150,15 +149,17 @@ public class AnnouncementController {
 		return map;
 	}
 	
-	@RequestMapping(value="/{idx:[0-9]+}",method = {RequestMethod.PUT})
+	@RequestMapping(value="/{idx:[0-9]+}",method = {RequestMethod.POST})
 	public String setAnnouncement(
 			Model model,
 			@PathVariable int idx, 
 			@RequestParam(value="submitType") int submitType,
 			Announcement announcement,
-			Locale locale) {
+			MultipartHttpServletRequest mreq,
+			Locale locale) throws Exception {
 		LOGGER.debug("Editing Announcement : idx = {}, announcement = {}", idx, announcement);
-		int updateRowCount = announcementService.setAnnouncementByIdx(idx, announcement);
+		List<MultipartFile> mf = mreq.getFiles("attachFile");
+		int updateRowCount = announcementService.setAnnouncementByIdx(idx, announcement, mf);
 		String alertMsg = "";
 		Object[] MessageArgs = {"수정"};
 		if(updateRowCount > 0) {
@@ -190,5 +191,27 @@ public class AnnouncementController {
 		ModelAndView mav = new ModelAndView("download", "downloadFile", downloadFile);
 		mav.addObject("fileOriginalName", fileOriginalName);
 		return mav;
+	}
+	
+	@RequestMapping(value="/{idx:[0-9]+}/{fileIdx:[0-9]+}",method = {RequestMethod.DELETE}, produces = "application/json; charset=utf8")
+	@ResponseBody
+	public Map<String, Object> deleteAttachFileJson(
+			@PathVariable int idx, 
+			@PathVariable int fileIdx, 
+			Locale locale) {
+		LOGGER.debug("Deleting AttachFile : idx = {}, fileIdx = {}", idx, fileIdx);
+		int deleteRowCount = announcementService.removeAttachFileByFileIdx(fileIdx);
+		String alertMsg = "";
+		Object[] MessageArgs = {"삭제"};
+		if(deleteRowCount > 0) {
+			LOGGER.info("announcement Delete Success : idx = {}", idx);
+			alertMsg = messageSource.getMessage("Community.Announcement.AttachFileSuccess", MessageArgs, locale);
+		}else{
+			LOGGER.error("announcement Delete Error : idx = {}", idx);
+			alertMsg = messageSource.getMessage("Community.Announcement.AttachFileError", MessageArgs,locale);
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("msg", alertMsg);
+		return map;
 	}
 }

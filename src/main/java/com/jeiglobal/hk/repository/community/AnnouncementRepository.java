@@ -38,5 +38,9 @@ public interface AnnouncementRepository {
 	public List<AttachFile> findAttachFiles(int idx);
 
 	public int updateFileDownloadCount(int fileIdx);
+
+	public AttachFile findAttachFile(int fileIdx);
+
+	public int deleteAttachFileByFileIdx(int fileIdx);
 	
 }

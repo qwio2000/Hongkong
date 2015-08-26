@@ -22,11 +22,11 @@ public class MessageSourceAccessor {
 	}
 
 	public String getMessage(String code, Locale locale) {
-		return messageSource.getMessage(code, null, null, locale);
+		return messageSource.getMessage(code, null, "No Message Available", locale);
 	}
 
 	public String getMessage(String code, Object[] args, Locale locale) {
-		return messageSource.getMessage(code, args, null, locale);
+		return messageSource.getMessage(code, args, "No Message Available", locale);
 	}
 
 	public String getMessage(MessageSourceResolvable resolvable, Locale locale) {
