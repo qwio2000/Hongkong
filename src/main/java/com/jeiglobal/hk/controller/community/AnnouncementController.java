@@ -32,8 +32,8 @@ public class AnnouncementController {
 	private static final int PAGE_BLOCK_SIZE = 10;
 	private static final int PAGE_SIZE = 10;
 	
-//	@Value("#{test.value}")
-//	private String test;
+	@Value("${uploadpath.announcements}")
+	private String uploadPath;
 	
 	@Autowired
 	private MessageSourceAccessor messageSource;// message 사용
@@ -45,6 +45,7 @@ public class AnnouncementController {
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getAnnouncementsPage(Model model, @RequestParam(defaultValue="1") int pageNum){
 		LOGGER.debug("Getting Notices List Page");
+		LOGGER.debug("UploadPath : {}", uploadPath);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("announcement");
 		model.addAttribute("headerScript", headerScript);
