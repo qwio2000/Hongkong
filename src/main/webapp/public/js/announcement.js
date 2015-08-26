@@ -23,39 +23,6 @@ $(function(){
 					Handlebars.registerHelper("boardNo", function(index, options){
 						return totalRowCnt - pageInfo.startRow - index;
 					});
-					Handlebars.registerHelper('xIf', function (lvalue, operator, rvalue, options) {
-					    var operators, result;
-					    if (arguments.length < 3) {
-					        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
-					    }
-					    if (options === undefined) {
-					        options = rvalue;
-					        rvalue = operator;
-					        operator = "===";
-					    }
-					    operators = {
-					        '==': function (l, r) { return l == r; },
-					        '===': function (l, r) { return l === r; },
-					        '!=': function (l, r) { return l != r; },
-					        '!==': function (l, r) { return l !== r; },
-					        '<': function (l, r) { return l < r; },
-					        '>': function (l, r) { return l > r; },
-					        '<=': function (l, r) { return l <= r; },
-					        '>=': function (l, r) { return l >= r; },
-					        'typeof': function (l, r) { return typeof l == r; }
-					    };
-
-					    if (!operators[operator]) {
-					        throw new Error("'xIf' doesn't know the operator " + operator);
-					    }
-
-					    result = operators[operator](lvalue, rvalue);
-					    if (result) {
-					        return options.fn(this);
-					    } else {
-					        return options.inverse(this);
-					    }
-					});
 					$("#mainContent").empty();
 					$("#mainContent").append(template(jsonData));
 				},
@@ -68,8 +35,6 @@ $(function(){
 			if(!confirm('정말 첨부파일을 삭제 하시겠습니까?')){
 				return;
 			}
-			alert(boardIdx);
-			alert(fileIdx);
 			$.ajax({
 				url: "/community/announcements/"+boardIdx+"/"+fileIdx,
 				type:"delete",
@@ -98,18 +63,39 @@ $(function(){
 	});	
 	
 	$("#searchBtn").on("click",function() {
+		var searchValue = $('#searchValue');
+		if(searchValue.val().trim() == ""){
+			alert("검색어를 입력해 주세요");
+			searchValue.focus();
+			return false;
+		}
 		$("#pageNum").val("1");
 		$.getBoardList();
 	});
 	
 	$("#submitBtn").on("click",function() {
-		var submitType = $("#submitType").val();
-		if(submitType == "0"){
-			$("#announcementFrm").submit();
-		}else if(submitType == "1"){
-			$("#announcementFrm").submit();
-		}
+		var boardSubject = $("#boardSubject");
+		var boardContent = $("#boardContent");
 		
+		if(boardSubject.val().trim() == ""){
+			alert("제목을 입력해 주세요");
+			boardSubject.focus();
+			return false;
+		}else if(boardContent.val().trim() == ""){
+			alert("내용을 입력해 주세요");
+			boardContent.focus();
+			return false;
+		}
+		$("#announcementFrm").submit();
+		
+	});
+	$(".attachFile").on("change",function() {
+		var f = this.files[0];
+		if(f.size > 5 * 1024 * 1024){
+			alert('파일 첨부는 5MB까지 가능합니다.');
+			this.value = "";
+			this.focus();
+		}
 	});
 	
 	$("#deleteBtn").on("click",function() {

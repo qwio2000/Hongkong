@@ -153,7 +153,6 @@ public class AnnouncementController {
 	public String setAnnouncement(
 			Model model,
 			@PathVariable int idx, 
-			@RequestParam(value="submitType") int submitType,
 			Announcement announcement,
 			MultipartHttpServletRequest mreq,
 			Locale locale) throws Exception {

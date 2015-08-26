@@ -29,9 +29,7 @@
 				</div>
 				<br/><br/>
 				<div class="tbl-type-F">
-<!-- 					<form id="announcementFrm" action="/community/announcements" method="POST"> -->
 					<form id="announcementFrm" action="/community/announcements/${article?if_exists.boardIdx?default("") }" method="POST" enctype="multipart/form-data">
-					<input type="hidden" name="submitType" id="submitType" value="<#if article??>1<#else>0</#if>"/>
 					<table width="100%" cellSpacing="0" summary="">
 						<colgroup>
 							<col width="95">
@@ -59,7 +57,7 @@
 											<a class="attachFileDeleteBtn" style="cursor: pointer;" onclick="$.fileDelete('${article?if_exists.boardIdx?default("") }','${article?if_exists.attachFiles[0]?if_exists.fileIdx}','1');"><img width="10px" height="10px" src="/public/img/btn_gal_close.png"/></a>
 											${article?if_exists.attachFiles[0]?if_exists.fileOriginalName }
 										<#else>
-											<input type="file" name="attachFile"/>
+											<input type="file" name="attachFile" class="attachFile"/>
 										</#if>
 										</div>
 										<div id="attachFile2">
@@ -67,15 +65,15 @@
 										<a class="attachFileDeleteBtn" style="cursor: pointer;" onclick="$.fileDelete('${article?if_exists.boardIdx?default("") }','${article?if_exists.attachFiles[1]?if_exists.fileIdx}','2');"><img width="10px" height="10px" src="/public/img/btn_gal_close.png"/></a>
 											${article.attachFiles[1]?if_exists.fileOriginalName }
 										<#else>
-											<input type="file" name="attachFile"/>
+											<input type="file" name="attachFile" class="attachFile"/>
 										</#if>
 										</div>
 									<#else>
 										<div id="attachFile1">
-											<input type="file" name="attachFile"/>
+											<input type="file" name="attachFile" class="attachFile"/>
 										</div>
 										<div id="attachFile2">
-											<input type="file" name="attachFile"/>
+											<input type="file" name="attachFile" class="attachFile"/>
 										</div>
 									</#if>
 								</div>
