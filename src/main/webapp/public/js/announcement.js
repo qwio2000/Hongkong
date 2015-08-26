@@ -84,9 +84,11 @@ $(function(){
 	$("#submitBtn").on("click",function() {
 		var submitType = $("#submitType").val();
 		if(submitType == "0"){
+			$("#method").val("");
 			$("#announcementFrm").submit();
-		}else{
-			
+		}else if(submitType == "1"){
+			$("#method").val("PUT");
+			$("#announcementFrm").submit();
 		}
 		
 	});

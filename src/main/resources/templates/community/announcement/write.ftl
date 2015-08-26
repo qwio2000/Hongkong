@@ -31,7 +31,7 @@
 				<div class="tbl-type-F">
 <!-- 					<form id="announcementFrm" action="/community/announcements" method="POST"> -->
 					<form id="announcementFrm" action="/community/announcements/${article?if_exists.boardIdx?default("") }" method="POST">
-					<input type="hidden" name="_method" value="put" />
+					<input type="hidden" name="_method" id="method" value="put" />
 					<input type="hidden" name="submitType" id="submitType" value="<#if article??>1<#else>0</#if>"/>
 					<table width="100%" cellSpacing="0" summary="">
 						<colgroup>
@@ -54,7 +54,8 @@
 							<th>파일첨부</th>
 							<td colspan="3">
 								<div class="td-left">
-									
+									파일 1 : <input type="file" name="attachFile"/><br/>
+									파일 2 : <input type="file" name="attachFile"/>
 								</div>
 							</td>
 						</tr>
@@ -66,7 +67,6 @@
 						</tr>
 						</tbody>
 					</table>
-					<input type="submit" value="test"/>
 					</form>
 				</div>
 				<div class="btn-box float-r">

@@ -32,6 +32,9 @@ public class AnnouncementController {
 	private static final int PAGE_BLOCK_SIZE = 10;
 	private static final int PAGE_SIZE = 10;
 	
+//	@Value("#{test.value}")
+//	private String test;
+	
 	@Autowired
 	private MessageSourceAccessor messageSource;// message 사용
 	
@@ -118,6 +121,9 @@ public class AnnouncementController {
 			@PathVariable int idx) {
 		LOGGER.debug("Getting Announcement Edit Form : idx = {}", idx);
 		Announcement announcement = announcementService.getAnnouncementByIdx(idx);
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("announcement");
+		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("article", announcement);
 		return "community/announcement/write";
 	}
