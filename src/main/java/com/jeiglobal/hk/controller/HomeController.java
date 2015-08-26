@@ -8,7 +8,7 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
-import com.jeiglobal.hk.util.*;
+import com.jeiglobal.hk.utils.*;
 
 /**
  * 클래스명 : HomeController.java

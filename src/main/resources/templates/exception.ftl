@@ -15,6 +15,8 @@
 				</div>
 			</div>
 			<div id="primary_content" class="primary-content">
+				Exception 발생
+				${name } : ${message }
 			</div>
 		</div>
 	</div>

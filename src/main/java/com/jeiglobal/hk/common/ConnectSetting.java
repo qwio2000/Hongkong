@@ -3,6 +3,9 @@ package com.jeiglobal.hk.common;
 import java.util.*;
 
 import org.springframework.beans.factory.config.*;
+import org.springframework.context.*;
+import org.springframework.context.support.*;
+import org.springframework.core.env.*;
 import org.springframework.core.io.*;
 
 /**
@@ -28,8 +31,20 @@ static private ConnectSetting connectSetting = new ConnectSetting();
 	
 	private ConnectSetting() {
 		super();
+		ConfigurableApplicationContext context = new GenericXmlApplicationContext();
+		ConfigurableEnvironment env = context.getEnvironment();
+		String dbActive = "";
+		
+		if(env.getActiveProfiles().length > 0){
+			dbActive = env.getActiveProfiles()[0];
+		}else{
+			dbActive = env.getDefaultProfiles()[0];
+		}
+		System.out.println("env : "+env);
+		System.out.println("dbActive : "+dbActive);
+		context.close();
 		YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
-		yaml.setResources(new ClassPathResource("db.yml"));
+		yaml.setResources(new ClassPathResource("db_"+dbActive+".yml"));
 		Properties proper = yaml.getObject();
 		mysqlDriverClassName = proper.getProperty("db.mysqlDriverClassName");
 		mysqlUrl = proper.getProperty("db.mysqlUrl");
