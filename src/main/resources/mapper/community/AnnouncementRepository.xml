@@ -51,13 +51,34 @@
 		</where>
 	</update>
 	
-	<update id="updateAnnouncement">
+	<update id="updateAnnouncement" parameterType="hashMap">
 		UPDATE globalbiz.Announcement 
 		SET boardSubject = #{announcement.boardSubject}, 
 			boardContent = #{announcement.boardContent},
 			boardUptDate = NOW()
 		<where>
 			boardIdx = #{idx}
+		</where>
+	</update>
+	
+	<insert id="insertAttachFile" parameterType="com.jeiglobal.hk.domain.community.AttachFile" useGeneratedKeys="true" keyProperty="fileIdx">
+		INSERT INTO globalbiz.AttachFile(boardIdx, fileOriginalName, fileName, fileSize, fileUrl, fileExt, fileDownloadCount) 
+			VALUES(#{boardIdx},#{fileOriginalName},#{fileName},#{fileSize},#{fileUrl},#{fileExt},#{fileDownloadCount})
+	</insert>
+	
+	<select id="findAttachFiles" parameterType="int" resultType="com.jeiglobal.hk.domain.community.AttachFile">
+		SELECT fileIdx, boardIdx, fileOriginalName, fileName, fileSize, fileUrl, fileExt, fileDownloadCount 
+		FROM AttachFile
+		<where>
+			boardIdx = #{idx}
+		</where>
+	</select>
+	
+	<update id="updateFileDownloadCount" parameterType="int">
+		UPDATE globalbiz.AttachFile 
+		SET fileDownloadCount = fileDownloadCount + 1 
+		<where>
+			fileIdx = #{fileIdx}
 		</where>
 	</update>
 </mapper>

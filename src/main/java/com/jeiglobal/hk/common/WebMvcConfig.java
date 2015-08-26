@@ -78,4 +78,13 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 		registry.addInterceptor(menuIntercepter()).addPathPatterns("/**").excludePathPatterns("","/","/login","/public/**","/error","/favicon.ico");
 	}
 	
+	/**
+	 * 파일다운로드 뷰 설정
+	 * @return
+	 */
+	@Bean(name="download")
+	public FileDownload download() {
+		return new FileDownload();
+	}
+	
 }

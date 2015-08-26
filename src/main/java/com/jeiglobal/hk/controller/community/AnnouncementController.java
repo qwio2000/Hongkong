@@ -1,5 +1,6 @@
 package com.jeiglobal.hk.controller.community;
 
+import java.io.*;
 import java.util.*;
 
 import javax.servlet.http.*;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.*;
+import org.springframework.web.servlet.*;
 
 import com.jeiglobal.hk.domain.community.*;
 import com.jeiglobal.hk.service.community.*;
@@ -32,9 +35,6 @@ public class AnnouncementController {
 	private static final int PAGE_BLOCK_SIZE = 10;
 	private static final int PAGE_SIZE = 10;
 	
-	@Value("${uploadpath.announcements}")
-	private String uploadPath;
-	
 	@Autowired
 	private MessageSourceAccessor messageSource;// message 사용
 	
@@ -45,7 +45,6 @@ public class AnnouncementController {
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getAnnouncementsPage(Model model, @RequestParam(defaultValue="1") int pageNum){
 		LOGGER.debug("Getting Notices List Page");
-		LOGGER.debug("UploadPath : {}", uploadPath);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("announcement");
 		model.addAttribute("headerScript", headerScript);
@@ -98,11 +97,12 @@ public class AnnouncementController {
 	@RequestMapping(method = {RequestMethod.POST})
 	public String addAnnouncement(Model model, 
 			Announcement announcement, 
+			MultipartHttpServletRequest mreq,
 			HttpServletResponse response,
 			Locale locale) throws Exception{
+		List<MultipartFile> mf = mreq.getFiles("attachFile");
 		LOGGER.debug("Add Adding Announcement : {}", announcement);
-		int addIdx = announcementService.addAnnouncement(announcement);
-		LOGGER.debug("After Adding Announcement idx : {}", addIdx);
+		int addIdx = announcementService.addAnnouncement(announcement, mf);
 		String alertMsg = "";
 		Object[] MessageArgs = {"등록"};
 		if(addIdx == 0) {
@@ -131,7 +131,9 @@ public class AnnouncementController {
 	
 	@RequestMapping(value="/{idx:[0-9]+}",method = {RequestMethod.DELETE}, produces = "application/json; charset=utf8")
 	@ResponseBody
-	public Map<String, Object> deleteAnnouncementJson(@PathVariable int idx, Locale locale) {
+	public Map<String, Object> deleteAnnouncementJson(
+			@PathVariable int idx, 
+			Locale locale) {
 		LOGGER.debug("Deleting Announcement : idx = {}", idx);
 		int deleteRowCount = announcementService.removeAnnouncementByIdx(idx);
 		String alertMsg = "";
@@ -149,7 +151,8 @@ public class AnnouncementController {
 	}
 	
 	@RequestMapping(value="/{idx:[0-9]+}",method = {RequestMethod.PUT})
-	public String setAnnouncement(Model model,
+	public String setAnnouncement(
+			Model model,
 			@PathVariable int idx, 
 			@RequestParam(value="submitType") int submitType,
 			Announcement announcement,
@@ -168,5 +171,24 @@ public class AnnouncementController {
 		model.addAttribute("message", alertMsg);
 		model.addAttribute("url", "/community/announcements/"+idx);
 		return "alertAndRedirect";
+	}
+	
+	@RequestMapping(value = "/{idx:[0-9]+}/{fileIdx:[0-9]+}", method = {RequestMethod.GET, RequestMethod.HEAD})
+	public ModelAndView attachFileDownload(
+			@PathVariable int idx,
+			@PathVariable int fileIdx, 
+			String fileName, 
+			String fileOriginalName, 
+			HttpServletRequest request){
+		int updateRowCount = announcementService.setFileDownloadCount(fileIdx);
+		if(updateRowCount > 0){
+			LOGGER.debug("fileDownloadCount Update Success");
+		}else{
+			LOGGER.error("fileDownloadCount Update Fail");
+		}
+		File downloadFile = announcementService.getDownloadFile(fileName);
+		ModelAndView mav = new ModelAndView("download", "downloadFile", downloadFile);
+		mav.addObject("fileOriginalName", fileOriginalName);
+		return mav;
 	}
 }

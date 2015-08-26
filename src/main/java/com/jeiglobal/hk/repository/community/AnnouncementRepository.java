@@ -32,5 +32,11 @@ public interface AnnouncementRepository {
 	public int deleteAnnouncement(int idx);
 
 	public int updateAnnouncement(Map<String, Object> paramMap);
+
+	public void insertAttachFile(AttachFile attachFile);
+
+	public List<AttachFile> findAttachFiles(int idx);
+
+	public int updateFileDownloadCount(int fileIdx);
 	
 }

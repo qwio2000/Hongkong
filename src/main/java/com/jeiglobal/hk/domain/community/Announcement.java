@@ -1,5 +1,7 @@
 package com.jeiglobal.hk.domain.community;
 
+import java.util.*;
+
 import lombok.*;
 
 /**
@@ -19,5 +21,5 @@ public class Announcement {
 	private String boardContent;
 	private String boardReadCount;
 	private String boardRegDate;
-	
+	private List<AttachFile> attachFiles;
 }

@@ -30,7 +30,7 @@
 				<br/><br/>
 				<div class="tbl-type-F">
 <!-- 					<form id="announcementFrm" action="/community/announcements" method="POST"> -->
-					<form id="announcementFrm" action="/community/announcements/${article?if_exists.boardIdx?default("") }" method="POST">
+					<form id="announcementFrm" action="/community/announcements/${article?if_exists.boardIdx?default("") }" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="_method" id="method" value="put" />
 					<input type="hidden" name="submitType" id="submitType" value="<#if article??>1<#else>0</#if>"/>
 					<table width="100%" cellSpacing="0" summary="">

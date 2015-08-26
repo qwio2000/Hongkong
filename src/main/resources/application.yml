@@ -1,6 +1,6 @@
         
 multipart:
-    maxFileSize: 2048KB
+    maxFileSize: 5120KB
     maxRequestSize: 10240KB
     
 uploadpath:
@@ -13,7 +13,7 @@ spring:
 spring.profiles: develop
         
 multipart:
-    maxFileSize: 2048KB
+    maxFileSize: 5120KB
     maxRequestSize: 10240KB
     
 uploadpath:
@@ -26,7 +26,7 @@ spring:
 spring.profiles: product
 
 multipart:
-    maxFileSize: 2048KB
+    maxFileSize: 5120KB
     maxRequestSize: 10240KB
     
 uploadpath:

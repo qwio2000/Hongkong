@@ -51,7 +51,12 @@
 							<tr>
 								<th>첨부파일</th>
 								<td>
-									<div class="td-left">첨부파일</div>
+									<div class="td-left">
+										<#list article.attachFiles as attachFile>
+											<a href="/community/announcements/${article.boardIdx }/${attachFile.fileIdx }?fileName=${attachFile.fileName}&fileOriginalName=${attachFile.fileOriginalName}">${attachFile.fileOriginalName }</a>
+											<#if attachFile_has_next><br/></#if>
+										</#list>
+									</div>
 								</td>
 								<th>등록일</th>
 								<td>${article.boardRegDate }</td>
