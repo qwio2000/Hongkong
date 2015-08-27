@@ -4,7 +4,17 @@ import java.util.*;
 
 import com.jeiglobal.hk.domain.menu.*;
 import com.jeiglobal.hk.repository.*;
-
+/**
+ * 
+ * 인터페이스명 : MenuRepository.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * Mysql 메뉴 관련 Repository
+ * src/main/resource/mapper/menu/MenuRepository.xml
+ */
 @PrimaryRepositoryAnnoInterface
 public interface MenuRepository {
 

@@ -1,8 +1,20 @@
 package com.jeiglobal.hk.domain.community;
 
+import lombok.*;
+
 /**
- * 댓글 정보를 저장하는 객체
+ * 
+ * 클래스명 : Comment.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * 댓글 정보
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Comment {
 	private int commentIdx;			//댓글 번호(PK)
 	private int boardIdx;			//게시글 번호
@@ -10,46 +22,4 @@ public class Comment {
 	private String commentContent;	//댓글 내용
 	private String commentRegDate;	//댓글 등록일
 	
-	public Comment() {}
-	public Comment(int commentIdx, int boardIdx, String memberId,
-			String commentContent, String commentRegDate) {
-		super();
-		this.commentIdx = commentIdx;
-		this.boardIdx = boardIdx;
-		this.memberId = memberId;
-		this.commentContent = commentContent;
-		this.commentRegDate = commentRegDate;
-	}
-	
-	public int getCommentIdx() {
-		return commentIdx;
-	}
-	public void setCommentIdx(int commentIdx) {
-		this.commentIdx = commentIdx;
-	}
-	public int getBoardIdx() {
-		return boardIdx;
-	}
-	public void setBoardIdx(int boardIdx) {
-		this.boardIdx = boardIdx;
-	}
-	public String getMemberId() {
-		return memberId;
-	}
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
-	}
-	public String getCommentContent() {
-		return commentContent;
-	}
-	public void setCommentContent(String commentContent) {
-		this.commentContent = commentContent;
-	}
-	public String getCommentRegDate() {
-		return commentRegDate;
-	}
-	public void setCommentRegDate(String commentRegDate) {
-		this.commentRegDate = commentRegDate;
-	}
-
 }

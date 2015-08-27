@@ -15,29 +15,30 @@ import org.springframework.web.servlet.view.AbstractView;
 public class FileDownload extends AbstractView{
 	
 	@Override
-	protected void renderMergedOutputModel(Map<String, Object> model,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
+	protected void renderMergedOutputModel(
+			Map<String, Object> model,
+			HttpServletRequest request, 
+			HttpServletResponse response) throws Exception {
 		File file = (File) model.get("downloadFile");
         String fileOriginalName = (String) model.get("fileOriginalName");
         response.setContentType(getContentType());
-        response.setContentLength((int)file.length());
+        response.setContentLength((int) file.length());
         String fileName = fileOriginalName;
         String browser = getBrowser(request);
+        //Internet Explorer
         if (browser.contains("MSIE")) {
             fileName = URLEncoder.encode(fileName,"UTF-8").replaceAll("\\+", " ");
-        } else if (browser.contains("Firefox")) {
-               fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
-        } else if (browser.contains("Opera")) {
-               fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
-        } else if (browser.contains("Chrome")) {
-               fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
-        }
+        //그 외(Chrome, FireFox, Opera)
+        }else{
+            fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+        } 
+        
         response.setHeader("Content-Type", "application/octet-stream");
         response.setHeader("Pragma", "no-cache;");
         response.setHeader("Expires", "-1;");
         response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
         response.setHeader("Content-Transfer-Encoding", "binary");
+        
         OutputStream out = response.getOutputStream();
         FileInputStream fis = null;
         try {
@@ -59,7 +60,7 @@ public class FileDownload extends AbstractView{
 	 * @param request
 	 */
 	private String getBrowser(HttpServletRequest request) {
-        String header =request.getHeader("User-Agent");
+        String header = request.getHeader("User-Agent");
         if (header.contains("MSIE")||header.contains("Trident/7.0")) {
                return "MSIE";
         } else if(header.contains("Chrome")) {

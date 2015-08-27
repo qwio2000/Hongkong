@@ -11,7 +11,7 @@ import lombok.*;
  *
  * 작성자 : 전승엽(IT지원팀)
  * 
- * 설명
+ * Announcement 게시판 정보
  */
 @Data
 public class Announcement {

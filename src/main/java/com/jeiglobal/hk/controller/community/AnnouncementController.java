@@ -33,7 +33,9 @@ public class AnnouncementController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AnnouncementController.class);
 	
+	//페이징 범위
 	private static final int PAGE_BLOCK_SIZE = 10;
+	//한 페이지에 출력할 게시물 개수
 	private static final int PAGE_SIZE = 10;
 	
 	@Autowired
@@ -44,7 +46,7 @@ public class AnnouncementController {
 	
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getAnnouncementsPage(Model model, @RequestParam(defaultValue="1") int pageNum){
+	public String getAnnouncementsPage(Model model, @RequestParam(defaultValue="1") int pageNum, HttpServletRequest request){
 		LOGGER.debug("Getting Notices List Page");
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("announcement");
@@ -59,16 +61,13 @@ public class AnnouncementController {
 			@PathVariable int pageNum,
 			@RequestParam(value="searchField", required=false) String searchField,
 			@RequestParam(value="searchValue", required=false) String searchValue){
-		LOGGER.debug("Getting Notices List Articles");
-		LOGGER.debug("searchField : {}, searchValue : {}", searchField, searchValue);
+		LOGGER.debug("Getting Notices List Articles searchField : {}, searchValue : {}", searchField, searchValue);
 		int totalRowCnt = announcementService.getArticleCnt(searchField, searchValue);
-		LOGGER.debug("totalRowCount : {}", totalRowCnt);
 		PageUtil pageUtil = new	PageUtil(pageNum, totalRowCnt, PAGE_SIZE, PAGE_BLOCK_SIZE);
 		
 		Map<String,Object> map = new HashMap<>();
 		map.put("pageInfo",pageUtil);
 		map.put("articles",announcementService.getArticles(pageUtil.getStartRow(),pageUtil.getEndRow(), searchField, searchValue));
-		
 		return map;
 	}
 	
@@ -101,12 +100,13 @@ public class AnnouncementController {
 	public String addAnnouncement(Model model, 
 			Announcement announcement, 
 			MultipartHttpServletRequest mreq,
+			@ModelAttribute LoginInfo loginInfo,
 			Locale locale) throws Exception{
 		List<MultipartFile> mf = mreq.getFiles("attachFile");
-		LOGGER.debug("Add Adding Announcement : {}", announcement);
-		int addIdx = announcementService.addAnnouncement(announcement, mf);
+		LOGGER.debug("Adding Announcement : {}", announcement);
+		int addIdx = announcementService.addAnnouncement(announcement, mf, loginInfo);
 		String alertMsg = "";
-		Object[] MessageArgs = {"등록"};
+		Object[] MessageArgs = {"등록"};//Message 출력시 사용할 Arguments
 		if(addIdx == 0) {
 			LOGGER.error("announcement Insert Error : {}", announcement);
 			alertMsg = messageSource.getMessage("Community.Announcement.Error", MessageArgs, locale);
@@ -153,8 +153,7 @@ public class AnnouncementController {
 	}
 	
 	@RequestMapping(value="/{idx:[0-9]+}",method = {RequestMethod.POST})
-	public String setAnnouncement(
-			Model model,
+	public String setAnnouncement(Model model,
 			@PathVariable int idx, 
 			Announcement announcement,
 			MultipartHttpServletRequest mreq,
@@ -176,13 +175,22 @@ public class AnnouncementController {
 		return "alertAndRedirect";
 	}
 	
+	/**
+	 * 파일 다운로드 처리(BeanNameViewResolver)
+	 * @param idx
+	 * @param fileIdx
+	 * @param fileName
+	 * @param fileOriginalName
+	 * @param request
+	 * @return ModelAndView
+	 */
 	@RequestMapping(value = "/{idx:[0-9]+}/{fileIdx:[0-9]+}", method = {RequestMethod.GET, RequestMethod.HEAD})
 	public ModelAndView attachFileDownload(
 			@PathVariable int idx,
 			@PathVariable int fileIdx, 
 			String fileName, 
-			String fileOriginalName, 
-			HttpServletRequest request){
+			String fileOriginalName){
+		LOGGER.debug("fileDownload : {}", fileOriginalName);
 		int updateRowCount = announcementService.setFileDownloadCount(fileIdx);
 		if(updateRowCount > 0){
 			LOGGER.debug("fileDownloadCount Update Success");

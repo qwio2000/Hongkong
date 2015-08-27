@@ -2,7 +2,16 @@ package com.jeiglobal.hk.utils;
 
 import lombok.*;
 
-
+/**
+ * 
+ * 클래스명 : PageUtil.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * 페이징 처리 유틸 클래스
+ */
 @Data
 @NoArgsConstructor
 @ToString

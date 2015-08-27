@@ -33,7 +33,7 @@ public class MessageSourceAccessor {
 		try {
 			return messageSource.getMessage(resolvable, locale);
 		} catch (NoSuchMessageException e) {
-			return "No Message";
+			return "No Message Available";
 		}
 	}
 

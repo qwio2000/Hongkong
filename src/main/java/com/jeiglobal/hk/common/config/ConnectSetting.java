@@ -16,6 +16,10 @@ import org.springframework.core.io.*;
  * 작성자 : 전승엽(IT지원팀)
  * 
  * db.yml에 등록된 DB 정보를 담는 객체
+ * ActiveProfile에 따라서 읽는 yml 파일 상이하도록 설정
+ * activeProfile = default => db_default.yml
+ * 				   develop => db_develop.yml
+ *  			   product => db_product.yml
  */
 public class ConnectSetting {
 static private ConnectSetting connectSetting = new ConnectSetting();

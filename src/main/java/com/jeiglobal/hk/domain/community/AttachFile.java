@@ -3,7 +3,14 @@ package com.jeiglobal.hk.domain.community;
 import lombok.*;
 
 /**
- * 첨부파일 정보를 저장하는 객체
+ * 
+ * 클래스명 : AttachFile.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * 첨부파일 정보
  */
 @Data
 @NoArgsConstructor

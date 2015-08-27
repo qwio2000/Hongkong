@@ -3,15 +3,14 @@ package com.jeiglobal.hk.service.community;
 import java.io.*;
 import java.util.*;
 
-import org.apache.commons.lang.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.security.core.context.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.multipart.*;
 
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.community.*;
 import com.jeiglobal.hk.repository.community.*;
+import com.jeiglobal.hk.utils.*;
 /**
  * 
  * 클래스명 : AnnouncementService.java
@@ -27,20 +26,33 @@ public class AnnouncementService {
 	
 	@Autowired
 	private AnnouncementRepository announcementRepository;
-
+	
+	//application.yml 파일에 저장된 프로퍼티 값
 	@Value("${uploadpath.announcements}")
 	private String uploadPath;
-
+	
+	/**
+	 * 전체 게시물 개수
+	 * @param searchField
+	 * @param searchValue
+	 * @return int
+	 */
 	public int getArticleCnt(String searchField, String searchValue) {
-		// TODO Auto-generated method stub
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("searchField", searchField);
 		paramMap.put("searchValue", searchValue);
 		return announcementRepository.findTotalArticleCount(paramMap);
 	}
-
+	
+	/**
+	 * 전체 게시물 리스트
+	 * @param startRow : 시작 행 번호
+	 * @param endRow : 시작 행 번호부터 가져올 개수
+	 * @param searchField
+	 * @param searchValue
+	 * @return List<Announcement>
+	 */
 	public List<Announcement> getArticles(int startRow, int endRow, String searchField, String searchValue) {
-		// TODO Auto-generated method stub
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("startRow", startRow);
 		paramMap.put("endRow", endRow);
@@ -48,26 +60,33 @@ public class AnnouncementService {
 		paramMap.put("searchValue", searchValue);
 		return announcementRepository.findAnnouncements(paramMap);
 	}
-
+	
 	public Announcement getAnnouncementByIdx(int idx) {
 		announcementRepository.updateAnnouncementReadCount(idx);
 		Announcement article = announcementRepository.findAnnouncement(idx);
 		article.setAttachFiles(getAttachFiles(idx));
+		//줄바꿈 처리
 		article.setBoardContent(article.getBoardContent().replaceAll("\r\n", "<br/>"));
 		return article;
 	}
 
-	public int addAnnouncement(Announcement announcement, List<MultipartFile> mf) throws IllegalStateException, IOException {
-		// TODO Auto-generated method stub
-		announcement.setBoardContent(escapeHtml(announcement));
-		announcement.setMemberId(((LoginInfo)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId());
+	public int addAnnouncement(Announcement announcement, List<MultipartFile> mf, LoginInfo loginInfo) throws IllegalStateException, IOException {
+		// 게시물 내용 HTML 태그 동작 방지 처리
+		announcement.setBoardContent(CommonUtils.escapeHtml(announcement.getBoardContent()));
+		announcement.setMemberId(loginInfo.getMemberId());
 		announcementRepository.insertAnnouncement(announcement);
 		insertAttachFiles(mf, announcement.getBoardIdx());
 		return announcement.getBoardIdx();
 	}
-
+	
+	/**
+	 * 첨부파일 업로드
+	 * @param mf
+	 * @param boardIdx
+	 * @throws IllegalStateException
+	 * @throws IOException void
+	 */
 	private void insertAttachFiles(List<MultipartFile> mf, int boardIdx) throws IllegalStateException, IOException {
-		// TODO Auto-generated method stub
 		File dir = new File(uploadPath);
 		if(!dir.isDirectory()){
 			dir.mkdirs();
@@ -77,73 +96,61 @@ public class AnnouncementService {
 				AttachFile attachFile = new AttachFile(0,
 						boardIdx,
 						mf.get(i).getOriginalFilename(), 
-						getFileName(mf.get(i).getOriginalFilename()),
+						CommonUtils.getFileName(mf.get(i).getOriginalFilename()),
 						mf.get(i).getSize(), 
 						uploadPath,
-						getExtension(mf.get(i).getOriginalFilename()), 
+						CommonUtils.getExtension(mf.get(i).getOriginalFilename()), 
 						0);
 				String savePath = uploadPath + File.separator + attachFile.getFileName();
 				mf.get(i).transferTo(new File(savePath));
+				//DB에 파일정보 저장
 				announcementRepository.insertAttachFile(attachFile);
 			}
 		}
 	}
-
-	private String getFileName(String originalFilename) {
-		// TODO Auto-generated method stub
-		return UUID.randomUUID().toString() + "." + getExtension(originalFilename);
-	}
-
+	
 	public int removeAnnouncementByIdx(int idx) {
-		// TODO Auto-generated method stub
 		announcementRepository.deleteCommentByBoardIdx(idx);
 		return announcementRepository.deleteAnnouncement(idx);
 	}
 
 	public int setAnnouncementByIdx(int idx, Announcement announcement, List<MultipartFile> mf) throws IllegalStateException, IOException {
-		// TODO Auto-generated method stub
 		insertAttachFiles(mf, idx);
-		announcement.setBoardContent(escapeHtml(announcement));
+		announcement.setBoardContent(CommonUtils.escapeHtml(announcement.getBoardContent()));
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("idx", idx);
 		paramMap.put("announcement", announcement);
 		return announcementRepository.updateAnnouncement(paramMap);
 	}
-	
-	private String escapeHtml(Announcement announcement) {
-		// TODO Auto-generated method stub
-		return StringEscapeUtils.escapeHtml(announcement.getBoardContent());
-	}
-
-	private String getExtension(String originalFilename) {
-		// TODO Auto-generated method stub
-		return originalFilename.substring(originalFilename.lastIndexOf(".")+1);
-	}
 
 	public List<AttachFile> getAttachFiles(int idx) {
-		// TODO Auto-generated method stub
 		return announcementRepository.findAttachFiles(idx);
 	}
 
 	public int setFileDownloadCount(int fileIdx) {
-		// TODO Auto-generated method stub
 		return announcementRepository.updateFileDownloadCount(fileIdx);
 	}
-
+	
+	/**
+	 * 다운로드 할 파일 객체 생성
+	 * @param fileName
+	 * @return File
+	 */
 	public File getDownloadFile(String fileName) {
-		// TODO Auto-generated method stub
 		return new File(uploadPath + File.separator + fileName);
 	}
 
 	public int removeAttachFileByFileIdx(int fileIdx) {
-		// TODO Auto-generated method stub
 		AttachFile attachFile = announcementRepository.findAttachFile(fileIdx);
 		deleteAttachFile(attachFile);
 		return announcementRepository.deleteAttachFileByFileIdx(fileIdx);
 	}
-
+	
+	/**
+	 * 첨부파일 삭제 처리
+	 * @param attachFile
+	 */
 	private void deleteAttachFile(AttachFile attachFile) {
-		// TODO Auto-generated method stub
 		File realFile = new File(attachFile.getFileUrl()+File.separator+attachFile.getFileName());
 		if(realFile.exists()){
 			realFile.delete();
@@ -151,7 +158,6 @@ public class AnnouncementService {
 	}
 
 	public void addComment(int idx, String commentContent, String memberId) {
-		// TODO Auto-generated method stub
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("idx", idx);
 		paramMap.put("content", commentContent);
@@ -160,12 +166,10 @@ public class AnnouncementService {
 	}
 
 	public List<Comment> getComments(int idx) {
-		// TODO Auto-generated method stub
 		return announcementRepository.findCommentsByIdx(idx);
 	}
 
 	public int removeCommentByCommentIdx(int commentIdx) {
-		// TODO Auto-generated method stub
 		return announcementRepository.deleteCommentByCommentIdx(commentIdx);
 	}
 }
