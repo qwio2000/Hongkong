@@ -33,7 +33,7 @@ $(function(){
 		},
 		fileDelete:function(boardIdx, fileIdx, index){
 			if(!confirm('정말 첨부파일을 삭제 하시겠습니까?')){
-				return;
+				return false;
 			}
 			$.ajax({
 				url: "/community/announcements/"+boardIdx+"/"+fileIdx,
@@ -44,6 +44,25 @@ $(function(){
 					$("#attachFile"+index).empty();
 					$("#attachFile"+index).append("<input type='file' name='attachFile'/>");
 					alert(jsonData.msg);
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(thrownError);
+				}
+			});
+		},
+		commentDelete:function(commentIdx){
+			if(!confirm('정말 댓글을 삭제 하시겠습니까?')){
+				return false;
+			}
+			var boardIdx = $("#boardIdx").val();
+			$.ajax({
+				url: "/community/announcements/"+boardIdx+"/comment/"+commentIdx,
+				type:"delete",
+				cache: false,
+				async: true,
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					alert(jsonData.msg);
+					location.href=jsonData.url;
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert(thrownError);
@@ -100,7 +119,7 @@ $(function(){
 	
 	$("#deleteBtn").on("click",function() {
 		if(!confirm('정말 삭제 하시겠습니까?')){
-			return;
+			return false;
 		}
 		var boardIdx = $('#boardIdx').val();
 		$.ajax({
@@ -118,4 +137,17 @@ $(function(){
 		});
 	});
 	
+	$("#commentSubmit").on("click",function() {
+		if($("#commentContent").val().trim() == ""){
+			alert("댓글을 입력하여 주십시오");
+			$("#commentContent").focus();
+			return false;
+		}
+		
+		$("#commentForm").submit();
+	});
+	$("input:text").keydown(function(evt) {
+        if (evt.keyCode == 13)
+            return false;
+    });
 });

@@ -40,8 +40,6 @@ static private ConnectSetting connectSetting = new ConnectSetting();
 		}else{
 			dbActive = env.getDefaultProfiles()[0];
 		}
-		System.out.println("env : "+env);
-		System.out.println("dbActive : "+dbActive);
 		context.close();
 		YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
 		yaml.setResources(new ClassPathResource("db_"+dbActive+".yml"));

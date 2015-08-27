@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;
 import org.springframework.web.servlet.*;
 
+import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.community.*;
 import com.jeiglobal.hk.service.community.*;
 import com.jeiglobal.hk.utils.*;
@@ -77,11 +78,13 @@ public class AnnouncementController {
 			@RequestParam(defaultValue="1") int pageNum){
 		LOGGER.debug("Getting Announcement Content Page, Article No : {} ", idx);
 		Announcement article = announcementService.getAnnouncementByIdx(idx);
+		List<Comment> comments = announcementService.getComments(idx);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("announcement");
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("article", article);
 		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("comments", comments);
 		return "community/announcement/view";
 	}
 	
@@ -211,6 +214,47 @@ public class AnnouncementController {
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msg", alertMsg);
+		return map;
+	}
+	
+	@RequestMapping(value="/{idx:[0-9]+}/comment",method = {RequestMethod.POST})
+	public String addComment(
+			Model model,
+			@PathVariable int idx, 
+			String commentContent,
+			@ModelAttribute LoginInfo loginInfo,
+			Locale locale) {
+		LOGGER.debug("Adding Comment : idx = {} : User = {}", idx, loginInfo);
+		announcementService.addComment(idx, commentContent, loginInfo.getMemberId());
+		String alertMsg = "";
+		Object[] MessageArgs = {"등록"};
+			LOGGER.info("Comment Insert Success : boardIdx = {}", idx);
+			alertMsg = messageSource.getMessage("Community.Announcement.CommentSuccess", MessageArgs, locale);
+		model.addAttribute("message", alertMsg);
+		model.addAttribute("url", "/community/announcements/"+idx);
+		return "alertAndRedirect";
+	}
+	
+	@RequestMapping(value="/{idx:[0-9]+}/comment/{commentIdx:[0-9]+}",method = {RequestMethod.DELETE}, produces = "application/json; charset=utf8")
+	@ResponseBody
+	public Map<String, Object> deleteComment(
+			@PathVariable int idx, 
+			@PathVariable int commentIdx, 
+			Locale locale) {
+		LOGGER.debug("Deleting Comment : idx = {}, fileIdx = {}", idx, commentIdx);
+		int deleteRowCount = announcementService.removeCommentByCommentIdx(commentIdx);
+		String alertMsg = "";
+		Object[] MessageArgs = {"삭제"};
+		if(deleteRowCount > 0) {
+			LOGGER.info("Comment Delete Success : commentIdx = {}", commentIdx);
+			alertMsg = messageSource.getMessage("Community.Announcement.CommentSuccess", MessageArgs, locale);
+		}else{
+			LOGGER.error("Comment Delete Error : commentIdx = {}", commentIdx);
+			alertMsg = messageSource.getMessage("Community.Announcement.CommentError", MessageArgs,locale);
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("msg", alertMsg);
+		map.put("url", "/community/announcements/"+idx);
 		return map;
 	}
 }

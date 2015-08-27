@@ -3,6 +3,7 @@ package com.jeiglobal.hk.service.community;
 import java.io.*;
 import java.util.*;
 
+import org.apache.commons.lang.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.context.*;
 import org.springframework.stereotype.*;
@@ -52,11 +53,13 @@ public class AnnouncementService {
 		announcementRepository.updateAnnouncementReadCount(idx);
 		Announcement article = announcementRepository.findAnnouncement(idx);
 		article.setAttachFiles(getAttachFiles(idx));
+		article.setBoardContent(article.getBoardContent().replaceAll("\r\n", "<br/>"));
 		return article;
 	}
 
 	public int addAnnouncement(Announcement announcement, List<MultipartFile> mf) throws IllegalStateException, IOException {
 		// TODO Auto-generated method stub
+		announcement.setBoardContent(escapeHtml(announcement));
 		announcement.setMemberId(((LoginInfo)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getMemberId());
 		announcementRepository.insertAnnouncement(announcement);
 		insertAttachFiles(mf, announcement.getBoardIdx());
@@ -93,18 +96,25 @@ public class AnnouncementService {
 
 	public int removeAnnouncementByIdx(int idx) {
 		// TODO Auto-generated method stub
+		announcementRepository.deleteCommentByBoardIdx(idx);
 		return announcementRepository.deleteAnnouncement(idx);
 	}
 
 	public int setAnnouncementByIdx(int idx, Announcement announcement, List<MultipartFile> mf) throws IllegalStateException, IOException {
 		// TODO Auto-generated method stub
 		insertAttachFiles(mf, idx);
+		announcement.setBoardContent(escapeHtml(announcement));
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("idx", idx);
 		paramMap.put("announcement", announcement);
 		return announcementRepository.updateAnnouncement(paramMap);
 	}
 	
+	private String escapeHtml(Announcement announcement) {
+		// TODO Auto-generated method stub
+		return StringEscapeUtils.escapeHtml(announcement.getBoardContent());
+	}
+
 	private String getExtension(String originalFilename) {
 		// TODO Auto-generated method stub
 		return originalFilename.substring(originalFilename.lastIndexOf(".")+1);
@@ -138,5 +148,24 @@ public class AnnouncementService {
 		if(realFile.exists()){
 			realFile.delete();
 		}
+	}
+
+	public void addComment(int idx, String commentContent, String memberId) {
+		// TODO Auto-generated method stub
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("idx", idx);
+		paramMap.put("content", commentContent);
+		paramMap.put("memberId", memberId);
+		announcementRepository.insertComment(paramMap);
+	}
+
+	public List<Comment> getComments(int idx) {
+		// TODO Auto-generated method stub
+		return announcementRepository.findCommentsByIdx(idx);
+	}
+
+	public int removeCommentByCommentIdx(int commentIdx) {
+		// TODO Auto-generated method stub
+		return announcementRepository.deleteCommentByCommentIdx(commentIdx);
 	}
 }

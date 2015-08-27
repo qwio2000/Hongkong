@@ -10,15 +10,15 @@
 <title>${title?default('')}</title>
 <link rel="stylesheet" type="text/css" href="/public/css/common.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/layout_center.css" />
-<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/public/css/jquery-ui.1.11.4.min.css" />
 <#if headerCss?has_content>
 	<#list headerCss as css>
 		<link rel="stylesheet" type="text/css" href="/public/css/${css}.css" />
 	</#list>
 </#if>
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+<script type="text/javascript" src="/public/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/public/js/jquery-ui.1.11.4.min.js"></script>
+<script type="text/javascript" src="/public/js/handlebars-3.0.3-min.js"></script>
 <script type="text/javascript" src="/public/js/common.js"></script>
 <#if headerScript?has_content>
 	<#list headerScript as script>

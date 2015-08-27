@@ -96,4 +96,34 @@
 			fileIdx = #{fileIdx}
 		</where>
 	</delete>
+	
+	<insert id="insertComment">
+		INSERT INTO globalbiz.Comment(boardIdx, memberId, commentContent, commentDeleteYN, commentRegDate)
+		VALUES(#{idx}, #{memberId}, #{content}, 'N', NOW())
+	</insert>
+	
+	<select id="findCommentsByIdx" parameterType="int" resultType="com.jeiglobal.hk.domain.community.Comment">
+		SELECT commentIdx, boardIdx, memberId, commentContent, DATE_FORMAT(commentRegDate, '%Y-%m-%d') AS commentRegDate
+		FROM globalbiz.Comment
+		<where>
+			boardIdx = #{idx} AND commentDeleteYN = 'N'
+		</where>
+		ORDER BY commentRegDate DESC, commentIdx DESC
+	</select>
+	
+	<update id="deleteCommentByCommentIdx" parameterType="int">
+		UPDATE globalbiz.Comment 
+		SET commentDeleteYN = 'Y' 
+		<where>
+			commentIdx = #{commentIdx}
+		</where>
+	</update>
+	
+	<update id="deleteCommentByBoardIdx" parameterType="int">
+		UPDATE globalbiz.Comment 
+		SET commentDeleteYN = 'Y' 
+		<where>
+			boardIdx = #{idx}
+		</where>
+	</update>
 </mapper>

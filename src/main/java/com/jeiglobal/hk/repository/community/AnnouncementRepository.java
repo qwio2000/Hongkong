@@ -42,5 +42,13 @@ public interface AnnouncementRepository {
 	public AttachFile findAttachFile(int fileIdx);
 
 	public int deleteAttachFileByFileIdx(int fileIdx);
+
+	public void insertComment(Map<String, Object> paramMap);
+
+	public List<Comment> findCommentsByIdx(int idx);
+
+	public int deleteCommentByCommentIdx(int commentIdx);
+
+	public void deleteCommentByBoardIdx(int idx);
 	
 }

@@ -69,6 +69,51 @@
 							</tr>
 						</tbody>
 					</table>
+					<br/>
+					<form method="post" name="commentForm" id="commentForm" action="/community/announcements/${article.boardIdx}/comment">
+					<table width="100%" cellSpacing="0" summary="">
+						<colgroup>
+							<col width="100">
+							<col width="*">
+							<col width="80">
+							<col width="120">
+						</colgroup>
+						<tbody>
+							<tr>
+								<th>댓글</th>
+								<td colspan="2"><div class="td-left"><input type="text" style="width: 700px;" name="commentContent" id="commentContent" class="text"></div></td>
+								<td>
+									<span class="button btn-type-C">
+										<a id="commentSubmit" style="cursor: pointer;">등록</a>
+									</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					</form>
+					<table width="100%" cellSpacing="0" summary="">
+						<colgroup>
+							<col width="100">
+							<col width="*">
+							<col width="80">
+							<col width="120">
+						</colgroup>
+						<tbody>
+							<#list comments as comment>
+							<tr>
+								<th>${comment.memberId }<br/>${comment.commentRegDate}</th>
+								<td colspan="2"><div class="td-left">${comment.commentContent }</div></td>
+								<td>
+								<#if loginInfo.memberId == comment.memberId >
+									<span class="button btn-type-C">
+										<a href="javascript:$.commentDelete('${comment.commentIdx }');">삭제</a>
+									</span>
+								</#if>
+								</td>
+							</tr>
+							</#list>
+						</tbody>
+					</table>
 					<div class="mgt-20">
 					<#if loginInfo.memberId == article.memberId >
 						<span class="button btn-type-J">
