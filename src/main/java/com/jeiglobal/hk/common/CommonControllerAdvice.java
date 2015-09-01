@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.jeiglobal.hk.domain.auth.*;
 /**
  * 
- * 클래스명 : LoginInfoControllerAdvice.java
+ * 클래스명 : CommonControllerAdvice.java
  *
  * 버전 정보 : 1.0
  *
@@ -16,12 +16,10 @@ import com.jeiglobal.hk.domain.auth.*;
  * 
  */
 @ControllerAdvice
-public class LoginInfoControllerAdvice {
+public class CommonControllerAdvice {
 	
 	@ModelAttribute("loginInfo")
 	public LoginInfo getLoginInfo(Authentication authentication){
 		return (authentication == null) ? null : (LoginInfo) authentication.getPrincipal();
 	}
-	
-	//TODO ExceptionHandler 선언하여 예외처리 추가
 }
