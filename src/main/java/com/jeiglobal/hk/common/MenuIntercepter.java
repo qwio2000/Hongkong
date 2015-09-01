@@ -50,6 +50,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 		String currentUrl = request.getRequestURI();
 		List<GlobalMenu> menuList = menuService.menuList(0,loginInfo.getJisaCD(),loginInfo.getEmpKeyLvCD(),loginInfo.getDepMngCD(),"1");
 		List<GlobalMenu> leftMenuList = new ArrayList<GlobalMenu>();
+		List<GlobalMenu> headerMenuList = new ArrayList<GlobalMenu>();
 		if(menuList == null){
 			if(authentication.getAuthorities().contains("SUPERADMIN")){
 				return true;
@@ -68,13 +69,23 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 			if("ROOT".equals(menuList.get(0).getMMenuName())){
 				menuList.remove(0);
 			}
-			
 			for (GlobalMenu globalMenu : menuList) {
 				if(ant.match(globalMenu.getMAntPattern(),currentUrl)){
 					menuCode = globalMenu.getMMenuCode();
 				}
+				if(globalMenu.getMMenuCode().length() == 1){
+					headerMenuList.add(globalMenu);
+				}
 			}
 			
+			//헤더 메뉴 정렬
+			Collections.sort(headerMenuList, new Comparator<GlobalMenu>() {
+				@Override
+				public int compare(GlobalMenu arg0, GlobalMenu arg1) {
+					return Integer.parseInt(arg0.getMMenuCode()) < Integer.parseInt(arg1.getMMenuCode()) ? -1 : 
+						Integer.parseInt(arg0.getMMenuCode()) > Integer.parseInt(arg1.getMMenuCode()) ? 1:0;
+				}
+			});
 			int menuCodeCnt = menuCode.length();
 			
 			if(!menuCode.isEmpty()){
@@ -122,7 +133,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 				}
 				return false;
 			}
-			
+			request.setAttribute("headerMenuList",headerMenuList);
 			request.setAttribute("leftMenuList",leftMenuList);
 			request.setAttribute("menuCode",menuCode);
 			request.setAttribute("menuFirstCode",menuFirstCode);

@@ -98,7 +98,7 @@
 </table>
 
 <input id="mHasChildren" name="mHasChildren" type="hidden" value="0">
-<input id="mDepth" name="mDepth" type="hidden">
+<input id="mDepth" name="mDepth" type="hidden" value="1">
 <input id="mSort" name="mSort" type="hidden" value="1">
 <input id="_method" name="_method" type="hidden">
 </form>       

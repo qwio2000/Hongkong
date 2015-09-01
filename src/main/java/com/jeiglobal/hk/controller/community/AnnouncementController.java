@@ -28,7 +28,7 @@ import com.jeiglobal.hk.utils.*;
  * [Community -> Announcement] Controller
  */
 @Controller
-@RequestMapping(value="/community/announcements")
+@RequestMapping(value="/fa/community/announcements")
 public class AnnouncementController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AnnouncementController.class);

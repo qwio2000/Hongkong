@@ -160,7 +160,7 @@ $(function() {
         	$("#_method").val("POST");
         	
         	var jsonSendData = $("#menuContentFrm").serialize();
-        	
+        	console.log(jsonSendData);
         	$.ajax({
     			url: jeiadmin_url+"/menuSave.json",
     			type: "POST",

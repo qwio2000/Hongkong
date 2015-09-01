@@ -17,10 +17,11 @@
 				</div>
 			</div>
 			<ul class="lnb">
-				<li><a href="/memberCard"><#if menuFirstCode?exists && menuFirstCode?string  == "1"><img src="/public/img/common/lnb_01_on.gif" alt="회원관리" /><#else><img src="/public/img/common/lnb_01_off.gif" alt="회원관리" /></#if></a></li>
-				<li><a href="/subul"><#if menuFirstCode?exists && menuFirstCode?string  == "2"><img src="/public/img/common/lnb_02_on.gif" alt="교재수불" /><#else><img src="/public/img/common/lnb_02_off.gif" alt="교재수불" /></#if></a></li>
-				<li><a href="/siljuk"><#if menuFirstCode?exists && menuFirstCode?string  == "3"><img src="/public/img/common/lnb_03_on.gif" alt="실적현황" /><#else><img src="/public/img/common/lnb_03_off.gif" alt="실적현황" /></#if></a></li>
-				<li><a href="/community/announcements"><#if menuFirstCode?exists && menuFirstCode?string  == "4"><img src="/public/img/common/lnb_04_on.gif" alt="커뮤니티" /><#else><img src="/public/img/common/lnb_04_off.gif" alt="커뮤니티" /></#if></a></li>
+			<#if headerMenuList?has_content>
+				<#list headerMenuList as headerMenu>
+					<li><a href="${headerMenu.MMenuLink }"><span style="margin-right: 20px;font-size: 15px;color: white;<#if headerMenu.MMenuCode == menuFirstCode>font-weight:bold;</#if>">${headerMenu.MMenuName }</span></a></li>
+				</#list>
+			</#if>
 			</ul>
 		</div>
 	</div>

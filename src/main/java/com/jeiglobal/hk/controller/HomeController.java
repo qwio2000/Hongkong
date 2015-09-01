@@ -39,19 +39,18 @@ public class HomeController {
 		return "login";
 	}
 
-	@RequestMapping(value={"mMenuLink","","/agree","/classChange","/emptyHakjuk","/huheiList","/inventory"
-			,"/ipgum","/manageFA","/manageInfo","/memberCard","/misu","/monthSiljuk","/qna"
-			,"/saleResult","/siljuk","/study","/studyState","/subul"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members","/fa/diagnosis","/fa/inventory","/fa/accounting","/fa/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getLayoutPage() {
 		LOGGER.debug("Getting Layout Page");
 		return "layout";
 	}
-	
-	@RequestMapping(value="/jindo")
-	public String getRuntimeError(){
-		LOGGER.debug("RuntimeException!!!!!!!!!!!!!");
-		throw new RuntimeException("낄낄");
+	@RequestMapping(value={"/ja/centers","/ja/members","/ja/inventory","/ja/accounting","/ja/community","/ja/leads","/ja/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String getJALayoutPage() {
+		LOGGER.debug("Getting JA Layout Page");
+		return "layout";
 	}
+	
+	
 	/**
 	 * favicon.ico 요청 시 No Mapping Log 방지하기 위해 만듬 
 	 */

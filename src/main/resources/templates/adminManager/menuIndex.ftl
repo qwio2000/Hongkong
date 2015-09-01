@@ -61,7 +61,7 @@
 						<select id="viewModeEmpKeyLvCD">
 							<option value="MA">본사</option>
 							<option value="JA">지사</option>
-							<option value="FA">교육원</option>
+							<option value="FA">가맹점</option>
 							<option value="MD">영파</option>
 						</select>
 						<select id="viewModeDepMngCD">

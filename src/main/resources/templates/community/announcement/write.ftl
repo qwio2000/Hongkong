@@ -19,17 +19,17 @@
 					<ul>
 						<li class="home"><a href="#none">Home</a> &gt; </li>
 						<li><a href="#none">Community</a> &gt; </li>
-						<li class="current"><a href="/community/announcements">Announcements</a></li>
+						<li class="current"><a href="/fa/community/announcements">Announcements</a></li>
 					</ul>
 				</div>
 				<div class="tab-A">
 					<ul>
-						<li class="first active"><a href="/community/announcements">알림</a></li>
+						<li class="first active"><a href="/fa/community/announcements">알림</a></li>
 					</ul>
 				</div>
 				<br/><br/>
 				<div class="tbl-type-F">
-					<form id="announcementFrm" action="/community/announcements/${article?if_exists.boardIdx?default("") }" method="POST" enctype="multipart/form-data">
+					<form id="announcementFrm" action="/fa/community/announcements/${article?if_exists.boardIdx?default("") }" method="POST" enctype="multipart/form-data">
 					<table width="100%" cellSpacing="0" summary="">
 						<colgroup>
 							<col width="95">
@@ -91,7 +91,7 @@
 				</div>
 				<div class="btn-box float-r">
 					<span class="button btn-type-I"><a id="submitBtn" ><#if article??>수정<#else>등록</#if></a></span>
-					<span class="button btn-type-J"><a href="/community/announcements">취소</a></span>
+					<span class="button btn-type-J"><a href="/fa/community/announcements">취소</a></span>
 				</div>
 			</div>
 		</div>

@@ -19,12 +19,12 @@
 					<ul>
 						<li class="home"><a href="#none">Home</a> &gt; </li>
 						<li><a href="#none">Community</a> &gt; </li>
-						<li class="current"><a href="/community/announcements">Announcements</a></li>
+						<li class="current"><a href="/fa/community/announcements">Announcements</a></li>
 					</ul>
 				</div>
 				<div class="tab-A">
 					<ul>
-						<li class="first active"><a href="/community/announcements">알림</a></li>
+						<li class="first active"><a href="/fa/community/announcements">Announce</a></li>
 					</ul>
 				</div>
 				<div class="mgt-20 search-class">
@@ -69,7 +69,7 @@
 					<span id="pageNavi"></span>
 				</div>
 				<div class="btn-box float-r">
-					<span class="button btn-type-I"><a href="/community/announcements/new">글쓰기</a></span>
+					<span class="button btn-type-I"><a href="/fa/community/announcements/new">글쓰기</a></span>
 				</div> 
 			</div>
 		</div>
@@ -85,7 +85,7 @@
 			<td>{{boardNo @index}}</td>
 			<td>
 				<p class="tb_1">
-					<a href='/community/announcements/{{boardIdx}}?pageNum={{../pageInfo.pageNum}}'>{{boardSubject}}</a>
+					<a href='/fa/community/announcements/{{boardIdx}}?pageNum={{../pageInfo.pageNum}}'>{{boardSubject}}</a>
 				</p>
 			</td>
 			<td>{{memberId}}</td>

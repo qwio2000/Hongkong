@@ -31,8 +31,6 @@ import com.jeiglobal.hk.service.auth.*;
 @Component
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 	
-	final static String DEFAULT_INDEX_URL = "/memberCard";
-	
 	@Autowired
 	private AuthoritiesService authoritiesService;
 	
@@ -40,6 +38,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 	public void onAuthenticationSuccess(HttpServletRequest request,
 			HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
+		LoginInfo member = (LoginInfo)authentication.getPrincipal();
 		String loginLang = request.getParameter("loginLang");
 		if(loginLang == null || loginLang.isEmpty()){
 			loginLang = "E";
@@ -48,7 +47,11 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 		addAuthCookie(response, authentication,loginLang);
 		String retUrl = request.getParameter("returl");
 		if(retUrl == null || retUrl.isEmpty()){
-			response.sendRedirect(request.getContextPath()+DEFAULT_INDEX_URL);
+			if("JA".equalsIgnoreCase(member.getEmpKeyLvCD())){
+				response.sendRedirect(request.getContextPath()+"/ja/centers");
+			}else if("FA".equalsIgnoreCase(member.getEmpKeyLvCD())){
+				response.sendRedirect(request.getContextPath()+"/fa/members");
+			}
 			return;
 		}
 		response.sendRedirect(retUrl);

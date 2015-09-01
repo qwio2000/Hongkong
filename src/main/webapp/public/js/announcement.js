@@ -2,7 +2,7 @@ $(function(){
 	$.extend({
 		getBoardList:function(){
 			var pageNum = $("#pageNum").val();
-			var searchUrl = "/community/announcements/page/"+pageNum;
+			var searchUrl = "/fa/community/announcements/page/"+pageNum;
 			var searchField = $("#searchField").val();
 			var searchValue = $.trim($("#searchValue").val());
 			var paramData = {"searchField":searchField, "searchValue":searchValue};
@@ -36,7 +36,7 @@ $(function(){
 				return false;
 			}
 			$.ajax({
-				url: "/community/announcements/"+boardIdx+"/"+fileIdx,
+				url: "/fa/community/announcements/"+boardIdx+"/"+fileIdx,
 				type:"delete",
 				cache: false,
 				async: true,
@@ -56,7 +56,7 @@ $(function(){
 			}
 			var boardIdx = $("#boardIdx").val();
 			$.ajax({
-				url: "/community/announcements/"+boardIdx+"/comment/"+commentIdx,
+				url: "/fa/community/announcements/"+boardIdx+"/comment/"+commentIdx,
 				type:"delete",
 				cache: false,
 				async: true,
@@ -112,7 +112,7 @@ $(function(){
 	});
 	
 	//리스트 페이지인 경우 getBoardList 호출
-	if(window.location.pathname == '/community/announcements')
+	if(window.location.pathname == '/fa/community/announcements')
 		$.getBoardList();
 	// paging 클릭
 	$(".paging").on("click","a.naviPage",function() {
@@ -163,7 +163,7 @@ $(function(){
 		}
 		var boardIdx = $('#boardIdx').val();
 		$.ajax({
-			url: "/community/announcements/"+boardIdx,
+			url: "/fa/community/announcements/"+boardIdx,
 			type:"delete",
 			cache: false,
 			async: true,
@@ -184,7 +184,7 @@ $(function(){
 			return false;
 		}
 		var boardIdx = $('#boardIdx').val();
-		var url = "/community/announcements/"+boardIdx+"/comment";
+		var url = "/fa/community/announcements/"+boardIdx+"/comment";
 		var commentContent = $("#commentContent").val();
 		$.ajax({
 			url: url,

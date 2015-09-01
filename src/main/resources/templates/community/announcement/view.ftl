@@ -24,7 +24,7 @@
 				</div>
 				<div class="tab-A">
 					<ul>
-						<li class="first active"><a href="/community/announcements">알림</a></li>
+						<li class="first active"><a href="/community/announcements">Announce</a></li>
 					</ul>
 				</div>
 				<br/><br/>
@@ -53,7 +53,7 @@
 								<td>
 									<div class="td-left">
 										<#list article.attachFiles as attachFile>
-											<a href="/community/announcements/${article.boardIdx }/${attachFile.fileIdx }?fileName=${attachFile.fileName}&fileOriginalName=${attachFile.fileOriginalName}">${attachFile.fileOriginalName }</a>
+											<a href="/fa/community/announcements/${article.boardIdx }/${attachFile.fileIdx }?fileName=${attachFile.fileName}&fileOriginalName=${attachFile.fileOriginalName}">${attachFile.fileOriginalName }</a>
 											<#if attachFile_has_next><br/></#if>
 										</#list>
 									</div>
@@ -70,7 +70,7 @@
 						</tbody>
 					</table>
 					<br/>
-					<form method="post" name="commentForm" id="commentForm" action="/community/announcements/${article.boardIdx}/comment">
+					<form method="post" name="commentForm" id="commentForm" action="/fa/community/announcements/${article.boardIdx}/comment">
 					<table width="100%" cellSpacing="0" summary="">
 						<colgroup>
 							<col width="100">
@@ -117,14 +117,14 @@
 					<div class="mgt-20">
 					<#if loginInfo.memberId == article.memberId >
 						<span class="button btn-type-J">
-							<a href="/community/announcements/${article.boardIdx }/edit">수정</a>
+							<a href="/fa/community/announcements/${article.boardIdx }/edit">수정</a>
 						</span>
 						<span class="button btn-type-J">
 							<a id="deleteBtn">삭제</a>
 						</span>
 					</#if>
 						<span class="button float-r btn-type-I">
-							<a href="/community/announcements?pageNum=${pageNum }">목록</a>
+							<a href="/fa/community/announcements?pageNum=${pageNum }">목록</a>
 						</span>
 					</div>
 				</div>
