@@ -50,6 +50,7 @@ dependencies {
     compile("org.codehaus.janino:janino:2.7.8")
     compile("javax.servlet.jsp:jsp-api:2.2")
     compile("commons-lang:commons-lang:2.6")
+    compile("net.sf.ehcache:ehcache:2.10.0")
     
     
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")

@@ -399,6 +399,7 @@ public class MenuService {
 		menuRepository.updateGlobalMenuByMIdx(globalmenu);
 	}
 	
+
 	private GlobalMenu findOneByMParentIdx(long mIdx){
 		return menuRepository.findOneByMParentIdx(mIdx);
 	}

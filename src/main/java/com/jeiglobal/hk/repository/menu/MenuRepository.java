@@ -2,6 +2,8 @@ package com.jeiglobal.hk.repository.menu;
 
 import java.util.*;
 
+import org.springframework.cache.annotation.*;
+
 import com.jeiglobal.hk.domain.menu.*;
 import com.jeiglobal.hk.repository.*;
 /**
@@ -15,9 +17,11 @@ import com.jeiglobal.hk.repository.*;
  * Mysql 메뉴 관련 Repository
  * src/main/resource/mapper/menu/MenuRepository.xml
  */
+//ehCache 적용
+@Cacheable(value="menuListCache")
 @PrimaryRepositoryAnnoInterface
 public interface MenuRepository {
-
+	
 	public GlobalMenu findOneByMParentIdx(long mIdx);
 	
 	public List<GlobalMenu> findByMParentIdxAndJisaCDAndEmpKeyLvCDAndDepMngCD(Map<String, Object> map);
