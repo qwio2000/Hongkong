@@ -24,7 +24,7 @@
            memoryStoreEvictionPolicy="LRU"	
            statistics="true"	
            />
-	<cache name="menuListCache"
+	<cache name="menuCache"
 			maxElementsInMemory="1000" 
 			eternal="false"	
 			timeToIdleSeconds="600"	

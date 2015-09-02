@@ -65,7 +65,6 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 		
 		String authId = member.getMemberId();
 		String authKey = standrdPasswordEncoder.encode(authId);
-		
 		authoritiesService.updateEncodeCookieById(authId,authKey);
 		
 		try {

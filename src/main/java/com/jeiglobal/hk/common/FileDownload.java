@@ -11,7 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.servlet.view.AbstractView;
-
+/**
+ * 
+ * 클래스명 : FileDownload.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * 파일 다운로드(BeanNameResolver로 연결)
+ */
 public class FileDownload extends AbstractView{
 	
 	@Override

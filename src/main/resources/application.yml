@@ -1,4 +1,4 @@
-        
+#default        
 multipart:
     maxFileSize: 5120KB
     maxRequestSize: 10240KB
@@ -11,7 +11,8 @@ spring:
         cache-period:31556926
 ---
 spring.profiles: develop
-        
+
+#develop        
 multipart:
     maxFileSize: 5120KB
     maxRequestSize: 10240KB
@@ -25,6 +26,7 @@ spring:
 ---
 spring.profiles: product
 
+#product
 multipart:
     maxFileSize: 5120KB
     maxRequestSize: 10240KB

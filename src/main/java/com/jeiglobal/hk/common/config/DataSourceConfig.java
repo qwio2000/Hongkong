@@ -6,7 +6,6 @@ import org.apache.ibatis.session.*;
 import org.apache.tomcat.dbcp.dbcp.*;
 import org.mybatis.spring.*;
 import org.mybatis.spring.mapper.*;
-import org.slf4j.*;
 import org.springframework.context.annotation.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.*;
@@ -27,7 +26,6 @@ import com.jeiglobal.hk.repository.*;
 
 @Configuration
 public class DataSourceConfig {
-	private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceConfig.class);
 	/**
 	 * Mysql DataSource
 	 * @return
@@ -38,7 +36,6 @@ public class DataSourceConfig {
 		basicDataSource.setUsername(ConnectSetting.mysqlUsername);
 		basicDataSource.setPassword(ConnectSetting.mysqlPassword);
 		basicDataSource.setUrl(ConnectSetting.mysqlUrl);
-		LOGGER.debug("############## MYSQL URL : {}", ConnectSetting.mysqlUrl);
 		basicDataSource.setMaxActive(10);
 		basicDataSource.setMaxIdle(4);
 		basicDataSource.setMinIdle(4);
@@ -66,7 +63,6 @@ public class DataSourceConfig {
 		basicDataSource.setUsername(ConnectSetting.mssqlUsername);
 		basicDataSource.setPassword(ConnectSetting.mssqlPassword);
 		basicDataSource.setUrl(ConnectSetting.mssqlUrl);
-		LOGGER.debug("############## MSSQL URL : {}", ConnectSetting.mssqlUrl);
 		basicDataSource.setMaxActive(10);
 		basicDataSource.setMaxIdle(4);
 		basicDataSource.setMinIdle(4);

@@ -19,7 +19,20 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 
 import com.jeiglobal.hk.utils.*;
-
+/**
+ * 
+ * 클래스명 : ErrorHandler.java
+ *
+ * 버전 정보 : 1.0
+ *
+ * 작성자 : 전승엽(IT지원팀)
+ * 
+ * Error 발생시 default로 /error 로 redirect 된다
+ * 이 /error로 들어온 요청을 처리하는 ErrorHandler
+ * ======================현재============================
+ * 404 => java/main/resource/template/error/error404.ftl
+ * 그 외 => java/main/resource/template/error/error500.ftl
+ */
 @Controller
 public class ErrorHandler implements ErrorController {
 
