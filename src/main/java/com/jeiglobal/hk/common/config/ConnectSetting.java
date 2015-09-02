@@ -38,13 +38,11 @@ static private ConnectSetting connectSetting = new ConnectSetting();
 		ConfigurableApplicationContext context = new GenericXmlApplicationContext();
 		ConfigurableEnvironment env = context.getEnvironment();
 		String dbActive = "";
-		
 		if(env.getActiveProfiles().length > 0){
 			dbActive = env.getActiveProfiles()[0];
 		}else{
 			dbActive = env.getDefaultProfiles()[0];
 		}
-		System.out.println("db Active : "+dbActive);
 		context.close();
 		YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
 		yaml.setResources(new ClassPathResource("db_"+dbActive+".yml"));
