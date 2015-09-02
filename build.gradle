@@ -37,7 +37,6 @@ configurations {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-freemarker:${springBootVersion}")
-    compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     compile("org.springframework:spring-jdbc:4.1.7.RELEASE")

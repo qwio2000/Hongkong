@@ -14,7 +14,7 @@
 	memoryStoreEvictionPolicy : 데이터 제거 알고리즘 옵션
 	statistics : JMX 통계정보 갱신 옵션 -->
 	 <defaultCache
-           maxElementsInMemory="20000" 
+           maxElementsInMemory="1000" 
            eternal="false"	
            timeToIdleSeconds="600"	
            timeToLiveSeconds="3600"
@@ -25,15 +25,15 @@
            statistics="true"	
            />
 	<cache name="menuListCache"
-		maxElementsInMemory="20000" 
-	   eternal="false"	
-	   timeToIdleSeconds="600"	
-	   timeToLiveSeconds="3600"
-	   overflowToDisk="false"	
-	   diskPersistent="false"	
-	   diskExpiryThreadIntervalSeconds="120"	
-	   memoryStoreEvictionPolicy="LRU"	
-	   statistics="true"
-	   />	
+			maxElementsInMemory="1000" 
+			eternal="false"	
+			timeToIdleSeconds="600"	
+			timeToLiveSeconds="3600"
+			overflowToDisk="false"	
+			diskPersistent="false"	
+			diskExpiryThreadIntervalSeconds="120"	
+			memoryStoreEvictionPolicy="LRU"	
+			statistics="true"
+		   />	
 
 </ehcache>
