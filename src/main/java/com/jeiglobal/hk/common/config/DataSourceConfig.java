@@ -37,7 +37,7 @@ public class DataSourceConfig {
 		basicDataSource.setUsername(ConnectSetting.mysqlUsername);
 		basicDataSource.setPassword(ConnectSetting.mysqlPassword);
 		basicDataSource.setUrl(ConnectSetting.mysqlUrl);
-
+		System.out.println("############## URL : "+ConnectSetting.mysqlUrl);
 		basicDataSource.setMaxActive(10);
 		basicDataSource.setMaxIdle(4);
 		basicDataSource.setMinIdle(4);
