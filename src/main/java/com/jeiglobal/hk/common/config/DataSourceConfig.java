@@ -25,7 +25,8 @@ import com.jeiglobal.hk.repository.*;
  */
 
 @Configuration
-public class DataSourceConfig {
+public class DataSourceConfig{
+	
 	/**
 	 * Mysql DataSource
 	 * @return

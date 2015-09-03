@@ -169,7 +169,7 @@ $(function(){
 			async: true,
 			success: function(jsonData, textStatus, XMLHttpRequest) {
 				alert(jsonData.msg);
-				location.href="/community/announcements";
+				location.href="/fa/community/announcements";
 			},
 			error:function (xhr, ajaxOptions, thrownError){	
 				alert(thrownError);

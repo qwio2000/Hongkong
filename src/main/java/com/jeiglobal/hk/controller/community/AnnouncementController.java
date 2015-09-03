@@ -116,7 +116,7 @@ public class AnnouncementController {
 			alertMsg = messageSource.getMessage("Community.Announcement.Success", MessageArgs, locale);
 		}
 		model.addAttribute("message", alertMsg);
-		model.addAttribute("url", "/community/announcements/"+addIdx);
+		model.addAttribute("url", "/fa/community/announcements/"+addIdx);
 		return "alertAndRedirect";
 	}
 	
@@ -172,7 +172,7 @@ public class AnnouncementController {
 			alertMsg = messageSource.getMessage("Community.Announcement.Error", MessageArgs, locale);
 		}
 		model.addAttribute("message", alertMsg);
-		model.addAttribute("url", "/community/announcements/"+idx);
+		model.addAttribute("url", "/fa/community/announcements/"+idx);
 		return "alertAndRedirect";
 	}
 	

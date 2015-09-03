@@ -63,7 +63,6 @@ public class ErrorHandler implements ErrorController {
 			body.put("message", message);
 		}
 		LOGGER.error("Error Status : {}, Message : {}", status, message);
-		LOGGER.error("Error Status : {}, Message : {}", status, message);
 		model.addAttribute("error", status.getReasonPhrase());
 		model.addAttribute("message", message);
 		if(HttpStatus.NOT_FOUND.equals(status)){
