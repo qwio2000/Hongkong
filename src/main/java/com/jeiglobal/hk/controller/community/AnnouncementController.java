@@ -3,8 +3,6 @@ package com.jeiglobal.hk.controller.community;
 import java.io.*;
 import java.util.*;
 
-import javax.servlet.http.*;
-
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -46,8 +44,10 @@ public class AnnouncementController {
 	
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getAnnouncementsPage(Model model, @RequestParam(defaultValue="1") int pageNum, HttpServletRequest request){
+	public String getAnnouncementsPage(Model model, @RequestParam(defaultValue="1") int pageNum){
 		LOGGER.debug("Getting Notices List Page");
+		//header에 포함할 스크립트 
+		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("announcement");
 		model.addAttribute("headerScript", headerScript);
@@ -63,6 +63,7 @@ public class AnnouncementController {
 			@RequestParam(value="searchValue", required=false) String searchValue){
 		LOGGER.debug("Getting Notices List Articles searchField : {}, searchValue : {}", searchField, searchValue);
 		int totalRowCnt = announcementService.getArticleCnt(searchField, searchValue);
+		//페이징 처리에 사용하는 유틸 클래스
 		PageUtil pageUtil = new	PageUtil(pageNum, totalRowCnt, PAGE_SIZE, PAGE_BLOCK_SIZE);
 		
 		Map<String,Object> map = new HashMap<>();
@@ -182,7 +183,7 @@ public class AnnouncementController {
 	 * @param fileName
 	 * @param fileOriginalName
 	 * @param request
-	 * @return ModelAndView
+	 * @return ModelAndView : BeanName
 	 */
 	@RequestMapping(value = "/{idx:[0-9]+}/{fileIdx:[0-9]+}", method = {RequestMethod.GET, RequestMethod.HEAD})
 	public ModelAndView attachFileDownload(

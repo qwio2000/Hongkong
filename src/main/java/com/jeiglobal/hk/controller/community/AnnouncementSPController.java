@@ -3,8 +3,6 @@ package com.jeiglobal.hk.controller.community;
 import java.io.*;
 import java.util.*;
 
-import javax.servlet.http.*;
-
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -46,7 +44,7 @@ public class AnnouncementSPController {
 	
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getAnnouncementsPage(Model model, @RequestParam(defaultValue="1") int pageNum, HttpServletRequest request){
+	public String getAnnouncementsPage(Model model, @RequestParam(defaultValue="1") int pageNum){
 		LOGGER.debug("Getting Notices List Page");
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("announcementSP");
