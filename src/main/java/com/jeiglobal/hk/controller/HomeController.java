@@ -50,12 +50,4 @@ public class HomeController {
 		return "layout";
 	}
 	
-	
-	/**
-	 * favicon.ico 요청 시 No Mapping Log 방지하기 위해 만듬 
-	 */
-	@RequestMapping("favicon.ico")
-    @ResponseBody
-    void favicon() {}
-	
 }
