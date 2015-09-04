@@ -6,7 +6,17 @@
 		<where>
 			boardDeleteYN = 'N'
 			<if test="searchField != null and searchValue != ''">
-				AND ${searchField} like CONCAT('%', #{searchValue}, '%')
+				<choose>
+					<when test="searchField == boardSubject">
+						AND boardSubject like CONCAT('%', #{searchValue}, '%')
+					</when>
+					<when test="searchField == boardContent">
+						AND boardContent like CONCAT('%', #{searchValue}, '%')
+					</when>
+					<when test="searchField == memberId">
+						AND memberId like CONCAT('%', #{searchValue}, '%')
+					</when>
+				</choose>
 			</if>
 		</where>
 	</select>
@@ -17,7 +27,17 @@
 		<where>
 			boardDeleteYN = 'N'
 			<if test="searchField != null and searchValue != ''">
-				AND ${searchField} like CONCAT('%', #{searchValue}, '%')
+				<choose>
+					<when test="searchField == boardSubject">
+						AND boardSubject like CONCAT('%', #{searchValue}, '%')
+					</when>
+					<when test="searchField == boardContent">
+						AND boardContent like CONCAT('%', #{searchValue}, '%')
+					</when>
+					<when test="searchField == memberId">
+						AND memberId like CONCAT('%', #{searchValue}, '%')
+					</when>
+				</choose>
 			</if>
 		</where>
 		ORDER BY boardRegDate DESC, boardIdx DESC 
