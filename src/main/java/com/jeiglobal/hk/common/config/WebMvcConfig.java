@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.*;
 
 import com.jeiglobal.hk.common.*;
 import com.jeiglobal.hk.utils.*;
+import com.navercorp.lucy.security.xss.servletfilter.*;
 
 /**
  * 
@@ -52,6 +53,18 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
 		filterRegistrationBean.setFilter(new HiddenHttpMethodFilter());
 		filterRegistrationBean.setOrder(10);
+		return filterRegistrationBean;
+	}
+	/**
+	 * XSS 대응 필터
+	 * @return FilterRegistrationBean
+	 */
+	@Bean
+	public FilterRegistrationBean xssEscapeServletFilter() {
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+		filterRegistrationBean.setFilter(new XssEscapeServletFilter());
+		filterRegistrationBean.setOrder(1);
+		filterRegistrationBean.addUrlPatterns("/*");
 		return filterRegistrationBean;
 	}
 	

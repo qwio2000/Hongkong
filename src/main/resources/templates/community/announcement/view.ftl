@@ -140,7 +140,7 @@
 	{{#each comments}}
 		<tr>
 			<th>{{memberId }}<br/>{{commentRegDate}}</th>
-			<td colspan="2"><div class="td-left">{{commentContent }}</div></td>
+			<td colspan="2"><div class="td-left">{{{commentContent }}}</div></td>
 			<td>
 			{{#xIf ../loginInfo.memberId "==" memberId}}
 				<span class="button btn-type-C">

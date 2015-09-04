@@ -2,8 +2,6 @@ package com.jeiglobal.hk.utils;
 
 import java.util.*;
 
-import org.apache.commons.lang.*;
-
 
 /**
  * 
@@ -24,16 +22,6 @@ public class CommonUtils {
 	 */
 	public static String getExtension(String originalFilename){
 		return originalFilename.substring(originalFilename.lastIndexOf(".")+1);
-	}
-	
-	/**
-	 * HTML 태그 동작 방지
-	 * @param content
-	 * @return String
-	 */
-	public static String escapeHtml(String content) {
-		// TODO Auto-generated method stub
-		return StringEscapeUtils.escapeHtml(content);
 	}
 	
 	/**

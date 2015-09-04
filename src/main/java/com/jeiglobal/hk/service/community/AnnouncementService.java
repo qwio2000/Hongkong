@@ -71,8 +71,6 @@ public class AnnouncementService {
 	}
 
 	public int addAnnouncement(Announcement announcement, List<MultipartFile> mf, LoginInfo loginInfo) throws IllegalStateException, IOException {
-		// 게시물 내용 HTML 태그 동작 방지 처리
-		announcement.setBoardContent(CommonUtils.escapeHtml(announcement.getBoardContent()));
 		announcement.setMemberId(loginInfo.getMemberId());
 		announcementRepository.insertAnnouncement(announcement);
 		insertAttachFiles(mf, announcement.getBoardIdx());
@@ -116,7 +114,6 @@ public class AnnouncementService {
 
 	public int setAnnouncementByIdx(int idx, Announcement announcement, List<MultipartFile> mf) throws IllegalStateException, IOException {
 		insertAttachFiles(mf, idx);
-		announcement.setBoardContent(CommonUtils.escapeHtml(announcement.getBoardContent()));
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("idx", idx);
 		paramMap.put("announcement", announcement);

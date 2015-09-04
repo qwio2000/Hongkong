@@ -85,7 +85,7 @@
 			<td>{{boardNo @index}}</td>
 			<td>
 				<p class="tb_1">
-					<a href='/fa/community/announcements/{{boardIdx}}?pageNum={{../pageInfo.pageNum}}'>{{boardSubject}}</a>
+					<a href='/fa/community/announcements/{{boardIdx}}?pageNum={{../pageInfo.pageNum}}'>{{{boardSubject}}}</a>
 				</p>
 			</td>
 			<td>{{memberId}}</td>
