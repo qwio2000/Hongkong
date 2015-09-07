@@ -1,5 +1,6 @@
 package com.jeiglobal.hk.common;
 
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,16 @@ import com.jeiglobal.hk.domain.auth.*;
 @ControllerAdvice
 public class CommonControllerAdvice {
 	
+	@Value("${serverurl.globalbms}")
+	private String globalbmsUrl;
+	
 	@ModelAttribute("loginInfo")
 	public LoginInfo getLoginInfo(Authentication authentication){
 		return (authentication == null) ? null : (LoginInfo) authentication.getPrincipal();
+	}
+	
+	@ModelAttribute("globalbmsUrl")
+	public String getGlobalbmsUrl(){
+		return globalbmsUrl;
 	}
 }

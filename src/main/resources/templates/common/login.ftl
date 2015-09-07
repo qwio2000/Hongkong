@@ -62,7 +62,7 @@
 						</fieldset>
 				</@security.authorize>
 				<@security.authorize access="isAuthenticated()">
-					<a href="/logout"><img src="/public/img/btn_logout.png"/></a>
+					<a href="http://localhost:8081/logout"><img src="/public/img/btn_logout.png"/></a>
 				</@security.authorize>
 					<input type="hidden" name="returl" value="${returl?default('')}" />
 				</div>
