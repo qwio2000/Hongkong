@@ -37,7 +37,7 @@ import com.jeiglobal.hk.utils.*;
 public class ErrorHandler implements ErrorController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ErrorHandler.class);
-	private final String ERROR_VIEW_PATH = "/error/";
+	private final String ERROR_VIEW_PATH = "/common/error/";
 	private String errorPath;
 	private ErrorAttributes errorAttributes;
 	private MessageSourceAccessor messageSourceAccessor;
