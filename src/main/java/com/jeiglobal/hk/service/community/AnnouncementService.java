@@ -1,4 +1,4 @@
-package com.jeiglobal.hk.service.fa.community;
+package com.jeiglobal.hk.service.community;
 
 import java.io.*;
 import java.util.*;
@@ -9,7 +9,7 @@ import org.springframework.web.multipart.*;
 
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.community.*;
-import com.jeiglobal.hk.repository.fa.community.*;
+import com.jeiglobal.hk.repository.community.*;
 import com.jeiglobal.hk.utils.*;
 /**
  * 
@@ -22,10 +22,10 @@ import com.jeiglobal.hk.utils.*;
  * 알림에 관련된 비즈니스 로직을 처리하는 서비스
  */
 @Service
-public class AnnouncementSPService {
+public class AnnouncementService {
 	
 	@Autowired
-	private AnnouncementSPRepository announcementSPRepository;
+	private AnnouncementRepository announcementRepository;
 	
 	//application.yml 파일에 저장된 프로퍼티 값
 	@Value("${uploadpath.announcements}")
@@ -41,7 +41,7 @@ public class AnnouncementSPService {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("searchField", searchField);
 		paramMap.put("searchValue", searchValue);
-		return announcementSPRepository.findTotalArticleCount(paramMap);
+		return announcementRepository.findTotalArticleCount(paramMap);
 	}
 	
 	/**
@@ -58,12 +58,12 @@ public class AnnouncementSPService {
 		paramMap.put("endRow", endRow);
 		paramMap.put("searchField", searchField);
 		paramMap.put("searchValue", searchValue);
-		return announcementSPRepository.findAnnouncements(paramMap);
+		return announcementRepository.findAnnouncements(paramMap);
 	}
 	
 	public Announcement getAnnouncementByIdx(int idx) {
-		announcementSPRepository.updateAnnouncementReadCount(idx);
-		Announcement article = announcementSPRepository.findAnnouncement(idx);
+		announcementRepository.updateAnnouncementReadCount(idx);
+		Announcement article = announcementRepository.findAnnouncement(idx);
 		article.setAttachFiles(getAttachFiles(idx));
 		//줄바꿈 처리
 		article.setBoardContent(article.getBoardContent().replaceAll("\r\n", "<br/>"));
@@ -72,9 +72,9 @@ public class AnnouncementSPService {
 
 	public int addAnnouncement(Announcement announcement, List<MultipartFile> mf, LoginInfo loginInfo) throws IllegalStateException, IOException {
 		announcement.setMemberId(loginInfo.getMemberId());
-		int lastInsertIdx = announcementSPRepository.insertAnnouncement(announcement);
-		insertAttachFiles(mf, lastInsertIdx);
-		return lastInsertIdx;
+		announcementRepository.insertAnnouncement(announcement);
+		insertAttachFiles(mf, announcement.getBoardIdx());
+		return announcement.getBoardIdx();
 	}
 	
 	/**
@@ -102,30 +102,30 @@ public class AnnouncementSPService {
 				String savePath = uploadPath + File.separator + attachFile.getFileName();
 				mf.get(i).transferTo(new File(savePath));
 				//DB에 파일정보 저장
-				announcementSPRepository.insertAttachFile(attachFile);
+				announcementRepository.insertAttachFile(attachFile);
 			}
 		}
 	}
 	
-	public void removeAnnouncementByIdx(int idx) {
-		announcementSPRepository.deleteCommentByBoardIdx(idx);
-		announcementSPRepository.deleteAnnouncement(idx);
+	public int removeAnnouncementByIdx(int idx) {
+		announcementRepository.deleteCommentByBoardIdx(idx);
+		return announcementRepository.deleteAnnouncement(idx);
 	}
 
-	public void setAnnouncementByIdx(int idx, Announcement announcement, List<MultipartFile> mf) throws IllegalStateException, IOException {
+	public int setAnnouncementByIdx(int idx, Announcement announcement, List<MultipartFile> mf) throws IllegalStateException, IOException {
 		insertAttachFiles(mf, idx);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("idx", idx);
 		paramMap.put("announcement", announcement);
-		announcementSPRepository.updateAnnouncement(paramMap);
+		return announcementRepository.updateAnnouncement(paramMap);
 	}
 
 	public List<AttachFile> getAttachFiles(int idx) {
-		return announcementSPRepository.findAttachFiles(idx);
+		return announcementRepository.findAttachFiles(idx);
 	}
 
-	public void setFileDownloadCount(int fileIdx) {
-		announcementSPRepository.updateFileDownloadCount(fileIdx);
+	public int setFileDownloadCount(int fileIdx) {
+		return announcementRepository.updateFileDownloadCount(fileIdx);
 	}
 	
 	/**
@@ -137,10 +137,10 @@ public class AnnouncementSPService {
 		return new File(uploadPath + File.separator + fileName);
 	}
 
-	public void removeAttachFileByFileIdx(int fileIdx) {
-		AttachFile attachFile = announcementSPRepository.findAttachFile(fileIdx);
+	public int removeAttachFileByFileIdx(int fileIdx) {
+		AttachFile attachFile = announcementRepository.findAttachFile(fileIdx);
 		deleteAttachFile(attachFile);
-		announcementSPRepository.deleteAttachFileByFileIdx(fileIdx);
+		return announcementRepository.deleteAttachFileByFileIdx(fileIdx);
 	}
 	
 	/**
@@ -159,14 +159,14 @@ public class AnnouncementSPService {
 		paramMap.put("idx", idx);
 		paramMap.put("content", commentContent);
 		paramMap.put("memberId", memberId);
-		announcementSPRepository.insertComment(paramMap);
+		announcementRepository.insertComment(paramMap);
 	}
 
 	public List<Comment> getComments(int idx) {
-		return announcementSPRepository.findCommentsByIdx(idx);
+		return announcementRepository.findCommentsByIdx(idx);
 	}
 
-	public void removeCommentByCommentIdx(int commentIdx) {
-		announcementSPRepository.deleteCommentByCommentIdx(commentIdx);
+	public int removeCommentByCommentIdx(int commentIdx) {
+		return announcementRepository.deleteCommentByCommentIdx(commentIdx);
 	}
 }

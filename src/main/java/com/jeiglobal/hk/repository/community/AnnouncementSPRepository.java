@@ -1,4 +1,4 @@
-package com.jeiglobal.hk.repository.fa.community;
+package com.jeiglobal.hk.repository.community;
 
 import java.util.*;
 
