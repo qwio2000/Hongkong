@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.builders.*;
 import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.web.savedrequest.*;
 
-import com.jeiglobal.hk.auth.*;
+import com.jeiglobal.hk.common.auth.*;
 
 /**
  * 클래스명 : SecurityConfig.java
