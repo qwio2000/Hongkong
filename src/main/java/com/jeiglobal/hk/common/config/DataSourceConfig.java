@@ -15,15 +15,15 @@ import org.springframework.transaction.*;
 import com.jeiglobal.hk.repository.common.*;
 
 /**
+ * 
  * 클래스명 : DataSourceConfig.java
  *
- * 버전 정보 : 1.0
+ * 작성일 : 2015. 9. 7.
  *
  * 작성자 : 전승엽(IT지원팀)
  * 
- * DB 설정
+ * DB 정보
  */
-
 @Configuration
 public class DataSourceConfig{
 	

@@ -6,7 +6,7 @@ import lombok.*;
  * 
  * 클래스명 : PageUtil.java
  *
- * 버전 정보 : 1.0
+ * 작성일 : 2015. 9. 7.
  *
  * 작성자 : 전승엽(IT지원팀)
  * 
@@ -15,7 +15,6 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode
 public class PageUtil {
 	
 	private int pageNum;

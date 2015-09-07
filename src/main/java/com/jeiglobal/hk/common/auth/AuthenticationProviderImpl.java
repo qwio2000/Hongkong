@@ -15,7 +15,7 @@ import com.jeiglobal.hk.service.common.auth.*;
  * 
  * 클래스명 : AuthenticationProviderImpl.java
  *
- * 버전 정보 : 1.0
+ * 작성일 : 2015. 9. 7.
  *
  * 작성자 : 전승엽(IT지원팀)
  * 
@@ -28,7 +28,6 @@ import com.jeiglobal.hk.service.common.auth.*;
  * 	3-1. 입력한 PW와 DB값과 같지 않은 경우 BadCredentialsException을 발생
  * 4. 해당 사용자의 권한 정보를 DB에서 가져옴
  * 5. 사용자 정보와 권한 정보를 UsernamePasswordAuthenticationToken 객체에 담아서 리턴
- *  
  */
 @Component
 public class AuthenticationProviderImpl implements AuthenticationProvider {

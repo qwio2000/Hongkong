@@ -10,9 +10,10 @@ import org.springframework.security.web.savedrequest.*;
 import com.jeiglobal.hk.common.auth.*;
 
 /**
+ * 
  * 클래스명 : SecurityConfig.java
  *
- * 버전 정보 : 1.0
+ * 작성일 : 2015. 9. 7.
  *
  * 작성자 : 전승엽(IT지원팀)
  * 

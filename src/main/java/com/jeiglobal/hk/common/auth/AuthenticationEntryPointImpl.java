@@ -13,11 +13,9 @@ import org.springframework.stereotype.*;
  * 
  * 클래스명 : AuthenticationEntryPointImpl.java
  *
- * 버전 정보 : 1.0
+ * 작성일 : 2015. 9. 7.
  *
  * 작성자 : 전승엽(IT지원팀)
- * 
- * 인증을 받지 않은 사용자가 인증이 필요한 페이지에 접근할 경우 loginForm으로 리다이렉트 시켜주는 역할
  * 
  * 1. loginForm 경로 설정
  * 2. 사용자가 요청한 Url 경로를 encoding
