@@ -43,11 +43,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		cookie1.setMaxAge(0);
 		response.addCookie(cookie1);
 		
-		Cookie cookie2 = new Cookie("LoginLang","");
-		cookie2.setPath("/");
-		cookie2.setMaxAge(0);
-		response.addCookie(cookie2);
-		
 		response.sendRedirect(request.getContextPath()+"/login");
 	}
 

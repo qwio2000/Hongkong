@@ -45,11 +45,11 @@
 					</dl>
 						<fieldset>
 							<legend>JEI GLOBAL</legend>
-							<p>
-								<input type="radio" name="loginLang" value="E" checked="checked" id="EnglishId" /><label for="EnglishId">English</label>
-								<input type="radio" name="loginLang" value="K" id="koreanId"/><label for="koreanId">Korean</label>
-								<input type="radio" name="loginLang" value="C" id="ChineseId" /><label for="ChineseId">Chinese</label>
-							</p>
+<!-- 							<p> -->
+<!-- 								<input type="radio" name="loginLang" value="E" checked="checked" id="EnglishId" /><label for="EnglishId">English</label> -->
+<!-- 								<input type="radio" name="loginLang" value="K" id="koreanId"/><label for="koreanId">Korean</label> -->
+<!-- 								<input type="radio" name="loginLang" value="C" id="ChineseId" /><label for="ChineseId">Chinese</label> -->
+<!-- 							</p> -->
 							<div>
 								<p><input type="text" placeholder="아이디" name="memberId" maxlength="10" /></p>
 								<p><input type="password" placeholder="비밀번호"  name="memberPassword" maxlength="100"/></p>

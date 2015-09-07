@@ -37,12 +37,8 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 			HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		LoginInfo member = (LoginInfo)authentication.getPrincipal();
-		String loginLang = request.getParameter("loginLang");
-		if(loginLang == null || loginLang.isEmpty()){
-			loginLang = "E";
-		}
 				
-		addAuthCookie(response, authentication,loginLang);
+		addAuthCookie(response, authentication);
 		String retUrl = request.getParameter("returl");
 		if(retUrl == null || retUrl.isEmpty()){
 			if("JA".equalsIgnoreCase(member.getEmpKeyLvCD())){
@@ -58,7 +54,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 	}
 	
 	
-	private void addAuthCookie(HttpServletResponse response,Authentication authentication,String loginLang){
+	private void addAuthCookie(HttpServletResponse response,Authentication authentication){
 		LoginInfo member = (LoginInfo)authentication.getPrincipal();
 		
 		StandardPasswordEncoder standrdPasswordEncoder = new StandardPasswordEncoder();
@@ -75,10 +71,6 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 			Cookie cookie1 = new Cookie("AUTHId",URLEncoder.encode(authId,"utf-8"));
 			cookie1.setPath("/");
 			response.addCookie(cookie1);
-			
-			Cookie cookie2 = new Cookie("LoginLang",URLEncoder.encode(loginLang,"utf-8"));
-			cookie2.setPath("/");
-			response.addCookie(cookie2);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
