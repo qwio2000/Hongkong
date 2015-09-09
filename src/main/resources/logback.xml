@@ -21,6 +21,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
+        	<charset>UTF-8</charset>
             <Pattern>
             	%d{yyyy-MM-dd HH:mm} %-5level %logger{36} - %msg%n
             </Pattern>
