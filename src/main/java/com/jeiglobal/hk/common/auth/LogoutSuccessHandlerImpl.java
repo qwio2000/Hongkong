@@ -46,7 +46,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		cookie1.setMaxAge(0);
 		response.addCookie(cookie1);
 
-		response.sendRedirect(globalbmsUrl+"/login");
+		response.sendRedirect(globalbmsUrl+"/logout");
 		
 	}
 
