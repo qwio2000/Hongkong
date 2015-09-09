@@ -50,6 +50,7 @@ public class HomeController {
 		LOGGER.debug("Getting JA Layout Page");
 		return "common/layout";
 	}
+
 	/**
 	 * favicon.ico 요청 시 No Mapping Log 방지하기 위해 만듬 
 	 */

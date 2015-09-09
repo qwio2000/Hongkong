@@ -49,7 +49,6 @@ public class SecurityContextRepositoryImpl implements SecurityContextRepository{
 		contextRep = new HttpSessionSecurityContextRepository();
 		ctx = contextRep.loadContext(requestResponseHolder);
 		if(ctx.getAuthentication() == null){
-			
 			Map<String,Object> map = new HashMap<String, Object>();
 			
 			map = getAuthCookieValue(requestResponseHolder.getRequest());
