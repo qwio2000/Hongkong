@@ -48,7 +48,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		cookie1.setDomain(".jei-global.com");
 		response.addCookie(cookie1);
 
-		response.sendRedirect(globalbmsUrl+"/login");
+		response.sendRedirect(globalbmsUrl+"/logout");
 		
 	}
 
