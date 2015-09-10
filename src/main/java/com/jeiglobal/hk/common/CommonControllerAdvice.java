@@ -1,5 +1,7 @@
 package com.jeiglobal.hk.common;
 
+import javax.servlet.http.*;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.*;
 import org.springframework.web.bind.annotation.*;
@@ -30,4 +32,35 @@ public class CommonControllerAdvice {
 	public String getGlobalbmsUrl(){
 		return globalbmsUrl;
 	}
+	
+	@ModelAttribute("jisaAuthInfo")
+	public Authority getJisaAuthInfo(HttpServletRequest request){
+		Cookie[] cookies = request.getCookies();
+		String id = "";
+		String key = "";
+		for (Cookie cookie : cookies) {
+			if("JisaAUTHId".equals(cookie.getName())){
+				id = cookie.getValue();
+			}else if("JisaAUTHKey".equals(cookie.getName())){
+				key = cookie.getValue();
+			}
+		}
+		return (id.isEmpty() || id == null || key.isEmpty() || key == null)  ? null : new Authority(id, key);
+	}
+	
+	@ModelAttribute("bmsAuthInfo")
+	public Authority getBmsAuthInfo(HttpServletRequest request){
+		Cookie[] cookies = request.getCookies();
+		String id = "";
+		String key = "";
+		for (Cookie cookie : cookies) {
+			if("BmsAUTHId".equals(cookie.getName())){
+				id = cookie.getValue();
+			}else if("BmsAUTHKey".equals(cookie.getName())){
+				key = cookie.getValue();
+			}
+		}
+		return (id.isEmpty() || id == null || key.isEmpty() || key == null)  ? null : new Authority(id, key);
+	}
+
 }

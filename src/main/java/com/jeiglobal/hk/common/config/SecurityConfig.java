@@ -26,8 +26,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private AuthenticationProviderImpl authenticationProvider;
 	@Autowired
-	private AuthenticationFailureHandlerImpl authenticationFailureHandler;
-	@Autowired
 	private AuthenticationEntryPointImpl authenticationEntryPoint;	
 	@Autowired
 	private LogoutSuccessHandlerImpl logoutSuccessHandler;
@@ -53,20 +51,11 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 				.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/login","/").permitAll()
-				.antMatchers("/adminManager/**").hasAuthority("SUPERADMIN")
+				.antMatchers("/returnjisa","/returnbms").permitAll()
 				.anyRequest().authenticated()
-			.and()
-				.formLogin()
-					.usernameParameter("memberId")
-					.passwordParameter("memberPassword")
-					.loginProcessingUrl("/loginCheck")
-					.failureHandler(authenticationFailureHandler)
-					.permitAll()
 			.and()
 				.logout()
 					.logoutUrl("/logout")
-					.logoutSuccessUrl("/login")
 					.logoutSuccessHandler(logoutSuccessHandler)
 					.permitAll()
 			.and()

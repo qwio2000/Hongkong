@@ -1,5 +1,7 @@
 <#-- @ftlvariable name="loginInfo" type="com.jeiglobal.hk.domain.auth.LoginInfo" -->
 <#-- @ftlvariable name="globalbmsUrl" type="java.lang.String" -->
+<#-- @ftlvariable name="jisaAuthInfo" type="com.jeiglobal.hk.auth.Authority" -->
+<#-- @ftlvariable name="bmsAuthInfo" type="com.jeiglobal.hk.auth.Authority" -->
 <#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
 <!DOCTYPE html>
 <html lang="ko">
