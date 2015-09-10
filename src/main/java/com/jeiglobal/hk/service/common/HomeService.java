@@ -1,4 +1,6 @@
-package com.jeiglobal.hk.controller.common;
+package com.jeiglobal.hk.service.common;
+
+import java.util.*;
 
 import javax.servlet.http.*;
 
@@ -21,7 +23,8 @@ public class HomeService {
 	
 	@Value("${cookieShare.domain}")
 	private String cookieDomain;
-	/**
+	
+	/** 로그인 하고자 하는 값으로 쿠키 값 변경 작업
 	 * @param jisaAuthId
 	 * @param jisaAuthKey
 	 * @param response void
@@ -31,12 +34,15 @@ public class HomeService {
 		CommonUtils.addCookie("AUTHKey", jisaAuthKey, cookieDomain, response);
 		CommonUtils.addCookie("AUTHId", jisaAuthId, cookieDomain, response);
 	}
-	/**
+	
+	/** 쿠키 삭제
+	 * @param removeCookieName 
 	 * @param response void
 	 */
-	public void removeCookieValue(HttpServletResponse response) {
-		CommonUtils.removeCookie("JisaAUTHId", cookieDomain, response);
-		CommonUtils.removeCookie("JisaAUTHKey", cookieDomain, response);
+	public void removeCookieValue(List<String> removeCookieName, HttpServletResponse response) {
+		for (String cookieName : removeCookieName) {
+			CommonUtils.removeCookie(cookieName, cookieDomain, response);
+		}
 	}
 	
 }

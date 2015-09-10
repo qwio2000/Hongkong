@@ -41,6 +41,20 @@ public class CenterController {
 		return "center/centers";
 	}
 	
+	/**
+	 * 지사에서 가맹점으로 로그인 할 경우 로그인 처리
+	 * 1. 현재 쿠키(AUTHId, AUTHKey)를 다른 쿠키(JisaAUTHId, JisaAUTHKey)에 백업
+	 * 2. 로그인 하고자 하는 지사 정보를 AUTHId, AUTHKey로 쿠키 값 변경
+	 * 3. Security Context에 위치한 Authentication을 제거
+	 * 4. Redirect 요청시 파라미터가 붙지 않도록 model clear
+	 * @param memberId 로그인 하고자 하는 가맹점 아이디
+	 * @param AuthId 현재 인증 정보를 담고 있는 쿠키의 AUTHId 값
+	 * @param AuthKey 현재 인증 정보를 담고 있는 쿠키의 AUTHKey 값
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return 가맹점 계층으로 Redirect
+	 */
 	@RequestMapping(value="/login",method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getFALogin(String memberId, 
 			@CookieValue(value="AUTHId") String AuthId, 
