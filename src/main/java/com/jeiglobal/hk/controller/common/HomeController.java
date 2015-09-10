@@ -25,21 +25,6 @@ public class HomeController {
 	@Autowired
 	private MessageSourceAccessor messageSource;// message 사용
 
-	@RequestMapping(value={"/","/login"})
-	public String getLoginPage(Model model, 
-			@RequestParam(value="error", required=false) String error,
-			@RequestParam(value="returl", required=false) String returl) {
-		if(error != null) {
-    		model.addAttribute("error",error);
-    		LOGGER.debug("Getting login page, error={}", error);
-    	}else{
-    		LOGGER.debug("Getting Login Page");
-    	}
-		model.addAttribute("returl", returl);
-		LOGGER.debug("### Return Url : {}", returl);
-		return "common/login";
-	}
-
 	@RequestMapping(value={"/fa/members","/fa/diagnosis","/fa/inventory","/fa/accounting","/fa/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getLayoutPage() {
 		LOGGER.debug("Getting Layout Page");

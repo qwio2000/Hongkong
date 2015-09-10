@@ -1,7 +1,15 @@
 	<!-- header -->
+	<#if loginInfo??>
+		<#assign permLevel = loginInfo.empKeyLvCD?lower_case>
+		<#if permLevel == "fa">
+			<#assign url = '/' + permLevel + '/members'/>
+		<#elseif permLevel == "ja">
+			<#assign url = '/' + permLevel + '/centers'/>
+		</#if>
+	</#if>
 	<div id="header">
 		<div class="content">
-			<h1 class="logo"><a href="/"><img src="/public/img/common/logo_header.gif" alt="재능Global" /></a></h1>
+			<h1 class="logo"><a href="${url }"><img src="/public/img/common/logo_header.gif" alt="재능Global" /></a></h1>
 			<div class="notice">
 			</div>
 			<div class="login-info">

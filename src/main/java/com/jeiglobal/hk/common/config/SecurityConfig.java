@@ -26,8 +26,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private AuthenticationProviderImpl authenticationProvider;
 	@Autowired
-	private AuthenticationSuccessHandlerImpl authenticationSuccessHandler;	
-	@Autowired
 	private AuthenticationFailureHandlerImpl authenticationFailureHandler;
 	@Autowired
 	private AuthenticationEntryPointImpl authenticationEntryPoint;	
@@ -63,7 +61,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.usernameParameter("memberId")
 					.passwordParameter("memberPassword")
 					.loginProcessingUrl("/loginCheck")
-					.successHandler(authenticationSuccessHandler)
 					.failureHandler(authenticationFailureHandler)
 					.permitAll()
 			.and()
