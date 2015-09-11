@@ -71,7 +71,7 @@ public class AnnouncementSPService {
 	}
 
 	public int addAnnouncement(Announcement announcement, List<MultipartFile> mf, LoginInfo loginInfo) throws IllegalStateException, IOException {
-		announcement.setMemberId(loginInfo.getMemberId());
+		announcement.setMemberId(loginInfo.getUserId());
 		int lastInsertIdx = announcementSPRepository.insertAnnouncement(announcement);
 		insertAttachFiles(mf, lastInsertIdx);
 		return lastInsertIdx;

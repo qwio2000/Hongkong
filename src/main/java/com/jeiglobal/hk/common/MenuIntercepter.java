@@ -47,7 +47,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		String currentUrl = request.getRequestURI();
-		List<GlobalMenu> menuList = menuService.menuList(0,loginInfo.getJisaCD(),loginInfo.getEmpKeyLvCD(),loginInfo.getDepMngCD(),"1");
+		List<GlobalMenu> menuList = menuService.menuList(0,loginInfo.getJisaCD(),loginInfo.getUserType(),loginInfo.getUserLevel(),"1");
 		List<GlobalMenu> leftMenuList = new ArrayList<GlobalMenu>();
 		List<GlobalMenu> headerMenuList = new ArrayList<GlobalMenu>();
 		if(menuList == null){
@@ -85,6 +85,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 						Integer.parseInt(arg0.getMMenuCode()) > Integer.parseInt(arg1.getMMenuCode()) ? 1:0;
 				}
 			});
+			
 			int menuCodeCnt = menuCode.length();
 			
 			if(!menuCode.isEmpty()){
@@ -120,7 +121,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 					}
 				}
 				if(t){
-					LOGGER.debug("관리자 권한 Login User = {}", loginInfo.getMemberId());
+					LOGGER.debug("관리자 권한 Login User = {}", loginInfo.getUserId());
 					return true;
 				}else{
 					PrintWriter writer = response.getWriter();

@@ -58,6 +58,8 @@ public class AnnouncementService {
 		paramMap.put("endRow", endRow);
 		paramMap.put("searchField", searchField);
 		paramMap.put("searchValue", searchValue);
+		System.out.println("'"+searchField+"'");
+		System.out.println("'"+searchValue+"'");
 		return announcementRepository.findAnnouncements(paramMap);
 	}
 	
@@ -71,7 +73,7 @@ public class AnnouncementService {
 	}
 
 	public int addAnnouncement(Announcement announcement, List<MultipartFile> mf, LoginInfo loginInfo) throws IllegalStateException, IOException {
-		announcement.setMemberId(loginInfo.getMemberId());
+		announcement.setMemberId(loginInfo.getUserId());
 		announcementRepository.insertAnnouncement(announcement);
 		insertAttachFiles(mf, announcement.getBoardIdx());
 		return announcement.getBoardIdx();

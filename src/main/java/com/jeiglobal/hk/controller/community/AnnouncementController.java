@@ -64,6 +64,7 @@ public class AnnouncementController {
 			@RequestParam(value="searchValue", required=false) String searchValue){
 		LOGGER.debug("Getting Notices List Articles searchField : {}, searchValue : {}", searchField, searchValue);
 		int totalRowCnt = announcementService.getArticleCnt(searchField, searchValue);
+		LOGGER.debug("count : {}", totalRowCnt);
 		//페이징 처리에 사용하는 유틸 클래스
 		PageUtil pageUtil = new	PageUtil(pageNum, totalRowCnt, PAGE_SIZE, PAGE_BLOCK_SIZE);
 		
@@ -235,7 +236,7 @@ public class AnnouncementController {
 			@ModelAttribute LoginInfo loginInfo,
 			Locale locale) {
 		LOGGER.debug("Adding Comment : idx = {} : User = {}", idx, loginInfo);
-		announcementService.addComment(idx, commentContent, loginInfo.getMemberId());
+		announcementService.addComment(idx, commentContent, loginInfo.getUserId());
 		String alertMsg = "";
 		Object[] MessageArgs = {"등록"};
 		LOGGER.info("Comment Insert Success : boardIdx = {}", idx);

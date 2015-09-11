@@ -1,6 +1,6 @@
 <!-- header -->
 <#if loginInfo??>
-	<#assign permLevel = loginInfo.empKeyLvCD?lower_case>
+	<#assign permLevel = loginInfo.userType?lower_case>
 	<#if permLevel == "fa">
 		<#assign url = '/' + permLevel + '/members'/>
 	<#elseif permLevel == "ja">
@@ -11,11 +11,6 @@
 	<div class="content">
 		<h1 class="logo"><a href="${url }"><img src="/public/img/common/logo_header.gif" alt="재능Global" /></a></h1>
 	<div class="login-info">
-		<@security.authorize ifAnyGranted="SUPERADMIN">
-		<div class="btn-join-state">
-			<a href="/adminManager/menuIndex"><img src="/public/img/common/btn_go.gif" alt="메뉴관리" /></a>
-		</div>
-		</@security.authorize>
 		<#if bmsAuthInfo??>
 		<div class="btn-join-state">
 			<span>

@@ -210,7 +210,7 @@ public class AnnouncementSPController {
 			@ModelAttribute LoginInfo loginInfo,
 			Locale locale) {
 		LOGGER.debug("Adding Comment : idx = {} : User = {}", idx, loginInfo);
-		announcementSPService.addComment(idx, commentContent, loginInfo.getMemberId());
+		announcementSPService.addComment(idx, commentContent, loginInfo.getUserId());
 		String alertMsg = "";
 		Object[] MessageArgs = {"등록"};
 		LOGGER.info("Comment Insert Success : boardIdx = {}", idx);

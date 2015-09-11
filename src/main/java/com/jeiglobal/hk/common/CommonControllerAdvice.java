@@ -34,7 +34,7 @@ public class CommonControllerAdvice {
 	}
 	
 	@ModelAttribute("jisaAuthInfo")
-	public Authority getJisaAuthInfo(HttpServletRequest request){
+	public String getJisaAuthInfo(HttpServletRequest request){
 		Cookie[] cookies = request.getCookies();
 		String id = "";
 		String key = "";
@@ -45,11 +45,11 @@ public class CommonControllerAdvice {
 				key = cookie.getValue();
 			}
 		}
-		return (id.isEmpty() || id == null || key.isEmpty() || key == null)  ? null : new Authority(id, key);
+		return (id.isEmpty() || id == null || key.isEmpty() || key == null)  ? null : id;
 	}
 	
 	@ModelAttribute("bmsAuthInfo")
-	public Authority getBmsAuthInfo(HttpServletRequest request){
+	public String getBmsAuthInfo(HttpServletRequest request){
 		Cookie[] cookies = request.getCookies();
 		String id = "";
 		String key = "";
@@ -60,7 +60,7 @@ public class CommonControllerAdvice {
 				key = cookie.getValue();
 			}
 		}
-		return (id.isEmpty() || id == null || key.isEmpty() || key == null)  ? null : new Authority(id, key);
+		return (id.isEmpty() || id == null || key.isEmpty() || key == null)  ? null : id;
 	}
 
 }

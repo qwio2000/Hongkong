@@ -104,7 +104,7 @@
 								<th>${comment.memberId }<br/>${comment.commentRegDate}</th>
 								<td colspan="2"><div class="td-left">${comment.commentContent }</div></td>
 								<td>
-								<#if loginInfo.memberId == comment.memberId >
+								<#if loginInfo.userId == comment.memberId >
 									<span class="button btn-type-C">
 										<a href="javascript:$.commentDelete('${comment.commentIdx }');">삭제</a>
 									</span>
@@ -115,7 +115,7 @@
 						</tbody>
 					</table>
 					<div class="mgt-20">
-					<#if loginInfo.memberId == article.memberId >
+					<#if loginInfo.userId == article.memberId >
 						<span class="button btn-type-J">
 							<a href="/fa/community/announcements/${article.boardIdx }/edit">수정</a>
 						</span>

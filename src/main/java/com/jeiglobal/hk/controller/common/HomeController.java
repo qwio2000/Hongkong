@@ -106,7 +106,7 @@ public class HomeController {
 		List<String> removeCookieName = new ArrayList<>();
 		removeCookieName.add("BmsAUTHId");
 		removeCookieName.add("BmsAUTHKey");
-		if("FA".equalsIgnoreCase(loginInfo.getEmpKeyLvCD())){
+		if("FA".equalsIgnoreCase(loginInfo.getUserType())){
 			removeCookieName.add("JisaAUTHId");
 			removeCookieName.add("JisaAUTHKey");
 		}
