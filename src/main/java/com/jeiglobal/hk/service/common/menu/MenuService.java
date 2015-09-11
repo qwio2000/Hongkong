@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
@@ -459,5 +460,11 @@ public class MenuService {
 
 		return menuRepository.findByMDepth(map);
 	}
+
+	/**
+	 *  void
+	 */
+	@CacheEvict(value="menuCache", allEntries=true)
+	public void removeCache() {}
 	
 }

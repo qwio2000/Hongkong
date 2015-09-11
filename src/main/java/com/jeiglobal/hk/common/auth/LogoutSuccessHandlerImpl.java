@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.logout.*;
 import org.springframework.stereotype.*;
 
 import com.jeiglobal.hk.service.common.auth.*;
+import com.jeiglobal.hk.service.common.menu.*;
 import com.jeiglobal.hk.utils.*;
 /**
  * 
@@ -31,6 +32,9 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 	@Autowired
 	private AuthoritiesService authoritiesService;
 	
+	@Autowired
+	private MenuService menuService;
+	
 	@Value("${serverurl.globalbms}")
 	private String globalbmsUrl;
 	
@@ -41,6 +45,8 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 	public void onLogoutSuccess(HttpServletRequest request,
 			HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
+		//logout시 menuCache 제거
+		menuService.removeCache();
 		if(request.getCookies() != null && request.getCookies().length > 0){
 			List<Cookie> cookies = Arrays.asList(request.getCookies());
 			for (Cookie cookie : cookies) {

@@ -2,7 +2,6 @@ package com.jeiglobal.hk.common.config;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
-import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.*;
 import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.web.savedrequest.*;
@@ -24,20 +23,12 @@ import com.jeiglobal.hk.common.auth.*;
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private AuthenticationProviderImpl authenticationProvider;
-	@Autowired
 	private AuthenticationEntryPointImpl authenticationEntryPoint;	
 	@Autowired
 	private LogoutSuccessHandlerImpl logoutSuccessHandler;
 	@Autowired
 	private SecurityContextRepositoryImpl securityContextRepository;
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth)
-		throws Exception {
-		auth.authenticationProvider(authenticationProvider);
-	}
-	
+
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		//아래 패턴과 같은 요청이 들어오면 시큐리티 적용 안하고 무시
