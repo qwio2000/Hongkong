@@ -2,21 +2,18 @@ package com.jeiglobal.hk.common.exception;
 
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.*;
 
-import org.slf4j.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.web.ErrorAttributes;
-import org.springframework.boot.autoconfigure.web.ErrorController;
-import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.*;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.boot.autoconfigure.web.*;
+import org.springframework.context.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.*;
 
 import com.jeiglobal.hk.utils.*;
 /**
@@ -33,10 +30,10 @@ import com.jeiglobal.hk.utils.*;
  * 404 => java/main/resource/template/error/error404.ftl
  * 그 외 => java/main/resource/template/error/error500.ftl
  */
+@Slf4j
 @Controller
 public class ErrorHandler implements ErrorController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ErrorHandler.class);
 	private final String ERROR_VIEW_PATH = "/common/error/";
 	private String errorPath;
 	private ErrorAttributes errorAttributes;
@@ -49,7 +46,7 @@ public class ErrorHandler implements ErrorController {
 		Iterator<String> keys = body.keySet().iterator();
 		while (keys.hasNext()) {
 			String key = keys.next();
-			LOGGER.debug("Key : {}, Value : {}",key, body.get(key));
+			log.debug("Key : {}, Value : {}",key, body.get(key));
 		}
 		String view = ERROR_VIEW_PATH;
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -62,7 +59,7 @@ public class ErrorHandler implements ErrorController {
 		if(message != null) {
 			body.put("message", message);
 		}
-		LOGGER.error("Error Status : {}, Message : {}", status, message);
+		log.error("Error Status : {}, Message : {}", status, message);
 		model.addAttribute("error", status.getReasonPhrase());
 		model.addAttribute("message", message);
 		if(HttpStatus.NOT_FOUND.equals(status)){

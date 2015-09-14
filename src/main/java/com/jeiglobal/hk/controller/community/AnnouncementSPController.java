@@ -3,7 +3,8 @@ package com.jeiglobal.hk.controller.community;
 import java.io.*;
 import java.util.*;
 
-import org.slf4j.*;
+import lombok.extern.slf4j.*;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
@@ -26,12 +27,11 @@ import com.jeiglobal.hk.utils.*;
  * 
  * [Community -> Announcement] Controller
  */
+@Slf4j
 @Controller
 @RequestMapping(value="/community/announcementsSP")
 public class AnnouncementSPController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AnnouncementSPController.class);
-	
 	//페이징 범위
 	private static final int PAGE_BLOCK_SIZE = 10;
 	//한 페이지에 출력할 게시물 개수
@@ -46,7 +46,7 @@ public class AnnouncementSPController {
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getAnnouncementsPage(Model model, @RequestParam(defaultValue="1") int pageNum){
-		LOGGER.debug("Getting Notices List Page");
+		log.debug("Getting Notices List Page");
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("announcementSP");
 		model.addAttribute("headerScript", headerScript);
@@ -60,7 +60,7 @@ public class AnnouncementSPController {
 			@PathVariable int pageNum,
 			@RequestParam(value="searchField", required=false) String searchField,
 			@RequestParam(value="searchValue", required=false) String searchValue){
-		LOGGER.debug("Getting Notices List Articles searchField : {}, searchValue : {}", searchField, searchValue);
+		log.debug("Getting Notices List Articles searchField : {}, searchValue : {}", searchField, searchValue);
 		int totalRowCnt = announcementSPService.getArticleCnt(searchField, searchValue);
 		PageUtil pageUtil = new	PageUtil(pageNum, totalRowCnt, PAGE_SIZE, PAGE_BLOCK_SIZE);
 		
@@ -74,7 +74,7 @@ public class AnnouncementSPController {
 	public String getAnnouncementPage(Model model,
 			@PathVariable int idx,
 			@RequestParam(defaultValue="1") int pageNum){
-		LOGGER.debug("Getting Announcement Content Page, Article No : {} ", idx);
+		log.debug("Getting Announcement Content Page, Article No : {} ", idx);
 		Announcement article = announcementSPService.getAnnouncementByIdx(idx);
 		List<Comment> comments = announcementSPService.getComments(idx);
 		List<String> headerScript = new ArrayList<String>();
@@ -88,7 +88,7 @@ public class AnnouncementSPController {
 	
 	@RequestMapping(value="/new", method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getAnnouncementWritePage(Model model){
-		LOGGER.debug("Getting Announcement Write Page");
+		log.debug("Getting Announcement Write Page");
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("announcementSP");
 		model.addAttribute("headerScript", headerScript);
@@ -102,15 +102,15 @@ public class AnnouncementSPController {
 			@ModelAttribute LoginInfo loginInfo,
 			Locale locale) throws Exception{
 		List<MultipartFile> mf = mreq.getFiles("attachFile");
-		LOGGER.debug("Adding Announcement : {}", announcement);
+		log.debug("Adding Announcement : {}", announcement);
 		int addIdx = announcementSPService.addAnnouncement(announcement, mf, loginInfo);
 		String alertMsg = "";
 		Object[] MessageArgs = {"등록"};//Message 출력시 사용할 Arguments
 		if(addIdx == 0) {
-			LOGGER.error("announcement Insert Error : {}", announcement);
+			log.error("announcement Insert Error : {}", announcement);
 			alertMsg = messageSource.getMessage("Community.Announcement.Error", MessageArgs, locale);
 		}else{
-			LOGGER.info("announcement Insert Success : boardIdx = {}", addIdx);
+			log.info("announcement Insert Success : boardIdx = {}", addIdx);
 			alertMsg = messageSource.getMessage("Community.Announcement.Success", MessageArgs, locale);
 		}
 		model.addAttribute("message", alertMsg);
@@ -121,7 +121,7 @@ public class AnnouncementSPController {
 	@RequestMapping(value="/{idx:[0-9]+}/edit",method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getAnnouncementEditForm(Model model,
 			@PathVariable int idx) {
-		LOGGER.debug("Getting Announcement Edit Form : idx = {}", idx);
+		log.debug("Getting Announcement Edit Form : idx = {}", idx);
 		Announcement announcement = announcementSPService.getAnnouncementByIdx(idx);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("announcementSP");
@@ -135,10 +135,10 @@ public class AnnouncementSPController {
 	public Map<String, Object> deleteAnnouncementJson(
 			@PathVariable int idx, 
 			Locale locale) {
-		LOGGER.debug("Deleting Announcement : idx = {}", idx);
+		log.debug("Deleting Announcement : idx = {}", idx);
 		announcementSPService.removeAnnouncementByIdx(idx);
 		Object[] MessageArgs = {"삭제"};
-		LOGGER.info("announcement Delete Success : idx = {}", idx);
+		log.info("announcement Delete Success : idx = {}", idx);
 		String alertMsg = messageSource.getMessage("Community.Announcement.Success", MessageArgs, locale);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msg", alertMsg);
@@ -151,11 +151,11 @@ public class AnnouncementSPController {
 			Announcement announcement,
 			MultipartHttpServletRequest mreq,
 			Locale locale) throws Exception {
-		LOGGER.debug("Editing Announcement : idx = {}, announcement = {}", idx, announcement);
+		log.debug("Editing Announcement : idx = {}, announcement = {}", idx, announcement);
 		List<MultipartFile> mf = mreq.getFiles("attachFile");
 		announcementSPService.setAnnouncementByIdx(idx, announcement, mf);
 		Object[] MessageArgs = {"수정"};
-		LOGGER.info("announcement Update Success : boardIdx = {}", idx);
+		log.info("announcement Update Success : boardIdx = {}", idx);
 		String alertMsg = messageSource.getMessage("Community.Announcement.Success", MessageArgs, locale);
 		model.addAttribute("message", alertMsg);
 		model.addAttribute("url", "/community/announcementsSP/"+idx);
@@ -177,9 +177,9 @@ public class AnnouncementSPController {
 			@PathVariable int fileIdx, 
 			String fileName, 
 			String fileOriginalName){
-		LOGGER.debug("fileDownload : {}", fileOriginalName);
+		log.debug("fileDownload : {}", fileOriginalName);
 		announcementSPService.setFileDownloadCount(fileIdx);
-		LOGGER.debug("fileDownloadCount Update Success");
+		log.debug("fileDownloadCount Update Success");
 		File downloadFile = announcementSPService.getDownloadFile(fileName);
 		ModelAndView mav = new ModelAndView("download", "downloadFile", downloadFile);
 		mav.addObject("fileOriginalName", fileOriginalName);
@@ -192,10 +192,10 @@ public class AnnouncementSPController {
 			@PathVariable int idx, 
 			@PathVariable int fileIdx, 
 			Locale locale) {
-		LOGGER.debug("Deleting AttachFile : idx = {}, fileIdx = {}", idx, fileIdx);
+		log.debug("Deleting AttachFile : idx = {}, fileIdx = {}", idx, fileIdx);
 		announcementSPService.removeAttachFileByFileIdx(fileIdx);
 		Object[] MessageArgs = {"삭제"};
-		LOGGER.info("announcement Delete Success : idx = {}", idx);
+		log.info("announcement Delete Success : idx = {}", idx);
 		String alertMsg = messageSource.getMessage("Community.Announcement.AttachFileSuccess", MessageArgs, locale);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msg", alertMsg);
@@ -209,11 +209,11 @@ public class AnnouncementSPController {
 			String commentContent,
 			@ModelAttribute LoginInfo loginInfo,
 			Locale locale) {
-		LOGGER.debug("Adding Comment : idx = {} : User = {}", idx, loginInfo);
+		log.debug("Adding Comment : idx = {} : User = {}", idx, loginInfo);
 		announcementSPService.addComment(idx, commentContent, loginInfo.getUserId());
 		String alertMsg = "";
 		Object[] MessageArgs = {"등록"};
-		LOGGER.info("Comment Insert Success : boardIdx = {}", idx);
+		log.info("Comment Insert Success : boardIdx = {}", idx);
 		alertMsg = messageSource.getMessage("Community.Announcement.CommentSuccess", MessageArgs, locale);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msg", alertMsg);
@@ -229,10 +229,10 @@ public class AnnouncementSPController {
 			@PathVariable int commentIdx, 
 			@ModelAttribute LoginInfo loginInfo,
 			Locale locale) {
-		LOGGER.debug("Deleting Comment : idx = {}, fileIdx = {}", idx, commentIdx);
+		log.debug("Deleting Comment : idx = {}, fileIdx = {}", idx, commentIdx);
 		announcementSPService.removeCommentByCommentIdx(commentIdx);
 		Object[] MessageArgs = {"삭제"};
-		LOGGER.info("Comment Delete Success : commentIdx = {}", commentIdx);
+		log.info("Comment Delete Success : commentIdx = {}", commentIdx);
 		String alertMsg = messageSource.getMessage("Community.Announcement.CommentSuccess", MessageArgs, locale);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("comments", announcementSPService.getComments(idx));

@@ -4,7 +4,8 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
-import org.slf4j.*;
+import lombok.extern.slf4j.*;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.web.context.*;
 import org.springframework.stereotype.*;
@@ -25,11 +26,10 @@ import com.jeiglobal.hk.utils.*;
  * 
  * HomeController
  */
+@Slf4j
 @Controller
 public class HomeController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
-	
 	@Autowired
 	private MessageSourceAccessor messageSource;// message 사용
 	
@@ -41,12 +41,12 @@ public class HomeController {
 
 	@RequestMapping(value={"/fa/members","/fa/diagnosis","/fa/inventory","/fa/accounting","/fa/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getLayoutPage() {
-		LOGGER.debug("Getting Layout Page");
+		log.debug("Getting Layout Page");
 		return "common/layout";
 	}
 	@RequestMapping(value={"/ja/members","/ja/inventory","/ja/accounting","/ja/community","/ja/leads","/ja/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getJALayoutPage() {
-		LOGGER.debug("Getting JA Layout Page");
+		log.debug("Getting JA Layout Page");
 		return "common/layout";
 	}
 	

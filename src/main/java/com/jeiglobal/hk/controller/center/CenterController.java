@@ -2,7 +2,8 @@ package com.jeiglobal.hk.controller.center;
 
 import javax.servlet.http.*;
 
-import org.slf4j.*;
+import lombok.extern.slf4j.*;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.web.context.*;
 import org.springframework.stereotype.*;
@@ -22,12 +23,11 @@ import com.jeiglobal.hk.utils.*;
  * 
  * [Centers] Controller
  */
+@Slf4j
 @Controller
 @RequestMapping(value="/ja/centers")
 public class CenterController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CenterController.class);
-	
 	@Autowired
 	private MessageSourceAccessor messageSource;// message 사용
 	
@@ -37,7 +37,7 @@ public class CenterController {
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCentersPage(){
-		LOGGER.debug("Getting Centers Page");
+		log.debug("Getting Centers Page");
 		return "center/centers";
 	}
 	

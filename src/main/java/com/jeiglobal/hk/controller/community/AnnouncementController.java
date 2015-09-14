@@ -3,7 +3,8 @@ package com.jeiglobal.hk.controller.community;
 import java.io.*;
 import java.util.*;
 
-import org.slf4j.*;
+import lombok.extern.slf4j.*;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
@@ -26,12 +27,11 @@ import com.jeiglobal.hk.utils.*;
  * 
  * [Community -> Announcement] Controller
  */
+@Slf4j
 @Controller
 @RequestMapping(value="/fa/community/announcements")
 public class AnnouncementController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AnnouncementController.class);
-	
 	//페이징 범위
 	private static final int PAGE_BLOCK_SIZE = 10;
 	//한 페이지에 출력할 게시물 개수
@@ -46,7 +46,7 @@ public class AnnouncementController {
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getAnnouncementsPage(Model model, @RequestParam(defaultValue="1") int pageNum){
-		LOGGER.debug("Getting Notices List Page");
+		log.debug("Getting Notices List Page");
 		//header에 포함할 스크립트 
 		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
 		List<String> headerScript = new ArrayList<String>();
@@ -62,9 +62,9 @@ public class AnnouncementController {
 			@PathVariable int pageNum,
 			@RequestParam(value="searchField", required=false) String searchField,
 			@RequestParam(value="searchValue", required=false) String searchValue){
-		LOGGER.debug("Getting Notices List Articles searchField : {}, searchValue : {}", searchField, searchValue);
+		log.debug("Getting Notices List Articles searchField : {}, searchValue : {}", searchField, searchValue);
 		int totalRowCnt = announcementService.getArticleCnt(searchField, searchValue);
-		LOGGER.debug("count : {}", totalRowCnt);
+		log.debug("count : {}", totalRowCnt);
 		//페이징 처리에 사용하는 유틸 클래스
 		PageUtil pageUtil = new	PageUtil(pageNum, totalRowCnt, PAGE_SIZE, PAGE_BLOCK_SIZE);
 		
@@ -78,7 +78,7 @@ public class AnnouncementController {
 	public String getAnnouncementPage(Model model,
 			@PathVariable int idx,
 			@RequestParam(defaultValue="1") int pageNum){
-		LOGGER.debug("Getting Announcement Content Page, Article No : {} ", idx);
+		log.debug("Getting Announcement Content Page, Article No : {} ", idx);
 		Announcement article = announcementService.getAnnouncementByIdx(idx);
 		List<Comment> comments = announcementService.getComments(idx);
 		List<String> headerScript = new ArrayList<String>();
@@ -92,7 +92,7 @@ public class AnnouncementController {
 	
 	@RequestMapping(value="/new", method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getAnnouncementWritePage(Model model){
-		LOGGER.debug("Getting Announcement Write Page");
+		log.debug("Getting Announcement Write Page");
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("announcement");
 		model.addAttribute("headerScript", headerScript);
@@ -106,15 +106,15 @@ public class AnnouncementController {
 			@ModelAttribute LoginInfo loginInfo,
 			Locale locale) throws Exception{
 		List<MultipartFile> mf = mreq.getFiles("attachFile");
-		LOGGER.debug("Adding Announcement : {}", announcement);
+		log.debug("Adding Announcement : {}", announcement);
 		int addIdx = announcementService.addAnnouncement(announcement, mf, loginInfo);
 		String alertMsg = "";
 		Object[] MessageArgs = {"등록"};//Message 출력시 사용할 Arguments
 		if(addIdx == 0) {
-			LOGGER.error("announcement Insert Error : {}", announcement);
+			log.error("announcement Insert Error : {}", announcement);
 			alertMsg = messageSource.getMessage("Community.Announcement.Error", MessageArgs, locale);
 		}else{
-			LOGGER.info("announcement Insert Success : boardIdx = {}", addIdx);
+			log.info("announcement Insert Success : boardIdx = {}", addIdx);
 			alertMsg = messageSource.getMessage("Community.Announcement.Success", MessageArgs, locale);
 		}
 		model.addAttribute("message", alertMsg);
@@ -125,7 +125,7 @@ public class AnnouncementController {
 	@RequestMapping(value="/{idx:[0-9]+}/edit",method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getAnnouncementEditForm(Model model,
 			@PathVariable int idx) {
-		LOGGER.debug("Getting Announcement Edit Form : idx = {}", idx);
+		log.debug("Getting Announcement Edit Form : idx = {}", idx);
 		Announcement announcement = announcementService.getAnnouncementByIdx(idx);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("announcement");
@@ -139,15 +139,15 @@ public class AnnouncementController {
 	public Map<String, Object> deleteAnnouncementJson(
 			@PathVariable int idx, 
 			Locale locale) {
-		LOGGER.debug("Deleting Announcement : idx = {}", idx);
+		log.debug("Deleting Announcement : idx = {}", idx);
 		int deleteRowCount = announcementService.removeAnnouncementByIdx(idx);
 		String alertMsg = "";
 		Object[] MessageArgs = {"삭제"};
 		if(deleteRowCount > 0) {
-			LOGGER.info("announcement Delete Success : idx = {}", idx);
+			log.info("announcement Delete Success : idx = {}", idx);
 			alertMsg = messageSource.getMessage("Community.Announcement.Success", MessageArgs, locale);
 		}else{
-			LOGGER.error("announcement Delete Error : idx = {}", idx);
+			log.error("announcement Delete Error : idx = {}", idx);
 			alertMsg = messageSource.getMessage("Community.Announcement.Error", MessageArgs,locale);
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -161,16 +161,16 @@ public class AnnouncementController {
 			Announcement announcement,
 			MultipartHttpServletRequest mreq,
 			Locale locale) throws Exception {
-		LOGGER.debug("Editing Announcement : idx = {}, announcement = {}", idx, announcement);
+		log.debug("Editing Announcement : idx = {}, announcement = {}", idx, announcement);
 		List<MultipartFile> mf = mreq.getFiles("attachFile");
 		int updateRowCount = announcementService.setAnnouncementByIdx(idx, announcement, mf);
 		String alertMsg = "";
 		Object[] MessageArgs = {"수정"};
 		if(updateRowCount > 0) {
-			LOGGER.info("announcement Update Success : boardIdx = {}", idx);
+			log.info("announcement Update Success : boardIdx = {}", idx);
 			alertMsg = messageSource.getMessage("Community.Announcement.Success", MessageArgs, locale);
 		}else{
-			LOGGER.error("announcement Update Error : {}", announcement);
+			log.error("announcement Update Error : {}", announcement);
 			alertMsg = messageSource.getMessage("Community.Announcement.Error", MessageArgs, locale);
 		}
 		model.addAttribute("message", alertMsg);
@@ -193,12 +193,12 @@ public class AnnouncementController {
 			@PathVariable int fileIdx, 
 			String fileName, 
 			String fileOriginalName){
-		LOGGER.debug("fileDownload : {}", fileOriginalName);
+		log.debug("fileDownload : {}", fileOriginalName);
 		int updateRowCount = announcementService.setFileDownloadCount(fileIdx);
 		if(updateRowCount > 0){
-			LOGGER.debug("fileDownloadCount Update Success");
+			log.debug("fileDownloadCount Update Success");
 		}else{
-			LOGGER.error("fileDownloadCount Update Fail");
+			log.error("fileDownloadCount Update Fail");
 		}
 		File downloadFile = announcementService.getDownloadFile(fileName);
 		ModelAndView mav = new ModelAndView("download", "downloadFile", downloadFile);
@@ -212,15 +212,15 @@ public class AnnouncementController {
 			@PathVariable int idx, 
 			@PathVariable int fileIdx, 
 			Locale locale) {
-		LOGGER.debug("Deleting AttachFile : idx = {}, fileIdx = {}", idx, fileIdx);
+		log.debug("Deleting AttachFile : idx = {}, fileIdx = {}", idx, fileIdx);
 		int deleteRowCount = announcementService.removeAttachFileByFileIdx(fileIdx);
 		String alertMsg = "";
 		Object[] MessageArgs = {"삭제"};
 		if(deleteRowCount > 0) {
-			LOGGER.info("announcement Delete Success : idx = {}", idx);
+			log.info("announcement Delete Success : idx = {}", idx);
 			alertMsg = messageSource.getMessage("Community.Announcement.AttachFileSuccess", MessageArgs, locale);
 		}else{
-			LOGGER.error("announcement Delete Error : idx = {}", idx);
+			log.error("announcement Delete Error : idx = {}", idx);
 			alertMsg = messageSource.getMessage("Community.Announcement.AttachFileError", MessageArgs,locale);
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -235,11 +235,11 @@ public class AnnouncementController {
 			String commentContent,
 			@ModelAttribute LoginInfo loginInfo,
 			Locale locale) {
-		LOGGER.debug("Adding Comment : idx = {} : User = {}", idx, loginInfo);
+		log.debug("Adding Comment : idx = {} : User = {}", idx, loginInfo);
 		announcementService.addComment(idx, commentContent, loginInfo.getUserId());
 		String alertMsg = "";
 		Object[] MessageArgs = {"등록"};
-		LOGGER.info("Comment Insert Success : boardIdx = {}", idx);
+		log.info("Comment Insert Success : boardIdx = {}", idx);
 		alertMsg = messageSource.getMessage("Community.Announcement.CommentSuccess", MessageArgs, locale);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msg", alertMsg);
@@ -255,15 +255,15 @@ public class AnnouncementController {
 			@PathVariable int commentIdx, 
 			@ModelAttribute LoginInfo loginInfo,
 			Locale locale) {
-		LOGGER.debug("Deleting Comment : idx = {}, fileIdx = {}", idx, commentIdx);
+		log.debug("Deleting Comment : idx = {}, fileIdx = {}", idx, commentIdx);
 		int deleteRowCount = announcementService.removeCommentByCommentIdx(commentIdx);
 		String alertMsg = "";
 		Object[] MessageArgs = {"삭제"};
 		if(deleteRowCount > 0) {
-			LOGGER.info("Comment Delete Success : commentIdx = {}", commentIdx);
+			log.info("Comment Delete Success : commentIdx = {}", commentIdx);
 			alertMsg = messageSource.getMessage("Community.Announcement.CommentSuccess", MessageArgs, locale);
 		}else{
-			LOGGER.error("Comment Delete Error : commentIdx = {}", commentIdx);
+			log.error("Comment Delete Error : commentIdx = {}", commentIdx);
 			alertMsg = messageSource.getMessage("Community.Announcement.CommentError", MessageArgs,locale);
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
