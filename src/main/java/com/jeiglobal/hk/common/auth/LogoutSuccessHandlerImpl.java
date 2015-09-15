@@ -11,8 +11,8 @@ import org.springframework.security.core.*;
 import org.springframework.security.web.authentication.logout.*;
 import org.springframework.stereotype.*;
 
-import com.jeiglobal.hk.service.common.auth.*;
-import com.jeiglobal.hk.service.common.menu.*;
+import com.jeiglobal.hk.service.auth.*;
+import com.jeiglobal.hk.service.menu.*;
 import com.jeiglobal.hk.utils.*;
 /**
  * 

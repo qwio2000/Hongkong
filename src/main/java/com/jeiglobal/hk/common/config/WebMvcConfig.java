@@ -73,7 +73,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// TODO Auto-generated method stub
 		registry.addResourceHandler("/public/js/**")
 		.addResourceLocations("/public/js/")
 		.setCachePeriod(31556926);
@@ -88,7 +87,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	//Interceptor 등록
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		// TODO Auto-generated method stub
 		registry.addInterceptor(menuIntercepter()).addPathPatterns("/**").excludePathPatterns("","/","/login","/public/**","/error","/favicon.ico","/returnjisa","/returnbms");
 	}
 	

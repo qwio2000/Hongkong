@@ -1,6 +1,6 @@
-package com.jeiglobal.hk.repository.common.auth;
+package com.jeiglobal.hk.repository.auth;
 
-import com.jeiglobal.hk.repository.common.*;
+import com.jeiglobal.hk.repository.*;
 
 /**
  * 

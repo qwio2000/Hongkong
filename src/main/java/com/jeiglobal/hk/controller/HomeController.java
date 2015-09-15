@@ -1,4 +1,4 @@
-package com.jeiglobal.hk.controller.common;
+package com.jeiglobal.hk.controller;
 
 import java.util.*;
 
@@ -13,7 +13,7 @@ import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.jeiglobal.hk.domain.auth.*;
-import com.jeiglobal.hk.service.common.*;
+import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.utils.*;
 
 /**
@@ -42,12 +42,12 @@ public class HomeController {
 	@RequestMapping(value={"/fa/members","/fa/diagnosis","/fa/inventory","/fa/accounting","/fa/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getLayoutPage() {
 		log.debug("Getting Layout Page");
-		return "common/layout";
+		return "layout";
 	}
 	@RequestMapping(value={"/ja/members","/ja/inventory","/ja/accounting","/ja/community","/ja/leads","/ja/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getJALayoutPage() {
 		log.debug("Getting JA Layout Page");
-		return "common/layout";
+		return "layout";
 	}
 	
 	/**

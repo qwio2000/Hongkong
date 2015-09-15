@@ -3,7 +3,7 @@ package com.jeiglobal.hk.repository.community;
 import java.util.*;
 
 import com.jeiglobal.hk.domain.community.*;
-import com.jeiglobal.hk.repository.common.*;
+import com.jeiglobal.hk.repository.*;
 
 /**
  * 

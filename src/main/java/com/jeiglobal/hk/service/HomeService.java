@@ -1,4 +1,4 @@
-package com.jeiglobal.hk.service.common;
+package com.jeiglobal.hk.service;
 
 import java.util.*;
 
@@ -16,7 +16,7 @@ import com.jeiglobal.hk.utils.*;
  *
  * 작성자 : 전승엽(IT지원팀)
  * 
- * 설명
+ * 홈 서비스
  */
 @Service
 public class HomeService {

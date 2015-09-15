@@ -1,4 +1,4 @@
-package com.jeiglobal.hk.service.common.auth;
+package com.jeiglobal.hk.service.auth;
 
 import java.util.*;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import com.jeiglobal.hk.domain.auth.*;
-import com.jeiglobal.hk.repository.common.auth.*;
+import com.jeiglobal.hk.repository.auth.*;
 /**
  * 
  * 클래스명 : AuthoritiesService.java

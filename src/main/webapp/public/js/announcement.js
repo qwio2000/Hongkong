@@ -1,7 +1,6 @@
 $(function(){
 	$.extend({
 		getBoardList:function(){
-			alert("getBoardList");
 			var pageNum = $("#pageNum").val();
 			var searchUrl = "/fa/community/announcements/page/"+pageNum;
 			var searchField = $("#searchField").val();
@@ -14,7 +13,6 @@ $(function(){
 				data: paramData,
 				dataType: "json",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
-					alert('성공');
 					var pageInfo = jsonData.pageInfo;
 					var totalRowCnt = pageInfo.totalRowCnt;
 					$("#totalCnt").html(totalRowCnt);

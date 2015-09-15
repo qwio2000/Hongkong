@@ -1,11 +1,11 @@
-package com.jeiglobal.hk.repository.common.auth;
+package com.jeiglobal.hk.repository.auth;
 
 import java.util.*;
 
 import org.springframework.cache.annotation.*;
 
 import com.jeiglobal.hk.domain.auth.*;
-import com.jeiglobal.hk.repository.common.*;
+import com.jeiglobal.hk.repository.*;
 
 /**
  * 

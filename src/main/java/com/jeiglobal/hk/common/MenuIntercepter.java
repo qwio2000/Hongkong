@@ -17,7 +17,7 @@ import org.springframework.web.servlet.handler.*;
 
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.menu.*;
-import com.jeiglobal.hk.service.common.menu.*;
+import com.jeiglobal.hk.service.menu.*;
 /**
  * 
  * 클래스명 : MenuIntercepter.java

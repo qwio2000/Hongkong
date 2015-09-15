@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 
-import com.jeiglobal.hk.service.common.auth.*;
+import com.jeiglobal.hk.service.auth.*;
 import com.jeiglobal.hk.utils.*;
 
 /**
@@ -16,7 +16,7 @@ import com.jeiglobal.hk.utils.*;
  *
  * 작성자 : 전승엽(IT지원팀)
  * 
- * 설명
+ * Centers 서비스
  */
 @Service
 public class CenterService {

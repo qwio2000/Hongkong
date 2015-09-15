@@ -1,11 +1,11 @@
-package com.jeiglobal.hk.repository.common.menu;
+package com.jeiglobal.hk.repository.menu;
 
 import java.util.*;
 
 import org.springframework.cache.annotation.*;
 
 import com.jeiglobal.hk.domain.menu.*;
-import com.jeiglobal.hk.repository.common.*;
+import com.jeiglobal.hk.repository.*;
 /**
  * 
  * 인터페이스명 : MenuRepository.java
