@@ -10,8 +10,8 @@
 				<#include "/include/leftContents.ftl">
 				<#include "/include/leftMenu.ftl">
 				<div class="banner-section">
-					<a href="#none"><img src="/public/img/common/bn_side_02.gif" alt="" /></a>
-					<a href="#none"><img src="/public/img/common/bn_side_03.gif" alt="" /></a>
+					<a href="#none"><img src="${imgPath }/common/bn_side_02.gif" alt="" /></a>
+					<a href="#none"><img src="${imgPath }/common/bn_side_03.gif" alt="" /></a>
 				</div>
 			</div>
 			<div id="primary_content" class="primary-content">

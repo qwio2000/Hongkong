@@ -28,7 +28,7 @@
 					<#if article??>
 						<div id="attachFile1">
 						<#if article?if_exists.attachFiles[0]?if_exists.fileOriginalName??>
-							<a class="attachFileDeleteBtn" style="cursor: pointer;" onclick="$.fileDelete('${article?if_exists.boardIdx?default("") }','${article?if_exists.attachFiles[0]?if_exists.fileIdx}','1');"><img width="10px" height="10px" src="/public/img/community/announcement/btn_gal_close.png"/></a>
+							<a class="attachFileDeleteBtn" style="cursor: pointer;" onclick="$.fileDelete('${article?if_exists.boardIdx?default("") }','${article?if_exists.attachFiles[0]?if_exists.fileIdx}','1');"><img width="10px" height="10px" src="${imgPath }/community/announcement/btn_gal_close.png"/></a>
 							${article?if_exists.attachFiles[0]?if_exists.fileOriginalName }
 						<#else>
 							<input type="file" name="attachFile" class="attachFile"/>
@@ -36,7 +36,7 @@
 						</div>
 						<div id="attachFile2">
 						<#if article?if_exists.attachFiles[1]?if_exists.fileOriginalName??>
-						<a class="attachFileDeleteBtn" style="cursor: pointer;" onclick="$.fileDelete('${article?if_exists.boardIdx?default("") }','${article?if_exists.attachFiles[1]?if_exists.fileIdx}','2');"><img width="10px" height="10px" src="/public/img/community/announcement/btn_gal_close.png"/></a>
+						<a class="attachFileDeleteBtn" style="cursor: pointer;" onclick="$.fileDelete('${article?if_exists.boardIdx?default("") }','${article?if_exists.attachFiles[1]?if_exists.fileIdx}','2');"><img width="10px" height="10px" src="${imgPath }/community/announcement/btn_gal_close.png"/></a>
 							${article.attachFiles[1]?if_exists.fileOriginalName }
 						<#else>
 							<input type="file" name="attachFile" class="attachFile"/>

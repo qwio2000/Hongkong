@@ -15,7 +15,7 @@
 		<#if bmsAuthInfo??>
 		<a href="/returnbms"/><div class="logout"><strong>BMS</strong></div></a>
 		</#if>
-		<h1><a href="${url }"><img src="/public/img/logo.png" alt="JEI Corporate HQ(JEI Korea)" /></a><span>${loginInfo.deptName }(${loginInfo.userFstName }${loginInfo.userLstName?default('') })</span></h1>
+		<h1><a href="${url }"><img src="${imgPath }/logo.png" alt="JEI Corporate HQ(JEI Korea)" /></a><span>${loginInfo.deptName }(${loginInfo.userFstName }${loginInfo.userLstName?default('') })</span></h1>
 		<#assign today = .now>
 		<span class="utilInfo">Server Time : ${today?string.medium_short} <br>System Week #2[9/6, 15-9, 12/15]</span>
 <!-- 		<span class="utilInfo">Server Time : Sep 6, 2015 10:07 PM <br>System Week #2[9/6, 15-9, 12/15]</span> -->
