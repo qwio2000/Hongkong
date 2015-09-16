@@ -184,7 +184,6 @@ public class AnnouncementController {
 	 * @param fileIdx
 	 * @param fileName
 	 * @param fileOriginalName
-	 * @param request
 	 * @return ModelAndView : BeanName
 	 */
 	@RequestMapping(value = "/{idx:[0-9]+}/{fileIdx:[0-9]+}", method = {RequestMethod.GET, RequestMethod.HEAD})

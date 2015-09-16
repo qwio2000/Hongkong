@@ -29,7 +29,7 @@ public class DataSourceConfig{
 	
 	/**
 	 * Mysql DataSource
-	 * @return
+	 * @return DataSource
 	 */
 	public DataSource getPrimaryDataSource() {
 		final BasicDataSource basicDataSource = new BasicDataSource();
@@ -56,7 +56,7 @@ public class DataSourceConfig{
 	}
 	/**
 	 * Mssql DataSource
-	 * @return
+	 * @return DataSource
 	 */
 	public DataSource getAnotherDataSource() {
 		final BasicDataSource basicDataSource = new BasicDataSource();
@@ -83,7 +83,7 @@ public class DataSourceConfig{
 	}
 	/**
 	 * Mysql TransactionManager
-	 * @return
+	 * @return PlatformTransactionManager
 	 */
 	@Bean
 	public PlatformTransactionManager primaryTransactionManager() {
@@ -91,7 +91,7 @@ public class DataSourceConfig{
 	}
 	/**
 	 * Mssql TransactionManager
-	 * @return
+	 * @return PlatformTransactionManager
 	 */
 	@Bean
 	public PlatformTransactionManager anotherTransactionManager() {
@@ -99,7 +99,7 @@ public class DataSourceConfig{
 	}
 	/**
 	 * Mysql SqlSession
-	 * @return
+	 * @return SqlSessionFactory
 	 */
 	@Bean(name="mySqlSession")
 	public SqlSessionFactory getSqlSessionFactory() throws Exception {
@@ -112,7 +112,7 @@ public class DataSourceConfig{
 	}
 	/**
 	 * Mssql SqlSession
-	 * @return
+	 * @return SqlSessionFactory
 	 */
 	@Bean(name="myAnotherSqlSession")
 	public SqlSessionFactory getAnotherSqlSessionFactory() throws Exception {
@@ -125,7 +125,7 @@ public class DataSourceConfig{
 	}
 	/**
 	 * Mysql MapperScannerConfigurer
-	 * @return
+	 * @return MapperScannerConfigurer
 	 */
 	@Bean
 	public MapperScannerConfigurer setPrimaryMapperScannerConfigurer(){
@@ -139,7 +139,7 @@ public class DataSourceConfig{
 	}
 	/**
 	 * Mssql MapperScannerConfigurer
-	 * @return
+	 * @return MapperScannerConfigurer
 	 */
 	@Bean
 	public MapperScannerConfigurer setAnotherMapperScannerConfigurer(){

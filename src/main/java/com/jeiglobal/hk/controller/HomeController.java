@@ -88,8 +88,8 @@ public class HomeController {
 	 * 2-1. 가맹점에서 본사로 돌아갈 경우 지사 인증 정보(JisaAUTHId, JisaAUTHKey) 쿠키 삭제
 	 * 3. Security Context에 위치한 Authentication을 제거
 	 * 4. Redirect 요청시 파라미터가 붙지 않도록 model clear
-	 * @param jisaAuthId
-	 * @param jisaAuthKey
+	 * @param bmsAuthId
+	 * @param bmsAuthKey
 	 * @param request
 	 * @param response
 	 * @param model

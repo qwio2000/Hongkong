@@ -38,9 +38,11 @@ public class CommonUtils {
 	}
 	
 	/**
-	 * @param authId
-	 * @param authKey
-	 * @param response void
+	 * 쿠키 추가
+	 * @param cookieName
+	 * @param cookieValue
+	 * @param cookieDomain
+	 * @param response
 	 */
 	public static void addCookie(String cookieName, String cookieValue, String cookieDomain,
 			HttpServletResponse response) {
@@ -57,8 +59,10 @@ public class CommonUtils {
 	}
 	
 	/**
-	 * @param CookieName
-	 * @param response void
+	 * 쿠키 삭제
+	 * @param cookieName
+	 * @param cookieDomain
+	 * @param response
 	 */
 	public static void removeCookie(String cookieName, String cookieDomain, HttpServletResponse response) {
 		Cookie cookie = new Cookie(cookieName,"");

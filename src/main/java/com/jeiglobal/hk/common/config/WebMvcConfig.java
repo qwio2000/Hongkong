@@ -28,7 +28,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	 * Message를 이용하기 위한 Bean 설정
 	 * 
 	 * @param messageSource
-	 * @return
+	 * @return MessageSourceAccessor
 	 */
 	@Bean
 	public MessageSourceAccessor messageSourceAccesor(
@@ -38,7 +38,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	
 	/**
 	 * 메뉴 인터셉터 Bean 설정
-	 * @return
+	 * @return MenuIntercepter
 	 */
 	@Bean
 	public MenuIntercepter menuIntercepter(){
@@ -46,7 +46,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	}
 	/**
 	 * PUT method Filter
-	 * @return
+	 * @return FilterRegistrationBean
 	 */
 	@Bean
 	public FilterRegistrationBean httpPutFormContentFilter() {
@@ -92,7 +92,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	
 	/**
 	 * 파일다운로드 뷰 설정
-	 * @return
+	 * @return FileDownload
 	 */
 	@Bean(name="download")
 	public FileDownload download() {
