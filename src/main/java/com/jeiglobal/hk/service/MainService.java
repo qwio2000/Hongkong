@@ -19,7 +19,7 @@ import com.jeiglobal.hk.utils.*;
  * 홈 서비스
  */
 @Service
-public class HomeService {
+public class MainService {
 	
 	@Value("${cookieShare.domain}")
 	private String cookieDomain;

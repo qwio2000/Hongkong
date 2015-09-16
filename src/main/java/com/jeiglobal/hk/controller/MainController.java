@@ -28,13 +28,13 @@ import com.jeiglobal.hk.utils.*;
  */
 @Slf4j
 @Controller
-public class HomeController {
+public class MainController {
 
 	@Autowired
 	private MessageSourceAccessor messageSource;// message 사용
 	
 	@Autowired
-	private HomeService homeService;
+	private MainService homeService;
 	
 	@Value("${serverurl.globalbms}")
 	private String globalbmsUrl;
