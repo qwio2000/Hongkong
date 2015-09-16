@@ -1,4 +1,16 @@
 $(function(){
+	$(".gnb>li>a").hover(function(){
+		$(".gnb>li>a").removeClass('on');
+		if($('.gnbsub').is(':visible')){
+			$(this).addClass('on').children().addClass('on');
+		}
+	});
+
+
+	$(".gnbsub").mouseleave(function(){
+		$(this).prev().removeClass('on').children().removeClass('on');
+	});
+	
 	$.extend({
 		pageUtil : function(pageNum, totalPageCnt, rowBlockSize,startPageNum,endPageNum) {
 			var thisBlock = Math.ceil(pageNum / rowBlockSize); // 현재 페이징블럭

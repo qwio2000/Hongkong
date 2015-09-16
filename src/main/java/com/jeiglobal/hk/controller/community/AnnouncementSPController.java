@@ -115,7 +115,7 @@ public class AnnouncementSPController {
 		}
 		model.addAttribute("message", alertMsg);
 		model.addAttribute("url", "/community/announcementsSP/"+addIdx);
-		return "common/alertAndRedirect";
+		return "alertAndRedirect";
 	}
 	
 	@RequestMapping(value="/{idx:[0-9]+}/edit",method = {RequestMethod.GET, RequestMethod.HEAD})
@@ -159,7 +159,7 @@ public class AnnouncementSPController {
 		String alertMsg = messageSource.getMessage("Community.Announcement.Success", MessageArgs, locale);
 		model.addAttribute("message", alertMsg);
 		model.addAttribute("url", "/community/announcementsSP/"+idx);
-		return "common/alertAndRedirect";
+		return "alertAndRedirect";
 	}
 	
 	/**

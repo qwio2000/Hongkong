@@ -1,4 +1,3 @@
-<!-- header -->
 <#if loginInfo??>
 	<#assign permLevel = loginInfo.userType?lower_case>
 	<#if permLevel == "fa">
@@ -7,35 +6,37 @@
 		<#assign url = '/' + permLevel + '/centers'/>
 	</#if>
 </#if>
-<div id="header">
-	<div class="content">
-		<h1 class="logo"><a href="${url }"><img src="/public/img/common/logo_header.gif" alt="재능Global" /></a></h1>
-	<div class="login-info">
-		<#if bmsAuthInfo??>
-		<div class="btn-join-state">
-			<span>
-				<a href="/returnbms"><font style="color: white;">본사 </font><img src="/public/img/common/btn_go.gif" alt="본사" /></a>
-			</span>
-		</div>
-		</#if>
+<div class="headerWrap">
+	<div class="header">
+		<a href="/logout"/><div class="logout"><strong>Logout</strong></div></a>
 		<#if jisaAuthInfo??>
-		<div class="btn-join-state">
-			<span>
-				<a href="/returnjisa"><font style="color: white;">지사 </font><img src="/public/img/common/btn_go.gif" alt="지사" /></a>
-			</span>
-		</div>
+		<a href="/returnjisa"/><div class="logout"><strong>JISA</strong></div></a>
 		</#if>
-		<div class="btn-join-state">
-			<a href="/logout"><img src="/public/img/common/btn_gnb_logout.gif" alt="로그아웃" /></a>
-		</div>
-	</div>
-	<ul class="lnb">
-	<#if headerMenuList?has_content>
-		<#list headerMenuList as headerMenu>
-			<li><a href="${headerMenu.MMenuLink }"><span style="margin-right: 20px;font-size: 15px;color: white;<#if headerMenu.MMenuCode == menuFirstCode>font-weight:bold;</#if>">${headerMenu.MMenuName }</span></a></li>
+		<#if bmsAuthInfo??>
+		<a href="/returnbms"/><div class="logout"><strong>BMS</strong></div></a>
+		</#if>
+		<h1><a href="${url }"><img src="/public/img/logo.png" alt="JEI Corporate HQ(JEI Korea)" /></a><span>${loginInfo.deptName }(${loginInfo.userFstName }${loginInfo.userLstName?default('') })</span></h1>
+		<#assign today = .now>
+		<span class="utilInfo">Server Time : ${today?string.medium_short} <br>System Week #2[9/6, 15-9, 12/15]</span>
+<!-- 		<span class="utilInfo">Server Time : Sep 6, 2015 10:07 PM <br>System Week #2[9/6, 15-9, 12/15]</span> -->
+		<ul class="gnb">
+			<#list menuMap as menuList>
+			<li>
+				<#list menuList as menu>
+					<#if menu.MParentIdx == 1>
+						<a href="${menu.MMenuLink }" class="">${menu.MMenuName }<span></span></a>
+						<#if menu.MHasChildren == "1">
+							<ul class="gnbsub">
+						</#if>
+					<#else>
+						<li><a href="${menu.MMenuLink }">${menu.MMenuName }</a></li>
+					</#if>
+				</#list>
+				<#if menuList?size != 1>
+					</ul>
+				</#if>
+			</li>
 			</#list>
-		</#if>
 		</ul>
 	</div>
 </div>
-<!-- //header -->

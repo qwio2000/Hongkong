@@ -119,7 +119,7 @@ public class AnnouncementController {
 		}
 		model.addAttribute("message", alertMsg);
 		model.addAttribute("url", "/fa/community/announcements/"+addIdx);
-		return "common/alertAndRedirect";
+		return "alertAndRedirect";
 	}
 	
 	@RequestMapping(value="/{idx:[0-9]+}/edit",method = {RequestMethod.GET, RequestMethod.HEAD})
@@ -175,7 +175,7 @@ public class AnnouncementController {
 		}
 		model.addAttribute("message", alertMsg);
 		model.addAttribute("url", "/fa/community/announcements/"+idx);
-		return "common/alertAndRedirect";
+		return "alertAndRedirect";
 	}
 	
 	/**
