@@ -1,7 +1,5 @@
 package com.jeiglobal.hk.controller.member;
 
-import java.util.*;
-
 import lombok.extern.slf4j.*;
 
 import org.springframework.beans.factory.annotation.*;
@@ -10,8 +8,6 @@ import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.jeiglobal.hk.domain.auth.*;
-import com.jeiglobal.hk.domain.member.*;
-import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
 
 /**
