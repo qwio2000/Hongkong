@@ -2,7 +2,6 @@ package com.jeiglobal.hk.repository.member;
 
 import java.util.*;
 
-import com.jeiglobal.hk.domain.member.MemberDto.MemberSearch;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberSearchInfo;
 import com.jeiglobal.hk.repository.*;
 
@@ -18,6 +17,6 @@ import com.jeiglobal.hk.repository.*;
 @PrimaryRepositoryAnnoInterface
 public interface MemberSearchRepository {
 
-	public List<MemberSearchInfo> findSearchResults(MemberSearch memberSearch);
+	public List<MemberSearchInfo> findSearchResults(Map<String, Object> map);
 
 }

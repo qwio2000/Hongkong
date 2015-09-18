@@ -17,16 +17,20 @@ cookieShare:
      domain: localhost
   
 filePath:
-     img: /public/img
-     js: /public/js
-     css: /public/css
+     img: /public/img #이미지 파일 경로
+     js: /public/js   #js 파일 경로
+     css: /public/css #css 파일 경로
      
 flag:  
-    fstVisit: 15 #첫관리방문일 허용 기준일
-    mgFstVisit: 7 #마감날 첫관리방문일 허용 기준일
-    studyNum: 1 #관리횟수
-    bookNum: 1 #불출수
+    fstVisit: 15   #첫관리방문일 허용 기준일
+    mgFstVisit: 7  #마감날 첫관리방문일 허용 기준일
+    studyNum: 1    #관리횟수
+    bookNum: 1     #불출수
     feeMonthNum: 1 #입금 등록 허용 기준 개월 수
+    
+page:
+    blockSize: 10
+    size: 100
 ---
 spring.profiles: develop
 

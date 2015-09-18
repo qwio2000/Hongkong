@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.*;
 
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
@@ -53,15 +54,17 @@ public class MemberSearchController {
 	@RequestMapping(value={"/ja/members/searchResults","/fa/members/searchResults"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMembers(Model model,
 			@ModelAttribute LoginInfo loginInfo,
-			String centerName,
-			String centerCity,
-			String centerState,
-			String centerZipcode,
-			MemberDto.MemberSearch memberSearch){
-		List<MemberDto.MemberSearchInfo> members = memberSearchService.getSearchResults(memberSearch);
-		model.addAttribute("members", members);
+			MemberDto.MemberSearch memberSearch,
+			RedirectAttributes redirectAttributes){
 		log.debug("memberSearch : {}", memberSearch);
-		return "member/search/result";
+		List<MemberDto.MemberSearchInfo> members = memberSearchService.getSearchResults(memberSearch, loginInfo);
+		if("JA".equalsIgnoreCase(loginInfo.getUserType())){
+			model.addAttribute("members", members);
+			return "member/search/result";
+		}else{
+			redirectAttributes.addFlashAttribute("members", members);
+			return "redirect:/fa/members/report";
+		}
 	}
 	
 }

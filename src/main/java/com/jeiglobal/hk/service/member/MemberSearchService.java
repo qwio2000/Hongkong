@@ -5,6 +5,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberSearch;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberSearchInfo;
 import com.jeiglobal.hk.repository.member.*;
@@ -25,11 +26,15 @@ public class MemberSearchService {
 	private MemberSearchRepository memberSearchRepository;
 	/**
 	 * 
-	 * @param jaMemberSearch
+	 * @param loginInfo 
+	 * @param MemberSearch
 	 * @return List<MemberSearchInfo>
 	 */
-	public List<MemberSearchInfo> getSearchResults(MemberSearch memberSearch) {
-		return memberSearchRepository.findSearchResults(memberSearch);
+	public List<MemberSearchInfo> getSearchResults(MemberSearch memberSearch, LoginInfo loginInfo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberSearch", memberSearch);
+		map.put("loginInfo", loginInfo);
+		return memberSearchRepository.findSearchResults(map);
 	}
 
 
