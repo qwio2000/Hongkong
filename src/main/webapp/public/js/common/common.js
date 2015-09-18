@@ -1,15 +1,9 @@
 $(function(){
 	$(".gnb>li>a").hover(function(){
 		$(".gnb>li>a").removeClass('on');
-//		if($('.gnbsub').is(':visible')){
 			$(this).addClass('on').children().addClass('on');
-//		}
 	});
 
-
-//	$(".gnbsub").mouseleave(function(){
-//		$(this).prev().removeClass('on').children().removeClass('on');
-//	});
 	$(".gnb").mouseleave(function(){
 		var menuFirstCode = $('#menuFirstCode').val();
 		$('.gnb>li>a').removeClass('on').children().removeClass('on');
@@ -113,14 +107,5 @@ $(function(){
 				var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
 				$(this).datepicker('setDate', new Date(year, month, 1));
 			},
-		});
-	 
-	//family site
-	$('.fmTitle').click(function(e) {
-		var target = $(this).attr('href');
-		$(target).slideDown();
-		$(target).find('.btn-close').click(function() {
-			$(target).slideUp();
-		});
 	});
 });
