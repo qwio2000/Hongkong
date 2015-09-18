@@ -1,15 +1,9 @@
 $(function(){
 	$(".gnb>li>a").hover(function(){
 		$(".gnb>li>a").removeClass('on');
-//		if($('.gnbsub').is(':visible')){
 			$(this).addClass('on').children().addClass('on');
-//		}
 	});
 
-
-//	$(".gnbsub").mouseleave(function(){
-//		$(this).prev().removeClass('on').children().removeClass('on');
-//	});
 	$(".gnb").mouseleave(function(){
 		var menuFirstCode = $('#menuFirstCode').val();
 		$('.gnb>li>a').removeClass('on').children().removeClass('on');
@@ -23,15 +17,15 @@ $(function(){
 	});
 	
 	$.extend({
-		pageUtil : function(pageNum, totalPageCnt, rowBlockSize,startPageNum,endPageNum) {
-			var thisBlock = Math.ceil(pageNum / rowBlockSize); // 현재 페이징블럭
+		pageUtil : function(pageNum, totalPageCnt, pageBlockSize, startPageNum,endPageNum) {
+			var thisBlock = Math.ceil(pageNum / pageBlockSize); // 현재 페이징블럭
 			var preBlock, nextBlock; // 이전, 다음 페이징 블럭
 			var html = "";
 
 			if (totalPageCnt > 0) {
 				// 현재 페이지블럭의 시작페이지번호, 전페이지번호
 				if (thisBlock > 1) {
-					startPageNum = (thisBlock - 1) * rowBlockSize + 1;
+					startPageNum = (thisBlock - 1) * pageBlockSize + 1;
 					preBlock = startPageNum - 1;
 				} else {
 					startPageNum = preBlock = 1;
@@ -45,6 +39,7 @@ $(function(){
 					alert(thisBlock)
 					alert(rowBlockSize)
 					endPageNum = thisBlock * rowBlockSize;
+
 					nextBlock = endPageNum + 1
 				}
 				
@@ -117,14 +112,6 @@ $(function(){
 				var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
 				$(this).datepicker('setDate', new Date(year, month, 1));
 			},
-		});
-	 
-	//family site
-	$('.fmTitle').click(function(e) {
-		var target = $(this).attr('href');
-		$(target).slideDown();
-		$(target).find('.btn-close').click(function() {
-			$(target).slideUp();
-		});
 	});
+	 
 });

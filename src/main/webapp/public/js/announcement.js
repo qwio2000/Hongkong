@@ -17,7 +17,7 @@ $(function(){
 					var totalRowCnt = pageInfo.totalRowCnt;
 					$("#totalCnt").html(totalRowCnt);
 					$("#pageNavi").html($.pageUtil(pageInfo.pageNum,pageInfo.totalPageCnt, 
-							pageInfo.rowBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));	
+							pageInfo.pageBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));	
 					var source = $("#announcementsTemplate").html();
 					var template = Handlebars.compile(source);
 					Handlebars.registerHelper("boardNo", function(index, options){
