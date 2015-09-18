@@ -46,11 +46,22 @@ public class CommonService {
 	 * @param jisaCD
 	 * @return List<CodeDtl>
 	 */
-	public List<CodeDtl> getCodeDtls(String mstCD, String jisaCD){
+	public List<CodeDtl> getCodeDtls(String mstCD, String jisaCD, int sortVal, String useVal){
 		param.clear();
 		param.put("mstCD", mstCD);
 		param.put("jisaCD", jisaCD);
+		param.put("sortVal", sortVal);
+		param.put("useVal", useVal);
 		return commonRepository.findCodeDtls(param);
+	}
+
+	/**
+	 * 지사 별 State 리스트를 가져오는 메서드
+	 * @param jisaCD 
+	 * @return List<CenterState>
+	 */
+	public List<CenterState> getCenterStates(String jisaCD) {
+		return commonRepository.findCenterStates(jisaCD);
 	}
 	
 }

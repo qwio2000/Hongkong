@@ -81,7 +81,6 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 						Integer.parseInt(arg0.getMMenuCode()) > Integer.parseInt(arg1.getMMenuCode()) ? 1:0;
 				}
 			});
-			
 			int menuCodeCnt = menuCode.length();
 			
 			if(!menuCode.isEmpty()){
@@ -103,7 +102,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 				
 				for (int i = 0; i < headerMenuList.size(); i++) {
 					List<GlobalMenu> tempMenuList = new ArrayList<GlobalMenu>();
-					tempMenuList.add(headerMenuList.get(i));
+					tempMenuList.add(headerMenuList. get(i));
 					for (GlobalMenu menu : menuList) {
 						if(headerMenuList.get(i).getMIdx() == menu.getMParentIdx()){
 							tempMenuList.add(menu);

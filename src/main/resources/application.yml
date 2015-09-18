@@ -20,6 +20,13 @@ filePath:
      img: /public/img
      js: /public/js
      css: /public/css
+     
+flag:  
+    fstVisit: 15 #첫관리방문일 허용 기준일
+    mgFstVisit: 7 #마감날 첫관리방문일 허용 기준일
+    studyNum: 1 #관리횟수
+    bookNum: 1 #불출수
+    feeMonthNum: 1 #입금 등록 허용 기준 개월 수
 ---
 spring.profiles: develop
 

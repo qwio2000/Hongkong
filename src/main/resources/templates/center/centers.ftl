@@ -1,7 +1,7 @@
 <#include "/include/header.ftl">
 <!-- Main Content -->
 <div class="content">
-	<h2 class="conTit">Announcement</h2>
+	<h2 class="conTit">Centers</h2>
 	<div class="tbl01">
 		<table style="width:100%;border: 0;">
 			<colgroup>
