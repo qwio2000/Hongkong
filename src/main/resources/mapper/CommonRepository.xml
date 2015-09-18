@@ -31,7 +31,7 @@
 	
 	<select id="findCenterStates" parameterType="String" resultType="com.jeiglobal.hk.domain.CenterState">
 		SELECT *
-		FROM globalbiz.DeptState
+		FROM globalbiz.StateInfo
 		WHERE jisaCD = #{jisaCD}
 		ORDER BY sortCD
 	</select>
