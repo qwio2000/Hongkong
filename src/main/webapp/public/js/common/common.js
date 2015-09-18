@@ -36,12 +36,14 @@ $(function(){
 				} else {
 					startPageNum = preBlock = 1;
 				}
-
+				
 				// 현재 페이지블럭의 끝페이지번호, 다음페이지번호
-				if ((thisBlock * rowBlockSize) >= totalPageCnt) {
+				if ((thisBlock * rowBlockSize) >= totalPageCnt) {					
 					endPageNum = totalPageCnt;
 					nextBlock = endPageNum;
 				} else {
+					alert(thisBlock)
+					alert(rowBlockSize)
 					endPageNum = thisBlock * rowBlockSize;
 					nextBlock = endPageNum + 1
 				}
@@ -54,7 +56,9 @@ $(function(){
 					}
 				}
 
+				
 				for (i = startPageNum; i <= endPageNum; i++) {
+					
 					if(i != pageNum){
 						html += " <a class='naviPage' href='javascript:;' pageNo='"+i+"'>"+i+"</a> ";
 					} else {

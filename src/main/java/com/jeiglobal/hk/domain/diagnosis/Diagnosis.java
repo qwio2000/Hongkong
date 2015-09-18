@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Diagnosis {
 	
-	private String totalCnt;
-	private String totalPageNum;
+	private int totalCnt;
+	private int totalPageNum;
 	private String omrDate;
 	private String hkey;
 	private String kwamok;

@@ -1,67 +1,62 @@
 <#include "/include/header.ftl">
 <!-- Main Content -->
 <div class="content">
-	<h2 class="conTit">Member Search</h2>
-	<ul class="memSearch">
-		<li>
-			<label for="">Member Status</label>
-			<select name="" id="">
-				<option value="">All</option>
-			</select>
-		</li>
-		<li>
-			<label for="">Last Name</label>
-			<input type="text" style="width:346px">			
-		</li>
-		<li>
-			<label for="">First Name</label>
-			<input type="text" style="width:346px">			
-		</li>
-		<li>
-			<label for="">Home Phone</label>
-			<input type="text" style="width:346px">			
-		</li>
-		<li>
-			<label for="">Cell Phone</label>
-			<input type="text" style="width:346px">			
-		</li>
-		<li>
-			<label for="">Email</label>
-			<input type="text" style="width:346px">			
-		</li>
-		<li>
-			<label for="">Grade</label>
-			<select name="" id="">
-				<#list codeDtls as codeDtl>
-					<option value="${codeDtl.dtlCD}">${codeDtl.dtlCDNM}</option>
+	<h2 class="conTit">Announcement</h2>
+	<div class="tbl01">
+		<table>
+			<colgroup>
+				<col width="50">
+				<col width="50">
+				<col width="*">
+				<col width="100">
+				<col width="100">
+				<col width="100">
+			</colgroup>
+			<thead>
+				<tr>
+					<th></th>
+					<th>Member</th>
+					<th>Grade</th>
+					<th>Subject</th>
+					<th>Guarduan/parent</th>
+					<th>Phone</th>
+					<th>Status</th>
+					<th>Diagnosed</th>
+				</tr>
+			</thead>
+			<tbody>
+				<#list page as page1>				
+					<tr>
+						<td></td>
+						<td>${page1.MFirstName} ${page1.MLastName}</td>
+						<td>${page1.kwamok}</td>
+						<td>${page1.kwamok}</td>
+						<td>${page1.kwamok}</td>
+						<td>${page1.kwamok}</td>
+						<td>${page1.kwamok}</td>
+						<td>${page1.kwamok}</td>
+					</tr>
+					${page1.kwamok}<br/>
+					${page1.MLastName}<br/>
 				</#list>
-			</select>
-		</li>
-		<li>
-			<label for="">Subject</label>
-			<select name="" id="">
-				<#list codeSubject as Subject>
-					<option value="${Subject.dtlCD}">${Subject.dtlCDNM}</option>
-				</#list>
-			</select>			
-		</li>
-		<li class="last">
-			<label for="">Class Day</label>
-			<ul class="classDay">
-				<li><input type="checkbox" id="mon"/><label for="mon"><span></span>Monday</label></li>
-				<li><input type="checkbox" id="tue"/><label for="tue"><span></span>Tuesday</label></li>
-				<li><input type="checkbox" id="wed"/><label for="wed"><span></span>Wednesday</label></li>
-				<li><input type="checkbox" id="thu"/><label for="thu"><span></span>Thursday</label></li>
-				<li><input type="checkbox" id="fri"/><label for="fri"><span></span>Friaday</label></li>
-				<li><input type="checkbox" id="sat"/><label for="sat"><span></span>Saturday</label></li>
-			</ul>
-		</li>
-	</ul>
-	<div class="btnArea">
-		<a href=""><span>Reset</span></a>
-		<a href=""><span>Search Members</span></a>
+			
+			</tbody>
+		</table>
 	</div>
+	
+	<div class="paging">
+		<span id="pageNavi"></span>
+	</div>
+	
 </div>
 
+
+<script type="text/javascript">
+$(function(){
+	$("#pageNavi").html($.pageUtil(${pageUtil.pageNum},${pageUtil.totalPageCnt},${pageUtil.rowBlockSize},${pageUtil.startPageNum},${pageUtil.endPageNum}));
+
+});
+	
+</script>
 <!--// Main Content -->
 <#include "/include/footer.ftl">

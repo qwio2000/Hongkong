@@ -19,6 +19,7 @@ import com.jeiglobal.hk.domain.auth.LoginInfo;
 import com.jeiglobal.hk.domain.diagnosis.Diagnosis;
 import com.jeiglobal.hk.service.CommonService;
 import com.jeiglobal.hk.service.diagnosis.DiagnosisService;
+import com.jeiglobal.hk.utils.PageUtil;
 
 /**
  * 
@@ -49,7 +50,17 @@ public class DiagnosisController {
 		
 	
 
-	@RequestMapping(value={"/fa/diagnosis"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/diagnosis/diagnosisSerch","/fa/diagnosis"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String diagnosisSerch(Model model, @ModelAttribute LoginInfo loginInfo) {
+		String userType = loginInfo.getUserType();
+		log.debug("Getting Diagnosis Page, UserType : {}", userType);
+		model.addAttribute("memberStatuses", commonService.getCodeDtls("0008", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("grades", commonService.getCodeDtls("0003", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("subjects", commonService.getCodeDtls("0002", loginInfo.getJisaCD(), 1, "Y"));
+		
+		return "diagnosis/diagnosisSerch";
+	}
+	/**
 	public String diagnosis(Model model, @RequestParam(defaultValue="1") String page, @RequestParam(defaultValue="10") String pagecnt) {
 		log.debug("Getting diagnosis Page");
 		List<Diagnosis> diagnosis = diagnosisService.getDiagnosis(page,pagecnt);
@@ -58,16 +69,23 @@ public class DiagnosisController {
 		
 		return "diagnosis/diagnosis";
 	}
+	**/
 	
-	@RequestMapping(value={"/fa/diagnosis/diagnosisSerch"}, method={RequestMethod.GET,RequestMethod.HEAD})
-	public String diagnosisSerch(Model model, @ModelAttribute LoginInfo loginInfo) {
-		log.debug("Getting diagnosisSerch Page");
+	@RequestMapping(value={"/fa/diagnosis/diagnosisSerch/search"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String diagnosisSerchFrom(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam(defaultValue="1") int page, @RequestParam(defaultValue="2") int pagecnt, String Status, String LastName, String FirstName, String HomePhone, String CellPhone, String Email, String Grade, String Subject) {
+		String userType = loginInfo.getUserType();
+		log.debug("Getting Diagnosis Page, UserType : {}", userType);
 		
-		List<CodeDtl> codeDtls =  commonService.getCodeDtls("0003", loginInfo.getJisaCD());		
-		model.addAttribute("codeDtls", codeDtls);
+		String JisaCD = loginInfo.getJisaCD();
+		String DeptCd = loginInfo.getDeptCD();		
 		
-		List<CodeDtl> codeSubject =  commonService.getCodeDtls("0002", loginInfo.getJisaCD());		
-		model.addAttribute("codeSubject", codeSubject);
+		List<Diagnosis> diagnosis = diagnosisService.getDiagnosis(page,pagecnt,JisaCD,DeptCd,Status,LastName,FirstName,HomePhone,CellPhone,Email,Grade,Subject);
+		
+		//페이징 처리에 사용하는 유틸 클래스
+		PageUtil pageUtil = new	PageUtil(page, diagnosis.get(0).getTotalCnt(), 2, 10);
+System.out.println(pageUtil);
+		model.addAttribute("pageUtil", pageUtil);
+		model.addAttribute("page", diagnosis);
 		
 		return "diagnosis/diagnosisSearch/search";
 	}
