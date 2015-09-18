@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.*;
 
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
+import com.jeiglobal.hk.utils.*;
 
 /**
  * 
@@ -35,6 +37,14 @@ public class MemberSearchController {
 	@Autowired
 	private MemberSearchService memberSearchService;
 	
+	//한 페이지에 출력할 레코드 개수
+	@Value("${page.size}")
+	private int pageSize;
+	
+	//한 페이지에 출력할 레코드 개수
+	@Value("${page.blockSize}")
+	private int blockSize;
+	
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(value={"/ja/members/search","/fa/members/search"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMemberSearchPage(Model model,
@@ -53,15 +63,21 @@ public class MemberSearchController {
 	@RequestMapping(value={"/ja/members/searchResults","/fa/members/searchResults"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMembers(Model model,
 			@ModelAttribute LoginInfo loginInfo,
-			String centerName,
-			String centerCity,
-			String centerState,
-			String centerZipcode,
-			MemberDto.MemberSearch memberSearch){
-		List<MemberDto.MemberSearchInfo> members = memberSearchService.getSearchResults(memberSearch);
-		model.addAttribute("members", members);
+			MemberDto.MemberSearch memberSearch,
+			RedirectAttributes redirectAttributes){
 		log.debug("memberSearch : {}", memberSearch);
-		return "member/search/result";
+		//TODO 전체 레코드 개수, 요청 페이지 번호 가져오기
+		PageUtil pageInfo = new PageUtil(0, 0, pageSize, blockSize);
+		List<MemberDto.MemberSearchInfo> members = memberSearchService.getSearchResults(memberSearch, loginInfo);
+		if("JA".equalsIgnoreCase(loginInfo.getUserType())){
+			model.addAttribute("members", members);
+			model.addAttribute("pageInfo", pageInfo);
+			return "member/search/result";
+		}else{
+			redirectAttributes.addFlashAttribute("members", members);
+			redirectAttributes.addFlashAttribute("pageInfo", pageInfo);
+			return "redirect:/fa/members/report";
+		}
 	}
 	
 }
