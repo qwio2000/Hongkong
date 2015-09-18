@@ -17,26 +17,26 @@ $(function(){
 	});
 	
 	$.extend({
-		pageUtil : function(pageNum, totalPageCnt, rowBlockSize,startPageNum,endPageNum) {
-			var thisBlock = Math.ceil(pageNum / rowBlockSize); // 현재 페이징블럭
+		pageUtil : function(pageNum, totalPageCnt, pageBlockSize, startPageNum,endPageNum) {
+			var thisBlock = Math.ceil(pageNum / pageBlockSize); // 현재 페이징블럭
 			var preBlock, nextBlock; // 이전, 다음 페이징 블럭
 			var html = "";
 
 			if (totalPageCnt > 0) {
 				// 현재 페이지블럭의 시작페이지번호, 전페이지번호
 				if (thisBlock > 1) {
-					startPageNum = (thisBlock - 1) * rowBlockSize + 1;
+					startPageNum = (thisBlock - 1) * pageBlockSize + 1;
 					preBlock = startPageNum - 1;
 				} else {
 					startPageNum = preBlock = 1;
 				}
 
 				// 현재 페이지블럭의 끝페이지번호, 다음페이지번호
-				if ((thisBlock * rowBlockSize) >= totalPageCnt) {
+				if ((thisBlock * pageBlockSize) >= totalPageCnt) {
 					endPageNum = totalPageCnt;
 					nextBlock = endPageNum;
 				} else {
-					endPageNum = thisBlock * rowBlockSize;
+					endPageNum = thisBlock * pageBlockSize;
 					nextBlock = endPageNum + 1
 				}
 				
@@ -108,4 +108,5 @@ $(function(){
 				$(this).datepicker('setDate', new Date(year, month, 1));
 			},
 	});
+	 
 });
