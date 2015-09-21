@@ -39,7 +39,7 @@ public class HomeController {
 	@Value("${serverurl.globalbms}")
 	private String globalbmsUrl;
 
-
+    
 	@RequestMapping(value={"/fa/members","/fa/inventory","/fa/accounting","/fa/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getLayoutPage() {
 		log.debug("Getting Layout Page");
