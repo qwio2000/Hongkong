@@ -2,6 +2,10 @@
 <!-- Main Content -->
 <div class="content">
 	<h2 class="conTit">Member Report</h2>
+	<input type="hidden" id="centerName" value="${memberSearch.centerName?default('') }"/>
+	<input type="hidden" id="centerCity" value="${memberSearch.centerCity?default('') }"/>
+	<input type="hidden" id="centerState" value="${memberSearch.centerState?default('') }"/>
+	<input type="hidden" id="centerZipcode" value="${memberSearch.centerZipcode?default('') }"/>
 	<input type="hidden" id="memberStatus" value="${memberSearch.memberStatus?default('') }"/>
 	<input type="hidden" id="lastName" value="${memberSearch.lastName?default('') }"/>
 	<input type="hidden" id="firstName" value="${memberSearch.firstName?default('') }"/>
@@ -28,7 +32,9 @@
 			<thead>
 				<tr>
 					<th></th>
-					<th>FirstName ↑ ↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LastName ↑ ↓</th>
+					<th>State</th>
+					<th>Center</th>
+					<th>Member</th>
 					<th>Grade</th>
 					<th>Subject</th>
 					<th>Guardian/Parent</th>

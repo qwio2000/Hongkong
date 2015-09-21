@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.member.MemberSearchRepository">
+	<select id="findSearchResults" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberSearchInfo">
+	CALL SPMemberSearchList(#{loginInfo.jisaCD},'',#{memberSearch.centerName},#{memberSearch.centerCity},#{memberSearch.centerState},#{memberSearch.centerZipcode},
+	#{memberSearch.memberStatus},#{memberSearch.lastName},#{memberSearch.firstName},#{memberSearch.homePhone},
+	#{memberSearch.cellPhone},#{memberSearch.email},#{memberSearch.grade},#{memberSearch.subject},#{memberSearch.classDay},
+	'','',#{pageNum},#{pageSize})
+	</select>
+</mapper>
