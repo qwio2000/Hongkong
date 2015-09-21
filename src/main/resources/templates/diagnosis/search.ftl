@@ -2,38 +2,38 @@
 <!-- Main Content -->
 <div class="content">
 	<h2 class="conTit">Diagnosis Search</h2>
-	<form id="diagnosisSearchForm" action="/fa/diagnosis/diagnosisSerch/search" method="get">		
+	<form id="diagnosisSearchForm" action="/fa/diagnosis/diagnosisSearch/search" method="get">		
 		<ul class="memSearch" <#if loginInfo.userType == "JA"> style="float:right;"</#if>>
 			<li>
 				<label for="Status">Status</label>
-				<select name="Status" id="Status">
+				<select name="status" id="status">
 					<option value="01">Diagnosis</option>
 					<option value="02">Free Diagnosis</option>
 				</select>
 			</li>
 			<li>
-				<label for="LastName">Last Name</label>
-				<input id="LastName" type="text" name="LastName" class="searchInput" style="width: 334px;">
+				<label for="lastName">Last Name</label>
+				<input id="lastName" type="text" name="lastName" class="searchInput" style="width: 334px;">
 			</li>
 			<li>
-				<label for="FirstName">First Name</label>
-				<input id="FirstName" type="text" name="FirstName" class="searchInput" style="width: 334px;">
+				<label for="firstName">First Name</label>
+				<input id="firstName" type="text" name="firstName" class="searchInput" style="width: 334px;">
 			</li>
 			<li>
-				<label for="HomePhone">Home Phone</label>
-				<input id="HomePhone" type="text" name="HomePhone" class="searchInput" style="width: 334px;">
+				<label for="homePhone">Home Phone</label>
+				<input id="homePhone" type="text" name="homePhone" class="searchInput" style="width: 334px;">
 			</li>
 			<li>
-				<label for="CellPhone">Cell Phone</label>
-				<input id="CellPhone" type="text" name="CellPhone" class="searchInput" style="width: 334px;">
+				<label for="cellPhone">Cell Phone</label>
+				<input id="cellPhone" type="text" name="cellPhone" class="searchInput" style="width: 334px;">
 			</li>
 			<li>
-				<label for="Email">Email</label>
-				<input id="Email" type="text" name="Email" class="searchInput" style="width: 334px;">
+				<label for="email">Email</label>
+				<input id="email" type="text" name="email" class="searchInput" style="width: 334px;">
 			</li>
 			<li>
-				<label for="Grade">Grade</label>
-				<select name="Grade" id="Grade">
+				<label for="grade">Grade</label>
+				<select name="grade" id="grade">
 					<option value="">All</option>
 					<#list grades as grade>
 						<option value="${grade.dtlCD }">${grade.dtlCDNM }</option>
@@ -41,8 +41,8 @@
 				</select>
 			</li>
 			<li>
-				<label for="Subject">Subject</label>
-				<select name="Subject" id="Subject">
+				<label for="subject">Subject</label>
+				<select name="subject" id="subject">
 					<option value="">All</option>
 					<#list subjects as subject>
 						<option value="${subject.dtlCD }">${subject.dtlCDNM }</option>
