@@ -1,7 +1,9 @@
 package com.jeiglobal.hk.controller.diagnosis;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,9 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.jeiglobal.hk.controller.HomeController;
-import com.jeiglobal.hk.domain.CodeDtl;
 import com.jeiglobal.hk.domain.auth.LoginInfo;
 import com.jeiglobal.hk.domain.diagnosis.Diagnosis;
 import com.jeiglobal.hk.service.CommonService;
@@ -50,7 +51,7 @@ public class DiagnosisController {
 		
 	
 
-	@RequestMapping(value={"/fa/diagnosis/diagnosisSerch","/fa/diagnosis"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/diagnosis/diagnosisSearch","/fa/diagnosis"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String diagnosisSerch(Model model, @ModelAttribute LoginInfo loginInfo) {
 		String userType = loginInfo.getUserType();
 		log.debug("Getting Diagnosis Page, UserType : {}", userType);
@@ -58,36 +59,69 @@ public class DiagnosisController {
 		model.addAttribute("grades", commonService.getCodeDtls("0003", loginInfo.getJisaCD(), 1, "Y"));
 		model.addAttribute("subjects", commonService.getCodeDtls("0002", loginInfo.getJisaCD(), 1, "Y"));
 		
-		return "diagnosis/serch";
+		return "diagnosis/search";
 	}
-	/**
-	public String diagnosis(Model model, @RequestParam(defaultValue="1") String page, @RequestParam(defaultValue="10") String pagecnt) {
-		log.debug("Getting diagnosis Page");
-		List<Diagnosis> diagnosis = diagnosisService.getDiagnosis(page,pagecnt);
-		
-		model.addAttribute("page", diagnosis);
-		
-		return "diagnosis/diagnosis";
-	}
-	**/
 	
-	@RequestMapping(value={"/fa/diagnosis/diagnosisSerch/search"}, method={RequestMethod.GET,RequestMethod.HEAD})
-	public String diagnosisSerchFrom(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam(defaultValue="1") int page, @RequestParam(defaultValue="2") int pagecnt, String Status, String LastName, String FirstName, String HomePhone, String CellPhone, String Email, String Grade, String Subject) {
+	@RequestMapping(value={"/fa/diagnosis/diagnosisSearch/search"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String diagnosisSerchFrom(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam(defaultValue="1") int page, @RequestParam(defaultValue="10") int pagecnt, String status, String lastName, String firstName, String homePhone, String cellPhone, String email, String grade, String subject) {
+		log.debug("Getting Notices List Page");
+		
+		//header에 포함할 스크립트 
+		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("diagnosis");		
+		model.addAttribute("headerScript", headerScript);	
+		
 		String userType = loginInfo.getUserType();
 		log.debug("Getting Diagnosis Page, UserType : {}", userType);
 		
-		String JisaCD = loginInfo.getJisaCD();
-		String DeptCd = loginInfo.getDeptCD();		
+		String jisaCD = loginInfo.getJisaCD();
+		String deptCd = loginInfo.getDeptCD();		
 		
-		List<Diagnosis> diagnosis = diagnosisService.getDiagnosis(page,pagecnt,JisaCD,DeptCd,Status,LastName,FirstName,HomePhone,CellPhone,Email,Grade,Subject);
 		
-		//페이징 처리에 사용하는 유틸 클래스
-		PageUtil pageUtil = new	PageUtil(page, diagnosis.get(0).getTotalCnt(), 2, 10);
-System.out.println(pageUtil);
-		model.addAttribute("pageUtil", pageUtil);
-		model.addAttribute("page", diagnosis);
+		
+		model.addAttribute("page", page);
+		model.addAttribute("pagecnt", pagecnt);
+		model.addAttribute("jisaCD", jisaCD);
+		model.addAttribute("deptCd", deptCd);
+		model.addAttribute("status", status);
+		model.addAttribute("lastName", lastName);
+		model.addAttribute("firstName", firstName);
+		model.addAttribute("homePhone", homePhone);
+		model.addAttribute("cellPhone", cellPhone);
+		model.addAttribute("email", email);
+		model.addAttribute("grade", grade);
+		model.addAttribute("subject", subject);
+		
 		
 		return "diagnosis/diagnosisSearch/list";
+		
 	}
+		
+	@RequestMapping(value={"/fa/diagnosis/diagnosisSearch/searchJson"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> diagnosisSerchlistJson(Model model,int pageNum, int pagecnt, String jisaCD, String deptCd, String status, String lastName, String firstName, String homePhone, String cellPhone, String email, String grade, String subject) {
+		
+		Map<String, Object> diagnosisList = new HashMap<>();
+		
+		
+		List<Diagnosis> diagnosis = diagnosisService.getDiagnosis(pageNum,pagecnt,jisaCD,deptCd,status,lastName,firstName,homePhone,cellPhone,email,grade,subject);
+		int totalCnt = 0;
+		if(diagnosis.size() > 0){
+			totalCnt = diagnosis.get(0).getTotalCnt();
+		}
+		//페이징 처리에 사용하는 유틸 클래스
+		PageUtil pageUtil = new	PageUtil(pageNum, totalCnt, PAGE_SIZE, PAGE_BLOCK_SIZE);
+System.out.println(pageUtil);
+		diagnosisList.put("pageUtil", pageUtil);
+		diagnosisList.put("page", diagnosis);
+		
+		return diagnosisList;
+	
+	}
+
+	
+		
+
 
 }
