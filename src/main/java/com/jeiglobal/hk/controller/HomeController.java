@@ -40,7 +40,7 @@ public class HomeController {
 	private String globalbmsUrl;
 
     
-	@RequestMapping(value={"/fa/members","/fa/inventory","/fa/accounting","/fa/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@RequestMapping(value={"/fa","/fa/members","/fa/inventory","/fa/accounting","/fa/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getLayoutPage() {
 		log.debug("Getting Layout Page");
 		return "layout";
