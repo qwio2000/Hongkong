@@ -58,7 +58,7 @@ public class DiagnosisController {
 		model.addAttribute("grades", commonService.getCodeDtls("0003", loginInfo.getJisaCD(), 1, "Y"));
 		model.addAttribute("subjects", commonService.getCodeDtls("0002", loginInfo.getJisaCD(), 1, "Y"));
 		
-		return "diagnosis/diagnosisSerch";
+		return "diagnosis/serch";
 	}
 	/**
 	public String diagnosis(Model model, @RequestParam(defaultValue="1") String page, @RequestParam(defaultValue="10") String pagecnt) {
@@ -87,7 +87,7 @@ System.out.println(pageUtil);
 		model.addAttribute("pageUtil", pageUtil);
 		model.addAttribute("page", diagnosis);
 		
-		return "diagnosis/diagnosisSearch/search";
+		return "diagnosis/diagnosisSearch/list";
 	}
 
 }
