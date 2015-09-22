@@ -2,7 +2,7 @@
 <!-- Main Content -->
 <div class="content">
 	<h2 class="conTit">Member Report</h2>
-	<input type="hidden" id="memberStatus" value="${memberSearch.memberStatus?default('') }"/>
+	<input type="hidden" id="memberStatus" value="${memberSearch.memberStatus?default('1') }"/>
 	<input type="hidden" id="lastName" value="${memberSearch.lastName?default('') }"/>
 	<input type="hidden" id="firstName" value="${memberSearch.firstName?default('') }"/>
 	<input type="hidden" id="homePhone" value="${memberSearch.homePhone?default('') }"/>
@@ -12,6 +12,8 @@
 	<input type="hidden" id="subject" value="${memberSearch.subject?default('') }"/>
 	<input type="hidden" id="classDay" value="${memberSearch.classDay?default('') }"/>
 	<input type="hidden" id="pageNum" value="1"/>
+	<input type="hidden" id="orderBy" value=""/>
+	<input type="hidden" id="direction" value=""/>
 	<div class="tbl01">
 		<table>
 			<colgroup>
@@ -28,7 +30,11 @@
 			<thead>
 				<tr>
 					<th></th>
-					<th>FirstName ↑ ↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LastName ↑ ↓</th>
+					<th>
+						FirstName<a id="orderByFirstNameBtn" href="#">↑ ↓</a>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						LastName<a id="orderByLastNameBtn" href="#">↑ ↓</a>
+					</th>
 					<th>Grade</th>
 					<th>Subject</th>
 					<th>Guardian/Parent</th>

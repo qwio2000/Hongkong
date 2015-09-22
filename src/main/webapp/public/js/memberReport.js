@@ -11,10 +11,12 @@ $(function(){
 			var email        = $("#email").val();
 			var grade        = $("#grade").val();
 			var subject      = $("#subject").val();
+			var orderBy      = $("#orderBy").val();
+			var direction      = $("#direction").val();
 			var classDay     = $("#classDay").val();
 			var paramData = {"memberStatus":memberStatus, "lastName":lastName, "firstName":firstName, 
 					"homePhone":homePhone, "cellPhone":cellPhone, "email":email, "grade":grade, 
-					"subject":subject, "classDay":classDay};
+					"subject":subject, "orderBy":orderBy, "direction":direction, "classDay":classDay};
 			$.ajax({
 				url:searchUrl,
 				type:"GET",
@@ -60,4 +62,25 @@ $(function(){
 		$('#pageNum').val(pageNum);
 		$.getMemberReport();
 	});	
+	
+	$("#orderByFirstNameBtn").click(function(){
+		var direction = $("#direction").val();
+		$("#orderBy").val("a.mFstName");
+		if(direction == "" || direction == "ASC"){
+			$("#direction").val("DESC");
+		}else{
+			$("#direction").val("ASC");
+		}
+		$.getMemberReport();
+	});
+	$("#orderByLastNameBtn").click(function(){
+		var direction = $("#direction").val();
+		$("#orderBy").val("a.mLstName");
+		if(direction == "" || direction == "ASC"){
+			$("#direction").val("DESC");
+		}else{
+			$("#direction").val("ASC");
+		}
+		$.getMemberReport();
+	});
 });
