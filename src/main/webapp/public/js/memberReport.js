@@ -24,13 +24,15 @@ $(function(){
 				success: function(jsonData, textStatus, XMLHttpRequest) {
 					var pageInfo = jsonData.pageInfo;
 					var totalRowCnt = pageInfo.totalRowCnt;
+					var pageNum = pageInfo.pageNum;
+					var pageSize = pageInfo.rowBlockSize;
 					$("#totalCnt").html(totalRowCnt);
 					$("#pageNavi").html($.pageUtil(pageInfo.pageNum,pageInfo.totalPageCnt, 
 							pageInfo.pageBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));	
 					var source = $("#memberReportTemplate").html();
 					var template = Handlebars.compile(source);
-					Handlebars.registerHelper("boardNo", function(index, options){
-						return totalRowCnt - pageInfo.startRow - index;
+					Handlebars.registerHelper("inc", function(value, options){
+						return (pageNum - 1) * pageSize + parseInt(value) + 1;
 					});
 					Handlebars.registerHelper('splitStr', function(str, index) {
 					  var t = str.split(",");

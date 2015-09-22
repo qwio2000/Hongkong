@@ -47,10 +47,11 @@
 	</div>
 </div>
 <!--// Main Content -->
+<!--//TODO Appointment 데이터 추가 시 추가 작업 필요 -->
 <script id="memberReportTemplate" type="text/x-handlebars-template">
 	{{#each members}}
 		<tr>
-			<td>{{boardNo @index}}</td>
+			<td>{{inc @index}}</td>
 			<td class="left"><img src="/public/img/ico_name.png" alt="" />{{memName}}</td>
 			<td>{{gradeName}}</td>
 			<td>{{splitStr memSubjStr 0}}</td>
@@ -62,7 +63,7 @@
 		</tr>
 	{{else}}
 		<tr>
-			<td colspan="5">데이터가 없습니다.</td>
+			<td colspan="9">no search results</td>
 		</tr>
 	{{/each}}
 </script>

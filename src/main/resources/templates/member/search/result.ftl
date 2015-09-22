@@ -20,14 +20,16 @@
 		<table>
 			<colgroup>
 				<col width="40">
+				<col width="90">
+				<col width="60">
 				<col width="*">
 				<col width="70">
-				<col width="130">
-				<col width="130">
+				<col width="70">
+				<col width="120">
 				<col width="90">
 				<col width="90">
 				<col width="90">
-				<col width="110">
+				<col width="90">
 			</colgroup>
 			<thead>
 				<tr>
@@ -56,7 +58,9 @@
 <script id="memberReportTemplate" type="text/x-handlebars-template">
 	{{#each members}}
 		<tr>
-			<td>{{boardNo @index}}</td>
+			<td>{{inc @index}}</td>
+			<td>{{stateName}}</td>
+			<td>{{deptName}}</td>
 			<td class="left"><img src="/public/img/ico_name.png" alt="" />{{memName}}</td>
 			<td>{{gradeName}}</td>
 			<td>{{splitStr memSubjStr 0}}</td>

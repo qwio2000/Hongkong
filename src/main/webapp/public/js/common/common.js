@@ -55,7 +55,7 @@ $(function(){
 					if(i != pageNum){
 						html += " <a class='naviPage' href='javascript:;' pageNo='"+i+"'>"+i+"</a> ";
 					} else {
-						html += "<a class='on' href='javascript:;' pageNo='"+i+"'>"+i+"</a>";
+						html += "<a class='on' href='javascript:;' pageNo='"+i+"'><strong>"+i+"</strong></a>";
 					}
 				}
 
