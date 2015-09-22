@@ -27,6 +27,8 @@ public class MemberDto {
 		private String email;
 		private String grade;
 		private String subject;
+		private String orderBy;
+		private String direction;
 		private String classDay;
 	}
 	

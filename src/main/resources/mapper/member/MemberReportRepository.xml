@@ -5,6 +5,6 @@
 	CALL SPMemberSearchList(#{loginInfo.jisaCD},#{loginInfo.deptCD},'','','','',
 	#{memberSearch.memberStatus},#{memberSearch.lastName},#{memberSearch.firstName},#{memberSearch.homePhone},
 	#{memberSearch.cellPhone},#{memberSearch.email},#{memberSearch.grade},#{memberSearch.subject},#{memberSearch.classDay},
-	'','',#{pageNum},#{pageSize})
+	#{memberSearch.orderBy},#{memberSearch.direction},#{pageNum},#{pageSize})
 	</select>
 </mapper>
