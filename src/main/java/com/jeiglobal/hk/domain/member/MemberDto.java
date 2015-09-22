@@ -30,8 +30,20 @@ public class MemberDto {
 		private String classDay;
 	}
 	
-	//TODO 가맹점 검색 결과 출력 회원 정보
+	@Data
 	public static class MemberSearchInfo{
+		private int rCnt;
+		private String memKey;
+		private String mFstName;
+		private String mLstName;
+		private String memName;
+		private String gradeCD;
+		private String gradeName;
+		private String guardianName;
+		private String gPhone;
+		private String stateName;
+		private String deptName;
+		private String memSubjStr;
 		
 	}
 }

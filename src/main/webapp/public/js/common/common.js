@@ -55,7 +55,7 @@ $(function(){
 					if(i != pageNum){
 						html += " <a class='naviPage' href='javascript:;' pageNo='"+i+"'>"+i+"</a> ";
 					} else {
-						html += "<a class='current' href='javascript:;' pageNo='"+i+"'>"+i+"</a>";
+						html += "<a class='on' href='javascript:;' pageNo='"+i+"'><strong>"+i+"</strong></a>";
 					}
 				}
 
@@ -67,7 +67,41 @@ $(function(){
 				}
 			}
 			return html;
-		}
+		},
+		// 양쪽 공백 없애기
+		trimvalue:function(element){
+	        var pattern = /(^\s*)|(\s*$)/g; // \s 공백 문자
+			var trimValue = jQuery.trim($("#"+element).val().replace(pattern,''));
+			$("#"+element).val(trimValue);
+			return trimValue;
+	    },
+	    // 필수 입력 검사
+	    required:function (element,str) {
+			var chk = false;
+			if($("#"+element).attr("type") == 'radio' || $("#"+element).attr("type") == 'checkbox'){
+				var chk_fld = $("input[name="+element+"]");
+				for(var i=0; i<chk_fld.length; i++)
+				{
+					if(chk_fld[i].checked){
+						chk = true;
+						break;
+					}
+				}
+				if(!chk)
+				{
+					str = str + " : 필수 선택 입니다.\n";
+				}
+			}else {
+	            if ($.trimvalue(element) != ""){
+	            	chk = true;
+	            }else{
+	            	str = str + " : 필수 "+($("#"+element).attr("type")=="select-one"?"선택":"입력")+"입니다.\n";
+	            }
+	        }
+
+			if (!chk){alert(str);}
+			return chk;
+	    }
 	});
 	$(".datePicker").datepicker(
 			{

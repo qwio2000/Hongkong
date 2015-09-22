@@ -49,8 +49,11 @@ public class MemberSearchController {
 	@RequestMapping(value={"/ja/members/search","/fa/members/search"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMemberSearchPage(Model model,
 			@ModelAttribute LoginInfo loginInfo){
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberSearch");
 		String userType = loginInfo.getUserType();
 		log.debug("Getting MemberSearch Page, UserType : {}", userType);
+		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("memberStatuses", commonService.getCodeDtls("0008", loginInfo.getJisaCD(), 1, "Y"));
 		model.addAttribute("grades", commonService.getCodeDtls("0003", loginInfo.getJisaCD(), 1, "Y"));
 		model.addAttribute("subjects", commonService.getCodeDtls("0002", loginInfo.getJisaCD(), 1, "Y"));
@@ -65,19 +68,30 @@ public class MemberSearchController {
 			@ModelAttribute LoginInfo loginInfo,
 			MemberDto.MemberSearch memberSearch,
 			RedirectAttributes redirectAttributes){
-		log.debug("memberSearch : {}", memberSearch);
-		//TODO 전체 레코드 개수, 요청 페이지 번호 가져오기
-		PageUtil pageInfo = new PageUtil(0, 0, pageSize, blockSize);
-		List<MemberDto.MemberSearchInfo> members = memberSearchService.getSearchResults(memberSearch, loginInfo);
+		log.debug("member SearchResult Page {} ", memberSearch);
 		if("JA".equalsIgnoreCase(loginInfo.getUserType())){
-			model.addAttribute("members", members);
-			model.addAttribute("pageInfo", pageInfo);
+			List<String> headerScript = new ArrayList<>();
+			headerScript.add("memberSearch");
+			model.addAttribute("headerScript", headerScript);
+			model.addAttribute("memberSearch", memberSearch);
 			return "member/search/result";
 		}else{
-			redirectAttributes.addFlashAttribute("members", members);
-			redirectAttributes.addFlashAttribute("pageInfo", pageInfo);
-			return "redirect:/fa/members/report";
+			redirectAttributes.addFlashAttribute("memberSearch", memberSearch);
+			return "redirect:/fa/members/reports";
 		}
 	}
-	
+	@RequestMapping(value={"/ja/members/search/{pageNum:[0-9]+}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> getMemberSearches(@ModelAttribute LoginInfo loginInfo,
+			MemberDto.MemberSearch memberSearch,
+			@PathVariable int pageNum){
+		log.debug("get member searches {}",memberSearch);
+		List<MemberDto.MemberSearchInfo> members = memberSearchService.getSearchResults(memberSearch, loginInfo, pageNum, pageSize);
+		int totalCnt = (members.size()>0)? members.get(0).getRCnt() : 0;
+		PageUtil pageUtil = new PageUtil(pageNum, totalCnt, pageSize, blockSize);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("members", members);
+		map.put("pageInfo", pageUtil);
+		return map;
+	}
 }

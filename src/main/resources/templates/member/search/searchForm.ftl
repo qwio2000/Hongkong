@@ -3,6 +3,7 @@
 <div class="content">
 	<h2 class="conTit">Member Search</h2>
 	<form id="memberSearchForm" action="/${loginInfo.userType?lower_case }/members/searchResults" method="get">
+	<input type="hidden" id="userType" value="${loginInfo.userType }"/>
 	<#if loginInfo.userType == "JA">
 	<ul class="memSearch" style="float:left;">
 		<li>
@@ -34,7 +35,7 @@
 			<select name="memberStatus" id="memberStatus">
 				<option value="">All</option>
 				<#list memberStatuses as status>
-					<option value="${status.dtlCD }">${status.dtlCDNM }</option>
+					<option value="${status.dtlCD }" <#if status.dtlCD == "1">selected</#if>>${status.dtlCDNM }</option>
 				</#list>
 			</select>
 		</li>
@@ -91,7 +92,7 @@
 	</ul>
 	<div class="btnArea">
 		<a href=""><span>Reset</span></a>
-		<a href="javascript:$('#memberSearchForm').submit();"><span>Search Members</span></a>
+		<a id="memberSearchBtn" href="#"><span>Search Members</span></a>
 	</div>
 	</form>
 </div>

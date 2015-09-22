@@ -11,7 +11,7 @@ import com.jeiglobal.hk.domain.member.MemberDto.MemberSearchInfo;
 import com.jeiglobal.hk.repository.member.*;
 
 /**
- * 클래스명 : MemberSearchService.java
+ * 클래스명 : MemberReportService.java
  *
  * 작성일 : 2015. 9. 17.
  *
@@ -20,10 +20,11 @@ import com.jeiglobal.hk.repository.member.*;
  * 설명
  */
 @Service
-public class MemberSearchService {
+public class MemberReportService {
 	
 	@Autowired
-	private MemberSearchRepository memberSearchRepository;
+	private MemberReportRepository memberReportRepository;
+	
 	/**
 	 * 
 	 * @param loginInfo 
@@ -38,7 +39,7 @@ public class MemberSearchService {
 		map.put("loginInfo", loginInfo);
 		map.put("pageNum", pageNum);
 		map.put("pageSize", pageSize);
-		return memberSearchRepository.findSearchResults(map);
+		return memberReportRepository.findSearchResults(map);
 	}
 
 

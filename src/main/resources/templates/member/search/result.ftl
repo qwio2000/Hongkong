@@ -2,6 +2,10 @@
 <!-- Main Content -->
 <div class="content">
 	<h2 class="conTit">Member Report</h2>
+	<input type="hidden" id="centerName" value="${memberSearch.centerName?default('') }"/>
+	<input type="hidden" id="centerCity" value="${memberSearch.centerCity?default('') }"/>
+	<input type="hidden" id="centerState" value="${memberSearch.centerState?default('') }"/>
+	<input type="hidden" id="centerZipcode" value="${memberSearch.centerZipcode?default('') }"/>
 	<input type="hidden" id="memberStatus" value="${memberSearch.memberStatus?default('') }"/>
 	<input type="hidden" id="lastName" value="${memberSearch.lastName?default('') }"/>
 	<input type="hidden" id="firstName" value="${memberSearch.firstName?default('') }"/>
@@ -16,19 +20,23 @@
 		<table>
 			<colgroup>
 				<col width="40">
+				<col width="90">
+				<col width="60">
 				<col width="*">
 				<col width="70">
-				<col width="130">
-				<col width="130">
+				<col width="70">
+				<col width="120">
 				<col width="90">
 				<col width="90">
 				<col width="90">
-				<col width="110">
+				<col width="90">
 			</colgroup>
 			<thead>
 				<tr>
 					<th></th>
-					<th>FirstName ↑ ↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LastName ↑ ↓</th>
+					<th>State</th>
+					<th>Center</th>
+					<th>Member</th>
 					<th>Grade</th>
 					<th>Subject</th>
 					<th>Guardian/Parent</th>
@@ -47,11 +55,12 @@
 	</div>
 </div>
 <!--// Main Content -->
-<!--//TODO Appointment 데이터 추가 시 추가 작업 필요 -->
 <script id="memberReportTemplate" type="text/x-handlebars-template">
 	{{#each members}}
 		<tr>
 			<td>{{inc @index}}</td>
+			<td>{{stateName}}</td>
+			<td>{{deptName}}</td>
 			<td class="left"><img src="/public/img/ico_name.png" alt="" />{{memName}}</td>
 			<td>{{gradeName}}</td>
 			<td>{{splitStr memSubjStr 0}}</td>
@@ -63,7 +72,7 @@
 		</tr>
 	{{else}}
 		<tr>
-			<td colspan="9">no search results</td>
+			<td colspan="5">데이터가 없습니다.</td>
 		</tr>
 	{{/each}}
 </script>
