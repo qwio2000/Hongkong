@@ -58,14 +58,23 @@
 	{{#each members}}
 		<tr>
 			<td>{{inc @index}}</td>
-			<td class="left"><img src="/public/img/ico_name.png" alt="" />{{memName}}</td>
+			<td class="left"><img src="/public/img/ico_name.png" alt="" />{{mfstName}}{{mlstName}}</td>
 			<td>{{gradeName}}</td>
-			<td>{{splitStr memSubjStr 0}}</td>
+			<td>{{splitSubj memSubjStr}}</td>
 			<td>{{guardianName}}</td>
 			<td>{{gphone}}</td>
-			<td>{{splitStr memSubjStr 1}}</td>
-			<td>{{splitStr memSubjStr 2}}</td>
-			<td>{{splitStr memSubjStr 3}}</td>
+			{{#xIf statusCD "==" 3}}
+				<td colspan="3">
+					<div class="appoint">
+						<p>{{statusName}}</p>
+						[<a href="#"><span class="font_blue">Register</span></a>] [<a href=""><span class="font_blue">Free Diad</span></a>] [<a href=""><span class="font_red">Delete</span></a>]
+					</div>
+				</td>
+			{{else}}
+				<td>{{statusName}}</td>
+				<td>{{registFstYMD}}</td>
+				<td>{{dropFnlYMD}}</td>
+			{{/xIf}}
 		</tr>
 	{{else}}
 		<tr>

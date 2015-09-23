@@ -1,7 +1,7 @@
 <#include "/include/header.ftl">
 <!-- Main Content -->
 <div class="content">
-	<h2 class="conTit">Member Report</h2>
+	<h2 class="conTit">Member Search</h2>
 	<input type="hidden" id="centerName" value="${memberSearch.centerName?default('') }"/>
 	<input type="hidden" id="centerCity" value="${memberSearch.centerCity?default('') }"/>
 	<input type="hidden" id="centerState" value="${memberSearch.centerState?default('') }"/>
@@ -61,18 +61,18 @@
 			<td>{{inc @index}}</td>
 			<td>{{stateName}}</td>
 			<td>{{deptName}}</td>
-			<td class="left"><img src="/public/img/ico_name.png" alt="" />{{memName}}</td>
+			<td class="left"><img src="/public/img/ico_name.png" alt="" />{{mfstName}}{{mlstName}}</td>
 			<td>{{gradeName}}</td>
-			<td>{{splitStr memSubjStr 0}}</td>
+			<td>{{splitSubj memSubjStr}}</td>
 			<td>{{guardianName}}</td>
 			<td>{{gphone}}</td>
-			<td>{{splitStr memSubjStr 1}}</td>
-			<td>{{splitStr memSubjStr 2}}</td>
-			<td>{{splitStr memSubjStr 3}}</td>
+			<td>{{statusName}}</td>
+			<td>{{registFstYMD}}</td>
+			<td>{{dropFnlYMD}}</td>
 		</tr>
 	{{else}}
 		<tr>
-			<td colspan="5">데이터가 없습니다.</td>
+			<td colspan="11">no search results</td>
 		</tr>
 	{{/each}}
 </script>

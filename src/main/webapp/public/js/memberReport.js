@@ -24,6 +24,7 @@ $(function(){
 				data: paramData,
 				dataType: "json",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
+					console.log(jsonData);
 					var pageInfo = jsonData.pageInfo;
 					var totalRowCnt = pageInfo.totalRowCnt;
 					var pageNum = pageInfo.pageNum;
@@ -36,14 +37,50 @@ $(function(){
 					Handlebars.registerHelper("inc", function(value, options){
 						return (pageNum - 1) * pageSize + parseInt(value) + 1;
 					});
-					Handlebars.registerHelper('splitStr', function(str, index) {
-					  var t = str.split(",");
-					  if(t[index].indexOf("|") > -1){
-						  var dt = t[index].split("|");
-						  return new Handlebars.SafeString(dt[0] + "<br/>" + dt[1]);
-					  }else{
-						  return new Handlebars.SafeString(t[index]);
-					  }
+					Handlebars.registerHelper('splitSubj', function(str) {
+						var rtnStr = "";
+						if(str.indexOf(",") > -1){
+							var splitStr = str.split(",");
+							for (var i = 0; i < splitStr.length; i++) {
+								rtnStr += (i != splitStr.length -1) ? splitStr[i]+"<br/>": splitStr[i];
+							}
+							return new Handlebars.SafeString(rtnStr);
+						}else{
+							return new Handlebars.SafeString(str);
+						}
+					});
+					Handlebars.registerHelper('xIf', function (lvalue, operator, rvalue, options) {
+					    var operators, result;
+					    if (arguments.length < 3) {
+					        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+					    }
+					    if (options === undefined) {
+					        options = rvalue;
+					        rvalue = operator;
+					        operator = "===";
+					    }
+					    operators = {
+					        '==': function (l, r) { return l == r; },
+					        '===': function (l, r) { return l === r; },
+					        '!=': function (l, r) { return l != r; },
+					        '!==': function (l, r) { return l !== r; },
+					        '<': function (l, r) { return l < r; },
+					        '>': function (l, r) { return l > r; },
+					        '<=': function (l, r) { return l <= r; },
+					        '>=': function (l, r) { return l >= r; },
+					        'typeof': function (l, r) { return typeof l == r; }
+					    };
+
+					    if (!operators[operator]) {
+					        throw new Error("'xIf' doesn't know the operator " + operator);
+					    }
+
+					    result = operators[operator](lvalue, rvalue);
+					    if (result) {
+					        return options.fn(this);
+					    } else {
+					        return options.inverse(this);
+					    }
 					});
 					$("#mainContent").empty();
 					$("#mainContent").append(template(jsonData));

@@ -1,5 +1,7 @@
 package com.jeiglobal.hk;
 
+import java.text.*;
+
 import org.junit.*;
 import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.*;
@@ -18,7 +20,7 @@ public class MemberRegistTest {
 	MemberRegistService service;
 	
 	@Test
-	public void 첫관리방문일테스트() {
+	public void 첫관리방문일테스트() throws ParseException {
 //		List<String> list = service.getFirstManageDates("08");
 //		for (String string : list) {
 //			System.out.println(string);

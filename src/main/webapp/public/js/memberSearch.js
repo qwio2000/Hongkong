@@ -39,14 +39,17 @@ $(function(){
 					Handlebars.registerHelper("inc", function(value, options){
 						return (pageNum - 1) * pageSize + parseInt(value) + 1;
 					});
-					Handlebars.registerHelper('splitStr', function(str, index) {
-					  var t = str.split(",");
-					  if(t[index].indexOf("|") > -1){
-						  var dt = t[index].split("|");
-						  return new Handlebars.SafeString(dt[0] + "<br/>" + dt[1]);
-					  }else{
-						  return new Handlebars.SafeString(t[index]);
-					  }
+					Handlebars.registerHelper('splitSubj', function(str) {
+						var rtnStr = "";
+						if(str.indexOf(",") > -1){
+							var splitStr = str.split(",");
+							for (var i = 0; i < splitStr.length; i++) {
+								rtnStr += (i != splitStr.length -1) ? splitStr[i]+"<br/>": splitStr[i];
+							}
+							return new Handlebars.SafeString(rtnStr);
+						}else{
+							return new Handlebars.SafeString(str);
+						}
 					});
 					$("#mainContent").empty();
 					$("#mainContent").append(template(jsonData));
