@@ -1,6 +1,5 @@
 <#setting locale="en_US">
 <#-- @ftlvariable name="loginInfo" type="com.jeiglobal.domain.auth.LoginInfo" -->
-<#-- @ftlvariable name="hongkongUrl" type="java.lang.String" -->
 <#-- @ftlvariable name="jisaAuthInfo" type="com.jeiglobal.hk.auth.Authority" -->
 <#-- @ftlvariable name="bmsAuthInfo" type="com.jeiglobal.hk.auth.Authority" -->
 <#-- @ftlvariable name="imgPath" type="java.lang.String" -->

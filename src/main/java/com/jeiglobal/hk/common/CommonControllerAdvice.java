@@ -20,26 +20,9 @@ import com.jeiglobal.hk.domain.auth.*;
 @ControllerAdvice
 public class CommonControllerAdvice {
 	
-	@Value("${serverurl.globalbms}")
-	private String globalbmsUrl;
-	
-	@Value("${filePath.img}")
-	private String imgPath;
-	
-	@Value("${filePath.css}")
-	private String cssPath;
-	
-	@Value("${filePath.js}")
-	private String jsPath;
-	
 	@ModelAttribute("loginInfo")
 	public LoginInfo getLoginInfo(Authentication authentication){
 		return (authentication == null) ? null : (LoginInfo) authentication.getPrincipal();
-	}
-	
-	@ModelAttribute("globalbmsUrl")
-	public String getGlobalbmsUrl(){
-		return globalbmsUrl;
 	}
 	
 	@ModelAttribute("jisaAuthInfo")
@@ -71,6 +54,16 @@ public class CommonControllerAdvice {
 		}
 		return (id.isEmpty() || id == null || key.isEmpty() || key == null)  ? null : id;
 	}
+	
+	@Value("${filePath.img}")
+	private String imgPath;
+	
+	@Value("${filePath.css}")
+	private String cssPath;
+	
+	@Value("${filePath.js}")
+	private String jsPath;
+	
 	@ModelAttribute("imgPath")
 	public String getImgPath(){return imgPath;}
 	@ModelAttribute("cssPath")
