@@ -1,5 +1,6 @@
 package com.jeiglobal.hk;
 
+import org.junit.*;
 import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.*;
@@ -16,15 +17,15 @@ public class MemberRegistTest {
 	@Autowired
 	MemberRegistService service;
 	
-//	@Test
-//	public void 첫관리방문일테스트() throws ParseException {
+	@Test
+	public void 첫관리방문일테스트() {
 //		List<String> list = service.getFirstManageDates("08");
 //		for (String string : list) {
 //			System.out.println(string);
 //		}
-//	}
-//	@Test
-//	public void 회비가져오기() throws ParseException {
+	}
+	@Test
+	public void 회비가져오기() {
 //		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 //		Calendar cal = Calendar.getInstance();
 //		cal.setTime(sdf.parse("2015-09-01"));
@@ -33,6 +34,6 @@ public class MemberRegistTest {
 //			System.out.println("첫관리방문일 : "+sdf.format(cal.getTime())+", 회비 : "+calcFee);
 //			cal.add(Calendar.DATE, 1);
 //		}
-//	}
+	}
 	
 }
