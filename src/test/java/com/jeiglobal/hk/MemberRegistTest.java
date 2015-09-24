@@ -1,6 +1,7 @@
 package com.jeiglobal.hk;
 
 import java.text.*;
+import java.util.*;
 
 import org.junit.*;
 import org.junit.runner.*;
@@ -10,6 +11,7 @@ import org.springframework.test.context.junit4.*;
 import org.springframework.test.context.web.*;
 
 import com.jeiglobal.hk.service.member.*;
+import com.jeiglobal.hk.utils.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = HongkongProjectApplication.class)
@@ -20,7 +22,15 @@ public class MemberRegistTest {
 	MemberRegistService service;
 	
 	@Test
-	public void 첫관리방문일테스트() throws ParseException {
+	public void 첫관리방문일테스트() throws Exception {
+//		SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yy");
+//		Calendar cal = Calendar.getInstance();
+//		cal.set(2015, 8, 1);
+//		for (int i = 1; i < 40; i++) {
+//			List<String> weekStrings = CommonUtils.weekCalendar(sdf.format(cal.getTime()));
+//			cal.add(Calendar.DATE, 1);
+//		}
+		
 //		List<String> list = service.getFirstManageDates("08");
 //		for (String string : list) {
 //			System.out.println(string);

@@ -1,5 +1,8 @@
 package com.jeiglobal.hk.common;
 
+import java.text.*;
+import java.util.*;
+
 import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.*;
@@ -7,6 +10,7 @@ import org.springframework.security.core.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.jeiglobal.hk.domain.auth.*;
+import com.jeiglobal.hk.utils.*;
 /**
  * 
  * 클래스명 : CommonControllerAdvice.java
@@ -23,6 +27,11 @@ public class CommonControllerAdvice {
 	@ModelAttribute("loginInfo")
 	public LoginInfo getLoginInfo(Authentication authentication){
 		return (authentication == null) ? null : (LoginInfo) authentication.getPrincipal();
+	}
+	
+	@ModelAttribute("mainWeek")
+	public List<String> getMainWeek() throws ParseException{
+		return CommonUtils.weekCalendar("");
 	}
 	
 	@ModelAttribute("jisaAuthInfo")

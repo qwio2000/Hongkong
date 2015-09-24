@@ -1,7 +1,10 @@
 $(function(){
+	$(".active").css('borderBottom','2px solid #fff'); 
+	
 	$(".gnb>li>a").hover(function(){
 		$(".gnb>li>a").removeClass('on');
-			$(this).addClass('on').children().addClass('on');
+		$(this).addClass('on').children().addClass('on');
+		$(".active").css('borderBottom','2px solid #fc9d0b'); 
 	});
 
 	$(".gnb").mouseleave(function(){
@@ -11,6 +14,7 @@ $(function(){
 			$('.gnb>li>a').each(function(index){
 				if(index+1 == menuFirstCode){
 					$(this).addClass('on').children().addClass('on');
+					$(".active").css('borderBottom','2px solid #fff'); 
 				}
 			});
 		}
