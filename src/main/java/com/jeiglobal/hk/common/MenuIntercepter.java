@@ -37,6 +37,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
+		log.debug("메뉴인터셉터!!!!!!@#!@#!@#!@#!@#");
 		HttpSessionSecurityContextRepository hsscr = new HttpSessionSecurityContextRepository();
 		HttpRequestResponseHolder hrrh = new HttpRequestResponseHolder(request, response);
 		SecurityContext context = hsscr.loadContext(hrrh);
@@ -84,8 +85,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 			int menuCodeCnt = menuCode.length();
 			
 			if(!menuCode.isEmpty() || 
-					"/ja".equalsIgnoreCase(currentUrl) || 
-					"/fa".equalsIgnoreCase(currentUrl)){
+					"/ja".equalsIgnoreCase(currentUrl) || "/fa".equalsIgnoreCase(currentUrl)){
 				if(menuCodeCnt == 1){
 					menuFirstCode = menuCode.substring(0,1);
 				}else if(menuCodeCnt == 3){
