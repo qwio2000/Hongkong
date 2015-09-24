@@ -5,10 +5,7 @@ multipart:
     
 uploadpath:
         announcements: C:\upload\jeiglobal\hk\announcements
-        
-spring:
-    resources:
-        cache-period:31556926
+
         
 serverurl:
      hongkong: http://localhost:8080
