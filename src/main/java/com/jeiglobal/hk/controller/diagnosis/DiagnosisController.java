@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jeiglobal.hk.domain.auth.LoginInfo;
-import com.jeiglobal.hk.domain.diagnosis.Diagnosis;
+import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
 import com.jeiglobal.hk.service.CommonService;
 import com.jeiglobal.hk.service.diagnosis.DiagnosisService;
 import com.jeiglobal.hk.utils.PageUtil;
@@ -78,8 +78,6 @@ public class DiagnosisController {
 		String jisaCD = loginInfo.getJisaCD();
 		String deptCd = loginInfo.getDeptCD();		
 		
-		
-		
 		model.addAttribute("page", page);
 		model.addAttribute("pagecnt", pagecnt);
 		model.addAttribute("jisaCD", jisaCD);
@@ -93,31 +91,45 @@ public class DiagnosisController {
 		model.addAttribute("grade", grade);
 		model.addAttribute("subject", subject);
 		
-		
-		return "diagnosis/diagnosisSearch/list";
-		
+		return "diagnosis/diagnosisSearch/list";		
 	}
 		
 	@RequestMapping(value={"/fa/diagnosis/diagnosisSearch/searchJson"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> diagnosisSerchlistJson(Model model,int pageNum, int pagecnt, String jisaCD, String deptCd, String status, String lastName, String firstName, String homePhone, String cellPhone, String email, String grade, String subject) {
 		
-		Map<String, Object> diagnosisList = new HashMap<>();
+		Map<String, Object> diagnosisList = new HashMap<>();		
 		
-		
-		List<Diagnosis> diagnosis = diagnosisService.getDiagnosis(pageNum,pagecnt,jisaCD,deptCd,status,lastName,firstName,homePhone,cellPhone,email,grade,subject);
+		List<DiagnosisDto.Diagnosis> diagnosis = diagnosisService.getDiagnosis(pageNum,pagecnt,jisaCD,deptCd,status,lastName,firstName,homePhone,cellPhone,email,grade,subject);
 		int totalCnt = 0;
 		if(diagnosis.size() > 0){
 			totalCnt = diagnosis.get(0).getTotalCnt();
 		}
 		//페이징 처리에 사용하는 유틸 클래스
 		PageUtil pageUtil = new	PageUtil(pageNum, totalCnt, PAGE_SIZE, PAGE_BLOCK_SIZE);
-System.out.println(pageUtil);
+
 		diagnosisList.put("pageUtil", pageUtil);
 		diagnosisList.put("page", diagnosis);
-		
+		System.out.println(diagnosis);		
 		return diagnosisList;
 	
+	}
+	
+	@RequestMapping(value={"/fa/diagnosis/diagnosis"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String diagnosisdiagnosis() {
+		log.debug("Getting diagnosis List Page");
+		return "diagnosis/diagnosis";	
+	}
+	
+	@RequestMapping(value={"/fa/diagnosis/ippr"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String diagnosisIppr(Model model, @ModelAttribute LoginInfo loginInfo, String memKey, String subj, String Freejindan) {
+		log.debug("Getting ippr Popup Page");
+		
+		DiagnosisDto.DiagnosisInputippr DiagnosisInputippr =diagnosisService.getDiagnosisInputippr(loginInfo.getJisaCD(), memKey, subj, Freejindan);	
+		System.out.println(DiagnosisInputippr);
+		model.addAttribute("ippr", DiagnosisInputippr);
+		
+		return "diagnosis/diagnosis/ippr";	
 	}
 
 	

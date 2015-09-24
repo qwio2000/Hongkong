@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jeiglobal.hk.domain.diagnosis.Diagnosis;
+import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
 import com.jeiglobal.hk.repository.diagnosis.DiagnosisRepository;
 
 
@@ -17,7 +17,7 @@ public class DiagnosisService {
 	@Autowired
 	private DiagnosisRepository diagnosisRepository;
 	
-	public List<Diagnosis> getDiagnosis(int page, int pagecnt, String JisaCD, String DeptCd, String Status, String LastName, String FirstName, String HomePhone, String CellPhone, String Email, String Grade, String Subject) {
+	public List<DiagnosisDto.Diagnosis> getDiagnosis(int page, int pagecnt, String JisaCD, String DeptCd, String Status, String LastName, String FirstName, String HomePhone, String CellPhone, String Email, String Grade, String Subject) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("page", page);
 		map.put("pagecnt", pagecnt);
@@ -35,5 +35,21 @@ public class DiagnosisService {
 		
 		return diagnosisRepository.findDiagnosis(map);
 	}
+	
+	
+	public DiagnosisDto.DiagnosisInputippr getDiagnosisInputippr(String JisaCD, String memKey, String subj, String Freejindan){
+		Map<String, Object> map = new HashMap<>();
+		map.put("JisaCD", JisaCD);		
+		map.put("memKey", memKey);		
+		map.put("subj", subj);
+		map.put("Freejindan", Freejindan);
+		
+		return diagnosisRepository.findDiagnosisIppr(map);
+		
+		
+	}
+
+	
+	
 
 }

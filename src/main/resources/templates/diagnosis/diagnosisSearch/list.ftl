@@ -18,6 +18,7 @@
 							<col width="100">
 							<col width="80">
 							<col width="80">
+							<col width="50">
 						</colgroup>
 						<thead>
 							<tr>
@@ -29,6 +30,7 @@
 								<th>Phone</th>
 								<th>Status</th>
 								<th>Diagnosed</th>
+								<th>IPPR</th>
 							</tr>
 						</thead>
 						<tbody id="diagnosislist">
@@ -71,6 +73,7 @@
 			<td>{{ephone}}</td>
 			<td>{{statusNM}}</td>
 			<td>{{omrDate}}</td>
+			<td></td>
 		</tr>
 	{{else}}
 		<tr>
