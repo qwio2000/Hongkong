@@ -1,10 +1,14 @@
 package com.jeiglobal.hk.common.config;
 
+import java.util.*;
+
 import org.springframework.boot.context.embedded.*;
 import org.springframework.context.*;
 import org.springframework.context.annotation.*;
 import org.springframework.web.filter.*;
+import org.springframework.web.servlet.*;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.i18n.*;
 
 import com.jeiglobal.hk.common.*;
 import com.jeiglobal.hk.utils.*;
@@ -97,6 +101,18 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	@Bean(name="download")
 	public FileDownload download() {
 		return new FileDownload();
+	}
+	/**
+	 * Default Locale 설정
+	 * @return LocaleResolver
+	 */
+	@Bean
+	public LocaleResolver localeResolver(){
+		CookieLocaleResolver resolver = new CookieLocaleResolver();
+//		resolver.setDefaultLocale(new Locale(Locale.KOREA.getLanguage(), Locale.KOREA.getCountry()));
+		resolver.setDefaultLocale(new Locale(Locale.US.getLanguage(), Locale.US.getCountry()));
+//		resolver.setDefaultLocale(new Locale(Locale.CHINA.getLanguage(), Locale.CHINA.getLanguage()));
+		return resolver;
 	}
 	
 }

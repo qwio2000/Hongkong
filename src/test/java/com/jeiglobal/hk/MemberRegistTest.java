@@ -1,8 +1,5 @@
 package com.jeiglobal.hk;
 
-import java.text.*;
-import java.util.*;
-
 import org.junit.*;
 import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.*;
@@ -18,6 +15,8 @@ import com.jeiglobal.hk.utils.*;
 @WebAppConfiguration
 public class MemberRegistTest {
 	
+	@Autowired
+	MessageSourceAccessor accessor;
 	@Autowired
 	MemberRegistService service;
 	
