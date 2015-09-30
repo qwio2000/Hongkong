@@ -6,6 +6,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import com.jeiglobal.hk.domain.member.MemberDto.MemberRegistSearchInfo;
 import com.jeiglobal.hk.repository.member.*;
 
 /**
@@ -100,5 +101,16 @@ public class MemberRegistService {
 		param.put("bookNum", bookNum);
 		param.put("week", week);
 		return memberRegistRepository.getCalcFee(param);
+	}
+	/**
+	 * @param name
+	 * @param jisaCD 
+	 * @return List<MemberRegistSearchInfo>
+	 */
+	public List<MemberRegistSearchInfo> getMemberRegistSearch(String name, String jisaCD) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("name", name);
+		paramMap.put("jisaCD", jisaCD);
+		return memberRegistRepository.findMemberRegistSearch(paramMap);
 	}
 }

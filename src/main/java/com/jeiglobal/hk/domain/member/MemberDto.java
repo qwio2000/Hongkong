@@ -49,6 +49,16 @@ public class MemberDto {
 		private String dropFnlYMD;
 		private String stateName;
 		private String deptName;
-		
+	}
+	
+	@Data
+	public static class MemberRegistSearchInfo{
+		private String memName;
+		private String guardianName;
+		private String address;
+		private String city;
+		private String phone;
+		private String statusCD;
+		private String statusName;
 	}
 }

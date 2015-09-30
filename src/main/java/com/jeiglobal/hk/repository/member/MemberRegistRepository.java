@@ -2,6 +2,7 @@ package com.jeiglobal.hk.repository.member;
 
 import java.util.*;
 
+import com.jeiglobal.hk.domain.member.MemberDto.MemberRegistSearchInfo;
 import com.jeiglobal.hk.repository.*;
 
 /**
@@ -19,5 +20,7 @@ public interface MemberRegistRepository {
 	public String getClosingDate(Map<String, Object> param);
 
 	public int getCalcFee(Map<String, Object> param);
+
+	public List<MemberRegistSearchInfo> findMemberRegistSearch(Map<String, Object> paramMap);
 
 }
