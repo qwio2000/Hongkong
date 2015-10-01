@@ -1,4 +1,4 @@
-package com.jeiglobal.hk.controller.promoitem;
+package com.jeiglobal.hk.controller.promotionitem;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +32,15 @@ public class PromotionItemController {
 		log.debug("Getting List Page, UserType : {}", userType);
 		
 		return "promotionitem/list";
+	}
+	
+	
+	@RequestMapping(value={"/ja/promoitem/addpage","/ja/promoitem"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String Addpage(@ModelAttribute LoginInfo loginInfo) {
+		String userType = loginInfo.getUserType();
+		log.debug("Getting Write Page, UserType : {}", userType);
+		
+		return "promotionitem/write";
 	}
 
 }
