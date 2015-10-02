@@ -6,7 +6,12 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import com.jeiglobal.hk.domain.*;
+import com.jeiglobal.hk.domain.auth.*;
+import com.jeiglobal.hk.domain.member.*;
+import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberRegistSearchInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.RegistSubject;
 import com.jeiglobal.hk.repository.member.*;
 
 /**
@@ -44,7 +49,7 @@ public class MemberRegistService {
 		//마감 날짜 +8
 		Calendar limitDate = getLimitManageDate(closingDate); 
 		List<String> firstManageDates = new ArrayList<String>();
-		SimpleDateFormat dateFommater = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFommater = new SimpleDateFormat("MM/dd/yyyy");
 		
 		for (int i = 0; i < fstVisit; i++) {
 			cal.add(Calendar.DATE, 1);
@@ -85,11 +90,12 @@ public class MemberRegistService {
 	 * 입회시 회비 계산하는 메서드
 	 * @param manageDate : 첫 관리 방문일 선택 일
 	 * @param deptCD : 가맹점 코드
+	 * @param bookNum : 불출 수
 	 * @return int : 회비
 	 * @throws ParseException 
 	 */
-	public int getCalcFee(String manageDate, String deptCD, String bookNum) throws ParseException{
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	public int getCalcFee(String manageDate, String deptCD, int bookNum) throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		Calendar end = Calendar.getInstance();
 		int endDate = end.getMaximum(Calendar.DAY_OF_MONTH);
 		end.setTime(sdf.parse(manageDate));
@@ -112,5 +118,52 @@ public class MemberRegistService {
 		paramMap.put("name", name);
 		paramMap.put("jisaCD", jisaCD);
 		return memberRegistRepository.findMemberRegistSearch(paramMap);
+	}
+	/**
+	 * @param jisaCD
+	 * @param deptCD
+	 * @return List<CodeDtl>
+	 */
+	public List<CodeDtl> getManageTimes(String jisaCD, String deptCD) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		Map<String, Object> deptHour = memberRegistRepository.findDeptOpenCloseTime(param);
+		param.put("mstCD", "0206");
+		param.put("deptHour", deptHour);
+		return memberRegistRepository.findDeptAvailableTimes(param);
+	}
+	/**
+	 * @param memKey
+	 * @return MemMst
+	 */
+	public MemMst getMemMst(String memKey) {
+		return memberRegistRepository.findMemMst(memKey);
+	}
+	/**
+	 * @param memKey
+	 * @return GuardianInfo
+	 */
+	public GuardianInfo getGuardianInfo(String memKey) {
+		return memberRegistRepository.findGuardianInfo(memKey);
+	}
+	/**
+	 * @param memKey
+	 * @param loginInfo
+	 * @return List<RegistSubject>
+	 */
+	public List<RegistSubject> getRegistSubjects(String memKey,
+			LoginInfo loginInfo) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("jisaCD", loginInfo.getJisaCD());
+		param.put("deptCD", loginInfo.getDeptCD());
+		return memberRegistRepository.findRegistSubjects(param);
+	}
+	/**
+	 * @return String
+	 */
+	public String getNewMemKey() {
+		return memberRegistRepository.getKeyGenSelect();
 	}
 }

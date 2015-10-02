@@ -7,6 +7,8 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import com.jeiglobal.hk.domain.member.MemberDto.*;
+
 /**
  * 
  * 클래스명 : CommonUtils.java
@@ -95,5 +97,31 @@ public class CommonUtils {
 		cal.add(Calendar.DATE, 6);
 		rtnList.add(sdf.format(cal.getTime()));
 		return rtnList;
+	}
+
+	/**
+	 * 
+	 * @return List<CodeDtl>
+	 */
+	public static List<MonthInfo> getMonths() {
+		List<MonthInfo> months = new ArrayList<MonthInfo>();
+		DateFormatSymbols dateFormatSymbolsEng = new DateFormatSymbols(Locale.ENGLISH);
+		String[] shortMonths = dateFormatSymbolsEng.getShortMonths();
+		String[] monthNum = {"01","02","03","04","05","06","07","08","09","10","11","12"};
+		for (int i = 0; i < monthNum.length; i++) {
+			months.add(new MonthInfo(monthNum[i], shortMonths[i]));
+		}
+		return months;
+	}
+
+	/**
+	 * @param currentYear
+	 * @param currentMonth
+	 * @return int
+	 */
+	public static int getMaxDays(int year, int month) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month-1, 1);
+		return cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 	}
 }

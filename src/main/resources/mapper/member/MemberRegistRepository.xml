@@ -14,11 +14,53 @@
 		WHERE b.deptCD = #{deptCD} AND a.bookNum = #{bookNum} AND a.weekNum = #{week}
 	</select>
 	<select id="findMemberRegistSearch" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberRegistSearchInfo">
-		SELECT CONCAT(IFNULL(mFstName,''), IFNULL(mLstName,'')) AS memName, CONCAT(IFNULL(gFstName,''), IFNULL(gLstName,'')) AS guardianName,  
+		SELECT a.memKey, CONCAT(IFNULL(mFstName,''), IFNULL(mLstName,'')) AS memName, CONCAT(IFNULL(gFstName,''), IFNULL(gLstName,'')) AS guardianName,  
 			addr AS address, city, ePhone AS phone, MIN(statusCD) AS statusCD, globalbiz.FuncCodeDtlNM(#{jisaCD},'0008', MIN(statusCD),'','') AS statusName
 		FROM globalbiz.MemMst AS a
 		INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey
 		WHERE CONCAT(mFstName, mLstName) LIKE CONCAT('%', #{name}, '%') OR CONCAT(gFstName, gLstNAme) LIKE CONCAT('%', #{name}, '%')
 		GROUP BY a.memKey, a.mFstName, a.mLstName, a.gFstName, a.gLstName, a.addr, a.city, a.ePhone
+	</select>
+	<select id="findDeptOpenCloseTime" parameterType="hashMap" resultType="hashMap">
+		SELECT cHoursStart, cHoursEnd 
+		FROM globalbiz.DeptMst 
+		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD}
+	</select>
+	<select id="findDeptAvailableTimes" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.CodeDtl">
+		SELECT * 
+		FROM globalbiz.CodeDtl 
+		WHERE jisaCD = #{jisaCD} AND mstCD = #{mstCD} AND dtlCD BETWEEN #{deptHour.cHoursStart} AND #{deptHour.cHoursEnd}
+	</select>
+	<select id="findMemMst" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemMst">
+		SELECT * 
+		FROM globalbiz.MemMst 
+		WHERE memKey = #{memKey}
+	</select>
+	<select id="findMemSubjMst" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemSubjMst">
+		SELECT * 
+		FROM globalbiz.MemSubjMst 
+		WHERE memKey = #{memKey}
+		ORDER BY statusCD
+	</select>
+	<select id="findGuardianInfo" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$GuardianInfo">
+		SELECT gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone
+		FROM globalbiz.MemMst 
+		WHERE memKey = #{memKey}
+	</select>
+	<select id="findRegistSubjects" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$RegistSubject">
+		SELECT a.jisaCD, a.deptCD, a.subj, a.studyNum AS subjStudyNum, a.bookNum AS subjBookNum, a.monthNum AS subjMonthNum, a.digYN AS subjDigYN, a.sortCD, 
+		b.memKey, b.statusCD, b.yoil, globalbiz.FuncCodeDtlNM(a.jisaCD,'0006',b.yoil,'E','') AS yoilName, b.studyNum, b.bookNum, b.visitHours
+		FROM globalbiz.DeptSubjInfo AS a 
+		LEFT JOIN (
+			SELECT aa.memKey, aa.subj, statusCD, aa.yoil, aa.studyNum, aa.bookNum, bb.visitHours
+			FROM globalbiz.MemSubjMst AS aa
+			INNER JOIN globalbiz.MemSubjStudy AS bb ON aa.memKey = bb.memKey AND aa.subj = bb.subj
+			WHERE aa.memKey = #{memKey}
+		) AS b ON a.subj = b.subj
+		WHERE a.jisaCD = #{jisaCD} AND a.deptCD = #{deptCD}
+		ORDER BY -b.statusCD DESC, a.sortCD
+	</select>
+	<select id="getKeyGenSelect" statementType="CALLABLE" resultType="java.lang.String">
+		CALL globalbiz.SPKeyGenSelect('01');
 	</select>
 </mapper>

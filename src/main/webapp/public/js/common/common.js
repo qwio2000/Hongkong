@@ -105,7 +105,15 @@ $(function(){
 
 			if (!chk){alert(str);}
 			return chk;
-	    }
+	    },
+	    emailCheck:function(element) {
+			var pattern = /([0-9a-zA-Z_-]+)@([0-9a-zA-Z_-]+)\.([0-9a-zA-Z_-]+)/; //pattern = /(\S+)@(\S+)\.(\S+)/; 이메일주소에 한글 사용시
+			if(!pattern.test($.trim($("#"+element).val()))){
+			    alert("이메일 형식을 맞춰주세요. 예)hong@korea.com");
+			    return false;
+			}
+			return true;
+		}
 	});
 	$(".datePicker").datepicker(
 			{

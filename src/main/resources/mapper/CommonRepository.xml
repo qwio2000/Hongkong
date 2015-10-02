@@ -42,4 +42,10 @@
 	<select id="findGradeOfSubject" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.GradeOfSubject">
 		CALL globalbiz.SPJinDanDung (#{jisaCD},#{subj},#{useYN},#{digYN})
 	</select>
+	<select id="findSubjectsOfDept" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.SubjectOfDept">
+		SELECT * 
+		FROM globalbiz.DeptSubjInfo 
+		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} 
+		ORDER BY sortCD
+	</select>
 </mapper>
