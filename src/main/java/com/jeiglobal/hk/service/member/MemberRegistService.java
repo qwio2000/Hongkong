@@ -6,6 +6,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import com.jeiglobal.hk.domain.member.MemberDto.MemberRegistSearchInfo;
 import com.jeiglobal.hk.repository.member.*;
 
 /**
@@ -23,6 +24,11 @@ public class MemberRegistService {
 	@Autowired
 	private MemberRegistRepository memberRegistRepository;
 	
+	@Value("${flag.fstVisit}")
+	private int fstVisit;
+	
+	@Value("${flag.mgFstVisit}")
+	private int mgFstVisit;
 	/**
 	 * 입회 시 첫관리 방문일 목록 가져오는 메서드
 	 * @param jisaCD
@@ -40,7 +46,7 @@ public class MemberRegistService {
 		List<String> firstManageDates = new ArrayList<String>();
 		SimpleDateFormat dateFommater = new SimpleDateFormat("yyyy-MM-dd");
 		
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < fstVisit; i++) {
 			cal.add(Calendar.DATE, 1);
 			if(limitDate.after(cal)){
 				firstManageDates.add(dateFommater.format(cal.getTime()));
@@ -60,7 +66,7 @@ public class MemberRegistService {
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		cal.setTime(sdf.parse(closingDate));
-		cal.add(Calendar.DATE, 8);//AM 0:00 기준이라 8을 더해줌
+		cal.add(Calendar.DATE, mgFstVisit + 1);//AM 0:00 기준이라 8을 더해줌
 		return cal;
 	}
 	/**
@@ -95,5 +101,16 @@ public class MemberRegistService {
 		param.put("bookNum", bookNum);
 		param.put("week", week);
 		return memberRegistRepository.getCalcFee(param);
+	}
+	/**
+	 * @param name
+	 * @param jisaCD 
+	 * @return List<MemberRegistSearchInfo>
+	 */
+	public List<MemberRegistSearchInfo> getMemberRegistSearch(String name, String jisaCD) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("name", name);
+		paramMap.put("jisaCD", jisaCD);
+		return memberRegistRepository.findMemberRegistSearch(paramMap);
 	}
 }

@@ -97,7 +97,7 @@ $(function(){
 			}
 		}
 		if(!isChange){
-			alert('Please enter your search criteria.');
+			alert('검색 조건을 하나 이상 입력해주세요.');
 			return;
 		}
 		$('#memberSearchForm').submit();

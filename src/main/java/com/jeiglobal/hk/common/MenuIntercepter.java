@@ -37,7 +37,6 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		log.debug("메뉴인터셉터!!!!!!@#!@#!@#!@#!@#");
 		HttpSessionSecurityContextRepository hsscr = new HttpSessionSecurityContextRepository();
 		HttpRequestResponseHolder hrrh = new HttpRequestResponseHolder(request, response);
 		SecurityContext context = hsscr.loadContext(hrrh);
