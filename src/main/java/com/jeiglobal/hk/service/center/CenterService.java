@@ -1,13 +1,20 @@
 package com.jeiglobal.hk.service.center;
 
-import javax.servlet.http.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.security.crypto.password.*;
-import org.springframework.stereotype.*;
+import javax.servlet.http.HttpServletResponse;
 
-import com.jeiglobal.hk.service.auth.*;
-import com.jeiglobal.hk.utils.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.jeiglobal.hk.domain.center.CenterSearchList;
+import com.jeiglobal.hk.repository.center.CenterRepository;
+import com.jeiglobal.hk.service.auth.AuthoritiesService;
+import com.jeiglobal.hk.utils.CommonUtils;
 
 /**
  * 클래스명 : CenterService.java
@@ -26,6 +33,29 @@ public class CenterService {
 	
 	@Autowired
 	private AuthoritiesService authoritiesService;
+	
+	@Autowired
+	private CenterRepository centerRepository;
+	
+	Map<String, Object> param = new HashMap<String, Object>();
+	
+	// 센터 검색
+	public List<CenterSearchList> getCenterSearchList(String jisaCD,String deptName,String city,String stateCD,String statusCD,String sortKind,String sort, int pageNum, int pageSize) {		
+		param.clear();
+		param.put("jisaCD", jisaCD);
+		param.put("deptName", deptName);		
+		param.put("city", city);
+		param.put("stateCD", stateCD);
+		param.put("statusCD", statusCD);		
+		param.put("sortKind", sortKind);
+		param.put("sort", sort);
+		param.put("pageNum", pageNum);
+		param.put("pageSize", pageSize);		
+		
+		return centerRepository.findSearchResults(param);				
+	}
+	
+	
 	
 	/**
 	 * @param authId
