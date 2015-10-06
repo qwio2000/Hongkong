@@ -99,4 +99,8 @@ public class CommonService {
 		param.put("deptCD", deptCD);
 		return commonRepository.findSubjectsOfDept(param);
 	}
+	
+	public String getEmpKeyByDeptCD(String deptCD){
+		return commonRepository.findEmpKeyByDeptCD(deptCD);
+	}
 }

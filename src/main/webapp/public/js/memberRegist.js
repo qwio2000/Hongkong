@@ -139,10 +139,20 @@ $(function(){
 		if(isChecked){
 			$("#firstManageDate_"+subj).attr("disabled",false);
 			$("#manageTime_"+subj).attr("disabled",false);
+			$("#bookNum_"+subj).attr("disabled",false);
+			$("#monthNum_"+subj).attr("disabled",false);
+			$("#studyNum_"+subj).attr("disabled",false);
+			$("#fee_"+subj).attr("disabled",false);
+			$("#isResume_"+subj).attr("disabled",false);
 			feeCalc(subj);
 		}else{
 			$("#firstManageDate_"+subj).attr("disabled",true);
 			$("#manageTime_"+subj).attr("disabled",true);
+			$("#bookNum_"+subj).attr("disabled",true);
+			$("#monthNum_"+subj).attr("disabled",true);
+			$("#studyNum_"+subj).attr("disabled",true);
+			$("#fee_"+subj).attr("disabled",true);
+			$("#isResume_"+subj).attr("disabled",true);
 			$("#fee_"+subj).val('');
 		}
 	});
@@ -158,6 +168,20 @@ $(function(){
 	$('select[id^=firstManageDate_]').change(function(){
 		var subj = $(this).attr('id').substring($(this).attr('id').length-2, $(this).attr('id').length);
 		feeCalc(subj);
+	});
+	$('input[name=registWhy]').click(function(){
+		if(this.value == '99'){
+			$("#registWhyEtc").attr("disabled", false);
+		}else{
+			$("#registWhyEtc").attr("disabled", true);
+		}
+	});
+	$('input[name=registHow]').click(function(){
+		if(this.value == '99'){
+			$("#registHowEtc").attr("disabled", false);
+		}else{
+			$("#registHowEtc").attr("disabled", true);
+		}
 	});
 });
 //회비 계산

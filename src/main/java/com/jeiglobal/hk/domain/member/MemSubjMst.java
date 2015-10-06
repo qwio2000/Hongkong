@@ -14,14 +14,17 @@ import lombok.*;
  * globalbiz.MemSubjMst 테이블
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemSubjMst {
+	
 	private String memKey;
 	private String subj;
 	private String statusCD;
 	private String memName;
 	private String yoil;
-	private String studyNum;
-	private String bookNum;
+	private int studyNum;
+	private int bookNum;
 	private String digGrade;
 	private String registFstYMD;
 	private String registFnlYMD;
@@ -32,8 +35,8 @@ public class MemSubjMst {
 	private String studyNumChgYMD;
 	private String bookNumChgYMD;
 	private String befoYoil;
-	private String befoStudyNum;
-	private String befoBookNum;
+	private int befoStudyNum;
+	private int befoBookNum;
 	private String empKey;
 	private String deptCD;
 	private String jisaCD;

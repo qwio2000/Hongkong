@@ -48,4 +48,9 @@
 		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} 
 		ORDER BY sortCD
 	</select>
+	<select id="findEmpKeyByDeptCD" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT empKey 
+		FROM globalbiz.DeptMst
+		WHERE deptCD = #{deptCD} 
+	</select>
 </mapper>

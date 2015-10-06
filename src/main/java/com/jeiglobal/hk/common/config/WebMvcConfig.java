@@ -2,6 +2,7 @@ package com.jeiglobal.hk.common.config;
 
 import java.util.*;
 
+import org.modelmapper.*;
 import org.springframework.boot.context.embedded.*;
 import org.springframework.context.*;
 import org.springframework.context.annotation.*;
@@ -115,4 +116,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 		return resolver;
 	}
 	
+	@Bean
+	public ModelMapper modelMapper(){
+		return new ModelMapper();
+	}
 }

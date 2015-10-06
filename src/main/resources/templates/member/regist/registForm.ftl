@@ -9,17 +9,17 @@
 	<div class="clearfix">
 		<form id="registForm" name="registForm" action="/fa/members" method="post">
 		<input type="hidden" name="type" value="${type }">
-		<input type="hidden" name="memKey" value="${info.memMst?default('') }">
+		<input type="hidden" name="memKey" value="${memKey?default('') }">
 		<div class="conLeft">
 			<h2 class="conTit">Parent(Guardian) Information</h2>
 			<ul class="memSearch">
 				<li>
 					<label for="gFstName">First Name <span class="must">*</span></label>
-					<input type="text"  class="searchInput" name="gFstName" id="gFstName" style="width:334px" value="${info.GFstName?default('') }"/>
+					<input type="text"  class="searchInput" name="gFstName" id="gFstName" style="width:334px" value="${info.GFstName?default('') }" <#if type != '1'>readonly</#if> />
 				</li>
 				<li>
 					<label for="gLstName">Last Name <span class="must">*</span></label>
-					<input type="text"  class="searchInput" name="gLstName" id="gLstName" style="width:334px" value="${info.GLstName?default('') }"/>
+					<input type="text"  class="searchInput" name="gLstName" id="gLstName" style="width:334px" value="${info.GLstName?default('') }" <#if type != '1'>readonly</#if>/>
 				</li>
 				<li>
 					<label for="addr">Address <span class="must">*</span></label>
@@ -31,7 +31,7 @@
 				</li>
 				<li>
 					<label for="city">City / State</label>
-					<input type="text"  class="searchInput" name="city" id="city" style="width:168px"/>
+					<input type="text"  class="searchInput" name="city" id="city" style="width:168px" value="${info.city?default('') }"/>
 					<select name="stateCD" id="stateCD" style="width:162px">
 						<option value="">STATE</option>
 						<#list states as state>
@@ -61,7 +61,7 @@
 							<span class="radio_wrap">
 								<input type="radio" value="${registWhy.dtlCD }" name="registWhy" id="registWhy_num${registWhy_index+1 }" <#if registWhy.dtlCD == info.registWhy?default('')>checked</#if>/>
 								<label class="radio_label" for="registWhy_num${registWhy_index+1 }"> Other,please explain</label>
-								<input type="text"  class="searchInput" name="registWhyEtc" style="width:280px" value="${info.registWhyEtc?default('') }"/>
+								<input type="text"  class="searchInput" name="registWhyEtc" id="registWhyEtc" style="width:280px" value="${info.registWhyEtc?default('') }" <#if info.registWhyEtc?default('') == ''>disabled</#if>/>
 							</span>
 						</li>
 						<#else>
@@ -85,7 +85,7 @@
 							<span class="radio_wrap">
 								<input type="radio" value="${registHow.dtlCD }" name="registHow" id="registHow_num${registHow_index+1 }" <#if registHow.dtlCD == info.registHow?default('')>checked</#if>/>
 								<label class="radio_label" for="registHow_num${registHow_index+1 }"> Other,please explain</label>
-								<input type="text"  class="searchInput" name="registHowEtc" style="width:280px" value="${info.registHowEtc?default('') }"/>
+								<input type="text"  class="searchInput" name="registHowEtc" id="registHowEtc" style="width:280px" value="${info.registHowEtc?default('') }" <#if info.registHowEtc?default('') == ''>disabled</#if>/>
 							</span>
 						</li>
 						<#else>
@@ -106,11 +106,11 @@
 			<ul class="memSearch">
 				<li>
 					<label for="mFstName">First Name <span class="must">*</span></label>
-					<input type="text"  class="searchInput" style="width:334px" name="mFstName" id="mFstName" value="${info.MFstName?default('') }"/>
+					<input type="text"  class="searchInput" style="width:334px" name="mFstName" id="mFstName" value="${info.MFstName?default('') }" <#if type == '2'>readonly</#if>/>
 				</li>
 				<li>
 					<label for="mLstName">Last Name <span class="must">*</span></label>
-					<input type="text"  class="searchInput" style="width:334px" name="mLstName" id="mLstName" value="${info.MLstName?default('') }"/>
+					<input type="text"  class="searchInput" style="width:334px" name="mLstName" id="mLstName" value="${info.MLstName?default('') }" <#if type == '2'>readonly</#if>/>
 				</li>
 				<li>
 					<label for="dobMonth">DOB <span class="must">*</span></label>
@@ -182,9 +182,10 @@
 						</li>
 					<#else>
 						<li>
-							<input type="hidden" id="studyNum_${registSubject.subj }" name="studyNum_${registSubject.subj }" value="${registSubject.subjStudyNum }"/>
-							<input type="hidden" id="monthNum_${registSubject.subj }" name="monthNum_${registSubject.subj }" value="${registSubject.subjMonthNum }"/>
-							<input type="hidden" id="bookNum_${registSubject.subj }" name="bookNum_${registSubject.subj }" value="${registSubject.subjBookNum }"/>
+							<input type="hidden" id="studyNum_${registSubject.subj }" name="studyNum" value="${registSubject.subjStudyNum }" disabled/>
+							<input type="hidden" id="monthNum_${registSubject.subj }" name="monthNum" value="${registSubject.subjMonthNum }" disabled/>
+							<input type="hidden" id="bookNum_${registSubject.subj }" name="bookNum" value="${registSubject.subjBookNum }" disabled/>
+							<input type="hidden" id="isResume_${registSubject.subj }" name="isResume" value="${registSubject.statusCD?default('1') }" disabled/>
 							<span class="chk_s01"><input type="checkbox" name="subj" value="${registSubject.subj }" id="chk_${registSubject.subj }" />
 							<#if registSubject.memKey?? && registSubject.statusCD == "2">
 								<label for="chk_${registSubject.subj }"><font color="blue">${registSubject.subj }</font></label>
@@ -202,7 +203,7 @@
 									<option value="${manageTime.dtlCD }">${manageTime.dtlCDNM }</option>
 								</#list>
 							</select>
-							<input type="text"  class="searchInput" name="fee" id="fee_${registSubject.subj }" style="width:53px;" readonly="readonly"/>
+							<input type="text"  class="searchInput" name="fee" id="fee_${registSubject.subj }" style="width:53px;" readonly="readonly" disabled/>
 							<#if registSubject.subjDigYN == "Y">
 							<a href="">DIAG</a>
 							</#if>
@@ -212,9 +213,10 @@
 				<#else>
 					<#list subjectOfDepts as subject>
 						<li>
-							<input type="hidden" id="studyNum_${subject.subj }" name="studyNum_${subject.subj }" value="${subject.studyNum }"/>
-							<input type="hidden" id="monthNum_${subject.subj }" name="monthNum_${subject.subj }" value="${subject.monthNum }"/>
-							<input type="hidden" id="bookNum_${subject.subj }" name="bookNum_${subject.subj }" value="${subject.bookNum }"/>
+							<input type="hidden" id="studyNum_${subject.subj }" name="studyNum" value="${subject.studyNum }" disabled/>
+							<input type="hidden" id="monthNum_${subject.subj }" name="monthNum" value="${subject.monthNum }" disabled/>
+							<input type="hidden" id="bookNum_${subject.subj }" name="bookNum" value="${subject.bookNum }" disabled/>
+							<input type="hidden" id="isResume_${subject.subj }" name="isResume" value="1" disabled/>
 							<span class="chk_s01"><input type="checkbox" name="subj" value="${subject.subj }" id="chk_${subject.subj}"/>
 								<label for="chk_${subject.subj}">${subject.subj }</label>
 							</span>
@@ -228,7 +230,7 @@
 									<option value="${manageTime.dtlCD }">${manageTime.dtlCDNM }</option>
 								</#list>
 							</select>
-							<input type="text" name="fee" id="fee_${subject.subj }" class="searchInput" style="width:61px;" readonly="readonly"/>
+							<input type="text" name="fee" id="fee_${subject.subj }" class="searchInput" style="width:61px;" readonly="readonly" disabled/>
 						</li>
 					</#list> 
 				</#if>

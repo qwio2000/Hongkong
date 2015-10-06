@@ -3,8 +3,11 @@ package com.jeiglobal.hk.controller.member;
 import java.text.*;
 import java.util.*;
 
+import javax.servlet.http.*;
+
 import lombok.extern.slf4j.*;
 
+import org.modelmapper.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
@@ -38,6 +41,9 @@ public class MemberRegistController {
 	
 	@Autowired
 	private MemberRegistService memberRegistService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(value={"/fa/members/regist"},method = {RequestMethod.GET, RequestMethod.HEAD})
@@ -86,7 +92,7 @@ public class MemberRegistController {
 		//가맹점 취급 과목 리스트
 		List<SubjectOfDept> subjectOfDepts = commonService.getSubjectsOfDept(loginInfo.getJisaCD(),loginInfo.getDeptCD());
 		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		MemMst memMst = new MemMst();
 		GuardianInfo guardianInfo = null;
 		List<RegistSubject> registSubjects = null;
@@ -112,6 +118,7 @@ public class MemberRegistController {
 		model.addAttribute("months", months);
 		model.addAttribute("maxDays", maxDays);
 		model.addAttribute("memMst", memMst);
+		model.addAttribute("memKey", memKey);
 		model.addAttribute("guardianInfo", guardianInfo);
 		model.addAttribute("registSubjects", registSubjects);
 		model.addAttribute("grades", grades);
@@ -143,66 +150,55 @@ public class MemberRegistController {
 	}
 	
 	@RequestMapping(value="/fa/members", method = {RequestMethod.POST})
-	public String addMemberRegist(String type, 
-			MemMst memMst, 
-			String[] subj, 
-			String[] firstManageDate, 
-			String[] manageTime, 
-			String[] fee,
+	public String addMemberRegist(Model model, String type, MemMst memMst, 
+			String[] subj, String[] firstManageDate, String[] manageTime, String[] fee, String[] bookNum, String[] studyNum, String[] monthNum, String[] isResume,
 			String memKey,
-			String dobMonth,
-			String dobDay,
-			String dobYear,
-			@ModelAttribute LoginInfo loginInfo){
+			String dobMonth, String dobDay, String dobYear,
+			@ModelAttribute LoginInfo loginInfo,
+			HttpServletRequest request) throws ParseException{
 		String newMemKey = "";
-		if("1".equals(type) || "3".equals(type)){
+		Date currentDate = new Date();
+		if("1".equals(type) || "3".equals(type)){//신입 or 형제회원 : 회원번호 생성
 			newMemKey = memberRegistService.getNewMemKey();
 			memMst.setMemKey(newMemKey);
 		}else{
 			memMst.setMemKey(memKey);
 		}
-		memMst.setMBirthDay(dobMonth + "/" + dobDay + "/" + dobYear);
-		//TODO 본사 or 지사에서 자동 로그인으로 접속한 경우 RegId가 달라짐
-		memMst.setRegID(loginInfo.getUserId());
-		switch (type) {
-		case "1"://최초 신입
-			//TODO MemMst Insert newMemKey 이용
-			//TODO MemSubjMst Insert
-			//TODO MemSubjStudy Insert
-			//TODO MemSubjRegist Insert
-			//TODO MemSubjTution Insert
-			break;
-		case "2"://타과목
-			//TODO MemMst Update memKey 이용
-			//TODO MemSubjMst Insert or Update : 해당 과목 최초인 경우 Insert, 해당 과목 복회인 경우 Update
-			//TODO MemSubjStudy Insert or Update : 해당 과목 최초인 경우 Insert, 해당 과목 복회인 경우 Update
-			//TODO MemSubjRegist Insert
-			//TODO MemSubjTution Insert
-			break;
-		case "3"://형제 회원
-			//TODO MemMst Insert or Update : 부모 정보 변경 시 입회 페이지 요청시 넘어온 memKey인 아이의 부모정보만 Update, memKey와 newMemKey 둘다 이용
-			//TODO MemSubjMst Insert
-			//TODO MemSubjStudy Insert
-			//TODO MemSubjRegist Insert
-			//TODO MemSubjTution Insert
-			break;
-
-		default:
-			break;
+		memMst.setMBirthDay(dobYear + "-" + dobMonth + "-" + dobDay);
+		memMst.setRegID(CommonUtils.getWorkId(request));
+		memMst.setUpdID(memMst.getRegID());
+		memMst.setRegDate(currentDate);
+		memMst.setUpdDate(currentDate);
+		
+		//MemMst 
+		if("1".equals(type)){//최초 신입 : Insert
+			memberRegistService.addNewMemMst(memMst);
+		}else if("2".equals(type)){//타 과목 : Update
+			memberRegistService.setMemMst(memMst, memKey, type);
+		}else if("3".equals(type)){//형제 회원 : 형제의 MemMst의 부모 정보 업데이트 후 Insert
+			memberRegistService.setGuadianInfoForMemMst(memMst, memKey, type);
+			memberRegistService.addNewMemMst(memMst);
 		}
-		log.debug(memMst.toString());
-		log.debug("===============================");
-		for (String string : subj) {
-			log.debug(string);
+		//MemSubjMst, MemSubjStudy, MemSubjRegist, MemSubjTuition
+		for (int i = 0; i < subj.length; i++) {
+			MemSubjMst memSubjMst = memberRegistService.getMemSubjMst(memMst, loginInfo, subj[i], firstManageDate[i], bookNum[i], studyNum[i], monthNum[i], currentDate, isResume[i]);
+			MemSubjStudy memSubjStudy = memberRegistService.getMemSubjStudy(memMst, loginInfo, subj[i], firstManageDate[i], bookNum[i], studyNum[i], manageTime[i], currentDate);
+			MemSubjRegist memSubjRegist = memberRegistService.getMemSubjRegist(memMst, loginInfo, subj[i], type, firstManageDate[i], manageTime[i], bookNum[i], studyNum[i], currentDate, isResume[i]);
+			MemSubjTuition memSubjTuition = memberRegistService.getMemSubjTution(i, currentDate, memMst, loginInfo, subj[i], bookNum[i], monthNum[i], firstManageDate[i], type, isResume[i]);
+			log.debug("type : {}, isResume[{}] : {}", type, i, isResume[i]);
+			if("2".equals(type) && "2".equals(isResume[i])){//타과목 입회과목이 복회인 경우 : MemSubjMst, MemSubjStudy Update
+				memberRegistService.setMemSubjMst(memSubjMst, isResume[i]);//His 쌓을 때 UpdCD 구분하기 위해 isResume[i] 사용
+				memberRegistService.setMemSubjStudy(memSubjStudy);
+			}else{//그 외 : Insert
+				memberRegistService.addNewMemSubjMst(memSubjMst);
+				memberRegistService.addNewMemSubjStudy(memSubjStudy);
+			}
+			memberRegistService.addNewMemSubjRegist(memSubjRegist);
+			memberRegistService.addNewMemSubjTuition(memSubjTuition);
 		}
-		log.debug("===============================");
-		for (String string : firstManageDate) {
-			log.debug(string);
-		}
-		log.debug("===============================");
-		for (String string : manageTime) {
-			log.debug(string);
-		}
-		return null;
+		
+		model.addAttribute("message", "성공");
+		model.addAttribute("url", "/fa/members/regist");
+		return "alertAndRedirect";
 	}
 }

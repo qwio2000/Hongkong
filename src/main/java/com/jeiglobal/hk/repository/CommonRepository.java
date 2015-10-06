@@ -27,4 +27,6 @@ public interface CommonRepository {
 	public List<GradeOfSubject> findGradeOfSubject(Map<String, Object> param);
 
 	public List<SubjectOfDept> findSubjectsOfDept(Map<String, Object> param);
+
+	public String findEmpKeyByDeptCD(String deptCD);
 }
