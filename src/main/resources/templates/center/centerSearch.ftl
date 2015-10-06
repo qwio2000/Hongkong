@@ -26,7 +26,7 @@
 		<li>
 			<label for="centerStatus">Status</label>
 			<select name="centerStatus" id="memberStatus">
-				<option value="">All</option> 
+				<option value="">All</option>
 				<#list statusCDList as status>
 					<option value="${status.dtlCD }" <#if status.dtlCD == "1">selected</#if>>${status.dtlCDNM }</option>
 				</#list>
