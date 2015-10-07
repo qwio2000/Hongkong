@@ -53,6 +53,7 @@ public class MemberDto {
 	
 	@Data
 	public static class MemberRegistSearchInfo{
+		private String memKey;
 		private String memName;
 		private String guardianName;
 		private String address;
@@ -60,5 +61,44 @@ public class MemberDto {
 		private String phone;
 		private String statusCD;
 		private String statusName;
+	}
+	
+	@Data
+	public static class GuardianInfo{
+		private String gFstName;
+		private String gLstName;
+		private String city;
+		private String stateCD;
+		private String zip;
+		private String addr;
+		private String gEmail;
+		private String gPhone;
+		private String gCellPhone;
+	}
+	
+	@Data
+	@AllArgsConstructor
+	public static class MonthInfo{
+		private String monthNum;
+		private String monthStr;
+	}
+	
+	@Data
+	public static class RegistSubject{
+		private String jisaCD;
+		private String deptCD;
+		private String subj;
+		private int subjStudyNum;
+		private int subjBookNum;
+		private int subjMonthNum;
+		private String subjDigYN;
+		private int sortCD;
+		private String memKey;
+		private String statusCD;
+		private String yoil;
+		private String yoilName;
+		private int studyNum;
+		private int bookNum;
+		private String visitHours;
 	}
 }

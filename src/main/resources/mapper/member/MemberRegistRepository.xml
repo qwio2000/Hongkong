@@ -14,11 +14,140 @@
 		WHERE b.deptCD = #{deptCD} AND a.bookNum = #{bookNum} AND a.weekNum = #{week}
 	</select>
 	<select id="findMemberRegistSearch" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberRegistSearchInfo">
-		SELECT CONCAT(IFNULL(mFstName,''), IFNULL(mLstName,'')) AS memName, CONCAT(IFNULL(gFstName,''), IFNULL(gLstName,'')) AS guardianName,  
+		SELECT a.memKey, CONCAT(IFNULL(mFstName,''), IFNULL(mLstName,'')) AS memName, CONCAT(IFNULL(gFstName,''), IFNULL(gLstName,'')) AS guardianName,  
 			addr AS address, city, ePhone AS phone, MIN(statusCD) AS statusCD, globalbiz.FuncCodeDtlNM(#{jisaCD},'0008', MIN(statusCD),'','') AS statusName
 		FROM globalbiz.MemMst AS a
 		INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey
 		WHERE CONCAT(mFstName, mLstName) LIKE CONCAT('%', #{name}, '%') OR CONCAT(gFstName, gLstNAme) LIKE CONCAT('%', #{name}, '%')
 		GROUP BY a.memKey, a.mFstName, a.mLstName, a.gFstName, a.gLstName, a.addr, a.city, a.ePhone
 	</select>
+	<select id="findDeptOpenCloseTime" parameterType="hashMap" resultType="hashMap">
+		SELECT cHoursStart, cHoursEnd 
+		FROM globalbiz.DeptMst 
+		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD}
+	</select>
+	<select id="findDeptAvailableTimes" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.CodeDtl">
+		SELECT * 
+		FROM globalbiz.CodeDtl 
+		WHERE jisaCD = #{jisaCD} AND mstCD = #{mstCD} AND dtlCD BETWEEN #{deptHour.cHoursStart} AND #{deptHour.cHoursEnd}
+	</select>
+	<select id="findMemMst" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemMst">
+		SELECT * 
+		FROM globalbiz.MemMst 
+		WHERE memKey = #{memKey}
+	</select>
+	<select id="findMemSubjMst" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemSubjMst">
+		SELECT * 
+		FROM globalbiz.MemSubjMst 
+		WHERE memKey = #{memKey}
+		ORDER BY statusCD
+	</select>
+	<select id="findGuardianInfo" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$GuardianInfo">
+		SELECT gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone
+		FROM globalbiz.MemMst 
+		WHERE memKey = #{memKey}
+	</select>
+	<select id="findRegistSubjects" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$RegistSubject">
+		SELECT a.jisaCD, a.deptCD, a.subj, a.studyNum AS subjStudyNum, a.bookNum AS subjBookNum, a.monthNum AS subjMonthNum, a.digYN AS subjDigYN, a.sortCD, 
+		b.memKey, b.statusCD, b.yoil, globalbiz.FuncCodeDtlNM(a.jisaCD,'0006',b.yoil,'E','') AS yoilName, b.studyNum, b.bookNum, b.visitHours
+		FROM globalbiz.DeptSubjInfo AS a 
+		LEFT JOIN (
+			SELECT aa.memKey, aa.subj, statusCD, aa.yoil, aa.studyNum, aa.bookNum, bb.visitHours
+			FROM globalbiz.MemSubjMst AS aa
+			INNER JOIN globalbiz.MemSubjStudy AS bb ON aa.memKey = bb.memKey AND aa.subj = bb.subj
+			WHERE aa.memKey = #{memKey}
+		) AS b ON a.subj = b.subj
+		WHERE a.jisaCD = #{jisaCD} AND a.deptCD = #{deptCD}
+		ORDER BY -b.statusCD DESC, a.sortCD
+	</select>
+	<select id="getKeyGenSelect" statementType="CALLABLE" resultType="java.lang.String">
+		CALL globalbiz.SPKeyGenSelect('01');
+	</select>
+	<insert id="insertNewMemMst" parameterType="com.jeiglobal.hk.domain.member.MemMst" >
+		INSERT INTO globalbiz.MemMst (memKey, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD,
+		zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, regDate, regID, updDate, updID)
+		VALUES(#{memKey}, #{mFstName}, #{mLstName}, #{mBirthDay}, #{gradeCD}, #{schoolName}, #{mEmail}, #{eContact}, #{ePhone}, #{gFstName}, #{gLstName}, #{city}, #{stateCD},
+		#{zip}, #{addr}, #{gEmail}, #{gPhone}, #{gCellPhone}, IFNULL(#{registWhy},''), IFNULL(#{registWhyEtc},''), IFNULL(#{registHow},''), IFNULL(#{registHowEtc},''), #{remarks}, #{regDate}, #{regID}, #{updDate}, #{updID})
+	</insert>
+	<select id="findMemFeeInfo" parameterType="hashMap" resultType="hashMap">
+		SELECT CASE WHEN c.freeType IS NOT NULL THEN 0 ELSE registFee END AS registFee, b.monthFee, b.sectionFee, b.feeUnit, IFNULL(c.freeType, '') AS freeType
+		FROM globalbiz.DeptMst AS a 
+		INNER JOIN globalbiz.MemFeeInfo AS b ON a.deptType = b.deptType AND a.memType = b.memType AND a.feeType = b.feeType
+		LEFT JOIN globalbiz.MemFeeFreeTerm AS c ON a.jisaCD = c.jisaCD AND a.deptCD = c.deptCD AND NOW() BETWEEN c.startYMD AND c.endYMD
+		WHERE a.deptCD = #{deptCD} AND b.weekNum = #{weekNum} 
+	</select>
+	<insert id="insertNewMemSubjMst" parameterType="com.jeiglobal.hk.domain.member.MemSubjMst" >
+		INSERT INTO globalbiz.MemSubjMst (memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, 
+			registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, 
+			befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID)
+		VALUES(#{memKey}, #{subj}, #{statusCD}, #{memName}, #{yoil}, #{studyNum}, #{bookNum}, #{digGrade}, #{registFstYMD}, 
+			#{registFnlYMD}, #{dropFnlYMD}, #{expireYMD}, #{feeFnlYMD}, #{yoilChgYMD}, #{studyNumChgYMD}, #{bookNumChgYMD}, #{befoYoil}, #{befoStudyNum}, 
+			#{befoBookNum}, #{empKey}, #{deptCD}, #{jisaCD}, #{regDate}, #{regID}, #{updDate}, #{updID})
+	</insert>
+	<insert id="insertNewMemSubjStudy" parameterType="com.jeiglobal.hk.domain.member.MemSubjStudy" >
+		INSERT INTO globalbiz.MemSubjStudy (memKey, subj, studyNum, bookNum, yoil, yoilSeq, bookFlag, visitHours, empKey, deptCD, jisaCD, regDate, regID, updDate, updID)
+		VALUES(#{memKey}, #{subj}, #{studyNum}, #{bookNum}, #{yoil}, #{yoilSeq}, #{bookFlag}, #{visitHours}, #{empKey}, #{deptCD}, #{jisaCD}, #{regDate}, #{regID}, #{updDate}, #{updID})
+	</insert>
+	<insert id="insertNewMemSubjRegist" parameterType="com.jeiglobal.hk.domain.member.MemSubjRegist" useGeneratedKeys="true" keyProperty="idx">
+		INSERT INTO globalbiz.MemSubjRegist (registYMD, memKey, subj, registGubunCD, mFstName, mLstName, mBirthDay, gradeCD, 
+			schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, 
+			registWhy, registWhyEtc, registHow, registHowEtc, remarks, fstVisitYMD, yoil, visitHours, weekNum, studyNum, bookNum, 
+			digGrade, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, apmIdx)
+		VALUES(#{registYMD}, #{memKey}, #{subj}, #{registGubunCD}, #{mFstName}, #{mLstName}, #{mBirthDay}, #{gradeCD}, 
+			#{schoolName}, #{mEmail}, #{eContact}, #{ePhone}, #{gFstName}, #{gLstName}, #{city}, #{stateCD}, #{zip}, #{addr}, #{gEmail}, #{gPhone}, #{gCellPhone}, 
+			IFNULL(#{registWhy},''), IFNULL(#{registWhyEtc},''), IFNULL(#{registHow},''), IFNULL(#{registHowEtc},''), #{remarks}, #{fstVisitYMD}, #{yoil}, #{visitHours}, #{weekNum}, #{studyNum}, #{bookNum}, 
+			#{digGrade}, #{empKey}, #{deptCD}, #{jisaCD}, #{regDate}, #{regID}, #{updDate}, #{updID}, #{apmIdx})
+	</insert>
+	<insert id="insertNewMemSubjTuition" parameterType="com.jeiglobal.hk.domain.member.MemSubjTuition" useGeneratedKeys="true" keyProperty="idx">
+		INSERT INTO globalbiz.MemSubjTuition (feeYMD, memKey, subj, memName, feeGubunCD, feeKindCD, freeType, registFee, sectionFee, monthFee, longFee, totalFee, expireYMD, bookNum, weekNum, monthNum, feeUnit, empKey, deptCD, jisaCD, regDate, regID)
+		VALUES(#{feeYMD}, #{memKey}, #{subj}, #{memName}, #{feeGubunCD}, #{feeKindCD}, #{freeType}, #{registFee}, #{sectionFee}, #{monthFee}, #{longFee}, #{totalFee}, #{expireYMD}, #{bookNum}, #{weekNum}, #{monthNum}, #{feeUnit}, #{empKey}, #{deptCD}, #{jisaCD}, #{regDate}, #{regID})
+	</insert>
+	<update id="updateMemMst" parameterType="com.jeiglobal.hk.domain.member.MemMst">
+		UPDATE globalbiz.MemMst 
+		SET mBirthDay=#{mBirthDay}, gradeCD=#{gradeCD}, schoolName=#{schoolName}, mEmail=#{mEmail}, eContact=#{eContact}, 
+			ePhone=#{ePhone}, city=#{city}, stateCD=#{stateCD}, zip=#{zip}, addr=#{addr}, gEmail=#{gEmail}, gPhone=#{gPhone}, 
+			gCellPhone=#{gCellPhone}, registWhy=IFNULL(#{registWhy},''), registWhyEtc=IFNULL(#{registWhyEtc},''), registHow=IFNULL(#{registHow},''), registHowEtc=IFNULL(#{registHowEtc},''), 
+			remarks=#{remarks}, updDate=#{updDate}, updID=#{updID}
+		WHERE memKey = #{memKey}
+	</update>
+	<update id="updateMemSubjMst" parameterType="com.jeiglobal.hk.domain.member.MemSubjMst">
+		UPDATE globalbiz.MemSubjMst 
+		SET statusCD=#{statusCD}, yoil=#{yoil}, studyNum=#{studyNum}, bookNum=#{bookNum}, 
+			registFnlYMD=#{registFnlYMD}, expireYMD=#{expireYMD}, feeFnlYMD=#{feeFnlYMD}, befoYoil=yoil, befoStudyNum=studyNum, 
+			befoBookNum=bookNum, empKey=#{empKey}, deptCD=#{deptCD}, jisaCD=#{jisaCD}, updDate=#{updDate}, updID=#{updID}
+		WHERE memKey = #{memKey} and subj = #{subj}
+	</update>
+	<update id="updateMemSubjStudy" parameterType="com.jeiglobal.hk.domain.member.MemSubjStudy">
+		UPDATE globalbiz.MemSubjStudy 
+		SET studyNum=#{studyNum}, bookNum=#{bookNum}, yoil=#{yoil}, yoilSeq=#{yoilSeq}, bookFlag=#{bookFlag}, visitHours=#{visitHours}, 
+			empKey=#{empKey}, deptCD=#{deptCD}, jisaCD=#{jisaCD}, updDate=#{updDate}, updID=#{updID}
+		WHERE memKey = #{memKey} and subj = #{subj}
+	</update>
+	<insert id="insertMemMstHis" parameterType="hashMap">
+		INSERT INTO globalbiz.MemMstHis 
+			(memKey, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, regDate, regID, updDate, updID, hUpdCD, hRegDate, hRegID)
+		SELECT memKey, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, regDate, regID, updDate, updID, CASE #{type} WHEN '2' THEN '11' WHEN '3' THEN '12' END, NOW(), #{memMst.regID}
+		FROM globalbiz.MemMst
+		WHERE memKey = #{memKey}
+	</insert>
+	<insert id="insertMemSubjMstHis" parameterType="com.jeiglobal.hk.domain.member.MemSubjMst">
+		INSERT INTO globalbiz.MemSubjMstHis 
+			(memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, hUpdCD, hRegDate, hRegID)
+		SELECT memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, CASE #{isResume} WHEN '1' THEN '13' WHEN '2' THEN '11' END, NOW(), #{memSubjMst.regID}
+		FROM globalbiz.MemSubjMst
+		WHERE memKey = #{memSubjMst.memKey} AND subj = #{memSubjMst.subj}
+	</insert>
+	<insert id="insertMemSubjStudyHis" parameterType="com.jeiglobal.hk.domain.member.MemSubjStudy">
+		INSERT INTO globalbiz.MemSubjStudyHis 
+			(memKey, subj, studyNum, bookNum, yoil, yoilSeq, bookFlag, visitHours, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, hUpdCD, hRegDate, hRegID)
+		SELECT memKey, subj, studyNum, bookNum, yoil, yoilSeq, bookFlag, visitHours, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, '11', NOW(), #{regID}
+		FROM globalbiz.MemSubjStudy
+		WHERE memKey = #{memKey} AND subj = #{subj} AND yoilSeq = #{yoilSeq}
+	</insert>
+	<update id="updateGuadianInfoForMemMst" parameterType="hashMap">
+		UPDATE globalbiz.MemMst 
+		SET city=#{memMst.city}, stateCD=#{memMst.stateCD}, zip=#{memMst.zip}, addr=#{memMst.addr}, gEmail=#{memMst.gEmail}, gPhone=#{memMst.gPhone}, 
+			gCellPhone=#{memMst.gCellPhone}, updDate=#{memMst.updDate}, updID=#{memMst.updID}
+		WHERE memKey = #{memKey}
+	</update>
 </mapper>

@@ -1,9 +1,10 @@
+
 package com.jeiglobal.hk.repository.diagnosis;
 
 import java.util.List;
 import java.util.Map;
 
-import com.jeiglobal.hk.domain.diagnosis.Diagnosis;
+import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
 import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
 
 /**
@@ -20,5 +21,13 @@ import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
 
 @PrimaryRepositoryAnnoInterface
 public interface DiagnosisRepository {
-	List<Diagnosis> findDiagnosis(Map<String, Object> map);	
+	List<DiagnosisDto.Diagnosis> findDiagnosis(Map<String, Object> map);	
+	
+	DiagnosisDto.DiagnosisInputippr findDiagnosisIppr(Map<String, Object> map);
+	
+	DiagnosisDto.DiagnosisTotMunGet findDiagnosisTotMunGet(Map<String, Object> map);
+	
+	List<DiagnosisDto.DiagnosisJDSys8070P> findDiagnosisJDSys8070P(Map<String, Object> map);	
+	
+	
 }

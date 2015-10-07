@@ -20,6 +20,22 @@ $(function(){
 		}
 	});
 	
+	$(".tooltip").each(function(){
+		$(this).on("mouseenter",function(e){
+			if($(this).attr('title') != ""){
+			$('.tooltip_Area').css({
+				position:'absolute',
+				zIndex:50,
+				top:$(this).position().top+$(this).height(),
+				left:$(this).position().left
+			}).text($(this).attr('title')).show(0);
+			}
+		});
+		$(this).on("mouseleave",function(e){
+			$('.tooltip_Area').hide(0);
+		});
+	});
+	
 	$.extend({
 		pageUtil : function(pageNum, totalPageCnt, pageBlockSize, startPageNum,endPageNum) {
 			var thisBlock = Math.ceil(pageNum / pageBlockSize); // 현재 페이징블럭
@@ -105,7 +121,15 @@ $(function(){
 
 			if (!chk){alert(str);}
 			return chk;
-	    }
+	    },
+	    emailCheck:function(element) {
+			var pattern = /([0-9a-zA-Z_-]+)@([0-9a-zA-Z_-]+)\.([0-9a-zA-Z_-]+)/; //pattern = /(\S+)@(\S+)\.(\S+)/; 이메일주소에 한글 사용시
+			if(!pattern.test($.trim($("#"+element).val()))){
+			    alert("이메일 형식을 맞춰주세요. 예)hong@korea.com");
+			    return false;
+			}
+			return true;
+		}
 	});
 	$(".datePicker").datepicker(
 			{
@@ -151,3 +175,24 @@ $(function(){
 	});
 	 
 });
+function openPopup(el){
+	var top = ( $(window).scrollTop() + ($(window).height() - $(el).height()) / 2 );
+
+	$('.bg_layer_popup').css({
+		height:$(document).height()
+	}).fadeIn(100,function(){
+		$(el).fadeIn(100).css({
+			'left':'50%',
+			'top':top, 
+			position:'absolute',
+			marginLeft: -$(el).width() /2
+		});
+	});
+}
+
+//팝업클로즈
+function closePopup(el){
+	$(el).hide(0,function(){
+		$('.bg_layer_popup').fadeOut(100);
+	});
+}

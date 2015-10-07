@@ -7,6 +7,10 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import org.springframework.web.util.*;
+
+import com.jeiglobal.hk.domain.member.MemberDto.MonthInfo;
+
 /**
  * 
  * 클래스명 : CommonUtils.java
@@ -95,5 +99,123 @@ public class CommonUtils {
 		cal.add(Calendar.DATE, 6);
 		rtnList.add(sdf.format(cal.getTime()));
 		return rtnList;
+	}
+
+	/**
+	 * 
+	 * @return List<CodeDtl>
+	 */
+	public static List<MonthInfo> getMonths() {
+		List<MonthInfo> months = new ArrayList<MonthInfo>();
+		DateFormatSymbols dateFormatSymbolsEng = new DateFormatSymbols(Locale.ENGLISH);
+		String[] shortMonths = dateFormatSymbolsEng.getShortMonths();
+		String[] monthNum = {"01","02","03","04","05","06","07","08","09","10","11","12"};
+		for (int i = 0; i < monthNum.length; i++) {
+			months.add(new MonthInfo(monthNum[i], shortMonths[i]));
+		}
+		return months;
+	}
+
+	/**
+	 * @param currentYear
+	 * @param currentMonth
+	 * @return int
+	 */
+	public static int getMaxDays(int year, int month) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month-1, 1);
+		return cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+	}
+	
+	/**
+	 * 현재 사용자의 Id를 가져오기 
+	 * 자동로그인으로 들어온 경우 원래 사용자 아이디 가져옴
+	 * @param request
+	 * @return String
+	 */
+	public static String getWorkId(HttpServletRequest request){
+		String workId = "";
+		Cookie cookie = WebUtils.getCookie(request, "BmsAUTHId");
+		if(cookie != null){//Bms쿠키가 있는 경우
+			workId = cookie.getValue();
+		}else{//Bms 없는 경우 지사 쿠키 정보 찾기
+			cookie = WebUtils.getCookie(request, "JisaAUTHId");
+			if(cookie != null){
+				workId = cookie.getValue();
+			}else{
+				workId = WebUtils.getCookie(request, "AUTHId").getValue();
+			}
+		}
+		return workId;
+	}
+	
+	/**
+	 * 오늘 날짜 yyyy-MM-dd 형태로 가져오기
+	 * @return String
+	 */
+	public static String getCurrentYMD(){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(new Date());
+	}
+	
+	/**
+	 * 입력 받은 날짜를 yyyy-MM-dd 형태로 가져오기
+	 * @param date
+	 * @return String
+	 */
+	public static String getDateForFormat(Date date){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(date);
+	}
+	
+	/**
+	 * DateFormat 변경하는 함수
+	 * @param beforePattern : 변경하기 전 패턴
+	 * @param afterPattern : 변경하고자 하는 패턴
+	 * @param value : 변경하기 전 값
+	 * @return
+	 * @throws ParseException String
+	 */
+	public static String changeDateFormat(String beforePattern, String afterPattern, String value) throws ParseException{
+		SimpleDateFormat beforeSdf = new SimpleDateFormat(beforePattern);
+		SimpleDateFormat afterSdf = new SimpleDateFormat(afterPattern);
+		Date valueDate = beforeSdf.parse(value);
+		return afterSdf.format(valueDate);
+	}
+
+	/**
+	 * 잔여 주차 가져오기
+	 * @param firstManageDate : 첫 관리 방문일로 잔여 주차 가져오기 
+	 * @return int
+	 * @throws ParseException 
+	 */
+	public static int getRemainWeekNum(String firstManageDate) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		Calendar end = Calendar.getInstance();
+		int endDate = end.getMaximum(Calendar.DAY_OF_MONTH);
+		end.setTime(sdf.parse(firstManageDate));
+		int manageDay = end.get(Calendar.DATE);
+		int week = (int) Math.ceil(((double)(endDate - manageDay)/7));
+		week = (week > 4)? 4 : week; // 4주 이상 모두 4로 변경
+		return week;
+	}	
+	
+	/**
+	 * 문자열 오른쪽 자르는 함수
+	 * @param sText : Source 문자열
+	 * @param iTextLenth : 자르고자 하는 길이
+	 * @return String
+	 */
+	public static String RightString(String sText, int iTextLenth){
+		String sConvertText;
+
+	    if (sText.length() < iTextLenth)
+	    {
+	        iTextLenth= sText.length();
+	    }
+
+	    sConvertText= sText.substring(sText.length() - iTextLenth, sText.length());
+
+	    return sConvertText;
 	}
 }
