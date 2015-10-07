@@ -96,4 +96,20 @@ public class CommonUtils {
 		rtnList.add(sdf.format(cal.getTime()));
 		return rtnList;
 	}
+	
+	
+	// 문자열 오른쪽 자르기
+	public static String RightString(String sText, int iTextLenth)
+	{
+		String sConvertText;
+
+	    if (sText.length() < iTextLenth)
+	    {
+	        iTextLenth= sText.length();
+	    }
+
+	    sConvertText= sText.substring(sText.length() - iTextLenth, sText.length());
+
+	    return sConvertText;
+	}
 }

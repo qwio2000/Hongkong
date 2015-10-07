@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jeiglobal.hk.domain.GradeOfSubject;
 import com.jeiglobal.hk.domain.auth.LoginInfo;
 import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
 import com.jeiglobal.hk.service.CommonService;
 import com.jeiglobal.hk.service.diagnosis.DiagnosisService;
+import com.jeiglobal.hk.utils.CommonUtils;
 import com.jeiglobal.hk.utils.PageUtil;
 
 /**
@@ -50,7 +52,7 @@ public class DiagnosisController {
 	private CommonService commonService;
 		
 	
-
+	// 처방 조회
 	@RequestMapping(value={"/fa/diagnosis/diagnosisSearch","/fa/diagnosis"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String diagnosisSerch(Model model, @ModelAttribute LoginInfo loginInfo) {
 		String userType = loginInfo.getUserType();
@@ -62,9 +64,10 @@ public class DiagnosisController {
 		return "diagnosis/search";
 	}
 	
+	// 처방 조회2
 	@RequestMapping(value={"/fa/diagnosis/diagnosisSearch/search"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String diagnosisSerchFrom(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam(defaultValue="1") int page, @RequestParam(defaultValue="10") int pagecnt, String status, String lastName, String firstName, String homePhone, String cellPhone, String email, String grade, String subject) {
-		log.debug("Getting Notices List Page");
+		log.debug("Getting diagnosis Search List Page");
 		
 		//header에 포함할 스크립트 
 		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
@@ -94,6 +97,7 @@ public class DiagnosisController {
 		return "diagnosis/diagnosisSearch/list";		
 	}
 		
+	// 처방 조회 3
 	@RequestMapping(value={"/fa/diagnosis/diagnosisSearch/searchJson"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> diagnosisSerchlistJson(Model model,int pageNum, int pagecnt, String jisaCD, String deptCd, String status, String lastName, String firstName, String homePhone, String cellPhone, String email, String grade, String subject) {
@@ -112,28 +116,126 @@ public class DiagnosisController {
 		diagnosisList.put("page", diagnosis);
 		System.out.println(diagnosis);		
 		return diagnosisList;
-	
 	}
 	
-	@RequestMapping(value={"/fa/diagnosis/diagnosis"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	
+	//ippr 입력
+	@RequestMapping(value={"/fa/diagnosis/diagnosis"}, method={RequestMethod.GET,RequestMethod.HEAD})	
 	public String diagnosisdiagnosis() {
 		log.debug("Getting diagnosis List Page");
 		return "diagnosis/diagnosis";	
 	}
 	
-	@RequestMapping(value={"/fa/diagnosis/ippr"}, method={RequestMethod.GET,RequestMethod.HEAD})
-	public String diagnosisIppr(Model model, @ModelAttribute LoginInfo loginInfo, String memKey, String subj, String Freejindan) {
+	// ippr 정보 등급선택
+	@RequestMapping(value={"/fa/diagnosis/ippr"}, method={RequestMethod.GET,RequestMethod.HEAD}) 
+	public String diagnosisIppr(Model model, @ModelAttribute LoginInfo loginInfo, String memKey, String subj, String freejindan) {
 		log.debug("Getting ippr Popup Page");
 		
-		DiagnosisDto.DiagnosisInputippr DiagnosisInputippr =diagnosisService.getDiagnosisInputippr(loginInfo.getJisaCD(), memKey, subj, Freejindan);	
-		System.out.println(DiagnosisInputippr);
-		model.addAttribute("ippr", DiagnosisInputippr);
+		String jisaCD = loginInfo.getJisaCD();
+		
+		DiagnosisDto.DiagnosisInputippr diagnosisInputippr = diagnosisService.getDiagnosisInputippr(jisaCD, memKey, subj, freejindan);	
+		
+		List<GradeOfSubject> gradeOfSubject = commonService.getGradeOfSubject(jisaCD, subj, "Y", "Y");
+		
+		if (diagnosisInputippr == null) {
+			model.addAttribute("message", "No member");
+			model.addAttribute("mode", "close");
+			return "alertAndRedirect";
+		}
+		
+		model.addAttribute("memKey", memKey);
+		model.addAttribute("jisaCD", jisaCD);
+		model.addAttribute("ippr", diagnosisInputippr);
+		model.addAttribute("level", gradeOfSubject);
 		
 		return "diagnosis/diagnosis/ippr";	
 	}
+	
+	// ippr 오답 입력
+	@RequestMapping(value={"/fa/diagnosis/ipprinput"}, method={RequestMethod.POST,RequestMethod.HEAD})  
+	public String diagnosisIpprinput(Model model,String memKey, String jisaCD, String memName, String grade, String subjname 
+			, String leveldung, String inputdate, String mBirthDay, String testType, String readchk, String nomr) {
+		log.debug("Getting ipprinput List Page");
+		
+		//header에 포함할 스크립트 
+		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("diagnosis");		
+		model.addAttribute("headerScript", headerScript);	
+		
+	
+		model.addAttribute("memKey", memKey);
+		model.addAttribute("jisaCD", jisaCD);
+		model.addAttribute("memName", memName);
+		model.addAttribute("grade", grade);
+		model.addAttribute("subjname", subjname);
+		model.addAttribute("leveldung", leveldung);
+		model.addAttribute("inputdate", inputdate);
+		model.addAttribute("mBirthDay", mBirthDay);
+		model.addAttribute("testType", testType);
+		model.addAttribute("readchk", readchk);
+		model.addAttribute("nomr", nomr);
+		
+		return "diagnosis/diagnosis/ipprinput";	
+	}
 
 	
+	@RequestMapping(value={"/fa/diagnosis/ipprinputJson"}, method={RequestMethod.POST,RequestMethod.HEAD})
+	public String diagnosisIpprinputJson(Model model,String memKey, String jisaCD, String leveldung, String subjname, String mBirthDay) {
+
+		String smaster = "NSys8";
+		String jdmaster = "";
+		
+		if(CommonUtils.RightString(subjname,1).equals("M") ){
+			smaster 	= "JDNSys8" ;	
+			jdmaster  	= "JDNSys8070P";
+		}
+	
+		DiagnosisDto.DiagnosisTotMunGet diagnosisTotMunGet = diagnosisService.getDiagnosisTotMunGet(jisaCD, smaster, subjname, leveldung);
+
+		List<DiagnosisDto.DiagnosisJDSys8070P> diagnosisJDSys8070P = diagnosisService.getDiagnosisJDSys8070P(jisaCD, jdmaster, subjname, leveldung);
+		
+		int totalCnt = 0;
+		
+		if (diagnosisTotMunGet == null) {
+			totalCnt = 0;
+		}else{
+			totalCnt = diagnosisTotMunGet.getTot();	
+		}
+		
+		model.addAttribute("memKey", memKey);   //회원번호
+		model.addAttribute("subjname", CommonUtils.RightString(subjname,1));    //과목
+		model.addAttribute("leveldung", leveldung);  //등급
+		model.addAttribute("totalCnt", totalCnt);      //문항수
+		model.addAttribute("MBirthDay", mBirthDay);   //생년월일
+		
+		String returnurl = "";
+		int iOdabCnt = 10;
+		int iOdabFor = totalCnt/iOdabCnt;
+		
+		if( CommonUtils.RightString(subjname,1).equals("G") ) {   // 한글
+			returnurl =  "diagnosis/diagnosis/JindoGInput";	
+		}else if(CommonUtils.RightString(subjname,1).equals("M")){  //수학
+			
+			model.addAttribute("jdSys8070P", diagnosisJDSys8070P);
+			model.addAttribute("iOdabCnt", iOdabCnt);
+			model.addAttribute("iOdabFor", iOdabFor);
+			model.addAttribute("leveldung", leveldung);
+			
+			returnurl = "diagnosis/diagnosis/JDJindoMInput";
+			
+		}else{ //그외 과목
+			returnurl = "diagnosis/diagnosis/JindoMInput";
+		}
+		return returnurl;	
+	}
+	
+	
+	
+
+
 		
 
 
 }
+

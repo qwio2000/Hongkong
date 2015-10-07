@@ -1,6 +1,6 @@
 $(function(){
 	$.extend({
-		getBoardList:function(){
+		getBoardList:function(){   //처방 조회 리스트
 			var pageNum = $("#pageNum").val();
 			var searchUrl = "/fa/diagnosis/diagnosisSearch/searchJson";
 		
@@ -46,15 +46,93 @@ $(function(){
 					alert(thrownError);
 				}
 			});
+		},
+		
+		getIpprinput:function(){   //처방 조회 리스트
+			var jisaCD = $("#jisaCD").val();
+			var leveldung = $("#leveldung").val();
+			var subjname = $("#subjname").val();
+			
+			var paramData = "jisaCD="+jisaCD+"&leveldung="+leveldung+"&subjname="+subjname;
+		
+			var searchUrl = "/fa/diagnosis/ipprinputJson";
+		
+			$.ajax({
+				type: "post"
+				,url: searchUrl
+				,data: paramData	
+				,error: function (data, textStatus) { 
+					//alert(textStatus); 			
+				}
+				,success: function(data){	
+
+					$("#diagnosislist").html(data);
+				}
+				,async: false
+			});
+		 
+			
+		},
+		
+		getInputChk:function(id,input,jungdab,mun,chk){   //수학 오답 체크
+			var temp
+				temp = "<input type='text' id='"+mun+"' value='"+mun+"|"+chk+"'>"
+			
+				
+			$(".chk_s01 [id^="+id+"]").each(function (i, v) {	
+				if ( $(this).val() == jungdab){
+					$(this).attr("checked", false); /* by ID */
+					$(this).attr("disabled", "disabled"); /* by ID */
+				}else if ( $(this).val() == input){			
+					$(this).attr("checked", true); /* by ID */	
+					$("#inputAnswer #"+mun+" ").remove();
+				}else{
+					$(this).attr("checked", false); /* by ID */
+					$("#inputAnswer #"+mun+" ").remove();
+				}
+			});
+			
+			if($(".chk_s01 #chk"+mun+"_"+chk+"").is(":checked") == true ){
+				$("#inputAnswer").append(temp)
+			}
+				
+			//번호순서대로 정렬
+			var items = $('#inputAnswer input').get();
+			
+			items.sort(function(a,b){
+			  var keyA = Number($(a).attr('id'));
+			  var keyB = Number($(b).attr('id'));
+
+			  if (keyA < keyB) return -1;
+			  if (keyA > keyB) return 1;
+			  return 0;
+			});
+
+			$('#inputAnswer').html('');
+			
+			$.each(items, function(i, tr){			
+				$('#inputAnswer').append(tr);
+			});
+		},
+		
+		getReload:function(){  //페이지 새로고침
+			location.reload();
 		}
 	});
 
 	
 	
-	//리스트 페이지인 경우 getBoardList 호출
+	//처방조회 리스트 getBoardList 호출
 	if(window.location.pathname == '/fa/diagnosis/diagnosisSearch/search'){
 		$.getBoardList();
 	}
+	
+	//처방입력화면 getIpprinput 호출
+	if(window.location.pathname == '/fa/diagnosis/ipprinput'){
+		$.getIpprinput();
+	}
+	
+	
 	// paging 클릭
 	$(".paging").on("click","a.naviPage",function() {
 		var pageNum = $(this).attr('pageNo');	

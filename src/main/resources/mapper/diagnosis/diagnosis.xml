@@ -6,7 +6,16 @@
 	</select>
 	
 	<select id="findDiagnosisIppr" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisInputippr">
-		CALL globaldig.SPDiagnosisInputIpprLst(#{memKey},#{subj},#{JisaCD},#{Freejindan})	;
-				
+		CALL globaldig.SPDiagnosisInputIpprLst(#{memKey},#{subj},#{JisaCD},#{freejindan})	;				
+	</select>
+	
+	
+	<select id="findDiagnosisTotMunGet" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisTotMunGet">
+		CALL globaldig.SPOmrTotMunGet (#{jisaCD},#{smaster},#{subjname},#{leveldung});			
+	</select>
+	
+	
+	<select id="findDiagnosisJDSys8070P" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisJDSys8070P">
+		CALL globaldig.SPOmrJDSys8070Pchk (#{jisaCD},#{smaster},#{subjname},#{leveldung});			
 	</select>
 </mapper>

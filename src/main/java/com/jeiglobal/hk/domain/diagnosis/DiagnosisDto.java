@@ -29,6 +29,21 @@ public class DiagnosisDto {
 		private String grade;
 		private String subjname;		
 		private String inputdate;
-		
+		private String mBirthDay;
 	}
+	
+	@Data
+	public static class DiagnosisTotMunGet{
+		private int tot;
+	}
+	
+	@Data
+	public static class DiagnosisJDSys8070P{
+		private String jungkey;
+		private String jungdab;
+		private String junghang;
+	}
+	
+	
+	
 }

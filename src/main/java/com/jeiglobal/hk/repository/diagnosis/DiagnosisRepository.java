@@ -24,5 +24,9 @@ public interface DiagnosisRepository {
 	
 	DiagnosisDto.DiagnosisInputippr findDiagnosisIppr(Map<String, Object> map);
 	
+	DiagnosisDto.DiagnosisTotMunGet findDiagnosisTotMunGet(Map<String, Object> map);
+	
+	List<DiagnosisDto.DiagnosisJDSys8070P> findDiagnosisJDSys8070P(Map<String, Object> map);	
+	
 	
 }

@@ -37,17 +37,44 @@ public class DiagnosisService {
 	}
 	
 	
-	public DiagnosisDto.DiagnosisInputippr getDiagnosisInputippr(String JisaCD, String memKey, String subj, String Freejindan){
+	public DiagnosisDto.DiagnosisInputippr getDiagnosisInputippr(String JisaCD, String memKey, String subj, String freejindan){
 		Map<String, Object> map = new HashMap<>();
 		map.put("JisaCD", JisaCD);		
 		map.put("memKey", memKey);		
 		map.put("subj", subj);
-		map.put("Freejindan", Freejindan);
+		map.put("freejindan", freejindan);
 		
 		return diagnosisRepository.findDiagnosisIppr(map);
 		
 		
 	}
+	
+	
+	public DiagnosisDto.DiagnosisTotMunGet getDiagnosisTotMunGet(String jisaCD, String smaster, String subjname, String leveldung){
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("smaster", smaster);		
+		map.put("subjname", subjname);
+		map.put("leveldung", leveldung);
+		
+		return diagnosisRepository.findDiagnosisTotMunGet(map);
+		
+	}
+	
+	
+	public List<DiagnosisDto.DiagnosisJDSys8070P> getDiagnosisJDSys8070P(String jisaCD, String smaster, String subjname, String leveldung){
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("smaster", smaster);		
+		map.put("subjname", subjname);
+		map.put("leveldung", leveldung);
+		
+		return diagnosisRepository.findDiagnosisJDSys8070P(map);
+		
+	}
+	
+	
+	
 
 	
 	
