@@ -16,9 +16,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
-<<<<<<< HEAD
 import java.util.Locale;
-=======
 import org.modelmapper.*;
 import org.springframework.boot.context.embedded.*;
 import org.springframework.context.*;
@@ -31,7 +29,6 @@ import org.springframework.web.servlet.i18n.*;
 import com.jeiglobal.hk.common.*;
 import com.jeiglobal.hk.utils.*;
 import com.navercorp.lucy.security.xss.servletfilter.*;
->>>>>>> 33fdfc5315880de73f6dbe755f479c193c4a4fdf
 
 /**
  * 
