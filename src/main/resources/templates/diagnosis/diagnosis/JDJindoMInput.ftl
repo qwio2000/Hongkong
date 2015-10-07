@@ -1,4 +1,3 @@
-
 <#if (subjname == "M") && ( (leveldung == "A") || (leveldung == "B") || (leveldung == "C")  ) >  <!--  gt :> , gte : >= , lt < , lte <= -->
 	<div class="tbl01 m_tbl">
 		<table>
@@ -96,13 +95,10 @@
 			</tbody>
 		</table>
 	</div>
-	
-	<div id="inputAnswer"></div>
-
 </#if>	
 
 
 <div class="btnArea al_c">
-	<a href=""><span style="width: 115px;">Save</span></a>
+	<a href="javascript:$.getIpprSave();"><span style="width: 115px;">Save</span></a>
 	<a href="javascript:$.getReload();"><span style="width: 115px;">Cancle</span></a>
 </div>

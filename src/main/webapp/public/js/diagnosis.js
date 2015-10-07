@@ -54,15 +54,15 @@ $(function(){
 			var subjname = $("#subjname").val();
 			
 			var paramData = "jisaCD="+jisaCD+"&leveldung="+leveldung+"&subjname="+subjname;
-		
+			
 			var searchUrl = "/fa/diagnosis/ipprinputJson";
-		
+
 			$.ajax({
 				type: "post"
 				,url: searchUrl
 				,data: paramData	
 				,error: function (data, textStatus) { 
-					//alert(textStatus); 			
+					alert(textStatus); 			
 				}
 				,success: function(data){	
 
@@ -114,6 +114,50 @@ $(function(){
 				$('#inputAnswer').append(tr);
 			});
 		},
+		
+		getIpprSave:function(){  //오답입력 저장
+			var searchUrl = "/fa/diagnosis/ipprInputSave";
+		
+			var OmrDate = $("#omrdate").val();
+			var Hkey = $.trim($("#Hkey").val());
+			var Kwamok = $.trim($("#Kwamok").val());
+			var Rw = $.trim($("#Rw").val());
+			var NOmr = $.trim($("#NOmr").val());
+			var MFstName = $.trim($("#MFstName").val());
+			var MLstName =$.trim($("#MLstName").val());;
+			var Skey = $.trim($("#Skey").val());
+			var SName = $.trim($("#SName").val());
+			var OmrGrd = $.trim($("#OmrGrd").val());
+			var OmrHak = $.trim($("#OmrHak").val());
+			var OmrBirth = $.trim($("#OmrBirth").val());
+			var OmrKind = $.trim($("#OmrKind").val());
+			var OmrDay1 = $.trim($("#OmrDay1").val());
+			var OmrDay2 = $.trim($("#OmrDay2").val());
+			var OmrStudyNum = $.trim($("#OmrStudyNum").val());
+			var OmrBookNum = $.trim($("#OmrBookNum").val());
+			var DeptCD = $.trim($("#deptCd").val());
+			var JisaCD = $.trim($("#jisaCD").val());
+			var DeptName = $.trim($("#DeptName").val());
+			var WorkID = $.trim($("#WorkID").val());
+			alert(SName)
+			var paramData = {"omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "rw":Rw, "nOmr":NOmr, "mFstName":MFstName, "mLstName":MLstName
+					, "skey":Skey, "sName":SName, "omrGrd":OmrGrd, "omrHak":OmrHak, "omrBirth":OmrBirth, "OmrKind":OmrKind, "omrDay1":OmrDay1, "omrDay2":OmrDay2
+					, "omrStudyNum":OmrStudyNum, "deptCD":DeptCD, "jisaCD":JisaCD, "deptName":DeptName, "workID":WorkID};
+			
+			$.ajax({
+				url:searchUrl,
+				type:"GET",
+				cache: false,
+				data: paramData,
+				dataType: "json",
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					alert(12)
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(thrownError);
+				}
+			});
+		},		
 		
 		getReload:function(){  //페이지 새로고침
 			location.reload();

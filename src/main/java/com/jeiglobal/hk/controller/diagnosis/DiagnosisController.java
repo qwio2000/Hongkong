@@ -134,9 +134,9 @@ public class DiagnosisController {
 		
 		String jisaCD = loginInfo.getJisaCD();
 		
-		DiagnosisDto.DiagnosisInputippr diagnosisInputippr = diagnosisService.getDiagnosisInputippr(jisaCD, memKey, subj, freejindan);	
+		DiagnosisDto.DiagnosisInputippr diagnosisInputippr = diagnosisService.getDiagnosisInputippr(jisaCD, memKey, subj, freejindan);	 //회원정보
 		
-		List<GradeOfSubject> gradeOfSubject = commonService.getGradeOfSubject(jisaCD, subj, "Y", "Y");
+		List<GradeOfSubject> gradeOfSubject = commonService.getGradeOfSubject(jisaCD, subj, "Y", "Y");   //등급정보
 		
 		if (diagnosisInputippr == null) {
 			model.addAttribute("message", "No member");
@@ -154,29 +154,56 @@ public class DiagnosisController {
 	
 	// ippr 오답 입력
 	@RequestMapping(value={"/fa/diagnosis/ipprinput"}, method={RequestMethod.POST,RequestMethod.HEAD})  
-	public String diagnosisIpprinput(Model model,String memKey, String jisaCD, String memName, String grade, String subjname 
-			, String leveldung, String inputdate, String mBirthDay, String testType, String readchk, String nomr) {
+	public String diagnosisIpprinput(Model model, @ModelAttribute LoginInfo loginInfo,String memKey, String jisaCD, String memName, String gradeNM, String gradeCD,  String subjname 
+			, String leveldung, String inputdate, String mBirthDay, String testType, String readchk, String nomr, String yoil, String studyNum, String bookNum) {
 		log.debug("Getting ipprinput List Page");
-		
 		//header에 포함할 스크립트 
 		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("diagnosis");		
 		model.addAttribute("headerScript", headerScript);	
 		
+		String omrdate = CommonUtils.getCurrentYMD();  // 오늘 날짜
+		String deptCd = loginInfo.getDeptCD();		//deptCd
+		String empKey = commonService.getEmpKeyByDeptCD(deptCd);  // 원장번호
+		String userId = loginInfo.getUserId();		//작업자
 	
-		model.addAttribute("memKey", memKey);
-		model.addAttribute("jisaCD", jisaCD);
+
+		String yoil1 = "";
+		String yoil2 = "";
+		
+		String[] yoils = yoil.split(",");
+		for( int i = 0; i < yoils.length; i++ ){
+			if( (i+1) == 1){
+				yoil1	=  yoils[i]	;
+			}else if((i+1) == 2){
+				yoil2	=  yoils[i]	;
+			}
+		}
+		
+		model.addAttribute("omrdate", omrdate);  //처방일자		
+		model.addAttribute("memKey", memKey);	//회원번호
+		model.addAttribute("empKey", empKey);    //원장번호
 		model.addAttribute("memName", memName);
-		model.addAttribute("grade", grade);
+		model.addAttribute("leveldung", leveldung);
+		model.addAttribute("gradeCD", gradeCD);
+		model.addAttribute("mBirthDay", mBirthDay);
+		model.addAttribute("OmrKind", testType);
+		model.addAttribute("studyNum", studyNum);
+		model.addAttribute("bookNum", bookNum);
+		model.addAttribute("deptCd", deptCd);   
+		model.addAttribute("jisaCD", jisaCD);
+		model.addAttribute("userId", userId);
+		model.addAttribute("yoil1", yoil1);
+		model.addAttribute("yoil2", yoil2);
+		model.addAttribute("gradeNM", gradeNM);		
 		model.addAttribute("subjname", subjname);
 		model.addAttribute("leveldung", leveldung);
 		model.addAttribute("inputdate", inputdate);
-		model.addAttribute("mBirthDay", mBirthDay);
 		model.addAttribute("testType", testType);
 		model.addAttribute("readchk", readchk);
 		model.addAttribute("nomr", nomr);
-		
+	
 		return "diagnosis/diagnosis/ipprinput";	
 	}
 
@@ -186,6 +213,7 @@ public class DiagnosisController {
 
 		String smaster = "NSys8";
 		String jdmaster = "";
+
 		
 		if(CommonUtils.RightString(subjname,1).equals("M") ){
 			smaster 	= "JDNSys8" ;	
@@ -204,6 +232,7 @@ public class DiagnosisController {
 			totalCnt = diagnosisTotMunGet.getTot();	
 		}
 		
+
 		model.addAttribute("memKey", memKey);   //회원번호
 		model.addAttribute("subjname", CommonUtils.RightString(subjname,1));    //과목
 		model.addAttribute("leveldung", leveldung);  //등급
@@ -231,6 +260,18 @@ public class DiagnosisController {
 		return returnurl;	
 	}
 	
+	
+	
+	// 오답 입력 저장
+	@RequestMapping(value={"/fa/diagnosis/ipprInputSave"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@ResponseBody
+	public String diagnosisIpprOmrGichoJson(Model model,DiagnosisDto.DiagnosisOmrInsert omrInsert ) {
+System.out.println("==============================================");
+		
+		String omrGichoisOK = diagnosisService.getDiagnosisOmrGicho(omrInsert);
+		System.out.println("==============================================");		
+		return omrGichoisOK;
+	}
 	
 	
 

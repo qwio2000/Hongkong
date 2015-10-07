@@ -34,7 +34,7 @@
 									<tr>
 									<#if ippr??>
 										<td>${ippr.memName}</td>
-										<td>${ippr.grade}</td>
+										<td>${ippr.gradeNM}</td>
 										<td>${ippr.subjname}</td>
 										<td>
 											<select name="leveldung" id="leveldung">
@@ -44,13 +44,18 @@
 										</select>
 										</td>
 										<td>${ippr.inputdate}</td>
+										
+										<input type="hidden" id="jisaCD" name="jisaCD" value="${jisaCD}">
 										<input type="hidden" id="memKey" name="memKey" value="${memKey}">
 										<input type="hidden" id="memName" name="memName" value="${ippr.memName}">
-										<input type="hidden" id="grade" name="grade" value="${ippr.grade}">
+										<input type="hidden" id="gradeNM" name="gradeNM" value="${ippr.gradeNM}">
 										<input type="hidden" id="subjname" name="subjname" value="${ippr.subjname}">
 										<input type="hidden" id="inputdate" name="inputdate" value="${ippr.inputdate}">
 										<input type="hidden" id="mBirthDay" name="mBirthDay" value="${ippr.MBirthDay}">
-										<input type="hidden" id="jisaCD" name="jisaCD" value="${jisaCD}">
+										<input type="hidden" id="gradeCD" name="gradeCD" value="${ippr.gradeCD}">
+										<input type="hidden" id="yoil" name="yoil" value="${ippr.yoil}">
+										<input type="hidden" id="studyNum" name="studyNum" value="${ippr.studyNum}">
+										<input type="hidden" id="bookNum" name="bookNum" value="${ippr.bookNum}">
 									</#if>
 									</tr>
 								</tbody>

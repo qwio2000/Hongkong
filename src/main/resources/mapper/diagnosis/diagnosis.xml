@@ -18,4 +18,12 @@
 	<select id="findDiagnosisJDSys8070P" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisJDSys8070P">
 		CALL globaldig.SPOmrJDSys8070Pchk (#{jisaCD},#{smaster},#{subjname},#{leveldung});			
 	</select>
+	
+	
+	<select id="findDiagnosisOmrGicho" statementType="CALLABLE" parameterType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOmrInsert" resultType="java.lang.String">
+		CALL globaldig.SPOmrGichoInsert (#{omrDate},#{hkey},#{kwamok},#{rw},#{nOmr},#{mFstName},#{mLstName},#{skey},#{sName}
+		,#{omrGrd},#{omrHak},#{omrBirth},#{omrKind},#{omrDay1},#{omrDay2},#{omrStudyNum},#{omrBookNum},#{deptCD},#{jisaCD},#{deptName},#{workID});		
+		
+	
+	</select>
 </mapper>

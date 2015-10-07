@@ -73,6 +73,14 @@ public class DiagnosisService {
 		
 	}
 	
+	public String getDiagnosisOmrGicho(DiagnosisDto.DiagnosisOmrInsert omrInsert){
+				
+		return diagnosisRepository.findDiagnosisOmrGicho(omrInsert);
+		
+	}
+	
+	
+	
 	
 	
 
