@@ -4,6 +4,7 @@ $(function(){
 	});
 	$("#name").on("keyup", function(){
 		if($.trim($("#name").val()).length >= 3){
+			alert($("#name").val());
 			$.ajax({
 				url:"/fa/members/regist/"+$.trim($("#name").val()),
 				type:"GET",
