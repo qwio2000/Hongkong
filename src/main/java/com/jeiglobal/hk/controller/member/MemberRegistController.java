@@ -56,7 +56,7 @@ public class MemberRegistController {
 		return "member/regist/memberSearch";
 	}
 	
-	@RequestMapping(value={"/fa/members/regist/{name}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members/regist/{name}"}, method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public Map<String, Object> getMemberRegistSearchResultJson(Model model,
 			@PathVariable String name,
@@ -133,7 +133,7 @@ public class MemberRegistController {
 		return "member/regist/registForm";
 	}
 	
-	@RequestMapping(value="/fa/members/regist/maxDays", method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value="/fa/members/regist/maxDays", method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public int getMaxDayJson(int year, int month){
 		log.debug("Getting Max Day, year : {} month : {}", year, month);
@@ -141,7 +141,7 @@ public class MemberRegistController {
 		return maxDays;
 	}
 	
-	@RequestMapping(value="/fa/members/regist/feecalc", method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value="/fa/members/regist/feecalc", method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public int getFeeCalcJson(String firstManageDate, int bookNum, @ModelAttribute LoginInfo loginInfo) throws ParseException{
 		log.debug("Getting Selected Fee, firstManageDate : {}, bookNum : {}", firstManageDate, bookNum);
