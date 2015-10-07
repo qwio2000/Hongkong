@@ -28,5 +28,5 @@ public interface CommonRepository {
 
 	public List<SubjectOfDept> findSubjectsOfDept(Map<String, Object> param);
 
-	public String findEmpKeyByDeptCD(String deptCD);
+	public DeptMst findDeptMstByDeptCD(String deptCD);
 }

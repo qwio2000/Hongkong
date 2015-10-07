@@ -48,8 +48,8 @@
 		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} 
 		ORDER BY sortCD
 	</select>
-	<select id="findEmpKeyByDeptCD" parameterType="java.lang.String" resultType="java.lang.String">
-		SELECT empKey 
+	<select id="findDeptMstByDeptCD" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.DeptMst">
+		SELECT jisaCD, deptCD, deptName, deptType, memType, feeType, rtyType, openSubj, empKey, empFstName, empLstName, city, stateCD, email, phone, fax, zip, addr, contractDate, openDate, closeDate, contractTerm, oHoursStart, oHoursEnd, cHoursStart, cHoursEnd, statusCD, sortCD, groupCD, rangeCD
 		FROM globalbiz.DeptMst
 		WHERE deptCD = #{deptCD} 
 	</select>

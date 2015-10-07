@@ -78,6 +78,14 @@ public class CommonService {
 		return Arrays.asList(openSubjs.split(","));
 	}
 	
+	/**
+	 * 과목의 등급 정보를 가져오는 메서드
+	 * @param jisaCD
+	 * @param subj
+	 * @param useYN
+	 * @param digYN
+	 * @return List<GradeOfSubject>
+	 */
 	public List<GradeOfSubject> getGradeOfSubject(String jisaCD, String subj, String useYN, String digYN){
 		param.clear();
 		param.put("jisaCD", jisaCD);
@@ -100,7 +108,12 @@ public class CommonService {
 		return commonRepository.findSubjectsOfDept(param);
 	}
 	
-	public String getEmpKeyByDeptCD(String deptCD){
-		return commonRepository.findEmpKeyByDeptCD(deptCD);
+	/**
+	 * 가맹점의 정보를 가져오는 메서드
+	 * @param deptCD
+	 * @return DeptMst
+	 */
+	public DeptMst getDeptMstByDeptCD(String deptCD){
+		return commonRepository.findDeptMstByDeptCD(deptCD);
 	}
 }
