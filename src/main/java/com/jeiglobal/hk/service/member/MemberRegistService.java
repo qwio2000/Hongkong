@@ -223,7 +223,7 @@ public class MemberRegistService {
 		//복회 시 복회일자, before, feeFnl, HIS
 		String registFstYMD = ("2".equals(isResume))? "" : CommonUtils.getCurrentYMD();
 		String registFnlYMD = ("2".equals(isResume))? CommonUtils.getCurrentYMD() : "";
-		return new MemSubjMst(memMst.getMemKey(), subj, "1", memMst.getMFstName()+memMst.getMLstName(), getYoil(firstManageDate), Integer.parseInt(studyNum), Integer.parseInt(bookNum), "", registFstYMD, registFnlYMD, "", getExpireYMD(Integer.parseInt(monthNum)), CommonUtils.getCurrentYMD(), "", "", "", "", 0, 0, commonService.getEmpKeyByDeptCD(loginInfo.getDeptCD()), loginInfo.getDeptCD(), loginInfo.getJisaCD(), currentDate, memMst.getRegID(), currentDate, memMst.getRegID());
+		return new MemSubjMst(memMst.getMemKey(), subj, "1", memMst.getMFstName()+memMst.getMLstName(), getYoil(firstManageDate), Integer.parseInt(studyNum), Integer.parseInt(bookNum), "", registFstYMD, registFnlYMD, "", getExpireYMD(Integer.parseInt(monthNum)), CommonUtils.getCurrentYMD(), "", "", "", "", 0, 0, (commonService.getDeptMstByDeptCD(loginInfo.getDeptCD())).getEmpKey(), loginInfo.getDeptCD(), loginInfo.getJisaCD(), currentDate, memMst.getRegID(), currentDate, memMst.getRegID());
 	}
 	/**
 	 * 사용자가 선택한 입금 개월 수로 차기 등록일을 리턴
@@ -252,7 +252,7 @@ public class MemberRegistService {
 	 */
 	public MemSubjStudy getMemSubjStudy(MemMst memMst, LoginInfo loginInfo,
 			String subj, String firstManageDate, String bookNum, String studyNum, String manageTime, Date currentDate) throws NumberFormatException, ParseException {
-		return new MemSubjStudy(memMst.getMemKey(), subj, Integer.parseInt(studyNum), Integer.parseInt(bookNum), getYoil(firstManageDate), 1, 1, manageTime, commonService.getEmpKeyByDeptCD(loginInfo.getDeptCD()), loginInfo.getDeptCD(), loginInfo.getJisaCD(), currentDate, memMst.getRegID(), currentDate, memMst.getUpdID());
+		return new MemSubjStudy(memMst.getMemKey(), subj, Integer.parseInt(studyNum), Integer.parseInt(bookNum), getYoil(firstManageDate), 1, 1, manageTime, (commonService.getDeptMstByDeptCD(loginInfo.getDeptCD())).getEmpKey(), loginInfo.getDeptCD(), loginInfo.getJisaCD(), currentDate, memMst.getRegID(), currentDate, memMst.getUpdID());
 	}
 	/**
 	 * 입회 시 입력한 정보를 토대로 MemSubjRegist에 관한 정보를 만들어 객체에 담아 리턴
@@ -283,7 +283,7 @@ public class MemberRegistService {
 		memSubjRegist.setStudyNum(Integer.parseInt(studyNum));
 		memSubjRegist.setBookNum(Integer.parseInt(bookNum));
 		memSubjRegist.setDigGrade("");
-		memSubjRegist.setEmpKey(commonService.getEmpKeyByDeptCD(loginInfo.getDeptCD()));
+		memSubjRegist.setEmpKey((commonService.getDeptMstByDeptCD(loginInfo.getDeptCD())).getEmpKey());
 		memSubjRegist.setDeptCD(loginInfo.getDeptCD());
 		memSubjRegist.setJisaCD(loginInfo.getJisaCD());
 		//TODO Appointment로 입회 넘어온 경우 apmIdx 추가
@@ -321,7 +321,7 @@ public class MemberRegistService {
 				+ Integer.parseInt(resultMap.get("sectionFee").toString())
 				+ Integer.parseInt(resultMap.get("monthFee").toString())
 				+ longFee;
-		return new MemSubjTuition(0, CommonUtils.getDateForFormat(currentDate), memMst.getMemKey(), subj, memMst.getMFstName()+memMst.getMLstName(), feeGubun, feeKind, resultMap.get("freeType").toString(), registFee, Integer.parseInt(resultMap.get("sectionFee").toString()), Integer.parseInt(resultMap.get("monthFee").toString()), longFee, totalFee, getExpireYMD(Integer.parseInt(monthNum)), Integer.parseInt(bookNum), weekNum, Integer.parseInt(monthNum), resultMap.get("feeUnit").toString(), commonService.getEmpKeyByDeptCD(loginInfo.getDeptCD()), loginInfo.getDeptCD(), loginInfo.getJisaCD(), currentDate, memMst.getRegID());
+		return new MemSubjTuition(0, CommonUtils.getDateForFormat(currentDate), memMst.getMemKey(), subj, memMst.getMFstName()+memMst.getMLstName(), feeGubun, feeKind, resultMap.get("freeType").toString(), registFee, Integer.parseInt(resultMap.get("sectionFee").toString()), Integer.parseInt(resultMap.get("monthFee").toString()), longFee, totalFee, getExpireYMD(Integer.parseInt(monthNum)), Integer.parseInt(bookNum), weekNum, Integer.parseInt(monthNum), resultMap.get("feeUnit").toString(), (commonService.getDeptMstByDeptCD(loginInfo.getDeptCD())).getEmpKey(), loginInfo.getDeptCD(), loginInfo.getJisaCD(), currentDate, memMst.getRegID());
 	}
 	/**
 	 * MemSubjMst Insert

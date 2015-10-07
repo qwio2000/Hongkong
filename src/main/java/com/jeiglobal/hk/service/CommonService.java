@@ -109,11 +109,11 @@ public class CommonService {
 	}
 	
 	/**
-	 * 가맹점 주의 empKey를 가져오는 메서드
+	 * 가맹점의 정보를 가져오는 메서드
 	 * @param deptCD
-	 * @return String
+	 * @return DeptMst
 	 */
-	public String getEmpKeyByDeptCD(String deptCD){
-		return commonRepository.findEmpKeyByDeptCD(deptCD);
+	public DeptMst getDeptMstByDeptCD(String deptCD){
+		return commonRepository.findDeptMstByDeptCD(deptCD);
 	}
 }
