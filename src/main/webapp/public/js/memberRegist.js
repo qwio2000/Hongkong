@@ -4,9 +4,9 @@ $(function(){
 	});
 	$("#name").on("keyup", function(){
 		if($.trim($("#name").val()).length >= 3){
-			alert($("#name").val());
+			var url = "/fa/members/regist/"+encodeURI($.trim($("#name").val()));
 			$.ajax({
-				url:"/fa/members/regist/"+$.trim($("#name").val()),
+				url: url,
 				type:"GET",
 				cache: false,
 				dataType: "json",
