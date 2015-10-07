@@ -56,10 +56,10 @@ public class MemberRegistController {
 		return "member/regist/memberSearch";
 	}
 	
-	@RequestMapping(value={"/fa/members/regist/{name}"}, method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
+	@RequestMapping(value={"/fa/members/regist/search"}, method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public Map<String, Object> getMemberRegistSearchResultJson(Model model,
-			@PathVariable String name,
+			String name,
 			@ModelAttribute LoginInfo loginInfo){
 		log.debug("get MemberRegist Search : {}", name);
 		List<MemberDto.MemberRegistSearchInfo> registSearches = memberRegistService.getMemberRegistSearch(name, loginInfo.getJisaCD());

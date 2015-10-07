@@ -3,12 +3,14 @@ $(function(){
 		$("#comment").show();
 	});
 	$("#name").on("keyup", function(){
-		if($.trim($("#name").val()).length >= 3){
-			var url = "/fa/members/regist/"+encodeURI($.trim($("#name").val()));
+		var name = $.trim($("#name").val());
+		if(name.length >= 3){
+			var url = "/fa/members/regist/search";
 			$.ajax({
 				url: url,
 				type:"GET",
 				cache: false,
+				data: {"name":name},
 				dataType: "json",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
 					var source = $("#memberRegistSearch").html();
