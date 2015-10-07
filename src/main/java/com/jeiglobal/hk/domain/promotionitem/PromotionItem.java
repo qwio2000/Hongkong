@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import org.springframework.web.multipart.MultipartFile;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,21 +17,22 @@ public class PromotionItem {
 	private String	itemDescription	;
 	private String	itemColor;
 	private float	itemPrice;
+	private Integer itemPerUnit;
 	private String	itemUOM;
-	private int		itemStock;
+	private Integer	itemStock;
 	private String	itemfile1Name;
 	private String	itemfile1NameConvert;
-	private int		itemfile1Size;
+	private long	itemfile1Size;
 	private String	itemfile1Url;
 	private String	itemfile1Ext;
 	private String	itemfile2Name;
 	private String	itemfile2NameConvert;
-	private int		itemfile2Size;
+	private long	itemfile2Size;
 	private String	itemfile2Url;
 	private String	itemfile2Ext;
 	private String	itemfile3Name;
 	private String	itemfile3NameConvert;
-	private int		itemfile3Size;
+	private long	itemfile3Size;
 	private String	itemfile3Url;
 	private String	itemfile3Ext;
 	private String	itemVisible;
@@ -37,5 +40,9 @@ public class PromotionItem {
 	private String	regID;
 	private String	updDate;
 	private String	updID;
+	
+	//파일
+	private MultipartFile[] multipartFile;
+	
 
 }
