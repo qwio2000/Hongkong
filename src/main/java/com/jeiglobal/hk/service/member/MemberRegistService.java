@@ -120,6 +120,7 @@ public class MemberRegistService {
 		return memberRegistRepository.getCalcFee(param);
 	}
 	/**
+	 * 입회 전 회원 검색 리스트를 가져오는 메서드
 	 * @param name
 	 * @param jisaCD 
 	 * @return List<MemberRegistSearchInfo>
@@ -131,6 +132,7 @@ public class MemberRegistService {
 		return memberRegistRepository.findMemberRegistSearch(paramMap);
 	}
 	/**
+	 * 해당 지사, 가맹점의 관리 시간 리스트를 가져오는 메서드
 	 * @param jisaCD
 	 * @param deptCD
 	 * @return List<CodeDtl>
@@ -145,6 +147,7 @@ public class MemberRegistService {
 		return memberRegistRepository.findDeptAvailableTimes(param);
 	}
 	/**
+	 * 해당 회원 번호의 회원 정보를 가져오는 메서드
 	 * @param memKey
 	 * @return MemMst
 	 */
@@ -152,6 +155,7 @@ public class MemberRegistService {
 		return memberRegistRepository.findMemMst(memKey);
 	}
 	/**
+	 * 해당 회원 번호의 부모 정보를 가져오는 메서드
 	 * @param memKey
 	 * @return GuardianInfo
 	 */
@@ -159,6 +163,7 @@ public class MemberRegistService {
 		return memberRegistRepository.findGuardianInfo(memKey);
 	}
 	/**
+	 * 해당 지사, 가맹점에서 입회할 수 있는 과목 리스트를 가져오는 메서드
 	 * @param memKey
 	 * @param loginInfo
 	 * @return List<RegistSubject>
@@ -172,12 +177,14 @@ public class MemberRegistService {
 		return memberRegistRepository.findRegistSubjects(param);
 	}
 	/**
+	 * 새로운 회원번호를 가져오는 메서드
 	 * @return String
 	 */
 	public String getNewMemKey() {
 		return memberRegistRepository.getKeyGenSelect();
 	}
 	/**
+	 * 입회 시 MemMst에 데이터를 Insert하는 메서드
 	 * @param memMst void
 	 */
 	public void addNewMemMst(MemMst memMst) {
@@ -185,6 +192,7 @@ public class MemberRegistService {
 	}
 
 	/**
+	 * 입회 시 입력한 첫관리방문일을 통해 요일 값을 가져오는 메서드
 	 * @param firstManageDate
 	 * @return String
 	 * @throws ParseException 
@@ -196,7 +204,7 @@ public class MemberRegistService {
 		return Integer.toString(cal.get(Calendar.DAY_OF_WEEK));
 	}
 	/**
-	 * 
+	 * 입회 시 입력한 정보를 토대로 MemSubjMst에 관한 정보를 만들어 객체에 담아 리턴
 	 * @param memMst
 	 * @param loginInfo
 	 * @param subj
@@ -204,11 +212,11 @@ public class MemberRegistService {
 	 * @param bookNum
 	 * @param studyNum
 	 * @param monthNum
-	 * @param currentDate 
-	 * @param isResume 
+	 * @param currentDate
+	 * @param isResume
 	 * @return MemSubjMst
-	 * @throws ParseException 
-	 * @throws NumberFormatException 
+	 * @throws NumberFormatException
+	 * @throws ParseException
 	 */
 	public MemSubjMst getMemSubjMst(MemMst memMst, LoginInfo loginInfo,
 			String subj, String firstManageDate, String bookNum, String studyNum, String monthNum, Date currentDate, String isResume) throws NumberFormatException, ParseException {
@@ -218,6 +226,8 @@ public class MemberRegistService {
 		return new MemSubjMst(memMst.getMemKey(), subj, "1", memMst.getMFstName()+memMst.getMLstName(), getYoil(firstManageDate), Integer.parseInt(studyNum), Integer.parseInt(bookNum), "", registFstYMD, registFnlYMD, "", getExpireYMD(Integer.parseInt(monthNum)), CommonUtils.getCurrentYMD(), "", "", "", "", 0, 0, commonService.getEmpKeyByDeptCD(loginInfo.getDeptCD()), loginInfo.getDeptCD(), loginInfo.getJisaCD(), currentDate, memMst.getRegID(), currentDate, memMst.getRegID());
 	}
 	/**
+	 * 사용자가 선택한 입금 개월 수로 차기 등록일을 리턴
+	 * @param monthNum
 	 * @return String
 	 */
 	private String getExpireYMD(int monthNum) {
@@ -227,7 +237,7 @@ public class MemberRegistService {
 		return CommonUtils.getDateForFormat(cal.getTime());
 	}
 	/**
-	 * 
+	 * 입회 시 입력한 정보를 토대로 MemSubjStudy에 관한 정보를 만들어 객체에 담아 리턴
 	 * @param memMst
 	 * @param loginInfo
 	 * @param subj
@@ -235,17 +245,17 @@ public class MemberRegistService {
 	 * @param bookNum
 	 * @param studyNum
 	 * @param manageTime
-	 * @param currentDate 
+	 * @param currentDate
 	 * @return MemSubjStudy
-	 * @throws ParseException 
-	 * @throws NumberFormatException 
+	 * @throws NumberFormatException
+	 * @throws ParseException
 	 */
 	public MemSubjStudy getMemSubjStudy(MemMst memMst, LoginInfo loginInfo,
 			String subj, String firstManageDate, String bookNum, String studyNum, String manageTime, Date currentDate) throws NumberFormatException, ParseException {
 		return new MemSubjStudy(memMst.getMemKey(), subj, Integer.parseInt(studyNum), Integer.parseInt(bookNum), getYoil(firstManageDate), 1, 1, manageTime, commonService.getEmpKeyByDeptCD(loginInfo.getDeptCD()), loginInfo.getDeptCD(), loginInfo.getJisaCD(), currentDate, memMst.getRegID(), currentDate, memMst.getUpdID());
 	}
 	/**
-	 * 
+	 * 입회 시 입력한 정보를 토대로 MemSubjRegist에 관한 정보를 만들어 객체에 담아 리턴
 	 * @param memMst
 	 * @param loginInfo
 	 * @param subj
@@ -255,7 +265,7 @@ public class MemberRegistService {
 	 * @param bookNum
 	 * @param studyNum
 	 * @param currentDate
-	 * @param isResume 
+	 * @param isResume
 	 * @return MemSubjRegist
 	 * @throws ParseException 
 	 */
@@ -280,16 +290,17 @@ public class MemberRegistService {
 		return memSubjRegist;
 	}
 	/**
-	 * 
-	 * @param i 
+	 * 입회 시 입력한 정보를 토대로 MemSubjRegist에 관한 정보를 만들어 객체에 담아 리턴
+	 * @param i : subj index 
 	 * @param currentDate
 	 * @param memMst
 	 * @param loginInfo
 	 * @param subj
 	 * @param bookNum
 	 * @param monthNum
-	 * @param firstManageDate 
-	 * @param type 
+	 * @param firstManageDate
+	 * @param type
+	 * @param isResume
 	 * @return MemSubjTuition
 	 * @throws ParseException 
 	 */
@@ -313,6 +324,7 @@ public class MemberRegistService {
 		return new MemSubjTuition(0, CommonUtils.getDateForFormat(currentDate), memMst.getMemKey(), subj, memMst.getMFstName()+memMst.getMLstName(), feeGubun, feeKind, resultMap.get("freeType").toString(), registFee, Integer.parseInt(resultMap.get("sectionFee").toString()), Integer.parseInt(resultMap.get("monthFee").toString()), longFee, totalFee, getExpireYMD(Integer.parseInt(monthNum)), Integer.parseInt(bookNum), weekNum, Integer.parseInt(monthNum), resultMap.get("feeUnit").toString(), commonService.getEmpKeyByDeptCD(loginInfo.getDeptCD()), loginInfo.getDeptCD(), loginInfo.getJisaCD(), currentDate, memMst.getRegID());
 	}
 	/**
+	 * MemSubjMst Insert
 	 * @param memSubjMst void
 	 */
 	public void addNewMemSubjMst(MemSubjMst memSubjMst) {
@@ -320,30 +332,32 @@ public class MemberRegistService {
 		
 	}
 	/**
-	 * @param memSubjStudy void
+	 * MemSubjStudy Insert
+	 * @param memSubjStudy
 	 */
 	public void addNewMemSubjStudy(MemSubjStudy memSubjStudy) {
 		memberRegistRepository.insertNewMemSubjStudy(memSubjStudy);
 		
 	}
 	/**
-	 * @param memSubjRegist void
+	 * MemSubjRegist Insert
+	 * @param memSubjRegist 
 	 */
 	public void addNewMemSubjRegist(MemSubjRegist memSubjRegist) {
 		memberRegistRepository.insertNewMemSubjRegist(memSubjRegist);
 	}
 	/**
-	 * @param memSubjTuition void
+	 * MemSubjTuition Insert
+	 * @param memSubjTuition
 	 */
 	public void addNewMemSubjTuition(MemSubjTuition memSubjTuition) {
 		memberRegistRepository.insertNewMemSubjTuition(memSubjTuition);
 	}
 	/**
-	 * @param memMst void
-	 * @param type 
-	 * @param memKey 
-	 * @param type 
-	 * @param memKey 
+	 * MemMst Update : 타과목, 형제회원(부모정보)
+	 * @param memMst
+	 * @param memKey
+	 * @param type
 	 */
 	public void setMemMst(MemMst memMst, String memKey, String type) {
 		Map<String, Object> param = new HashMap<>();
@@ -354,7 +368,8 @@ public class MemberRegistService {
 		memberRegistRepository.updateMemMst(memMst);
 	}
 	/**
-	 * @param memSubjMst void
+	 * MemSubjMst Update : 타과목 복회
+	 * @param memSubjMst
 	 * @param isResume 
 	 */
 	public void setMemSubjMst(MemSubjMst memSubjMst, String isResume) {
@@ -366,15 +381,17 @@ public class MemberRegistService {
 		
 	}
 	/**
-	 * @param memSubjStudy void
+	 * MemSubjStudy Update : 타과목 복회
+	 * @param memSubjStudy
 	 */
 	public void setMemSubjStudy(MemSubjStudy memSubjStudy) {
 		memberRegistRepository.insertMemSubjStudyHis(memSubjStudy);
 		memberRegistRepository.updateMemSubjStudy(memSubjStudy);
 	}
 	/**
+	 * MemMst 부모정보 Update : 형제회원 입회
 	 * @param memMst
-	 * @param memKey void
+	 * @param memKey
 	 * @param type 
 	 */
 	public void setGuadianInfoForMemMst(MemMst memMst, String memKey, String type) {

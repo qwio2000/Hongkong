@@ -168,6 +168,14 @@ public class CommonUtils {
 		return sdf.format(date);
 	}
 	
+	/**
+	 * DateFormat 변경하는 함수
+	 * @param beforePattern : 변경하기 전 패턴
+	 * @param afterPattern : 변경하고자 하는 패턴
+	 * @param value : 변경하기 전 값
+	 * @return
+	 * @throws ParseException String
+	 */
 	public static String changeDateFormat(String beforePattern, String afterPattern, String value) throws ParseException{
 		SimpleDateFormat beforeSdf = new SimpleDateFormat(beforePattern);
 		SimpleDateFormat afterSdf = new SimpleDateFormat(afterPattern);
@@ -176,7 +184,8 @@ public class CommonUtils {
 	}
 
 	/**
-	 * @param firstManageDate 
+	 * 잔여 주차 가져오기
+	 * @param firstManageDate : 첫 관리 방문일로 잔여 주차 가져오기 
 	 * @return int
 	 * @throws ParseException 
 	 */
@@ -191,7 +200,12 @@ public class CommonUtils {
 		return week;
 	}	
 	
-	// 문자열 오른쪽 자르기
+	/**
+	 * 문자열 오른쪽 자르는 함수
+	 * @param sText : Source 문자열
+	 * @param iTextLenth : 자르고자 하는 길이
+	 * @return String
+	 */
 	public static String RightString(String sText, int iTextLenth){
 		String sConvertText;
 
