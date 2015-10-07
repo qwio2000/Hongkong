@@ -61,6 +61,20 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 		return filterRegistrationBean;
 	}
 	/**
+	 * PUT method Filter
+	 * @return FilterRegistrationBean
+	 */
+	@Bean
+	public FilterRegistrationBean encodingFilter() {
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+		CharacterEncodingFilter cf = new CharacterEncodingFilter();
+		cf.setEncoding("UTF-8");
+		cf.setForceEncoding(true);
+		filterRegistrationBean.setFilter(cf);
+		filterRegistrationBean.setOrder(0);
+		return filterRegistrationBean;
+	}
+	/**
 	 * XSS 대응 필터
 	 * @return FilterRegistrationBean
 	 */
