@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jeiglobal.hk.domain.diagnosis.Diagnosis;
+import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
 import com.jeiglobal.hk.repository.diagnosis.DiagnosisRepository;
 
 
@@ -17,7 +17,7 @@ public class DiagnosisService {
 	@Autowired
 	private DiagnosisRepository diagnosisRepository;
 	
-	public List<Diagnosis> getDiagnosis(int page, int pagecnt, String JisaCD, String DeptCd, String Status, String LastName, String FirstName, String HomePhone, String CellPhone, String Email, String Grade, String Subject) {
+	public List<DiagnosisDto.Diagnosis> getDiagnosis(int page, int pagecnt, String JisaCD, String DeptCd, String Status, String LastName, String FirstName, String HomePhone, String CellPhone, String Email, String Grade, String Subject) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("page", page);
 		map.put("pagecnt", pagecnt);
@@ -35,5 +35,48 @@ public class DiagnosisService {
 		
 		return diagnosisRepository.findDiagnosis(map);
 	}
+	
+	
+	public DiagnosisDto.DiagnosisInputippr getDiagnosisInputippr(String JisaCD, String memKey, String subj, String freejindan){
+		Map<String, Object> map = new HashMap<>();
+		map.put("JisaCD", JisaCD);		
+		map.put("memKey", memKey);		
+		map.put("subj", subj);
+		map.put("freejindan", freejindan);
+		
+		return diagnosisRepository.findDiagnosisIppr(map);
+		
+		
+	}
+	
+	
+	public DiagnosisDto.DiagnosisTotMunGet getDiagnosisTotMunGet(String jisaCD, String smaster, String subjname, String leveldung){
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("smaster", smaster);		
+		map.put("subjname", subjname);
+		map.put("leveldung", leveldung);
+		
+		return diagnosisRepository.findDiagnosisTotMunGet(map);
+		
+	}
+	
+	
+	public List<DiagnosisDto.DiagnosisJDSys8070P> getDiagnosisJDSys8070P(String jisaCD, String smaster, String subjname, String leveldung){
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("smaster", smaster);		
+		map.put("subjname", subjname);
+		map.put("leveldung", leveldung);
+		
+		return diagnosisRepository.findDiagnosisJDSys8070P(map);
+		
+	}
+	
+	
+	
+
+	
+	
 
 }

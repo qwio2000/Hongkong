@@ -189,5 +189,19 @@ public class CommonUtils {
 		int week = (int) Math.ceil(((double)(endDate - manageDay)/7));
 		week = (week > 4)? 4 : week; // 4주 이상 모두 4로 변경
 		return week;
+	}	
+	
+	// 문자열 오른쪽 자르기
+	public static String RightString(String sText, int iTextLenth){
+		String sConvertText;
+
+	    if (sText.length() < iTextLenth)
+	    {
+	        iTextLenth= sText.length();
+	    }
+
+	    sConvertText= sText.substring(sText.length() - iTextLenth, sText.length());
+
+	    return sConvertText;
 	}
 }
