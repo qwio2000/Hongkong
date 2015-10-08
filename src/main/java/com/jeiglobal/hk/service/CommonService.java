@@ -116,4 +116,16 @@ public class CommonService {
 	public DeptMst getDeptMstByDeptCD(String deptCD){
 		return commonRepository.findDeptMstByDeptCD(deptCD);
 	}
+	/**
+	 * 현재 달의 마감 날짜 가져옴
+	 * @param jisaCD
+	 * @param currentYYYYMM
+	 * @return String
+	 */
+	public String getClosingDate(String jisaCD, String currentYYYYMM) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("currentYYYYMM", currentYYYYMM);
+		param.put("jisaCD", jisaCD);
+		return commonRepository.findClosingDate(param);
+	}
 }

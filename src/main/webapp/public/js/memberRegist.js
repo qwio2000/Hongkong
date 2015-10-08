@@ -286,5 +286,10 @@ function submitValid(){
 			return false;
 		}
 	}
+	
+	if(!$("input:checkbox[name='subj']").is(":checked")){
+		alert('입회 하려는 과목을 선택해 주십시오');
+		return false;
+	}
 	return true;
 }

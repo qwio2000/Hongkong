@@ -32,8 +32,10 @@ $(function(){
 					var pageNum = pageInfo.pageNum;
 					var pageSize = pageInfo.rowBlockSize;
 					$("#totalCnt").html(totalRowCnt);
+					if(pageInfo.totalPageCnt > 1){
 					$("#pageNavi").html($.pageUtil(pageInfo.pageNum,pageInfo.totalPageCnt, 
-							pageInfo.pageBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));	
+							pageInfo.pageBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));
+					}
 					var source = $("#memberReportTemplate").html();
 					var template = Handlebars.compile(source);
 					Handlebars.registerHelper("inc", function(value, options){
