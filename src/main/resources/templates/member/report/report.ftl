@@ -58,7 +58,11 @@
 	{{#each members}}
 		<tr>
 			<td>{{inc @index}}</td>
-			<td class="left"><img src="/public/img/ico_name.png" alt="" />{{mfstName}}{{mlstName}}</td>
+			<td class="left">
+				{{#xIf statusCD "!=" 3}}<a class="blue" href="/fa/members/reports/{{memKey}}">{{/xIf}}
+				<img src="/public/img/ico_name.png" alt="" />{{mfstName}} {{mlstName}}
+				{{#xIf statusCD "!=" 3}}</a>{{/xIf}}
+			</td>
 			<td>{{gradeName}}</td>
 			<td>{{splitSubj memSubjStr}}</td>
 			<td>{{guardianName}}</td>

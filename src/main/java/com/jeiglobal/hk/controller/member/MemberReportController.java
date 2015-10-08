@@ -1,5 +1,6 @@
 package com.jeiglobal.hk.controller.member;
 
+import java.text.*;
 import java.util.*;
 
 import lombok.extern.slf4j.*;
@@ -50,7 +51,7 @@ public class MemberReportController {
 		return "member/report/report";
 	}
 	
-	@RequestMapping(value={"/fa/members/reports/{pageNum:[0-9]+}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members/reports/{pageNum:[0-9]{1,4}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> getMemberReports(@ModelAttribute LoginInfo loginInfo,
 			MemberDto.MemberSearch memberSearch,
@@ -63,6 +64,19 @@ public class MemberReportController {
 		map.put("members", members);
 		map.put("pageInfo", pageUtil);
 		return map;
+	}
+	
+	//TODO 정규표현식
+	@RequestMapping(value={"/fa/members/reports/{memKey:^[A-Z]{2}[0-9]{6}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getMemberReport(Model model,
+			@ModelAttribute LoginInfo loginInfo,
+			@PathVariable String memKey) throws ParseException{
+		log.debug("Getting Member Report memKey : {}", memKey);
+		MemMst memMst = memberReportService.getMemMstByMemKey(memKey);
+		List<MemberDto.MemberReportInfo> memberReportInfos = memberReportService.getMemberReportInfo(memMst);
+		model.addAttribute("guardianInfo", memMst);
+		model.addAttribute("memberReportInfos", memberReportInfos);
+		return "member/report/memberReport";
 	}
 	
 }

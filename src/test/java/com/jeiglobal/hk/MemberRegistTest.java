@@ -1,5 +1,7 @@
 package com.jeiglobal.hk;
 
+import java.util.regex.*;
+
 import org.junit.*;
 import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.*;
@@ -10,6 +12,9 @@ import org.springframework.test.context.web.*;
 import com.jeiglobal.hk.service.member.*;
 import com.jeiglobal.hk.utils.*;
 
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = HongkongProjectApplication.class)
 @WebAppConfiguration
@@ -19,6 +24,18 @@ public class MemberRegistTest {
 	MessageSourceAccessor accessor;
 	@Autowired
 	MemberRegistService service;
+	
+	@Test
+	public void 정규식테스트(){
+		String regex = "^[a-zA-Z]{2}[0-9]{6}";
+		assertThat(true, is(matched(regex, "AA123123")));
+		assertThat(false, is(matched(regex, "HK00006")));
+		assertThat(false, is(matched(regex, "00000060")));
+	}
+	
+	private boolean matched(String regex, String inputTxt) {
+		return Pattern.matches(regex, inputTxt);
+	}
 	
 	@Test
 	public void 첫관리방문일테스트() throws Exception {

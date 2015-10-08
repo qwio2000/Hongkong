@@ -56,7 +56,7 @@ public class MemberRegistService {
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat yyyymmFormatter = new SimpleDateFormat("yyyy-MM");
 		//현재 달의 마감날짜 가져옴
-		String closingDate = getClosingDate(jisaCD, yyyymmFormatter.format(cal.getTime()));
+		String closingDate = commonService.getClosingDate(jisaCD, yyyymmFormatter.format(cal.getTime()));
 		//마감 날짜 +8
 		Calendar limitDate = getLimitManageDate(closingDate); 
 		List<String> firstManageDates = new ArrayList<String>();
@@ -84,18 +84,6 @@ public class MemberRegistService {
 		cal.setTime(sdf.parse(closingDate));
 		cal.add(Calendar.DATE, mgFstVisit + 1);//AM 0:00 기준이라 8을 더해줌
 		return cal;
-	}
-	/**
-	 * 현재 달의 마감 날짜 가져옴
-	 * @param jisaCD
-	 * @param currentYYYYMM
-	 * @return String
-	 */
-	private String getClosingDate(String jisaCD, String currentYYYYMM) {
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("currentYYYYMM", currentYYYYMM);
-		param.put("jisaCD", jisaCD);
-		return memberRegistRepository.getClosingDate(param);
 	}
 	/**
 	 * 입회시 회비 계산하는 메서드
