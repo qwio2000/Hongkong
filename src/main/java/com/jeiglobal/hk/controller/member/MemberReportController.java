@@ -66,8 +66,7 @@ public class MemberReportController {
 		return map;
 	}
 	
-	//TODO 정규표현식
-	@RequestMapping(value={"/fa/members/reports/{memKey:^[A-Z]{2}[0-9]{6}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members/reports/{memKey:^[A-Z]{2}[0-9]{6}}", "/ja/members/search/{memKey:^[A-Z]{2}[0-9]{6}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMemberReport(Model model,
 			@ModelAttribute LoginInfo loginInfo,
 			@PathVariable String memKey) throws ParseException{
@@ -76,7 +75,9 @@ public class MemberReportController {
 		List<MemberDto.MemberReportInfo> memberReportInfos = memberReportService.getMemberReportInfo(memMst, loginInfo);
 		model.addAttribute("guardianInfo", memMst);
 		model.addAttribute("memberReportInfos", memberReportInfos);
-		return "member/report/memberReport";
+		String view = ("FA".equalsIgnoreCase(loginInfo.getUserType())) ? "member/report/memberReport" 
+				: ("JA".equalsIgnoreCase(loginInfo.getUserType())) ? "member/search/memberReport" : ""; 
+		return view;
 	}
 	
 }
