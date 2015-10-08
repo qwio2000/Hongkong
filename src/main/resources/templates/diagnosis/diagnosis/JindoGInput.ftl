@@ -59,32 +59,24 @@
 				</tr>
 				</thead>
 				<tbody>
-					<tr class="arrow">
-						<td>18 <span class="icon"></span></td>
-						<td>A019</td>
-					</tr>
-					<tr class="arrow">
-						<td>08 <span class="icon"></span></td>
-						<td>A018</td>
-					</tr>
-					<tr class="arrow">
-						<td>03 <span class="icon"></span></td>
-						<td>A003</td>
-					</tr>
-					<tr class="arrow">
-						<td>03 <span class="icon"></span></td>
-						<td>A003</td>
-					</tr>
-					<tr class="arrow">
-						<td>03 <span class="icon"></span></td>
-						<td>A003</td>
-					</tr>
-					<tr class="total">
-						<td>TOTAL</td>
-						<td>5</td>
+					<tr>
+						<td colspan="2" class="p0">
+							<ul class="result_list">
+								<li><span class="q_num">18</span><span class="icon"></span><span class="loss_set">A019</span></li>
+								<li><span class="q_num">18</span><span class="icon"></span><span class="loss_set">A019</span></li>
+								<li><span class="q_num">18</span><span class="icon"></span><span class="loss_set">A019</span></li>
+								<li><span class="q_num">18</span><span class="icon"></span><span class="loss_set">A019</span></li>
+								<li><span class="q_num">18</span><span class="icon"></span><span class="loss_set">A019</span></li>
+							</ul>
+						</td>
 					</tr>
 				</tbody>
 			</table>
+		</div>
+		<div class="btnArea al_c">
+			<a href="#"><span style="width:115px">Save</span></a>
+			<a href="#"><span style="width:115px">Skip</span></a>
+			<a href="#"><span style="width:115px">Cancle</span></a>
 		</div>
 	</div>
 </div>
