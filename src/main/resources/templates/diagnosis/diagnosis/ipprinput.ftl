@@ -33,7 +33,7 @@
 							<tbody>
 								<tr>
 									<td>${memName}</td>
-									<td>${grade}</td>
+									<td>${gradeNM}</td>
 									<td>${subjname}</td>
 									<td>${leveldung}</td>
 									<td><#if testType == "1"> Diagnosis <#else> ACH </#if></td>
@@ -59,16 +59,41 @@
 					
 					
 					<!-- 오답 입력 -->
-					<div id="diagnosislist">111</div>
+					<div id="diagnosislist">다시 확인 바랍니다.</div>
 					
+					<div class="btnArea al_c">
+						<a href="javascript:$.getIpprSave();"><span style="width: 115px;">Save</span></a>
+						<a href="javascript:$.getReload();"><span style="width: 115px;">Cancle</span></a>
+					</div>
 
 				</div>
 				<!-- //처방결과 입력 화면 -->
 				
+				<input type="hidden" id="omrdate" value="${omrdate}">
+				<input type="hidden" id="Hkey" value="${memKey}">
+				<input type="hidden" id="Kwamok" value="${subjname}">
+				<input type="hidden" id="MFstName" value="${memName}">
+				<input type="hidden" id="MLstName" value="">
+				<input type="hidden" id="Skey" value="${empKey}">
+				<input type="hidden" id="SName" value="${empName}">
+				<input type="hidden" id="OmrGrd" value="${leveldung}">
+				<input type="hidden" id="OmrHak" value="${gradeCD}">
+				<input type="hidden" id="OmrBirth" value="${mBirthDay}">
+				<input type="hidden" id="OmrKind" value="${OmrKind}">
+				
+				<input type="hidden" id="OmrDay1" value="${yoil1}">
+				<input type="hidden" id="OmrDay2" value="${yoil2}">
+				<input type="hidden" id="OmrStudyNum" value="${studyNum}">
+				<input type="hidden" id="OmrBookNum" value="${bookNum}">				
+				<input type="hidden" id="deptCd" value="${deptCd}">
 				<input type="hidden" id="jisaCD" value="${jisaCD}">
+				<input type="hidden" id="DeptName" value="">
+				<input type="hidden" id="WorkID" value="${userId}">
 				<input type="hidden" id="leveldung" value="${leveldung}">
 				<input type="hidden" id="subjname" value="${subjname}">
-				
+				<input type="hidden" id="Rw" value="${readchk}">
+				<input type="hidden" id="NOmr" value="${nomr}">
+				<div id="inputAnswer"></div>
 				
 	</div>
 	

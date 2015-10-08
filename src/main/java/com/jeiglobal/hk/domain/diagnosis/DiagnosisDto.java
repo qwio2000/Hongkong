@@ -19,17 +19,24 @@ public class DiagnosisDto {
 		private String ePhone;
 		private String statusNM;	
 		private String omrDate;
-		private String omrHak;	
-		
+		private String omrHak;			
 	}
 	
 	@Data
 	public static class DiagnosisInputippr{
 		private String memName;
-		private String grade;
+		private String gradeNM;
 		private String subjname;		
 		private String inputdate;
 		private String mBirthDay;
+		private String gradeCD;
+		private String yoil;
+		private String studyNum;
+		private String bookNum;
+		private String jisaCD;
+		private String deptCd;
+		
+		
 	}
 	
 	@Data
@@ -43,6 +50,37 @@ public class DiagnosisDto {
 		private String jungdab;
 		private String junghang;
 	}
+	
+	
+	@Data
+	public static class DiagnosisOmrInsert{
+		private String omrDate; 
+		private String hkey; 
+		private String kwamok; 
+		private String rw;
+		private String nOmr;		
+		private String mFstName; 
+		private String mLstName;
+		private String skey;
+		private String sName; 
+		private String omrGrd; 
+		private String omrHak; 
+		private String omrBirth; 
+		private String omrKind;		
+		private String omrDay1;	
+		private String omrDay2; 
+		private String omrStudyNum; 
+		private String omrBookNum;
+		private String deptCD;
+		private String jisaCD; 
+		private String deptName; 
+		private String workID;
+		
+		
+	}
+	
+
+	
 	
 	
 	

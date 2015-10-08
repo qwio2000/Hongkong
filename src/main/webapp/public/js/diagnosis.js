@@ -54,51 +54,53 @@ $(function(){
 			var subjname = $("#subjname").val();
 			
 			var paramData = "jisaCD="+jisaCD+"&leveldung="+leveldung+"&subjname="+subjname;
-		
+			
 			var searchUrl = "/fa/diagnosis/ipprinputJson";
-		
+
 			$.ajax({
 				type: "post"
 				,url: searchUrl
-				,data: paramData	
-				,error: function (data, textStatus) { 
-					//alert(textStatus); 			
-				}
+				,data: paramData					
 				,success: function(data){	
 
 					$("#diagnosislist").html(data);
 				}
+				,error: function (data, textStatus) { 
+					alert(textStatus); 			
+				}
 				,async: false
 			});
-		 
-			
 		},
 		
-		getInputChk:function(id,input,jungdab,mun,chk){   //수학 오답 체크
-			var temp
-				temp = "<input type='text' id='"+mun+"' value='"+mun+"|"+chk+"'>"
+		getInputChkMath:function(id,input,mun,chk){   //오답 체크
+			var munNo;  //문제 3자리로 변환
+			if (mun.length == "1" ){
+				munNo = "00"+mun;	
+			}else if (mun.length == "2" ){
+				munNo = "0"+mun;
+			}
 			
-				
+			// 오답 체크정보 임시 temp
+			var temp = "<input type='text' id='"+mun+"' value='"+mun+"|"+chk+"' mun='"+munNo+"' chk='"+chk+"' >"
+			
+			// 문항 체크박스 하나만 선택 
 			$(".chk_s01 [id^="+id+"]").each(function (i, v) {	
-				if ( $(this).val() == jungdab){
-					$(this).attr("checked", false); /* by ID */
-					$(this).attr("disabled", "disabled"); /* by ID */
-				}else if ( $(this).val() == input){			
-					$(this).attr("checked", true); /* by ID */	
+				if ( $(this).val() == input){			
+					$(this).attr("checked", true); 
 					$("#inputAnswer #"+mun+" ").remove();
 				}else{
-					$(this).attr("checked", false); /* by ID */
+					$(this).attr("checked", false);
 					$("#inputAnswer #"+mun+" ").remove();
 				}
 			});
 			
+			// 오답 체크 정보 담기
 			if($(".chk_s01 #chk"+mun+"_"+chk+"").is(":checked") == true ){
 				$("#inputAnswer").append(temp)
 			}
-				
-			//번호순서대로 정렬
-			var items = $('#inputAnswer input').get();
 			
+			//번호순서대로 정렬 start
+			var items = $('#inputAnswer input').get();			
 			items.sort(function(a,b){
 			  var keyA = Number($(a).attr('id'));
 			  var keyB = Number($(b).attr('id'));
@@ -106,13 +108,107 @@ $(function(){
 			  if (keyA < keyB) return -1;
 			  if (keyA > keyB) return 1;
 			  return 0;
+			});			
+			$('#inputAnswer').html('');			
+			$.each(items, function(i, input){			
+				$('#inputAnswer').append(input);
 			});
-
-			$('#inputAnswer').html('');
+			//번호순서대로 정렬 end
+		},
+		
+		getIpprSave:function(){  //omrGicho 저장
+		
+			var OmrDate = $("#omrdate").val();
+			var Hkey = $.trim($("#Hkey").val());
+			var Kwamok = $.trim($("#Kwamok").val());
+			var Rw = $.trim($("#Rw").val());
+			var NOmr = $.trim($("#NOmr").val());
+			var MFstName = $.trim($("#MFstName").val());
+			var MLstName =$.trim($("#MLstName").val());;
+			var Skey = $.trim($("#Skey").val());
+			var SName = $.trim($("#SName").val());
+			var OmrGrd = $.trim($("#OmrGrd").val());
+			var OmrHak = $.trim($("#OmrHak").val());
+			var OmrBirth = $.trim($("#OmrBirth").val());
+			var OmrKind = $.trim($("#OmrKind").val());
+			var OmrDay1 = $.trim($("#OmrDay1").val());
+			var OmrDay2 = $.trim($("#OmrDay2").val());
+			var OmrStudyNum = $.trim($("#OmrStudyNum").val());
+			var OmrBookNum = $.trim($("#OmrBookNum").val());
+			var DeptCD = $.trim($("#deptCd").val());
+			var JisaCD = $.trim($("#jisaCD").val());
+			var DeptName = $.trim($("#DeptName").val());
+			var WorkID = $.trim($("#WorkID").val());
 			
-			$.each(items, function(i, tr){			
-				$('#inputAnswer').append(tr);
+
+			var searchUrl = "/fa/diagnosis/ipprInputSave";
+			
+			var paramData = {"omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "rw":Rw, "nOmr":NOmr, "mFstName":MFstName, "mLstName":MLstName
+					, "skey":Skey, "sName":SName, "omrGrd":OmrGrd, "omrHak":OmrHak, "omrBirth":OmrBirth, "OmrKind":OmrKind, "omrDay1":OmrDay1, "omrDay2":OmrDay2
+					, "omrStudyNum":OmrStudyNum, "omrBookNum":OmrBookNum, "deptCD":DeptCD, "jisaCD":JisaCD, "deptName":DeptName, "workID":WorkID};
+			
+			$.ajax({
+				url:searchUrl,
+				type:"GET",
+				cache: false,
+				data: paramData,
+				dataType: "JSON",
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					if (jsonData.omrGichoisOK == 'Y'){
+						$.getOmrOdab();
+					}else{
+						alert(jsonData.alertMsg);
+					}
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(thrownError);
+				}
 			});
+		},		
+		
+		getOmrOdab:function(){  //오답입력
+			var JisaCD = $.trim($("#jisaCD").val());
+			var OmrDate = $("#omrdate").val();
+			var Hkey = $.trim($("#Hkey").val());
+			var Kwamok = $.trim($("#Kwamok").val());
+			var OmrGrd = $.trim($("#OmrGrd").val());  //DUNG
+			
+			var searchUrl = "/fa/diagnosis/ipprOdabSave";
+			
+			$('#inputAnswer input').each(function (a, v) {
+			  var mun = $(this).attr('mun');
+			  var chk = $(this).attr('chk');
+			
+			  var paramData = {"jisaCD":JisaCD, "omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "omrGrd":OmrGrd, "mun":mun, "chk":chk};
+			  
+				 $.ajax({
+						url:searchUrl,
+						type:"GET",
+						cache: false,
+						data: paramData,
+						dataType: "JSON",
+						success: function(jsonData, textStatus, XMLHttpRequest) {
+							
+							if (jsonData.omrOmrOdabOK == 'Y'){
+								$.getOmrBan();
+							}else{
+								alert(jsonData.alertMsg);
+							}
+						},
+						error:function (xhr, ajaxOptions, thrownError){	
+							alert(thrownError);
+						}
+					});
+			  
+
+			  
+			});			
+		},
+		
+		getOmrBan:function(){  //처방 분석
+				alert("처방 분석 처리해야됨!!");
+				self.close();
+			
 		},
 		
 		getReload:function(){  //페이지 새로고침

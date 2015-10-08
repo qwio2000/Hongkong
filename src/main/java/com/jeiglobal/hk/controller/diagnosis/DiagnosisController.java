@@ -1,6 +1,7 @@
 
 package com.jeiglobal.hk.controller.diagnosis;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jeiglobal.hk.domain.DeptMst;
 import com.jeiglobal.hk.domain.GradeOfSubject;
 import com.jeiglobal.hk.domain.auth.LoginInfo;
 import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
 import com.jeiglobal.hk.service.CommonService;
 import com.jeiglobal.hk.service.diagnosis.DiagnosisService;
 import com.jeiglobal.hk.utils.CommonUtils;
+import com.jeiglobal.hk.utils.MessageSourceAccessor;
 import com.jeiglobal.hk.utils.PageUtil;
 
 /**
@@ -51,6 +54,9 @@ public class DiagnosisController {
 	
 	@Autowired
 	private CommonService commonService;
+	
+	@Autowired
+	private MessageSourceAccessor messageSourceAccesor;
 		
 	
 	// 처방 조회
@@ -134,9 +140,9 @@ public class DiagnosisController {
 		
 		String jisaCD = loginInfo.getJisaCD();
 		
-		DiagnosisDto.DiagnosisInputippr diagnosisInputippr = diagnosisService.getDiagnosisInputippr(jisaCD, memKey, subj, freejindan);	
+		DiagnosisDto.DiagnosisInputippr diagnosisInputippr = diagnosisService.getDiagnosisInputippr(jisaCD, memKey, subj, freejindan);	 //회원정보
 		
-		List<GradeOfSubject> gradeOfSubject = commonService.getGradeOfSubject(jisaCD, subj, "Y", "Y");
+		List<GradeOfSubject> gradeOfSubject = commonService.getGradeOfSubject(jisaCD, subj, "Y", "Y");   //등급정보
 		
 		if (diagnosisInputippr == null) {
 			model.addAttribute("message", "No member");
@@ -145,7 +151,6 @@ public class DiagnosisController {
 		}
 		
 		model.addAttribute("memKey", memKey);
-		model.addAttribute("jisaCD", jisaCD);
 		model.addAttribute("ippr", diagnosisInputippr);
 		model.addAttribute("level", gradeOfSubject);
 		
@@ -154,48 +159,82 @@ public class DiagnosisController {
 	
 	// ippr 오답 입력
 	@RequestMapping(value={"/fa/diagnosis/ipprinput"}, method={RequestMethod.POST,RequestMethod.HEAD})  
-	public String diagnosisIpprinput(Model model,String memKey, String jisaCD, String memName, String grade, String subjname 
-			, String leveldung, String inputdate, String mBirthDay, String testType, String readchk, String nomr) {
+	public String diagnosisIpprinput(Model model, @ModelAttribute LoginInfo loginInfo,String memKey, String jisaCD, String deptCd, String memName, String gradeNM, String gradeCD,  String subjname 
+			, String leveldung, String inputdate, String mBirthDay, String testType, String readchk, String nomr, String yoil, String studyNum, String bookNum) {
 		log.debug("Getting ipprinput List Page");
-		
 		//header에 포함할 스크립트 
 		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("diagnosis");		
 		model.addAttribute("headerScript", headerScript);	
 		
+		String omrdate = CommonUtils.getCurrentYMD();  // 오늘 날짜
+		DeptMst deptMst = commonService.getDeptMstByDeptCD(deptCd);
+		String empKey = deptMst.getEmpKey();  // 원장번호
+		String empName = deptMst.getEmpFstName()+" "+deptMst.getEmpLstName();  // 원장번호
+		String userId = loginInfo.getUserId();		//작업자
 	
-		model.addAttribute("memKey", memKey);
-		model.addAttribute("jisaCD", jisaCD);
+
+		String yoil1 = "";
+		String yoil2 = "";
+		
+		String[] yoils = yoil.split(",");
+		for( int i = 0; i < yoils.length; i++ ){
+			if( (i+1) == 1){
+				yoil1	=  yoils[i]	;
+			}else if((i+1) == 2){
+				yoil2	=  yoils[i]	;
+			}
+		}
+		
+		model.addAttribute("omrdate", omrdate);  //처방일자		
+		model.addAttribute("memKey", memKey);	//회원번호
+		model.addAttribute("empKey", empKey);    //원장번호
+		model.addAttribute("empName", empName);    //원장번호
 		model.addAttribute("memName", memName);
-		model.addAttribute("grade", grade);
+		model.addAttribute("leveldung", leveldung);
+		model.addAttribute("gradeCD", gradeCD);
+		model.addAttribute("mBirthDay", mBirthDay);
+		model.addAttribute("OmrKind", testType);
+		model.addAttribute("studyNum", studyNum);
+		model.addAttribute("bookNum", bookNum);
+		model.addAttribute("deptCd", deptCd);   
+		model.addAttribute("jisaCD", jisaCD);
+		model.addAttribute("userId", userId);
+		model.addAttribute("yoil1", yoil1);
+		model.addAttribute("yoil2", yoil2);
+		model.addAttribute("gradeNM", gradeNM);		
 		model.addAttribute("subjname", subjname);
 		model.addAttribute("leveldung", leveldung);
 		model.addAttribute("inputdate", inputdate);
-		model.addAttribute("mBirthDay", mBirthDay);
 		model.addAttribute("testType", testType);
 		model.addAttribute("readchk", readchk);
 		model.addAttribute("nomr", nomr);
-		
+	
 		return "diagnosis/diagnosis/ipprinput";	
 	}
 
 	
 	@RequestMapping(value={"/fa/diagnosis/ipprinputJson"}, method={RequestMethod.POST,RequestMethod.HEAD})
-	public String diagnosisIpprinputJson(Model model,String memKey, String jisaCD, String leveldung, String subjname, String mBirthDay) {
+	public String diagnosisIpprinputJson(Model model,String memKey, String jisaCD, String leveldung, String subjname, String mBirthDay, String testType) {
 
-		String smaster = "NSys8";
+		String smaster = "";
 		String jdmaster = "";
 		
-		if(CommonUtils.RightString(subjname,1).equals("M") ){
+		if(("M").equals(CommonUtils.RightString(subjname,1)) ){
 			smaster 	= "JDNSys8" ;	
 			jdmaster  	= "JDNSys8070P";
+		}else{
+			if(("3").equals(testType) && ( ("K").equals(CommonUtils.RightString(subjname,1)) || ("E").equals(CommonUtils.RightString(subjname,1)) 
+			|| ("P").equals(CommonUtils.RightString(subjname,1))|| ("S").equals(CommonUtils.RightString(subjname,1))|| ("G").equals(CommonUtils.RightString(subjname,1))	) ){
+				smaster 	= "NSys83" ;
+			}else{
+				smaster 	= "NSys8" ;
+			}
 		}
 	
 		DiagnosisDto.DiagnosisTotMunGet diagnosisTotMunGet = diagnosisService.getDiagnosisTotMunGet(jisaCD, smaster, subjname, leveldung);
-
-		List<DiagnosisDto.DiagnosisJDSys8070P> diagnosisJDSys8070P = diagnosisService.getDiagnosisJDSys8070P(jisaCD, jdmaster, subjname, leveldung);
-		
+				
 		int totalCnt = 0;
 		
 		if (diagnosisTotMunGet == null) {
@@ -204,6 +243,7 @@ public class DiagnosisController {
 			totalCnt = diagnosisTotMunGet.getTot();	
 		}
 		
+
 		model.addAttribute("memKey", memKey);   //회원번호
 		model.addAttribute("subjname", CommonUtils.RightString(subjname,1));    //과목
 		model.addAttribute("leveldung", leveldung);  //등급
@@ -214,24 +254,62 @@ public class DiagnosisController {
 		int iOdabCnt = 10;
 		int iOdabFor = totalCnt/iOdabCnt;
 		
+		model.addAttribute("iOdabCnt", iOdabCnt);
+		model.addAttribute("iOdabFor", iOdabFor);
+		model.addAttribute("leveldung", leveldung);
+		
+		
 		if( CommonUtils.RightString(subjname,1).equals("G") ) {   // 한글
 			returnurl =  "diagnosis/diagnosis/JindoGInput";	
 		}else if(CommonUtils.RightString(subjname,1).equals("M")){  //수학
-			
-			model.addAttribute("jdSys8070P", diagnosisJDSys8070P);
-			model.addAttribute("iOdabCnt", iOdabCnt);
-			model.addAttribute("iOdabFor", iOdabFor);
-			model.addAttribute("leveldung", leveldung);
-			
+			List<DiagnosisDto.DiagnosisJDSys8070P> diagnosisJDSys8070P = diagnosisService.getDiagnosisJDSys8070P(jisaCD, jdmaster, subjname, leveldung);			
+			model.addAttribute("jdSys8070P", diagnosisJDSys8070P);			
 			returnurl = "diagnosis/diagnosis/JDJindoMInput";
 			
-		}else{ //그외 과목
-			returnurl = "diagnosis/diagnosis/JindoMInput";
+		}else{ //그외 과목		
+			returnurl = "diagnosis/diagnosis/JindoInput";
 		}
 		return returnurl;	
 	}
 	
 	
+	
+	// 처방 기초 정보 저장
+	@RequestMapping(value={"/fa/diagnosis/ipprInputSave"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> diagnosisIpprOmrGichoJson(Model model,DiagnosisDto.DiagnosisOmrInsert omrInsert ) throws ParseException {
+
+		String alertMsg = "";
+		String omrGichoisOK = diagnosisService.getDiagnosisOmrGicho(omrInsert);
+		if ("N".equals(omrGichoisOK)) {
+			alertMsg = messageSourceAccesor.getMessage("Ippr.OmrGicho.Insert.Error");
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("alertMsg", alertMsg);
+		map.put("omrGichoisOK", omrGichoisOK);
+		
+		return map;
+	}
+	
+	// 오답 입력 저장
+	@RequestMapping(value={"/fa/diagnosis/ipprOdabSave"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> diagnosisIpprOdabSaveJson(Model model, String jisaCD, String omrDate, String hkey, String kwamok, String omrGrd, String mun, String chk) {
+		
+		String alertMsg = "";		
+		String omrOmrOdabOK = diagnosisService.getDiagnosisOmrOdab(jisaCD,omrDate,hkey,kwamok,omrGrd,mun,chk);
+
+		if ("N".equals(omrOmrOdabOK)) {
+			alertMsg = messageSourceAccesor.getMessage("Ippr.Odab.Insert.Error");
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("alertMsg", alertMsg);
+		map.put("omrOmrOdabOK", omrOmrOdabOK);
+		
+		return map;
+	}
 	
 
 

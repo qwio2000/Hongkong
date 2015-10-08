@@ -1,5 +1,6 @@
 package com.jeiglobal.hk.service.diagnosis;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
 import com.jeiglobal.hk.repository.diagnosis.DiagnosisRepository;
+import com.jeiglobal.hk.utils.CommonUtils;
 
 
 @Service
@@ -72,6 +74,29 @@ public class DiagnosisService {
 		return diagnosisRepository.findDiagnosisJDSys8070P(map);
 		
 	}
+	
+	public String getDiagnosisOmrGicho(DiagnosisDto.DiagnosisOmrInsert omrInsert) throws ParseException{
+		omrInsert.setOmrBirth(CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", omrInsert.getOmrBirth()));
+		return diagnosisRepository.findDiagnosisOmrGicho(omrInsert);
+		
+	}
+	
+	public String getDiagnosisOmrOdab(String jisaCD, String omrDate, String hkey, String kwamok, String omrGrd, String mun, String chk) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("omrDate", omrDate);		
+		map.put("hkey", hkey);
+		map.put("kwamok", kwamok);
+		map.put("omrGrd", omrGrd);
+		map.put("mun", mun);
+		map.put("chk", chk);
+		
+		return diagnosisRepository.findDiagnosisOmrOdab(map);
+		
+	}
+	
+	
 	
 	
 	
