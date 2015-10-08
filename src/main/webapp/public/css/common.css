@@ -508,7 +508,7 @@
 	.cart_list p{padding-top:30px;line-height:25px;font-size:13px;font-weight:bold;}
 
 	/* result_list */
-	.result_list{max-height:162px;overflow-y:auto}
+	.result_list{max-height:122px;overflow-y:auto}
 	.result_list li{overflow:hidden;position:relative;z-index:50;padding:6px 0;line-height:28px;border-bottom:1px solid #dbdbdb}
 	.result_list li:last-child{border-bottom:0}
 	.result_list li .icon{display:block;width:23px;height:13px;position:absolute;z-index:51;left:50%;top:50%;margin-top:-6px;margin-left:-11px;background:url(../img/icon_arrow.png) 0 50% no-repeat;}

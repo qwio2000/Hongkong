@@ -70,6 +70,10 @@
 							</ul>
 						</td>
 					</tr>
+					<tr class="total">
+						<td>TOTAL</td>
+						<td>5</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
