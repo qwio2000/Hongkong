@@ -45,7 +45,8 @@
 										</td>
 										<td>${ippr.inputdate}</td>
 										
-										<input type="hidden" id="jisaCD" name="jisaCD" value="${jisaCD}">
+										<input type="hidden" id="jisaCD" name="jisaCD" value="${ippr.jisaCD}">
+										<input type="hidden" id="deptCd" name="deptCd" value="${ippr.deptCd}">
 										<input type="hidden" id="memKey" name="memKey" value="${memKey}">
 										<input type="hidden" id="memName" name="memName" value="${ippr.memName}">
 										<input type="hidden" id="gradeNM" name="gradeNM" value="${ippr.gradeNM}">
@@ -64,18 +65,18 @@
 						<ul class="input_list">
 							<li>
 								<span class="tit">Test Type</span> 
-								<span class="radio_wrap"><input type="radio" name="testType" value="1" id="chk01" checked /><label for="chk01">Diagosis</label></span>
-								<span class="radio_wrap"><input type="radio" name="TestType" value="3" id="chk02" /><label for="chk02">ACH</label></span>
+								<span class="radio_wrap"><input type="radio" name="testType" value="1" id="testchk01" checked /><label for="testchk01">Diagosis</label></span>
+								<span class="radio_wrap"><input type="radio" name="testType" value="3" id="testchk02" /><label for="testchk02">ACH</label></span>
 							</li>
 							<li>
 								<span class="tit">Read / WorkBook</span> 
-								<span class="radio_wrap"><input type="radio" name="readchk" value="1" id="chk01" checked /><label for="chk01">YES</label></span>
-								<span class="radio_wrap"><input type="radio" name="readchk" value="2" id="chk02" /><label for="chk02">NO</label></span>
+								<span class="radio_wrap"><input type="radio" name="readchk" value="1" id="readchk01" checked /><label for="readchk01">YES</label></span>
+								<span class="radio_wrap"><input type="radio" name="readchk" value="2" id="readchk02" /><label for="readchk02">NO</label></span>
 							</li>
 							<li>
 								<span class="tit">Prescription by Learning Objective</span> 
-								<span class="radio_wrap"><input type="radio" name="nomr" value="1" id="chk03" checked/><label for="chk03">YES</label></span>
-								<span class="radio_wrap"><input type="radio" name="nomr" value="2" id="chk04" /><label for="chk04">NO</label></span>
+								<span class="radio_wrap"><input type="radio" name="nomr" value="1" id="nomrchk01" checked/><label for="nomrchk01">YES</label></span>
+								<span class="radio_wrap"><input type="radio" name="nomr" value="2" id="nomrchk02" /><label for="nomrchk02">NO</label></span>
 							</li>
 						</ul>
 						<div class="btnArea">

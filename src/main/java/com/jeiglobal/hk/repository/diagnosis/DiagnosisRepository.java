@@ -31,6 +31,10 @@ public interface DiagnosisRepository {
 	
 	String findDiagnosisOmrGicho(DiagnosisDto.DiagnosisOmrInsert omrInsert);
 	
+	String findDiagnosisOmrOdab(Map<String, Object> map);
+	
+	
+	
 	
 	
 }

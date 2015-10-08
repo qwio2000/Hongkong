@@ -1,6 +1,7 @@
 
 package com.jeiglobal.hk.controller.diagnosis;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jeiglobal.hk.domain.DeptMst;
 import com.jeiglobal.hk.domain.GradeOfSubject;
 import com.jeiglobal.hk.domain.auth.LoginInfo;
 import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
 import com.jeiglobal.hk.service.CommonService;
 import com.jeiglobal.hk.service.diagnosis.DiagnosisService;
 import com.jeiglobal.hk.utils.CommonUtils;
+import com.jeiglobal.hk.utils.MessageSourceAccessor;
 import com.jeiglobal.hk.utils.PageUtil;
 
 /**
@@ -51,6 +54,9 @@ public class DiagnosisController {
 	
 	@Autowired
 	private CommonService commonService;
+	
+	@Autowired
+	private MessageSourceAccessor messageSourceAccesor;
 		
 	
 	// 처방 조회
@@ -145,7 +151,6 @@ public class DiagnosisController {
 		}
 		
 		model.addAttribute("memKey", memKey);
-		model.addAttribute("jisaCD", jisaCD);
 		model.addAttribute("ippr", diagnosisInputippr);
 		model.addAttribute("level", gradeOfSubject);
 		
@@ -154,7 +159,7 @@ public class DiagnosisController {
 	
 	// ippr 오답 입력
 	@RequestMapping(value={"/fa/diagnosis/ipprinput"}, method={RequestMethod.POST,RequestMethod.HEAD})  
-	public String diagnosisIpprinput(Model model, @ModelAttribute LoginInfo loginInfo,String memKey, String jisaCD, String memName, String gradeNM, String gradeCD,  String subjname 
+	public String diagnosisIpprinput(Model model, @ModelAttribute LoginInfo loginInfo,String memKey, String jisaCD, String deptCd, String memName, String gradeNM, String gradeCD,  String subjname 
 			, String leveldung, String inputdate, String mBirthDay, String testType, String readchk, String nomr, String yoil, String studyNum, String bookNum) {
 		log.debug("Getting ipprinput List Page");
 		//header에 포함할 스크립트 
@@ -164,8 +169,9 @@ public class DiagnosisController {
 		model.addAttribute("headerScript", headerScript);	
 		
 		String omrdate = CommonUtils.getCurrentYMD();  // 오늘 날짜
-		String deptCd = loginInfo.getDeptCD();		//deptCd
-		String empKey = commonService.getEmpKeyByDeptCD(deptCd);  // 원장번호
+		DeptMst deptMst = commonService.getDeptMstByDeptCD(deptCd);
+		String empKey = deptMst.getEmpKey();  // 원장번호
+		String empName = deptMst.getEmpFstName()+" "+deptMst.getEmpLstName();  // 원장번호
 		String userId = loginInfo.getUserId();		//작업자
 	
 
@@ -184,6 +190,7 @@ public class DiagnosisController {
 		model.addAttribute("omrdate", omrdate);  //처방일자		
 		model.addAttribute("memKey", memKey);	//회원번호
 		model.addAttribute("empKey", empKey);    //원장번호
+		model.addAttribute("empName", empName);    //원장번호
 		model.addAttribute("memName", memName);
 		model.addAttribute("leveldung", leveldung);
 		model.addAttribute("gradeCD", gradeCD);
@@ -209,21 +216,25 @@ public class DiagnosisController {
 
 	
 	@RequestMapping(value={"/fa/diagnosis/ipprinputJson"}, method={RequestMethod.POST,RequestMethod.HEAD})
-	public String diagnosisIpprinputJson(Model model,String memKey, String jisaCD, String leveldung, String subjname, String mBirthDay) {
+	public String diagnosisIpprinputJson(Model model,String memKey, String jisaCD, String leveldung, String subjname, String mBirthDay, String testType) {
 
-		String smaster = "NSys8";
+		String smaster = "";
 		String jdmaster = "";
-
 		
-		if(CommonUtils.RightString(subjname,1).equals("M") ){
+		if(("M").equals(CommonUtils.RightString(subjname,1)) ){
 			smaster 	= "JDNSys8" ;	
 			jdmaster  	= "JDNSys8070P";
+		}else{
+			if(("3").equals(testType) && ( ("K").equals(CommonUtils.RightString(subjname,1)) || ("E").equals(CommonUtils.RightString(subjname,1)) 
+			|| ("P").equals(CommonUtils.RightString(subjname,1))|| ("S").equals(CommonUtils.RightString(subjname,1))|| ("G").equals(CommonUtils.RightString(subjname,1))	) ){
+				smaster 	= "NSys83" ;
+			}else{
+				smaster 	= "NSys8" ;
+			}
 		}
 	
 		DiagnosisDto.DiagnosisTotMunGet diagnosisTotMunGet = diagnosisService.getDiagnosisTotMunGet(jisaCD, smaster, subjname, leveldung);
-
-		List<DiagnosisDto.DiagnosisJDSys8070P> diagnosisJDSys8070P = diagnosisService.getDiagnosisJDSys8070P(jisaCD, jdmaster, subjname, leveldung);
-		
+				
 		int totalCnt = 0;
 		
 		if (diagnosisTotMunGet == null) {
@@ -243,36 +254,62 @@ public class DiagnosisController {
 		int iOdabCnt = 10;
 		int iOdabFor = totalCnt/iOdabCnt;
 		
+		model.addAttribute("iOdabCnt", iOdabCnt);
+		model.addAttribute("iOdabFor", iOdabFor);
+		model.addAttribute("leveldung", leveldung);
+		
+		
 		if( CommonUtils.RightString(subjname,1).equals("G") ) {   // 한글
 			returnurl =  "diagnosis/diagnosis/JindoGInput";	
 		}else if(CommonUtils.RightString(subjname,1).equals("M")){  //수학
-			
-			model.addAttribute("jdSys8070P", diagnosisJDSys8070P);
-			model.addAttribute("iOdabCnt", iOdabCnt);
-			model.addAttribute("iOdabFor", iOdabFor);
-			model.addAttribute("leveldung", leveldung);
-			
+			List<DiagnosisDto.DiagnosisJDSys8070P> diagnosisJDSys8070P = diagnosisService.getDiagnosisJDSys8070P(jisaCD, jdmaster, subjname, leveldung);			
+			model.addAttribute("jdSys8070P", diagnosisJDSys8070P);			
 			returnurl = "diagnosis/diagnosis/JDJindoMInput";
 			
-		}else{ //그외 과목
-			returnurl = "diagnosis/diagnosis/JindoMInput";
+		}else{ //그외 과목		
+			returnurl = "diagnosis/diagnosis/JindoInput";
 		}
 		return returnurl;	
 	}
 	
 	
 	
-	// 오답 입력 저장
+	// 처방 기초 정보 저장
 	@RequestMapping(value={"/fa/diagnosis/ipprInputSave"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	@ResponseBody
-	public String diagnosisIpprOmrGichoJson(Model model,DiagnosisDto.DiagnosisOmrInsert omrInsert ) {
-System.out.println("==============================================");
-		
+	public Map<String, Object> diagnosisIpprOmrGichoJson(Model model,DiagnosisDto.DiagnosisOmrInsert omrInsert ) throws ParseException {
+
+		String alertMsg = "";
 		String omrGichoisOK = diagnosisService.getDiagnosisOmrGicho(omrInsert);
-		System.out.println("==============================================");		
-		return omrGichoisOK;
+		if ("N".equals(omrGichoisOK)) {
+			alertMsg = messageSourceAccesor.getMessage("Ippr.OmrGicho.Insert.Error");
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("alertMsg", alertMsg);
+		map.put("omrGichoisOK", omrGichoisOK);
+		
+		return map;
 	}
 	
+	// 오답 입력 저장
+	@RequestMapping(value={"/fa/diagnosis/ipprOdabSave"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> diagnosisIpprOdabSaveJson(Model model, String jisaCD, String omrDate, String hkey, String kwamok, String omrGrd, String mun, String chk) {
+		
+		String alertMsg = "";		
+		String omrOmrOdabOK = diagnosisService.getDiagnosisOmrOdab(jisaCD,omrDate,hkey,kwamok,omrGrd,mun,chk);
+
+		if ("N".equals(omrOmrOdabOK)) {
+			alertMsg = messageSourceAccesor.getMessage("Ippr.Odab.Insert.Error");
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("alertMsg", alertMsg);
+		map.put("omrOmrOdabOK", omrOmrOdabOK);
+		
+		return map;
+	}
 	
 
 

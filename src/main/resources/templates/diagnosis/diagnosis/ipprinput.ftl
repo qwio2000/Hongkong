@@ -61,6 +61,10 @@
 					<!-- 오답 입력 -->
 					<div id="diagnosislist">다시 확인 바랍니다.</div>
 					
+					<div class="btnArea al_c">
+						<a href="javascript:$.getIpprSave();"><span style="width: 115px;">Save</span></a>
+						<a href="javascript:$.getReload();"><span style="width: 115px;">Cancle</span></a>
+					</div>
 
 				</div>
 				<!-- //처방결과 입력 화면 -->
@@ -71,7 +75,7 @@
 				<input type="hidden" id="MFstName" value="${memName}">
 				<input type="hidden" id="MLstName" value="">
 				<input type="hidden" id="Skey" value="${empKey}">
-				<input type="hidden" id="SName" value="">
+				<input type="hidden" id="SName" value="${empName}">
 				<input type="hidden" id="OmrGrd" value="${leveldung}">
 				<input type="hidden" id="OmrHak" value="${gradeCD}">
 				<input type="hidden" id="OmrBirth" value="${mBirthDay}">

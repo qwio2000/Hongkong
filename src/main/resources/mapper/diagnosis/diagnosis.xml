@@ -22,8 +22,12 @@
 	
 	<select id="findDiagnosisOmrGicho" statementType="CALLABLE" parameterType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOmrInsert" resultType="java.lang.String">
 		CALL globaldig.SPOmrGichoInsert (#{omrDate},#{hkey},#{kwamok},#{rw},#{nOmr},#{mFstName},#{mLstName},#{skey},#{sName}
-		,#{omrGrd},#{omrHak},#{omrBirth},#{omrKind},#{omrDay1},#{omrDay2},#{omrStudyNum},#{omrBookNum},#{deptCD},#{jisaCD},#{deptName},#{workID});		
-		
-	
+		,#{omrGrd},#{omrHak},#{omrBirth},#{omrKind},#{omrDay1},#{omrDay2},#{omrStudyNum},#{omrBookNum},#{deptCD},#{jisaCD},#{deptName},#{workID});
 	</select>
+	
+	
+	<select id="findDiagnosisOmrOdab" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
+		CALL globaldig.SPOmrOdabInsert (#{jisaCD},#{omrDate},#{hkey},#{kwamok},#{omrGrd},#{mun},#{chk});
+	</select>
+	
 </mapper>

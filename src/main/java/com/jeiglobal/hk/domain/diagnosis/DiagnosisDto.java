@@ -33,6 +33,10 @@ public class DiagnosisDto {
 		private String yoil;
 		private String studyNum;
 		private String bookNum;
+		private String jisaCD;
+		private String deptCd;
+		
+		
 	}
 	
 	@Data
