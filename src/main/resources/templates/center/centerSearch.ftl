@@ -3,7 +3,7 @@
 <!-- Main Content -->
 <div class="content">
 	<h2 class="conTit">Search Center</h2>
-	<form id="searchForm" name="searchForm" action="/${loginInfo.userType?lower_case }/centers/searchResults" method="post">
+	<form id="searchForm" name="searchForm" action="/${loginInfo.userType?lower_case }/centers/centerSearchResults" method="post">
 	<input type="hidden" id="userType" value="${loginInfo.userType }"/>
 	
 	<ul class="memSearch" style="float:left;">

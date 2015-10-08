@@ -65,7 +65,7 @@ public class CenterController {
 	private int blockSize;
 	
 	// 센터검색
-	@RequestMapping(value={"/ja/centers/search"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/ja/centers/centerSearch"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCenterSearch(Model model, @ModelAttribute LoginInfo loginInfo){
 		
 		List<String> headerScript = new ArrayList<String>();
@@ -77,7 +77,7 @@ public class CenterController {
 	}
 	
 	// 센터 검색 결과
-	@RequestMapping(value={"/ja/centers/searchResults"},method = {RequestMethod.POST, RequestMethod.HEAD})
+	@RequestMapping(value={"/ja/centers/centerSearchResults"},method = {RequestMethod.POST, RequestMethod.HEAD})
 	public String getCenterSearchResult(Model model, @ModelAttribute LoginInfo loginInfo,
 		String deptName, String city, String stateCD, String statusCD){
 		
@@ -92,7 +92,7 @@ public class CenterController {
 	}	
 	
 	// 센터 검색 결과 리스트 JSON
-	@RequestMapping(value={"/ja/centers/searchResultJson"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/ja/centers/centerSearchResultJson"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> getCenterSearchResultJson(@ModelAttribute LoginInfo loginInfo,
 		@RequestParam(defaultValue="1") int pageNum, 
@@ -109,20 +109,28 @@ public class CenterController {
 		return map;
 	}	
 		
+	// 센터 뷰
+	@RequestMapping(value={"/ja/centers/centerView"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getCenterView(Model model, @ModelAttribute LoginInfo loginInfo){
+		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerView");
+		model.addAttribute("headerScript", headerScript);
+		return "center/centerView";
+	}	
+	// 센터 등록
+	@RequestMapping(value={"/ja/centers/centerRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getCenterRegist(Model model, @ModelAttribute LoginInfo loginInfo){
+		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerRegist");
+		model.addAttribute("headerScript", headerScript);
+		return "center/centerRegist";
+	}	
 	
 	
 	
 	
-	
-	
-	
-	
-	// 나중에 삭제 하자 RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
-	@RequestMapping(value="/ja/centers",method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getCentersPage(){
-		log.debug("Getting Centers Page");
-		return "center/centers";
-	}
 	/**
 	 * 지사에서 가맹점으로 로그인 할 경우 로그인 처리
 	 * 1. 현재 쿠키(AUTHId, AUTHKey)를 다른 쿠키(JisaAUTHId, JisaAUTHKey)에 백업
