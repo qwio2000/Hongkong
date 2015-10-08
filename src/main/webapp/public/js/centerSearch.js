@@ -11,7 +11,7 @@ $(function(){
 				,	"sortKind"	:$("#sortKind").val()
 				,	"sort"		:$("#sort").val()
 				};
-			var setUrl = "/ja/centers/searchResultJson";
+			var setUrl = "/ja/centers/centerSearchResultJson";
 
 			$.ajax({
 				type:"GET",				
@@ -79,13 +79,18 @@ $(function(){
 			});
 			
 		},
+		
+		// 센터 등록
+		goCenterRegist:function(deptCD){
+			location.href = "/ja/centers/centerRegist";
+		},
 		// 센터 상담창 오픈
 		openCenterCallLog:function(deptCD){
 			alert("센터 상담창 오픈");
-		},
+		},		
 		// 센터뷰
 		goCenterView:function(deptCD){
-			alert("센터뷰로 go~~");
+			location.href = "/ja/centers/centerView?deptCD="+deptCD;
 		},
 		// 자동로그인
 		login:function(userId){
@@ -101,7 +106,7 @@ $(function(){
 		$('#city').val("");				
 		$('#stateCD').val("");
 		$('#statusCD').getSetSSValue("1");		
-		location.href = "/ja/centers/search";
+		location.href = "/ja/centers/centerSearch";
 	});
 	
 	// 검색 클릭	
@@ -111,7 +116,7 @@ $(function(){
 		$('#searchForm').submit();
 	});
 	
-	if(window.location.pathname == '/ja/centers/searchResults'){
+	if(window.location.pathname == '/ja/centers/centerSearchResults'){
 		$.getCenterSearchResult();
 	}
 	// 정렬 클릭
