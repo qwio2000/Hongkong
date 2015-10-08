@@ -118,6 +118,16 @@ public class CenterController {
 		model.addAttribute("headerScript", headerScript);
 		return "center/centerView";
 	}	
+	// 센터 상담 이력 등록
+	@RequestMapping(value={"/ja/centers/centerCommentCallRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getCenterCommentCallRegist(Model model, @ModelAttribute LoginInfo loginInfo){
+		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerCommentCallRegist");
+		model.addAttribute("headerScript", headerScript);
+		return "center/centerCommentCallRegist";
+	}		
+	
 	// 센터 등록
 	@RequestMapping(value={"/ja/centers/centerRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCenterRegist(Model model, @ModelAttribute LoginInfo loginInfo){

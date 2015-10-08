@@ -79,7 +79,7 @@
 				</table>
 			</div>
 			<div class="clearfix btnArea_txt">
-				<a href="#" class="btn_member">Comments/Call Logs</a>
+				<a title="Comments/ Call Logs" href="javascript:$.openCenterCallLog();" class="btn_member">Comments/Call Logs</a>
 				<a href="#" class="btn_info" style="padding-left:38px"> Update Center Infomation</a>
 			</div>
 			<div class="clearfix btnArea_set">
