@@ -29,8 +29,10 @@ $(function(){
 					var pageNum = pageInfo.pageNum;
 					var pageSize = pageInfo.rowBlockSize;
 					$("#totalCnt").html(totalRowCnt);
-					$("#pageNavi").html($.pageUtil(pageInfo.pageNum,pageInfo.totalPageCnt, 
-							pageInfo.pageBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));	
+					if(pageInfo.totalPageCnt > 1){
+						$("#pageNavi").html($.pageUtil(pageInfo.pageNum,pageInfo.totalPageCnt, 
+								pageInfo.pageBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));	
+					}
 					var source = $("#memberReportTemplate").html();
 					var template = Handlebars.compile(source);
 					Handlebars.registerHelper("inc", function(value, options){
@@ -98,25 +100,19 @@ $(function(){
 		$('#pageNum').val(pageNum);
 		$.getMemberReport();
 	});	
-	
-	$("#orderByFirstNameBtn").click(function(){
-		var direction = $("#direction").val();
-		$("#orderBy").val("a.mFstName");
-		if(direction == "" || direction == "ASC"){
-			$("#direction").val("DESC");
+	$("a[href=#btnSort]").on('click',function(){
+		var sortKind = $(this).attr('sortKind');
+		var sort = $("#direction").val();
+
+		if(sort=='ASC' || sort==''){
+			sort = 'DESC';
 		}else{
-			$("#direction").val("ASC");
+			sort = 'ASC';
 		}
+			
+		$("#orderBy").val(sortKind);
+		$("#direction").val(sort);
+					
 		$.getMemberReport();
-	});
-	$("#orderByLastNameBtn").click(function(){
-		var direction = $("#direction").val();
-		$("#orderBy").val("a.mLstName");
-		if(direction == "" || direction == "ASC"){
-			$("#direction").val("DESC");
-		}else{
-			$("#direction").val("ASC");
-		}
-		$.getMemberReport();
-	});
+	});	
 });

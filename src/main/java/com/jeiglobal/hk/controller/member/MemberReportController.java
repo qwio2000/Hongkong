@@ -73,7 +73,7 @@ public class MemberReportController {
 			@PathVariable String memKey) throws ParseException{
 		log.debug("Getting Member Report memKey : {}", memKey);
 		MemMst memMst = memberReportService.getMemMstByMemKey(memKey);
-		List<MemberDto.MemberReportInfo> memberReportInfos = memberReportService.getMemberReportInfo(memMst);
+		List<MemberDto.MemberReportInfo> memberReportInfos = memberReportService.getMemberReportInfo(memMst, loginInfo);
 		model.addAttribute("guardianInfo", memMst);
 		model.addAttribute("memberReportInfos", memberReportInfos);
 		return "member/report/memberReport";

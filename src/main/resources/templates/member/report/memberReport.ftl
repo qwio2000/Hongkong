@@ -25,7 +25,9 @@
 								</tr>
 								<tr>
 									<th>Email</th>
-									<td class="left"><a href="#" class="link">${guardianInfo.GEmail?default('') }</a> <img src="${imgPath }/icon_mail.png" alt="mail" /> </td>
+									<td class="left"><a href="#" class="link">${guardianInfo.GEmail?default('') }</a> 
+									<#if guardianInfo.GEmail?default('') != ''><img src="${imgPath }/icon_mail.png" alt="mail" /></#if> 
+									</td>
 								</tr>
 								<tr>
 									<th>Phone</th>
@@ -105,21 +107,26 @@
 									<td colspan="2" class="left">
 										<a href="#" class="btn_graph">${subj.subj?default('') }</a>
 										<#if subj.statusCD == "1">
-										<span class="info_line">Since 03/04/15</span>
+										<span class="info_line">Since ${subj.convertRegistYMD }</span>
 										<span class="info_line">${subj.yoilName?default('') }</span>
 										<span class="info_line">${subj.visitHourName?default('') }</span>
 										<#else>
-										<span class="info_line">Drop Date : ${subj.dropFnlYMD }</span>
+										<span class="info_line">Drop Date : ${subj.convertDropYMD?default('') }</span>
+										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">IPPR</a></span>
+										<#if subj.isCancle == 'true'>
+										<span class="info_line"><a href="#" class="blue">DROP.CANCLE</a></span>
+										</#if>
 										</#if>
 									</td>
 								</tr>
 								<#if subj.statusCD == "1">
 								<tr class="subject">
 									<td colspan="2">
-										<span class="info_line_first"><a href="#" class="<#if subj.digYN == "Y">blue<#else>gray</#if>">DIAG</a></span>
-										<span class="info_line"><a href="#" class="<#if subj.digYN == "Y">blue<#else>gray</#if>">IPPR</a></span>
-										<span class="info_line"><a href="#" class="<#if subj.digYN == "Y">blue<#else>gray</#if>">MPR</a></span>
+										<span class="info_line_first"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">DIAG</a></span>
+										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">IPPR</a></span>
+										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">MPR</a></span>
 										<span class="info_line"><a href="#" class="blue">DROP</a></span>
+										<span class="info_line"><a href="#" class="<#if subj.isCancle == 'true'>blue<#else>gray</#if>">REG.CANCLE</a></span>
 									</td>
 								</tr>
 								</#if>
@@ -133,7 +140,7 @@
 						<a href="#" class="btn_clock tooltip"  title="입회상담 약속 입력">입회상담 약속 입력</a>
 						<a href="#" class="btn_info tooltip"  title="회원 정보 추가 수정 ">회원 정보 추가 수정 </a>
 						<a href="#" class="btn_date tooltip"  title="관리 횟수/요일/시간 변경">관리 횟수/요일/시간 변경</a>
-						<a href="#" class="btn_doc_add tooltip"  title="타과목 입회">타과목 입회</a>
+						<a href="/fa/members/regist/new?type=2&memKey=${info.memKey?default('') }" class="btn_doc_add tooltip"  title="타과목 입회">타과목 입회</a>
 						<span class="tooltip_Area"></span>
 					</div>
 					</#list>

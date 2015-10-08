@@ -133,9 +133,13 @@ public class MemberDto {
 		private String yoilName;
 		private String registFstYMD;
 		private String registFnlYMD;
+		private String convertRegistYMD;
+		private String recentRegistFnlYMD;
 		private String dropFnlYMD;
+		private String convertDropYMD;
 		private String visitHour;
 		private String visitHourName;
 		private String digYN;
+		private String isCancle;
 	}
 }

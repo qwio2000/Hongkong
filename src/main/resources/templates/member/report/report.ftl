@@ -31,9 +31,9 @@
 				<tr>
 					<th></th>
 					<th>
-						FirstName<a id="orderByFirstNameBtn" href="#">↑ ↓</a>
+						FirstName<a href="#btnSort" sortKind="a.mFstName" sort=""> ↑↓</a>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						LastName<a id="orderByLastNameBtn" href="#">↑ ↓</a>
+						LastName<a href="#btnSort" sortKind="a.mLstName" sort=""> ↑↓</a>
 					</th>
 					<th>Grade</th>
 					<th>Subject</th>

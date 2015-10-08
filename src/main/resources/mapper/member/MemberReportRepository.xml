@@ -25,12 +25,15 @@
 	ORDER BY statusCD
 	</select>
 	<select id="findMemSubjMstsByMemKey" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportSubjInfo">
-	SELECT a.memKey, a.subj, a.statusCD, b.yoil, globalbiz.FuncCodeDtlNM(a.jisaCD, '0006', b.yoil, 'E', 'Y') AS yoilName, a.registFstYMD, CASE a.registFnlYMD WHEN '' THEN a.registFstYMD ELSE a.registFnlYMD END AS registFnlYMD, DATE_FORMAT(a.dropFnlYMD, '%m/%d/%Y') as dropFnlYMD, b.visitHours, 
+	SELECT a.memKey, a.subj, a.statusCD, b.yoil, globalbiz.FuncCodeDtlNM(a.jisaCD, '0006', b.yoil, 'E', 'Y') AS yoilName, a.registFstYMD, 
+		a.registFnlYMD, CASE a.registFnlYMD WHEN '' THEN a.registFstYMD ELSE a.registFnlYMD END AS recentRegistFnlYMD, 
+		DATE_FORMAT(CASE a.registFnlYMD WHEN '' THEN a.registFstYMD ELSE a.registFnlYMD END, '%m/%d/%Y') AS convertRegistYMD, 
+		a.dropFnlYMD, IFNULL(DATE_FORMAT(a.dropFnlYMD, '%m/%d/%Y'), '') AS convertDropYMD, b.visitHours, 
 		globalbiz.FuncCodeDtlNM(a.jisaCD, '0206' , b.visitHours, '', 'Y') AS visitHourName, c.digYN
 	FROM globalbiz.MemSubjMst AS a 
 	INNER JOIN globalbiz.MemSubjStudy AS b ON a.memKey = b.memKey AND a.subj = b.subj
 	INNER JOIN globalbiz.DeptSubjInfo AS c ON a.jisaCD = c.jisaCD AND a.deptCD = c.deptCD AND a.subj = c.subj
 	WHERE a.memKey = #{memKey}
-	ORDER BY statusCD, subj DESC
+	ORDER BY statusCD, subj desc
 	</select>
 </mapper>
