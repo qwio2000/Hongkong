@@ -353,6 +353,7 @@
 	.list02 select::-ms-expand, .list04 select::-ms-expand{display:none;}
 	.list02 li strong{line-height:35px;vertical-align:middle}
 	.list02 .next_sel{display:block;padding-top:10px}
+	.list02 .next_input{display:block;padding-top:10px;padding-left:140px}
 	.list02 .textarea_wrap{float:left;width:390px}
 	.list02 .textarea_wrap .max_char_txt{margin-left:0}
 	.list02 .chk_s01{vertical-align:middle;display:inline-block;line-height:33px;padding-right:10px}
