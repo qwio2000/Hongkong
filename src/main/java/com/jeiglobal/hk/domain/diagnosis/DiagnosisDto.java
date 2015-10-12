@@ -74,10 +74,15 @@ public class DiagnosisDto {
 		private String deptCD;
 		private String jisaCD; 
 		private String deptName; 
-		private String workID;
-		
-		
+		private String workID;		
 	}
+	
+	@Data
+	public static class DiagnosisOmrChkG{
+		private String munno;
+		private String sset;
+	}
+	
 	
 
 	

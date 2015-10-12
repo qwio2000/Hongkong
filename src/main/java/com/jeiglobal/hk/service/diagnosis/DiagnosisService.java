@@ -96,6 +96,34 @@ public class DiagnosisService {
 		
 	}
 	
+	public String getDiagnosisOmrOdabG(String jisaCD, String omrDate, String hkey, String kwamok, String omrGrd, String mun, String chk, String OmrKind) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("omrDate", omrDate);		
+		map.put("hkey", hkey);
+		map.put("kwamok", kwamok);
+		map.put("omrGrd", omrGrd);
+		map.put("mun", mun);
+		map.put("chk", chk);
+		map.put("OmrKind", OmrKind);
+		
+		return diagnosisRepository.findDiagnosisOmrOdabG(map);
+		
+	}
+	
+	public List<DiagnosisDto.DiagnosisOmrChkG> getDiagnosisOmrChkG(String jisaCD, String subjname, String leveldung, String testType){
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("subjname", subjname);		
+		map.put("leveldung", leveldung);
+		map.put("testType", testType);
+		
+		return diagnosisRepository.findDiagnosisOmrChkG(map);
+		
+	}
+	
+	
 	
 	
 	

@@ -30,4 +30,13 @@
 		CALL globaldig.SPOmrOdabInsert (#{jisaCD},#{omrDate},#{hkey},#{kwamok},#{omrGrd},#{mun},#{chk});
 	</select>
 	
+	<select id="findDiagnosisOmrOdabG" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
+		CALL globaldig.SPOmrOdabInsertG (#{jisaCD},#{omrDate},#{hkey},#{kwamok},#{omrGrd},#{mun},#{chk},#{OmrKind});
+	</select>
+	
+	
+	<select id="findDiagnosisOmrChkG" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOmrChkG">
+		CALL globaldig.SPOmrChkG (#{jisaCD},#{subjname},#{leveldung},#{testType});	
+	</select>
+	
 </mapper>
