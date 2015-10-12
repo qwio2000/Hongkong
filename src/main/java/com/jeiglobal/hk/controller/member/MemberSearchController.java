@@ -1,5 +1,6 @@
 package com.jeiglobal.hk.controller.member;
 
+import java.text.*;
 import java.util.*;
 
 import lombok.extern.slf4j.*;
@@ -36,6 +37,9 @@ public class MemberSearchController {
 	
 	@Autowired
 	private MemberSearchService memberSearchService;
+	
+	@Autowired
+	private MemberReportService memberReportService;
 	
 	//한 페이지에 출력할 레코드 개수
 	@Value("${page.size}")
@@ -93,5 +97,17 @@ public class MemberSearchController {
 		map.put("members", members);
 		map.put("pageInfo", pageUtil);
 		return map;
+	}
+	
+	@RequestMapping(value={"/ja/members/search/{memKey:^[A-Z]{2}[0-9]{6}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getMemberReport(Model model,
+			@ModelAttribute LoginInfo loginInfo,
+			@PathVariable String memKey) throws ParseException{
+		log.debug("Getting Member Search memKey : {}", memKey);
+		MemMst memMst = memberReportService.getMemMstByMemKey(memKey);
+		List<MemberDto.MemberReportInfo> memberReportInfos = memberReportService.getMemberReportInfo(memMst, loginInfo);
+		model.addAttribute("guardianInfo", memMst);
+		model.addAttribute("memberReportInfos", memberReportInfos);
+		return "member/search/memberSearch";
 	}
 }

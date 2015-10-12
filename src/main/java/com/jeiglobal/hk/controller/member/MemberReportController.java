@@ -66,7 +66,6 @@ public class MemberReportController {
 		return map;
 	}
 	
-	//TODO 정규표현식
 	@RequestMapping(value={"/fa/members/reports/{memKey:^[A-Z]{2}[0-9]{6}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMemberReport(Model model,
 			@ModelAttribute LoginInfo loginInfo,
