@@ -515,6 +515,13 @@
 	.result_list li .q_num{display:block;float:left;width:49%;text-align:center;}
 	.result_list li .loss_set{display:block;float:right;width:46%;text-align:center;}
 	
+	/* month_list */
+	.month_list{width:100%;position:relative;max-height:245px;overflow-y:auto;overflow-x:hidden;}
+	.month_list li{overflow:hidden;margin-right:-16px;position:relative;z-index:50;padding:6px 0;line-height:28px;border-bottom:1px solid #dbdbdb}
+	.month_list li:last-child{border-bottom:0}
+	.month_list li span.col{display:block;float:left;width:80px}
+	.month_list li span.subject{display:block;float:left;width:127px;text-align:left;text-indent:20px}
+	.month_list li span{vertical-align:middle;}
 	/* popup */
 	.popup{min-width:600px;}
 	.btn_popup_close{text-indent:-99999px;position:absolute;z-index:10;top:21px;right:30px;width:17px;height:17px;background:url(../img/btn_popup_close.gif) no-repeat}

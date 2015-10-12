@@ -179,22 +179,24 @@ public class MemberRegistController {
 			memberRegistService.setGuadianInfoForMemMst(memMst, memKey, type);
 			memberRegistService.addNewMemMst(memMst);
 		}
-		//MemSubjMst, MemSubjStudy, MemSubjRegist, MemSubjTuition
-		for (int i = 0; i < subj.length; i++) {
-			MemSubjMst memSubjMst = memberRegistService.getMemSubjMst(memMst, loginInfo, subj[i], firstManageDate[i], bookNum[i], studyNum[i], monthNum[i], currentDate, isResume[i]);
-			MemSubjStudy memSubjStudy = memberRegistService.getMemSubjStudy(memMst, loginInfo, subj[i], firstManageDate[i], bookNum[i], studyNum[i], manageTime[i], currentDate);
-			MemSubjRegist memSubjRegist = memberRegistService.getMemSubjRegist(memMst, loginInfo, subj[i], type, firstManageDate[i], manageTime[i], bookNum[i], studyNum[i], currentDate, isResume[i]);
-			MemSubjTuition memSubjTuition = memberRegistService.getMemSubjTution(i, currentDate, memMst, loginInfo, subj[i], bookNum[i], monthNum[i], firstManageDate[i], type, isResume[i]);
-			log.debug("type : {}, isResume[{}] : {}", type, i, isResume[i]);
-			if("2".equals(type) && "2".equals(isResume[i])){//타과목 입회과목이 복회인 경우 : MemSubjMst, MemSubjStudy Update
-				memberRegistService.setMemSubjMst(memSubjMst, isResume[i]);//His 쌓을 때 UpdCD 구분하기 위해 isResume[i] 사용
-				memberRegistService.setMemSubjStudy(memSubjStudy);
-			}else{//그 외 : Insert
-				memberRegistService.addNewMemSubjMst(memSubjMst);
-				memberRegistService.addNewMemSubjStudy(memSubjStudy);
+		if(subj != null){
+			//MemSubjMst, MemSubjStudy, MemSubjRegist, MemSubjTuition
+			for (int i = 0; i < subj.length; i++) {
+				MemSubjMst memSubjMst = memberRegistService.getMemSubjMst(memMst, loginInfo, subj[i], firstManageDate[i], bookNum[i], studyNum[i], monthNum[i], currentDate, isResume[i]);
+				MemSubjStudy memSubjStudy = memberRegistService.getMemSubjStudy(memMst, loginInfo, subj[i], firstManageDate[i], bookNum[i], studyNum[i], manageTime[i], currentDate);
+				MemSubjRegist memSubjRegist = memberRegistService.getMemSubjRegist(memMst, loginInfo, subj[i], type, firstManageDate[i], manageTime[i], bookNum[i], studyNum[i], currentDate, isResume[i]);
+				MemSubjTuition memSubjTuition = memberRegistService.getMemSubjTution(i, currentDate, memMst, loginInfo, subj[i], bookNum[i], monthNum[i], firstManageDate[i], type, isResume[i]);
+				log.debug("type : {}, isResume[{}] : {}", type, i, isResume[i]);
+				if("2".equals(type) && "2".equals(isResume[i])){//타과목 입회과목이 복회인 경우 : MemSubjMst, MemSubjStudy Update
+					memberRegistService.setMemSubjMst(memSubjMst, isResume[i]);//His 쌓을 때 UpdCD 구분하기 위해 isResume[i] 사용
+					memberRegistService.setMemSubjStudy(memSubjStudy);
+				}else{//그 외 : Insert
+					memberRegistService.addNewMemSubjMst(memSubjMst);
+					memberRegistService.addNewMemSubjStudy(memSubjStudy);
+				}
+				memberRegistService.addNewMemSubjRegist(memSubjRegist);
+				memberRegistService.addNewMemSubjTuition(memSubjTuition);
 			}
-			memberRegistService.addNewMemSubjRegist(memSubjRegist);
-			memberRegistService.addNewMemSubjTuition(memSubjTuition);
 		}
 		
 		model.addAttribute("message", "성공");

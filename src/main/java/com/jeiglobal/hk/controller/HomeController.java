@@ -45,7 +45,7 @@ public class HomeController {
 		log.debug("Getting Layout Page");
 		return "layout";
 	}
-	@RequestMapping(value={"/ja","/ja/members","/ja/inventory","/ja/accounting","/ja/community","/ja/leads","/ja/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@RequestMapping(value={"/ja/members","/ja/inventory","/ja/accounting","/ja/community","/ja/leads","/ja/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getJALayoutPage() {
 		log.debug("Getting JA Layout Page");
 		return "layout";
@@ -79,7 +79,7 @@ public class HomeController {
 		HttpRequestResponseHolder hrrh = new HttpRequestResponseHolder(request, response);
 		hsscr.loadContext(hrrh).setAuthentication(null);//기존 Authentication에 저장된 객체 제거
 		model.asMap().clear();//ModelAttribute parameter 제거
-		return "redirect:/ja/centers";
+		return "redirect:/ja";
 	}
 	
 	/**

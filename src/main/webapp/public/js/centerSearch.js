@@ -1,82 +1,145 @@
 $(function(){	
 	$.extend({
-		getCenterSearch:function(){
+		// 리스트
+		getCenterSearchResult:function(){
+			var paramData = {
+					"pageNum"	:$("#pageNum").val()					
+				,	"deptName"	:$("#deptName").val()
+				,	"city"		:$("#city").val()
+				,	"stateCD"	:$("#stateCD").val()					
+				,	"statusCD"	:$("#statusCD").val()
+				,	"sortKind"	:$("#sortKind").val()
+				,	"sort"		:$("#sort").val()
+				};
+			var setUrl = "/ja/centers/centerSearchResultJson";
 
-			var deptName 	= $("#centerName").val();
-			var city 		= $("#centerCity").val();
-			var stateCD 	= $("#centerState").val();
-			var statusCD 	= $("#centerStatus").val();
-			var sortKind 	= "";
-			var sort 		= "";
-			var pageNum 	= $("#pageNum").val();
-			
-			var paramData = {"pageNum":pageNum,"deptName":deptName,"city":city,"stateCD":stateCD,"statusCD":statusCD,"sortKind":sortKind, "sort":sort};
-			var setUrl = "/ja/centers/searchResults";
-			
-			alert("paramData");
-			/*
 			$.ajax({
+				type:"GET",				
 				url:setUrl,
-				type:"GET",
+				data: paramData,				
 				cache: false,
-				data: paramData,
+				async: true,				
 				dataType: "json",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
 					var pageInfo = jsonData.pageInfo;
 					var totalRowCnt = pageInfo.totalRowCnt;
 					var pageNum = pageInfo.pageNum;
 					var pageSize = pageInfo.rowBlockSize;
-					$("#totalCnt").html(totalRowCnt);
-					$("#pageNavi").html($.pageUtil(pageInfo.pageNum,pageInfo.totalPageCnt, 
-							pageInfo.pageBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));	
-					var source = $("#memberReportTemplate").html();
+ 
+					if (totalRowCnt > pageSize){ // 2페이지 이상인경우만 보여주자	
+						$("#pageNavi").html($.pageUtil(pageInfo.pageNum,pageInfo.totalPageCnt,pageInfo.pageBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));
+					}
+					var source = $("#mainContentTemplate").html();
 					var template = Handlebars.compile(source);
+					// 번호
 					Handlebars.registerHelper("inc", function(value, options){
-						return (pageNum - 1) * pageSize + parseInt(value) + 1;
+						var num = (pageNum - 1) * pageSize + parseInt(value) + 1; // 정렬 : ASC
+						//var num = totalRowCnt - ((pageNum - 1) * pageSize) - parseInt(value); // 정렬 : DESC
+						return num; 
 					});
-					Handlebars.registerHelper('splitSubj', function(str) {
-						var rtnStr = "";
-						if(str.indexOf(",") > -1){
-							var splitStr = str.split(",");
-							for (var i = 0; i < splitStr.length; i++) {
-								rtnStr += (i != splitStr.length -1) ? splitStr[i]+"<br/>": splitStr[i];
-							}
-							return new Handlebars.SafeString(rtnStr);
-						}else{
-							return new Handlebars.SafeString(str);
-						}
-					});
+					// IF
+					Handlebars.registerHelper('xIf', function (lvalue, operator, rvalue, options) {
+					    var operators, result;
+					    if (arguments.length < 3) {
+					        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+					    }
+					    if (options === undefined) {
+					        options = rvalue;
+					        rvalue = operator;
+					        operator = "===";
+					    }
+					    operators = {
+					        '==': function (l, r) { return l == r; },
+					        '===': function (l, r) { return l === r; },
+					        '!=': function (l, r) { return l != r; },
+					        '!==': function (l, r) { return l !== r; },
+					        '<': function (l, r) { return l < r; },
+					        '>': function (l, r) { return l > r; },
+					        '<=': function (l, r) { return l <= r; },
+					        '>=': function (l, r) { return l >= r; },
+					        'typeof': function (l, r) { return typeof l == r; }
+					    };
+					    if (!operators[operator]) {
+					        throw new Error("'xIf' doesn't know the operator " + operator);
+					    }
+					    result = operators[operator](lvalue, rvalue);
+					    if (result) {
+					        return options.fn(this);
+					    } else {
+					        return options.inverse(this);
+					    }
+					});					
 					$("#mainContent").empty();
 					$("#mainContent").append(template(jsonData));
+										
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
-					alert(thrownError);
+					alert(_THROWNERROR);
 				}
 			});
-			*/
-		}
-	});
-	$("#centerSearchBtn").click(function(){
-		var isChange = false;
-		var userType = $("#userType").val();
-		var centerName = $("#centerName").val();
-		var centerCity = $("#centerCity").val();
-		var centerState = $("#centerState").val();
-		var centerStatus = $("#centerStatus").val();
+			
+		},
 		
-		if(centerName != "" || centerCity != "" || centerState != "" || centerStatus != ""){
-			isChange = true;
-		}
-		if(!isChange){
-			alert('Please enter your search criteria.');
-			return;
-		}
-		$('#centerSearchForm').submit();
+		// 센터 등록
+		goCenterRegist:function(deptCD){
+			location.href = "/ja/centers/centerRegist";
+		},
+		// 센터 상담창 오픈
+		openCenterCallLog:function(deptCD){
+			alert("센터 상담창 오픈");
+		},		
+		// 센터뷰
+		goCenterView:function(deptCD){
+			location.href = "/ja/centers/centerView?deptCD="+deptCD;
+		},
+		// 자동로그인
+		login:function(userId){
+			location.href = "/ja/centers/login?memberId="+userId;
+		}		
+			
 	});
 	
+
+	// 검색 초기화
+	$("#searchInit").on("click", function() {
+		$('#deptName').val("");
+		$('#city').val("");				
+		$('#stateCD').val("");
+		$('#statusCD').getSetSSValue("1");		
+		location.href = "/ja/centers/centerSearch";
+	});
+	
+	// 검색 클릭	
+	$("#searchSubmit").on("click", function() {
+		if ($('#deptName').val()!="" && $.searchValueCheck("deptName") == false) return;		
+		if ($('#city').val()!="" && $.searchValueCheck("city") == false) return;
+		$('#searchForm').submit();
+	});
+	
+	if(window.location.pathname == '/ja/centers/centerSearchResults'){
+		$.getCenterSearchResult();
+	}
+	// 정렬 클릭
+	$("a[href=#btnSort]").on('click',function(){
+		var sortKind = $(this).attr('sortKind');
+		var sort = $("#sort").val();
+
+		if(sort=='ASC'){
+			sort = 'DESC';
+		}else{
+			sort = 'ASC';
+		}
+			
+		$("#sortKind").val(sortKind);
+		$("#sort").val(sort);
+					
+		$.getCenterSearchResult();
+	});	
+	
+	// 페이징
 	$(".paging").on("click","a.naviPage",function() {
 		var pageNum = $(this).attr('pageNo');	
 		$('#pageNum').val(pageNum);
-		$.getCenterSearch();
+		$.getCenterSearchResult();
 	});	
 });

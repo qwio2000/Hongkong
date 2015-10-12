@@ -91,7 +91,7 @@
 		</li>
 	</ul>
 	<div class="btnArea">
-		<a href=""><span>Reset</span></a>
+		<a href="javascript:location.reload();"><span>Reset</span></a>
 		<a id="memberSearchBtn" href="#"><span>Search Members</span></a>
 	</div>
 	</form>

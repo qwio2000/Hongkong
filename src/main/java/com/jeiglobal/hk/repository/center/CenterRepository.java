@@ -9,7 +9,7 @@ import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
 
 @PrimaryRepositoryAnnoInterface
 public interface CenterRepository {
-		// 센터 검색 리스트
-		public List<CenterSearchList> findSearchResults(Map<String, Object> param);
+		// 센터 검색 리스트 SP
+		public List<CenterSearchList> centerSearchList(Map<String, Object> param);
 		
 }

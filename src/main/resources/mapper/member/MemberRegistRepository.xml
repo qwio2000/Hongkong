@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jeiglobal.hk.repository.member.MemberRegistRepository">
-	<select id="getClosingDate" parameterType="hashMap" resultType="java.lang.String">
-		SELECT mgEndYMD 
-		FROM globalbiz.MagamDate 
-		WHERE jisaCD = #{jisaCD} AND mgMonth = #{currentYYYYMM}
-	</select>
 	<select id="getCalcFee" parameterType="hashMap" resultType="int">
 		SELECT a.sectionFee + a.monthFee AS Fee
 		FROM globalbiz.MemFeeInfo AS a 
@@ -14,12 +9,12 @@
 		WHERE b.deptCD = #{deptCD} AND a.bookNum = #{bookNum} AND a.weekNum = #{week}
 	</select>
 	<select id="findMemberRegistSearch" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberRegistSearchInfo">
-		SELECT a.memKey, CONCAT(IFNULL(mFstName,''), IFNULL(mLstName,'')) AS memName, CONCAT(IFNULL(gFstName,''), IFNULL(gLstName,'')) AS guardianName,  
-			addr AS address, city, ePhone AS phone, MIN(statusCD) AS statusCD, globalbiz.FuncCodeDtlNM(#{jisaCD},'0008', MIN(statusCD),'','') AS statusName
+		SELECT a.memKey, CONCAT(IFNULL(mFstName,''),' ', IFNULL(mLstName,'')) AS memName, CONCAT(IFNULL(gFstName,''),' ', IFNULL(gLstName,'')) AS guardianName,  
+			addr AS address, city, gPhone AS phone, MIN(statusCD) AS statusCD, globalbiz.FuncCodeDtlNM(#{jisaCD},'0008', MIN(statusCD),'','') AS statusName
 		FROM globalbiz.MemMst AS a
 		INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey
 		WHERE CONCAT(mFstName, mLstName) LIKE CONCAT('%', #{name}, '%') OR CONCAT(gFstName, gLstNAme) LIKE CONCAT('%', #{name}, '%')
-		GROUP BY a.memKey, a.mFstName, a.mLstName, a.gFstName, a.gLstName, a.addr, a.city, a.ePhone
+		GROUP BY a.memKey
 	</select>
 	<select id="findDeptOpenCloseTime" parameterType="hashMap" resultType="hashMap">
 		SELECT cHoursStart, cHoursEnd 

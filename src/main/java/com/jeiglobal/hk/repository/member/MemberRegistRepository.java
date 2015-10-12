@@ -21,8 +21,6 @@ import com.jeiglobal.hk.repository.*;
 @PrimaryRepositoryAnnoInterface
 public interface MemberRegistRepository {
 
-	public String getClosingDate(Map<String, Object> param);
-
 	public int getCalcFee(Map<String, Object> param);
 
 	public List<MemberRegistSearchInfo> findMemberRegistSearch(Map<String, Object> paramMap);

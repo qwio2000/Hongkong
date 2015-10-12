@@ -173,8 +173,8 @@ public class CommonUtils {
 	 * @param beforePattern : 변경하기 전 패턴
 	 * @param afterPattern : 변경하고자 하는 패턴
 	 * @param value : 변경하기 전 값
-	 * @return
-	 * @throws ParseException String
+	 * @return String
+	 * @throws ParseException 
 	 */
 	public static String changeDateFormat(String beforePattern, String afterPattern, String value) throws ParseException{
 		SimpleDateFormat beforeSdf = new SimpleDateFormat(beforePattern);

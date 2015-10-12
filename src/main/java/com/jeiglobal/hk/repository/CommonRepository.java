@@ -29,4 +29,6 @@ public interface CommonRepository {
 	public List<SubjectOfDept> findSubjectsOfDept(Map<String, Object> param);
 
 	public DeptMst findDeptMstByDeptCD(String deptCD);
+
+	public String findClosingDate(Map<String, Object> param);
 }

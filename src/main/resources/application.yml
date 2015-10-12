@@ -5,6 +5,7 @@ multipart:
     
 uploadpath:
         announcements: C:\upload\jeiglobal\hk\announcements
+        promotionitem : C:\workspace\HongKong\src\main\webapp\public\promotion\
         
 serverurl:
      hongkong: http://localhost:8080

@@ -53,4 +53,9 @@
 		FROM globalbiz.DeptMst
 		WHERE deptCD = #{deptCD} 
 	</select>
+	<select id="findClosingDate" parameterType="hashMap" resultType="java.lang.String">
+		SELECT mgEndYMD 
+		FROM globalbiz.MagamDate 
+		WHERE jisaCD = #{jisaCD} AND mgMonth = #{currentYYYYMM}
+	</select>
 </mapper>
