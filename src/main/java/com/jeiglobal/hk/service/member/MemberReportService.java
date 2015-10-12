@@ -6,6 +6,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.*;
@@ -119,6 +120,77 @@ public class MemberReportService {
 		}
 		return memberReportInfos;
 		
+	}
+
+	/**
+	 * 부모 정보 업데이트 시 적용할 회원 번호 리스트 생성
+	 * @param memberReportInfos
+	 * @return String
+	 */
+	public String getMemKeys(List<MemberReportInfo> memberReportInfos) {
+		String memKeys = "";
+		for (MemberReportInfo memberReportInfo : memberReportInfos) {
+			memKeys += ("".equals(memKeys))?"" : "|";
+			memKeys += memberReportInfo.getMemKey();
+		}
+		return memKeys;
+	}
+
+	/**
+	 * 부모 정보 변경
+	 * @param guardianInfo
+	 * @param memKeys
+	 * @param workId 
+	 * @param loginInfo 
+	 * @return String
+	 */
+	public void setGuardianInfo(GuardianInfo guardianInfo, String memKeys, String workId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("guardianInfo", guardianInfo);
+		param.put("memKeys", memKeys.split("\\|"));
+		param.put("workId", workId);
+		memberReportRepository.insertMemMstHis(param);
+		memberReportRepository.updateGuardianInfo(param);
+	}
+
+	/**
+	 * 회원/학부모 상담이력 입력
+	 * @param memKey
+	 * @param memName
+	 * @param callNotes
+	 * @param loginInfo
+	 * @param workId 
+	 */
+	public void addCommentCall(String memKey, String memName, String callNotes,
+			LoginInfo loginInfo, String workId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("callDate", CommonUtils.getCurrentYMD());
+		param.put("memKey", memKey);
+		param.put("memName", memName);
+		param.put("callNotes", callNotes);
+		param.put("jisaCD", loginInfo.getJisaCD());
+		param.put("deptCD", loginInfo.getDeptCD());
+		param.put("regID", workId);
+		memberReportRepository.insertMemCommentCall(param);
+	}
+
+	/**
+	 * 가맹점에서 진행하는 과목에서 현재 회원이 진행하고 있는 과목을 제외한 목록
+	 * @param memKey
+	 * @param loginInfo 
+	 * @return List<String>
+	 */
+	public List<SubjectOfDept> getMemberSubjects(String memKey, LoginInfo loginInfo) {
+		List<SubjectOfDept> subjectsOfDept = commonService.getSubjectsOfDept(loginInfo.getJisaCD(),loginInfo.getDeptCD());
+		List<String> subjects = memberReportRepository.getMemberSubjects(memKey);
+		for (int i = 0; i < subjectsOfDept.size(); i++) {
+			for (String subj : subjects) {
+				if (subjectsOfDept.get(i).getSubj().equals(subj)) {
+					subjectsOfDept.remove(i);
+				}
+			}
+		}
+		return subjectsOfDept;
 	}
 
 

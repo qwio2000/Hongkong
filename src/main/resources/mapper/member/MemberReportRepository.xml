@@ -36,4 +36,41 @@
 	WHERE a.memKey = #{memKey}
 	ORDER BY statusCD, subj desc
 	</select>
+	<insert id="insertMemMstHis" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemMstHis 
+		(memKey, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, regDate, regID, updDate, updID, hUpdCD, hRegDate, hRegID)
+	SELECT memKey, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, regDate, regID, updDate, updID, '10', NOW(), #{workId}
+	FROM globalbiz.MemMst
+		<where>
+			memKey IN 
+			 <foreach item="item" index="index" collection="memKeys"
+			     open="(" separator="," close=")">
+			       #{item}
+			 </foreach>
+		</where>
+	</insert>
+	<update id="updateGuardianInfo" parameterType="hashMap">
+	UPDATE globalbiz.MemMst 
+	SET gFstName = #{guardianInfo.gFstName}, gLstName = #{guardianInfo.gLstName}, city = #{guardianInfo.city}, stateCD = #{guardianInfo.stateCD},
+		zip = #{guardianInfo.zip}, addr = #{guardianInfo.addr}, gEmail = #{guardianInfo.gEmail}, gPhone = #{guardianInfo.gPhone},
+		gCellPhone = #{guardianInfo.gCellPhone}, updDate=NOW(), updID=#{workId}
+		<where>
+			memKey IN 
+			 <foreach item="item" index="index" collection="memKeys"
+			     open="(" separator="," close=")">
+			       #{item}
+			 </foreach>
+		</where>
+	</update>
+	<insert id="insertMemCommentCall" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemCommentCall 
+		(callDate, memKey, memName, callNotes, jisaCD, deptCD, regDate, regID)
+	VALUES (#{callDate}, #{memKey}, #{memName}, #{callNotes}, #{jisaCD}, #{deptCD}, NOW(), #{regID})
+	</insert>
+	<select id="getMemberSubjects" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT subj 
+	FROM globalbiz.MemSubjMst
+	WHERE memKey = #{memKey} and statusCD = '1'
+	ORDER BY subj DESC
+	</select>
 </mapper>
