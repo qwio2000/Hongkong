@@ -40,13 +40,6 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="btnArea_icon clearfix">
-						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
-						<a href="#" class="btn_info tooltip" title="학부모 정보 추가/수정">학부모 정보 추가/수정</a>
-						<a href="#" class="btn_member tooltip"  title="형제 회원 입회">형제 회원 입회</a>
-						<a href="#" class="btn_doc tooltip"  title="형제회원 무료진단 입력">형제회원 무료진단 입력</a>
-						<span class="tooltip_Area"></span>
-					</div>
 				</div>
 				<div class="conRight">
 					<h2 class="conTit">Student Information</h2>
@@ -133,15 +126,6 @@
 								</#list>
 							</tbody>
 						</table>
-					</div>
-					<div class="btnArea_icon clearfix">
-						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
-						<a href="#" class="btn_talk tooltip" title="회원/학부모 상담이력 입력">회원/학부모 상담이력 입력</a>
-						<a href="#" class="btn_clock tooltip"  title="입회상담 약속 입력">입회상담 약속 입력</a>
-						<a href="#" class="btn_info tooltip"  title="회원 정보 추가 수정 ">회원 정보 추가 수정 </a>
-						<a href="#" class="btn_date tooltip"  title="관리 횟수/요일/시간 변경">관리 횟수/요일/시간 변경</a>
-						<a href="/fa/members/regist/new?type=2&memKey=${info.memKey?default('') }" class="btn_doc_add tooltip"  title="타과목 입회">타과목 입회</a>
-						<span class="tooltip_Area"></span>
 					</div>
 					</#list>
 				</div>

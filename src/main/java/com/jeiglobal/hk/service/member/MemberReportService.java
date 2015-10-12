@@ -102,8 +102,6 @@ public class MemberReportService {
 		cal.add(Calendar.MONTH, -1);
 		Date beforeClosingDate = cal.getTime();
 		
-		System.out.println(closingDate);
-		System.out.println(beforeClosingDate);
 		Date checkDate = null;
 		for (MemberReportInfo memberReportInfo : memberReportInfos) {
 			for (MemberReportSubjInfo memberReportSubjInfo : memberReportInfo.getMemberReportSubjInfos()) {

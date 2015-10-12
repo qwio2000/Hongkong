@@ -1,7 +1,7 @@
 <#include "/include/header.ftl">
 <!-- Main Content -->
 <div class="content">
-	<h2 class="conTit">Centers</h2>
+	<h2 class="conTit">Centers</h2>		
 	<input type="hidden" id="userType" value="${loginInfo.userType }"/>
 	<input type="hidden" id="pageNum" value=""/>
 	<input type="hidden" id="deptName" value="${deptName}">
@@ -11,6 +11,7 @@
 	<input type="hidden" id="sortKind" value="">
 	<input type="hidden" id="sort" value="">
 		
+	<h3 align="right"><a title="Add New Center" class="btn_doc tooltip" href="javascript:$.goCenterRegist();"><strong>Add New </strong></a></h3>		
 	<div class="tbl01">
 		<table>
 			<colgroup>
