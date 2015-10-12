@@ -39,4 +39,8 @@
 		CALL globaldig.SPOmrChkG (#{jisaCD},#{subjname},#{leveldung},#{testType});	
 	</select>
 	
+	
+	<select id="findDiagnosisOmrBan" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
+		CALL globaldig.SPOmrBan(#{jisaCD},#{omrDate},#{hkey},#{kwamok},#{rw},#{nOmr},#{omrGrd},#{omrHak},#{omrKind},#{omrDay1},#{omrBirth},#{omrSetCnt},#{omrWeekCnt},#{omrDay2},#{workID})		
+	</select>
 </mapper>

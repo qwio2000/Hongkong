@@ -3,12 +3,7 @@
 		<h2 class="conTit">Wrong answer</h2>
 		<div class="tbl01">
 			<table>
-				<colgroup>
-					<col width="25%" />
-					<col width="25%" />
-					<col width="25%" />
-					<col width="25%" />
-				</colgroup>
+			
 				<tbody>
 				<#list 1.. iOdabCnt as iOdabCntIndex>
 					<tr>

@@ -74,19 +74,8 @@ $(function(){
 		},
 		
 		getInputChk:function(id,input,mun,chk){   //오답 체크 한글 제외
-			var munNo;  //문제 3자리로 변환
-			if (mun.length == "1" ){
-				munNo = "00"+mun;	
-			}else if (mun.length == "2" ){
-				munNo = "0"+mun;
-			}
-			var chkNo = chk ;
-			if (chk.length == "1" ){
-				chkNo = "0"+chk;
-			}
-			
 			// 오답 체크정보 임시 temp
-			var temp = "<input type='text' id='"+mun+"' value='"+mun+"|"+chk+"' mun='"+munNo+"' chk='"+chkNo+"' >"
+			var temp = "<input type='text' id='"+mun+"' value='"+mun+"|"+chk+"' mun='"+mun+"' chk='"+chk+"' >"
 			
 			// 문항 체크박스 하나만 선택 
 			$(".chk_s01 [id^="+id+"]").each(function (i, v) {	
@@ -104,61 +93,43 @@ $(function(){
 				$("#inputAnswer").append(temp)
 			}
 			
+			$.getOrderByChk();
+		},
+		
+		getInputChkG:function(id,mun,sset){   //한글 오답 체크			
+			var Odablisttemp = "<li id="+id+''+mun+"><span class='q_num'>"+mun+"</span><span class='icon'></span><span class='loss_set'>"+sset+"</span></li>"
+			var inputAnswertemp = "<input type='text' id='"+mun+"' value='"+mun+"' mun='"+mun+"' chk='' >"
+			
+			
+			
+			if($("#"+id).is(":checked") == true ){
+				$("#Odablist").append(Odablisttemp)
+				$("#inputAnswer").append(inputAnswertemp)
+			}else{
+				$("#"+id+''+mun+" ").remove();
+				$("#inputAnswer #"+mun+" ").remove();
+			}
+			
+			$.getOrderByChk();
+		},
+		getOrderByChk:function(){  //번호순서대로 정렬 start
+			
 			//번호순서대로 정렬 start
 			var items = $('#inputAnswer input').get();			
 			items.sort(function(a,b){
 			  var keyA = Number($(a).attr('id'));
 			  var keyB = Number($(b).attr('id'));
-
-			  if (keyA < keyB) return -1;
-			  if (keyA > keyB) return 1;
-			  return 0;
-			});			
-			$('#inputAnswer').html('');			
-			$.each(items, function(i, input){			
-				$('#inputAnswer').append(input);
-			});
-			//번호순서대로 정렬 end
-		},
-		
-		getInputChkG:function(id,mun,sset){   //한글 오답 체크
-			
-			var munNo;  //문제 3자리로 변환
-			if (mun.length == "1" ){
-				munNo = "00"+mun;	
-			}else if (mun.length == "2" ){
-				munNo = "0"+mun;
-			}
-			
-			
-			var temp = "<li id="+id+''+mun+"><span class='q_num'>"+mun+"</span><span class='icon'></span><span class='loss_set'>"+sset+"</span></li>"
-			temp += "<input type='hidden' id='"+mun+"' value='"+mun+"' mun='"+munNo+"' chk='' >"
-			
-			if($("#"+id).is(":checked") == true ){
-				$("#Odablist").append(temp)
-			}else{
-				$("#"+id+''+mun+" ").remove();
-				$("#Odablist #"+mun+" ").remove();
-			}
-			
-			
-			//번호순서대로 정렬 start
-			var items = $('#Odablist input').get();			
-			items.sort(function(a,b){
-			  var keyA = Number($(a).attr('id'));
-			  var keyB = Number($(b).attr('id'));
-
+	
 			  if (keyA < keyB) return -1;
 			  if (keyA > keyB) return 1;
 			  return 0;
 			});				
 			$.each(items, function(i, input){			
-				$('#Odablist').append(input);
+				$('#inputAnswer').append(input);
 			});
 			//번호순서대로 정렬 end
-			
-			
-		},
+
+		},	
 		
 		getIpprSave:function(){  //omrGicho 저장
 			var OmrDate = $("#omrdate").val();
@@ -188,7 +159,7 @@ $(function(){
 			var paramData = {"omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "rw":Rw, "nOmr":NOmr, "mFstName":MFstName, "mLstName":MLstName
 					, "skey":Skey, "sName":SName, "omrGrd":OmrGrd, "omrHak":OmrHak, "omrBirth":OmrBirth, "OmrKind":OmrKind, "omrDay1":OmrDay1, "omrDay2":OmrDay2
 					, "omrStudyNum":OmrStudyNum, "omrBookNum":OmrBookNum, "deptCD":DeptCD, "jisaCD":JisaCD, "deptName":DeptName, "workID":WorkID};
-			
+		
 			$.ajax({
 				url:searchUrl,
 				type:"GET",
@@ -196,7 +167,6 @@ $(function(){
 				data: paramData,
 				dataType: "JSON",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
-					
 					if (jsonData.omrGichoisOK == 'Y'){
 						$.getOmrOdab();
 					}else{
@@ -217,52 +187,104 @@ $(function(){
 			var Kwamok = $.trim($("#Kwamok").val());
 			var OmrGrd = $.trim($("#OmrGrd").val());  //DUNG
 			var OmrKind = $.trim($("#OmrKind").val());  
+						
+			var ipuntOdab = $('#inputAnswer input');
 			
-			var searchUrl = "/fa/diagnosis/ipprOdabSave";
+			var munarrer = "";			
 			
-			var ipuntOdab = "" ; 
-			if(Kwamok == "KG"){
-				ipuntOdab = $('#Odablist input');
-			}else{
-				ipuntOdab = $('#inputAnswer input');
-			}
-			
+			$.getOrderByChk(); //번호순서대로 정렬
+								
 			ipuntOdab.each(function (a, v) {
-			  var mun = $(this).attr('mun');
-			  var chk = $(this).attr('chk');
-			  var paramData = {"jisaCD":JisaCD, "omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "omrGrd":OmrGrd, "mun":mun, "chk":chk, "OmrKind":OmrKind};
-		
-				 $.ajax({
-						url:searchUrl,
-						type:"GET",
-						cache: false,
-						data: paramData,
-						dataType: "JSON",
-						success: function(jsonData, textStatus, XMLHttpRequest) {
-							
-							if (jsonData.omrOmrOdabOK == 'N'){			
-								$("#lastOK").val(jsonData.alertMsg)								
-							}
-						},
-						error:function (xhr, ajaxOptions, thrownError){	
-							alert(thrownError);
-						}
-					});
-			  
+				var munNo = "";  //문제 3자리로 변환
+				var chkNo = "";
+				var mun = $(this).attr('mun');
+				var chk = $(this).attr('chk');		
+				
+				if (mun.length == "1" ){
+					munNo = "00"+mun;	
+				}else if (mun.length == "2" ){
+					munNo = "0"+mun;
+				}
+				
+				
+				if (chk.length == "1" ){
+					chkNo = "0"+chk;
+				}
+				munarrer += munNo+"|"+chkNo+"##"			
 			});	
 			
+			
+			var searchUrl = "/fa/diagnosis/ipprOdabSave";
+			var paramData = {"jisaCD":JisaCD, "omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "omrGrd":OmrGrd, "munchk":munarrer, "omrKind":OmrKind};		
+			console.log(munarrer);
+			 $.ajax({
+				url:searchUrl,
+				type:"GET",
+				cache: false,
+				data: paramData,
+				dataType: "JSON",			
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					
+					if (jsonData.omrOmrOdabOK == 'N'){			
+						$("#lastOK").val(jsonData.alertMsg)								
+					}
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(thrownError);
+				}
+			});
+			
+		
 			if($("#lastOK").val() == "Y" ){
 				$.getOmrBan();				
 			}else{
 				alert($("#lastOK").val());
 				return;
 			}
+			
 				
 			
 		},
 		
 		getOmrBan:function(){  //처방 분석
-				alert("처방 분석 처리해야됨!!");
+			var jisaCD = $("#jisaCD").val();
+			var OmrDate = $("#omrdate").val();
+			var Hkey = $.trim($("#Hkey").val());
+			var Kwamok = $.trim($("#Kwamok").val());
+			var Rw = $.trim($("#Rw").val());
+			var NOmr = $.trim($("#NOmr").val());
+			var OmrGrd = $.trim($("#OmrGrd").val());
+			var OmrHak = $.trim($("#OmrHak").val());
+			var OmrKind = $.trim($("#OmrKind").val());
+			var OmrDay1 = $.trim($("#OmrDay1").val());
+			var OmrBirth = $.trim($("#OmrBirth").val());
+			var OmrSetCnt = $.trim($("#OmrSetCnt").val());
+			var OmrWeekCnt = $.trim($("#OmrWeekCnt").val());
+			var OmrDay2 = $.trim($("#OmrDay2").val());
+			var WorkID = $.trim($("#WorkID").val());
+		
+				
+			var searchUrl = "/fa/diagnosis/ipprOmrBan";
+			var paramData = {"jisaCD":jisaCD, "omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "rw":Rw, "nOmr":NOmr, "omrGrd":OmrGrd, "omrHak":OmrHak
+			, "omrKind":OmrKind, "omrDay1":OmrDay1, "omrBirth":OmrBirth, "omrSetCnt":OmrSetCnt, "omrWeekCnt":OmrWeekCnt, "omrDay2":OmrDay2, "workID":WorkID};
+			
+				
+				 $.ajax({
+					url:searchUrl,
+					type:"GET",
+					cache: false,
+					data: paramData,
+					dataType: "JSON",			
+					success: function(jsonData, textStatus, XMLHttpRequest) {
+						alert(jsonData.omrBanOK);
+						self.close();
+					},
+					error:function (xhr, ajaxOptions, thrownError){	
+						alert(thrownError);
+					}
+				});
+				
+				
 				//window.self.close();
 			
 		},

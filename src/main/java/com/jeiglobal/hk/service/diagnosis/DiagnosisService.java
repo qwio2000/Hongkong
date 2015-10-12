@@ -81,37 +81,6 @@ public class DiagnosisService {
 		
 	}
 	
-	public String getDiagnosisOmrOdab(String jisaCD, String omrDate, String hkey, String kwamok, String omrGrd, String mun, String chk) {
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("jisaCD", jisaCD);		
-		map.put("omrDate", omrDate);		
-		map.put("hkey", hkey);
-		map.put("kwamok", kwamok);
-		map.put("omrGrd", omrGrd);
-		map.put("mun", mun);
-		map.put("chk", chk);
-		
-		return diagnosisRepository.findDiagnosisOmrOdab(map);
-		
-	}
-	
-	public String getDiagnosisOmrOdabG(String jisaCD, String omrDate, String hkey, String kwamok, String omrGrd, String mun, String chk, String OmrKind) {
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("jisaCD", jisaCD);		
-		map.put("omrDate", omrDate);		
-		map.put("hkey", hkey);
-		map.put("kwamok", kwamok);
-		map.put("omrGrd", omrGrd);
-		map.put("mun", mun);
-		map.put("chk", chk);
-		map.put("OmrKind", OmrKind);
-		
-		return diagnosisRepository.findDiagnosisOmrOdabG(map);
-		
-	}
-	
 	public List<DiagnosisDto.DiagnosisOmrChkG> getDiagnosisOmrChkG(String jisaCD, String subjname, String leveldung, String testType){
 		Map<String, Object> map = new HashMap<>();
 		map.put("jisaCD", jisaCD);		
@@ -121,6 +90,68 @@ public class DiagnosisService {
 		
 		return diagnosisRepository.findDiagnosisOmrChkG(map);
 		
+	}
+
+	
+	public String addDiagnosisOmrOdab(String jisaCD, String omrDate,
+			String hkey, String kwamok, String omrGrd, String[] munchkarrer,
+			String omrKind) {
+		String mun = "";
+		String chk = "";
+		String omrOdabOK = "";
+		
+		Map<String, Object> map = new HashMap<>();
+			map.put("jisaCD", jisaCD);		
+			map.put("omrDate", omrDate);		
+			map.put("hkey", hkey);
+			map.put("kwamok", kwamok);
+			map.put("omrGrd", omrGrd);
+			
+		for (int i = 0; i < munchkarrer.length; i++) {
+			String[] splitArray = munchkarrer[i].split("\\|"); 
+			mun = splitArray[0];					
+			if((splitArray.length) >= 2){
+				chk = splitArray[1];
+			}else{
+				chk = "";
+			}
+			
+			map.put("mun", mun);
+			map.put("chk", chk);	
+			if( ("G").equals(CommonUtils.RightString(kwamok,1))) {   // 한글
+				map.put("OmrKind", omrKind);
+				omrOdabOK = diagnosisRepository.findDiagnosisOmrOdabG(map);
+			}else{
+				omrOdabOK =  diagnosisRepository.findDiagnosisOmrOdab(map);
+			}
+		}
+		return omrOdabOK;
+	}
+
+
+	public String addDiagnosisOmrBan(String jisaCD, String omrDate,
+			String hkey, String kwamok, String rw, String nOmr, String omrGrd,
+			String omrHak, String omrKind, String omrDay1, String omrBirth,
+			String omrSetCnt, String omrWeekCnt, String omrDay2, String workID) {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("omrDate", omrDate);		
+		map.put("hkey", hkey);
+		map.put("kwamok", kwamok);
+		map.put("rw", rw);
+		map.put("nOmr", nOmr);
+		map.put("omrGrd", omrGrd);
+		map.put("omrHak", omrHak);
+		map.put("omrKind", omrKind);
+		map.put("omrDay1", omrDay1);
+		map.put("omrBirth", omrBirth);
+		map.put("omrSetCnt", omrSetCnt);
+		map.put("omrWeekCnt", omrWeekCnt);
+		map.put("omrDay2", omrDay2);
+		map.put("workID", workID);
+		
+		return diagnosisRepository.findDiagnosisOmrBan(map);
 	}
 	
 	

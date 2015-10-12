@@ -309,27 +309,51 @@ public class DiagnosisController {
 	// 오답 입력 저장
 	@RequestMapping(value={"/fa/diagnosis/ipprOdabSave"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	@ResponseBody
-	public Map<String, Object> diagnosisIpprOdabSaveJson(Model model, String jisaCD, String omrDate, String hkey, String kwamok, String omrGrd, String mun, String chk, String OmrKind) {
+	public Map<String, Object> diagnosisIpprOdabSaveJson(Model model, String jisaCD, String omrDate, String hkey, String kwamok, String omrGrd, String munchk, String omrKind) {
 		
 		String alertMsg = "";
-		String omrOmrOdabOK = "";
-		if( ("G").equals(CommonUtils.RightString(kwamok,1))) {   // 한글
-			omrOmrOdabOK = diagnosisService.getDiagnosisOmrOdabG(jisaCD,omrDate,hkey,kwamok,omrGrd,mun,chk,OmrKind);
-		}else{
-			omrOmrOdabOK = diagnosisService.getDiagnosisOmrOdab(jisaCD,omrDate,hkey,kwamok,omrGrd,mun,chk);
-		}
+		String omrOdabOK = "";
+		
+		String[] munchkarrer = munchk.split("##");
+		
+		omrOdabOK = diagnosisService.addDiagnosisOmrOdab(jisaCD, omrDate, hkey, kwamok, omrGrd, munchkarrer, omrKind);
+		
+	
 		
 		
-		if ("N".equals(omrOmrOdabOK)) {
+		if ("N".equals(omrOdabOK)) {
 			alertMsg = messageSourceAccesor.getMessage("Ippr.Odab.Insert.Error");
 		}
 	
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("alertMsg", alertMsg);
-		map.put("omrOmrOdabOK", omrOmrOdabOK);
+		map.put("omrOmrOdabOK", omrOdabOK);
 		
 		return map;
 	}
+	
+	// ippr 처방 분석
+	@RequestMapping(value={"/fa/diagnosis/ipprOmrBan"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> diagnosisIpprOmrBanJson(Model model, String jisaCD, String omrDate, String hkey, String kwamok, String rw, String nOmr, String omrGrd
+			, String omrHak, String omrKind, String omrDay1, String omrBirth, String omrSetCnt, String omrWeekCnt, String omrDay2, String workID) {
+		
+		String alertMsg = "";
+		String omrBanOK = "";
+		
+		omrBanOK = diagnosisService.addDiagnosisOmrBan(jisaCD, omrDate, hkey, kwamok, rw, nOmr, omrGrd, omrHak, omrKind, omrDay1, omrBirth, omrSetCnt, omrWeekCnt, omrDay2, workID);
+		
+		if ("N".equals(omrBanOK)) {
+			alertMsg = messageSourceAccesor.getMessage("Ippr.Ban.Insert.Error");
+		}
+	
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("alertMsg", alertMsg);
+		map.put("omrBanOK", omrBanOK);
+		
+		return map;
+	}
+	
 	
 
 
