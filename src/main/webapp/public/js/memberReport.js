@@ -116,3 +116,7 @@ $(function(){
 		$.getMemberReport();
 	});	
 });
+function guardianInfoPop(){
+	window.open('/fa/members/reports/guardian?memKey='+$('#memKey').val()+'&memKeys='+$('#memKeys').val(), 'memberReportPop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
+//	window.open('URL', 'memberReportPop', 'width=730, height=750, toolbar=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no');
+}

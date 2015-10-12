@@ -29,4 +29,12 @@ public interface MemberReportRepository {
 
 	public List<MemberReportSubjInfo> findMemSubjMstsByMemKey(String memKey);
 
+	public void insertMemMstHis(Map<String, Object> param);
+
+	public void updateGuardianInfo(Map<String, Object> param);
+
+	public void insertMemCommentCall(Map<String, Object> param);
+
+	public List<String> getMemberSubjects(String memKey);
+
 }
