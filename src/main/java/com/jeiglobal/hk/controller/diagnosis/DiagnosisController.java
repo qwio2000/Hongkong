@@ -171,7 +171,7 @@ public class DiagnosisController {
 		String omrdate = CommonUtils.getCurrentYMD();  // 오늘 날짜
 		DeptMst deptMst = commonService.getDeptMstByDeptCD(deptCd);
 		String empKey = deptMst.getEmpKey();  // 원장번호
-		String empName = deptMst.getEmpFstName()+" "+deptMst.getEmpLstName();  // 원장번호
+		String empName = deptMst.getEmpFstName()+" "+deptMst.getEmpLstName();  // 원장이름
 		String userId = loginInfo.getUserId();		//작업자
 	
 
@@ -352,6 +352,16 @@ public class DiagnosisController {
 		map.put("omrBanOK", omrBanOK);
 		
 		return map;
+	}
+	
+	
+	// ippr 처방 기록부
+	@RequestMapping(value={"/fa/diagnosis/OmrPrint"}, method={RequestMethod.GET,RequestMethod.HEAD})  
+	public String diagnosisIpprOmrPrint(Model model, String jisa, String Mujin, String Omrdate, String memKey, String subj, String PopGraph)  {
+		log.debug("Getting ipprinput List Page");
+	
+		
+		return "diagnosis/diagnosis/OmrPrint";	
 	}
 	
 	
