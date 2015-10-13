@@ -114,7 +114,7 @@
 	</insert>
 	<update id="updateMemSubjMstForStudyNum" parameterType="hashMap">
 	UPDATE globalbiz.MemSubjMst 
-	SET studyNum = #{studyNum}, updDate=NOW(), updID=#{workId}
+	SET studyNum = #{studyNum}, yoil={yoil}, updDate=NOW(), updID=#{workId}
 	WHERE memKey = #{memKey}
 	</update>
 	<insert id="insertMemSubjStudyHis" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
@@ -129,4 +129,60 @@
 	SET studyNum = #{studyNum}, yoil = #{yoil}, visitHours = #{manageTimes}, updDate=NOW(), updID=#{workId}
 	WHERE memKey = #{memKey} and subj = #{subj} and yoilSeq = '1'
 	</update>
+	<insert id="insertMemSubjMstHisByDrop" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemSubjMstHis 
+		(memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, hUpdCD, hRegDate, hRegID)
+	SELECT memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, '14', NOW(), #{workId}
+	FROM globalbiz.MemSubjMst
+	WHERE memKey = #{memKey} and subj = #{subj}
+	</insert>
+	<update id="updateMemSubjMstByDrop" parameterType="hashMap">
+	UPDATE globalbiz.MemSubjMst 
+	SET statusCD = '2', dropFnlYMD = #{currentYMD}, updDate=NOW(), updID=#{workId}
+	WHERE memKey = #{memKey} and subj = #{subj}
+	</update>
+	<insert id="insertMemSubjDrop" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemSubjDrop
+		(dropYMD, memKey, subj, memName, dropReason, notes, empKey, deptCD, jisaCD, regDate, regID)
+	VALUES
+		(#{currentYMD}, #{memKey}, #{subj}, #{memName}, #{dropReason}, #{notes}, #{loginInfo.empKey}, #{loginInfo.deptCD}, #{loginInfo.jisaCD}, NOW(), #{workId})
+	</insert>
+	<insert id="insertMemSubjMstHisByDropCancel" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemSubjMstHis 
+		(memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, hUpdCD, hRegDate, hRegID)
+	SELECT memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, '15', NOW(), #{workId}
+	FROM globalbiz.MemSubjMst
+	WHERE memKey = #{memKey} and subj = #{subj}
+	</insert>
+	<delete id="deleteMemSubjMstByDropCancel" parameterType="hashMap">
+	DELETE 
+	FROM globalbiz.MemSubjMst 
+	WHERE memKey = #{memKey} and subj = #{subj}
+	</delete>
+	<insert id="insertMemSubjMstByDropCancel" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemSubjMst 
+		(memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID)
+	SELECT memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID
+	FROM globalbiz.MemSubjMstHis
+	WHERE memKey = #{memKey} AND subj = #{subj} AND hUpdCD = '14'
+	ORDER BY hRegDate DESC 
+	LIMIT 0, 1 
+	</insert>
+	<insert id="insertMemSubjDropHisByDropCancel" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemSubjDropHis
+		(hIdx, dropYMD, memKey, subj, memName, dropReason, notes, empKey, deptCD, jisaCD, regDate, regID, hRegDate, hRegID)
+	SELECT
+		idx, dropYMD, memKey, subj, memName, dropReason, notes, empKey, deptCD, jisaCD, regDate, regID, NOW(), #{workId}
+	FROM globalbiz.MemSubjDrop
+	WHERE memKey = #{memKey} AND subj = #{subj} AND dropYMD = #{convDropDate}
+	ORDER BY regDate DESC
+	LIMIT 0,1
+	</insert>
+	<delete id="deleteMemSubjDropByDropCancel" parameterType="hashMap">
+	DELETE 
+	FROM globalbiz.MemSubjDrop 
+	WHERE memKey = #{memKey} AND subj = #{subj} AND dropYMD = #{convDropDate}
+	ORDER BY regDate DESC
+	LIMIT 1
+	</delete>
 </mapper>

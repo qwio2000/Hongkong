@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
-import com.jeiglobal.hk.domain.member.MemberDto.*;
-import com.jeiglobal.hk.repository.member.*;
+import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjStudyInfo;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
 import com.jeiglobal.hk.utils.*;
@@ -176,7 +176,6 @@ public class MemberReportController {
 	public String getMemberInfoPop(Model model,
 			String memKey, 
 			@ModelAttribute LoginInfo loginInfo) throws ParseException {
-		//학년 리스트
 		List<CodeDtl> grades = commonService.getCodeDtls("0003", loginInfo.getJisaCD(), 1, "Y");
 		MemMst memMst = memberRegistService.getMemMst(memKey);
 		memMst.setMBirthDay(CommonUtils.changeDateFormat("yyyy-MM-dd", "MM/dd/yyyy", memMst.getMBirthDay()));
@@ -225,5 +224,42 @@ public class MemberReportController {
 			memberReportService.setMemSubjStudyInfo(subj[i], studyNum[i], yoil[i], manageTimes[i], workId, memKey);
 		}
 		return msa.getMessage("member.report.memberInfo.update.success");
+	}
+	@RequestMapping(value={"/fa/members/reports/drop"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getMemberDropPop(Model model,
+			String memKey, String subj, String memName,
+			@ModelAttribute LoginInfo loginInfo) {
+		List<CodeDtl> dropReasons = commonService.getCodeDtls("0021", loginInfo.getJisaCD(), 1, "Y");
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberReportDetail");
+		model.addAttribute("memKey", memKey);
+		model.addAttribute("subj", subj);
+		model.addAttribute("memName", memName);
+		model.addAttribute("dropReasons", dropReasons);
+		model.addAttribute("headerScript", headerScript);
+		return "member/report/memberDrop";
+	}
+	
+	@RequestMapping(value={"/fa/members/reports/drop"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String setMemberDropPop(String memKey, String subj, String dropReason, String notes, String memName, 
+			@ModelAttribute LoginInfo loginInfo, HttpServletRequest request) {
+		String currentYMD = CommonUtils.getCurrentYMD();
+		String workId = CommonUtils.getWorkId(request);
+		memberReportService.setMemSubjMstByDrop(memKey, subj, currentYMD, workId);
+		memberReportService.addMemSubjDrop(memKey, subj, dropReason, notes, memName, loginInfo, currentYMD, workId);
+		String[] args = {memKey, subj};
+		return msa.getMessage("member.report.member.drop.success", args);
+	}
+	@RequestMapping(value={"/fa/members/reports/dropcancel"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String setMemberDropCancelPop(String memKey, String subj, String dropDate,
+			@ModelAttribute LoginInfo loginInfo, HttpServletRequest request) throws ParseException {
+		String workId = CommonUtils.getWorkId(request);
+		String convDropDate = CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", dropDate);
+		memberReportService.setMemSubjMstByDropCancel(memKey, subj, workId);
+		memberReportService.removeMemSubjDropByDropCancel(memKey, subj, workId, convDropDate);
+		String[] args = {memKey, subj};
+		return msa.getMessage("member.report.member.dropcancel.success", args);
 	}
 }

@@ -270,6 +270,7 @@ public class MemberReportService {
 	 */
 	public void setMemSubjStudyInfo(String subj, int studyNum, String yoil,
 			String manageTimes, String workId, String memKey) {
+		//TODO 2불출 가능 시 변경
 		Map<String, Object> param = new HashMap<>();
 		param.put("memKey", memKey);
 		param.put("subj", subj);
@@ -281,6 +282,79 @@ public class MemberReportService {
 		memberReportRepository.updateMemSubjMstForStudyNum(param);
 		memberReportRepository.insertMemSubjStudyHis(param);
 		memberReportRepository.updateMemSubjStudy(param);
+	}
+
+	/**
+	 * @param memKey
+	 * @param subj
+	 * @param currentYMD
+	 * @param workId void
+	 */
+	public void setMemSubjMstByDrop(String memKey, String subj,
+			String currentYMD, String workId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("subj", subj);
+		param.put("currentYMD", currentYMD);
+		param.put("workId", workId);
+		memberReportRepository.insertMemSubjMstHisByDrop(param);
+		memberReportRepository.updateMemSubjMstByDrop(param);
+	}
+
+	/**
+	 * @param memKey
+	 * @param subj
+	 * @param dropReason
+	 * @param notes
+	 * @param memName
+	 * @param loginInfo void
+	 * @param workId 
+	 * @param currentYMD 
+	 */
+	public void addMemSubjDrop(String memKey, String subj, String dropReason,
+			String notes, String memName, LoginInfo loginInfo, String currentYMD, String workId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("subj", subj);
+		param.put("dropReason", dropReason);
+		param.put("notes", notes);
+		param.put("memName", memName);
+		param.put("loginInfo", loginInfo);
+		param.put("currentYMD", currentYMD);
+		param.put("workId", workId);
+		memberReportRepository.insertMemSubjDrop(param);
+	}
+
+	/**
+	 * @param memKey
+	 * @param subj
+	 * @param workId 
+	 */
+	public void setMemSubjMstByDropCancel(String memKey, String subj, String workId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("subj", subj);
+		param.put("workId", workId);
+		memberReportRepository.insertMemSubjMstHisByDropCancel(param);
+		memberReportRepository.deleteMemSubjMstByDropCancel(param);
+		memberReportRepository.insertMemSubjMstByDropCancel(param);
+	}
+
+	/**
+	 * @param memKey
+	 * @param subj
+	 * @param workId void
+	 * @param convDropDate 
+	 */
+	public void removeMemSubjDropByDropCancel(String memKey, String subj,
+			String workId, String convDropDate) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("subj", subj);
+		param.put("workId", workId);
+		param.put("convDropDate", convDropDate);
+		memberReportRepository.insertMemSubjDropHisByDropCancel(param);
+		memberReportRepository.deleteMemSubjDropByDropCancel(param);
 	}
 
 

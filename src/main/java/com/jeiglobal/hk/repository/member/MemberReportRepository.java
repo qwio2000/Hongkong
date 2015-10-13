@@ -56,4 +56,20 @@ public interface MemberReportRepository {
 
 	public void updateMemSubjStudy(Map<String, Object> param);
 
+	public void insertMemSubjMstHisByDrop(Map<String, Object> param);
+
+	public void updateMemSubjMstByDrop(Map<String, Object> param);
+
+	public void insertMemSubjDrop(Map<String, Object> param);
+
+	public void insertMemSubjMstHisByDropCancel(Map<String, Object> param);
+
+	public void deleteMemSubjMstByDropCancel(Map<String, Object> param);
+
+	public void insertMemSubjMstByDropCancel(Map<String, Object> param);
+
+	public void insertMemSubjDropHisByDropCancel(Map<String, Object> param);
+
+	public void deleteMemSubjDropByDropCancel(Map<String, Object> param);
+
 }

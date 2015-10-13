@@ -41,6 +41,9 @@ function setMemberInfo(memKey){
 function setMemSubjStudyInfo(memKey){
 	window.open('/fa/members/reports/memsubjstudyinfo?memKey='+memKey, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
 }
+function dropMember(memKey, subj, memName){
+	window.open('/fa/members/reports/drop?memKey='+memKey+"&memName="+memName+"&subj="+subj, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
+}
 
 function guardianInfoSubmit(){
 	if(confirm('부모 정보를 변경 하시겠습니까?')){
@@ -125,22 +128,63 @@ function memberInfoSubmit(){
 function memSubjStudyInfoSubmit(){
 	if(confirm('관리요일 및 관리시간을 변경하시겠습니까?')){
 		var param = $("#memSubjStudyForm").serialize();
+		$.ajax({
+			url:"/fa/members/reports/memsubjstudyinfo",
+			type:"POST",
+			cache: true,
+			data: param,
+			dataType: "text",
+			success: function(result, textStatus, XMLHttpRequest) {
+				alert(result);
+				self.close();
+				opener.location.reload();
+			},
+			error:function (xhr, ajaxOptions, thrownError){	
+				alert(thrownError);
+			}
+		});
+	}
+}
+function dropMemberSubmit(){
+	if(confirm('해당 회원의 과목을 퇴회하시겠습니까?')){
+		var param = $("#dropMemberForm").serialize();
 		console.log(param);
-//		$.ajax({
-//			url:"/fa/members/reports/memberinfo",
-//			type:"POST",
-//			cache: true,
-//			data: param,
-//			dataType: "text",
-//			success: function(result, textStatus, XMLHttpRequest) {
-//				alert(result);
-//				self.close();
-//				opener.location.reload();
-//			},
-//			error:function (xhr, ajaxOptions, thrownError){	
-//				alert(thrownError);
-//			}
-//		});
+		$.ajax({
+			url:"/fa/members/reports/drop",
+			type:"POST",
+			cache: true,
+			data: param,
+			dataType: "text",
+			success: function(result, textStatus, XMLHttpRequest) {
+				alert(result);
+				self.close();
+				opener.location.reload();
+			},
+			error:function (xhr, ajaxOptions, thrownError){	
+				alert(thrownError);
+			}
+		});
+	}
+}
+function dropCancelMember(memKey, subj, dropDate){
+	if(confirm(memKey+' 회원의 '+subj+' 과목을 퇴회 취소 하시겠습니까?')){
+		var param = {"memKey":memKey, "subj":subj, "dropDate":dropDate};
+		console.log(param);
+		$.ajax({
+			url:"/fa/members/reports/dropcancel",
+			type:"POST",
+			cache: true,
+			data: param,
+			dataType: "text",
+			success: function(result, textStatus, XMLHttpRequest) {
+				alert(result);
+				self.close();
+				location.reload();
+			},
+			error:function (xhr, ajaxOptions, thrownError){	
+				alert(thrownError);
+			}
+		});
 	}
 }
 
