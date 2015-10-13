@@ -33,6 +33,10 @@ $(function(){
 			$("#yoil_"+subj).attr("disabled",true);
 		}
 	});
+	$("a.gray").click(function(){
+		alert('해당 정보가 없습니다.');
+		return;
+	});
 });
 function guardianInfoPop(){
 	window.open('/fa/members/reports/guardian?memKey='+$('#memKey').val()+'&memKeys='+$('#memKeys').val(), 'memberReportPop', 'width=630,height=480,scrollbars=no,resizable=no');

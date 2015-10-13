@@ -30,7 +30,7 @@
 						</span>
 					</li>
 					<li>
-						<label for="gEmail" class="tit">Email1</label>
+						<label for="gEmail" class="tit">Email</label>
 						<input type="text" id="gEmail" name="gEmail" class="searchInput" style="width:384px" value="${guardianInfos.GEmail?default('') }">
 					</li>
 					<li>

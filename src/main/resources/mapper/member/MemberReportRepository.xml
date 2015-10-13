@@ -96,7 +96,7 @@
 	<update id="updateMemMst" parameterType="hashMap">
 	UPDATE globalbiz.MemMst 
 	SET mFstName = #{memMst.mFstName}, mLstName = #{memMst.mLstName}, mBirthDay = #{memMst.mBirthDay}, gradeCD = #{memMst.gradeCD},
-		schoolName = #{memMst.schoolName}, eContact = #{memMst.eContact}, ePhone = #{memMst.ePhone}, remarks = #{memMst.remarks},
+		schoolName = #{memMst.schoolName}, mEmail = #{memMst.mEmail}, eContact = #{memMst.eContact}, ePhone = #{memMst.ePhone}, remarks = #{memMst.remarks},
 		updDate=NOW(), updID=#{workId}
 	WHERE memKey = #{memMst.memKey}
 	</update>
@@ -120,7 +120,7 @@
 	</insert>
 	<update id="updateMemSubjMstForStudyNum" parameterType="hashMap">
 	UPDATE globalbiz.MemSubjMst 
-	SET studyNum = #{studyNum}, yoil={yoil}, updDate=NOW(), updID=#{workId}
+	SET studyNum = #{studyNum}, yoil=#{yoil}, updDate=NOW(), updID=#{workId}
 	WHERE memKey = #{memKey}
 	</update>
 	<insert id="insertMemSubjStudyHis" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">

@@ -30,8 +30,12 @@
 						</select>
 					</li>
 					<li>
-						<label for="schoolName" class="tit">School</label>
+						<label for="schoolName" class="tit">Email</label>
 						<input type="text" id="schoolName" name="schoolName" class="searchInput" style="width:384px" value="${memMst.schoolName }">
+					</li>
+					<li>
+						<label for="mEmail" class="tit">School</label>
+						<input type="text" id="mEmail" name="mEmail" class="searchInput" style="width:384px" value="${memMst.MEmail }">
 					</li>
 					<li>
 						<label for="eContact" class="tit">Emrg Contact</label>
