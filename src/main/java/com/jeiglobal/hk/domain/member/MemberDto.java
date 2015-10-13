@@ -142,4 +142,16 @@ public class MemberDto {
 		private String digYN;
 		private String isCancle;
 	}
+	
+	@Data
+	public static class MemberReportSubjStudyInfo{
+		private String memKey;
+		private String subj;
+		private int studyNum;
+		private int bookNum;
+		private String yoil;
+		private String yoilName;
+		private String visitHours;
+		private String visitHoursName;
+	}
 }
