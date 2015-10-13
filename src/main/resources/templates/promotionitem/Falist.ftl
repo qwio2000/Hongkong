@@ -3,10 +3,6 @@
 <div class="content">
 	<h2 class="conTit">PromotionItem List</h2>
 	<form id="PromotionItem" action="/fa/promoitem/promoitemfalist" method="get">		
-		<ul class="memSearch" <#if loginInfo.userType == "FA"> style="float:right;"</#if>>
-			<a href="/ja/promoitem/addpage">글쓰기</a>
-		</ul>
-		
 		
 		<!--주문내역-->
 		<div>
@@ -50,14 +46,14 @@
 				
 				<td class="gridCell" valign="top" style="width:150px; ">
 					<strong>Order Qty:</strong>:  
-						<select name="scQty" id="scQty_1">
+						<select name="scQty_${list.itemCD}" id="scQty_${list.itemCD}">
 							<#list 1..100 as i>
 								<option value="${i}">${i}</option>
 							</#list>
-						</select>
+						</select> ${list.itemUOM}
 					<br>
 					<div style="margin-top:10px;">
-						<input type="button" value="Add to Cart" onclick="cartAdd('1');" style="width:120px;">
+						<input type="button" value="Add to Cart" onclick="cartAdd('${list.itemCD}');" style="width:120px;">
 					</div>
 				</td>
 			</td>

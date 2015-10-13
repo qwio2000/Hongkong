@@ -1,61 +1,68 @@
 <#include "/include/header.ftl">
 <!-- Main Content -->
 <div class="content">
-	<h2 class="conTit">PromotionItem List</h2>
-	<form id="PromotionItem" action="/ja/promoitem/promoitemlist" method="get">		
-		<ul class="memSearch" <#if loginInfo.userType == "JA"> style="float:right;"</#if>>
-			<a href="/ja/promoitem/addpage">글쓰기</a>
-		</ul>
-		
+	<h2 class="conTit">PromotionItem Items</h2>
+	<form id="PromotionItem" action="/ja/promoitem/promoitemlist" method="get">	
+	
+			<div class="clearfix pb10 pt30">
+				<div class="float_l">
+					<div class="btnArea_txt p0"><a href="/ja/promoitem/addpage" class="btn_doc m0">Add New</a></div>
+				</div>
+			</div>
+
 		
 	
 		
-		
+		<div class="tbl01 mt0">
 		<#list list as list>
-		<table width="100%" cellpadding="10" cellspacing="0" style="border-top:2px solid silver;">
-			<tr>
-				<td style="width:150px;">
-					 <#if (list.itemfile1NameConvert)??>
-						<img src="/public/promotion/${list.itemfile1NameConvert}" width="150" />
-						
-					 <#else>
-					 <center>
-					 	<img src="/public/img/icon_delete.png"  />
-					 </center>	
-					 </#if> 
+		<table>
+			<colgroup>
+				<col width="170px" />
+				<col />
+				<col width="200px"  />
+				<col width="45px" />
+			</colgroup>
+			<tbody>
+			<tr class="line2">
+				<td class="no_line">
+					<span class="p_img_wrap">
+						 <#if (list.itemfile1NameConvert)??>
+							<img src="/public/promotion/${list.itemfile1NameConvert}" width="150" />
+						 <#else>
+						 	<img src="/public/img/icon_delete.png"  />
+						 </#if> 
+					 </span>
 				</td>
-				<td class="gridCell" valign="top">
-					<strong>${list.itemName}</strong>
-					
-						<div style="padding-left:10px;">${list.itemDescription}</div>
-					
-						<br><strong>Color</strong>: ${list.itemColor}
-					
-					<br>
-					<strong>Price</strong>: ${list.itemStock}/${list.itemUOM} 
+				<td class="left valin_t">
+					<ul class="product_list">
+						<li>
+							<em>${list.itemName}</em> 
+						</li>
+						<li><span class="tit">Color :</span>${list.itemColor} </li>
+						<li><span class="tit">Price :</span>$${list.itemPrice}/${list.itemUOM} 
 						 <#if (list.itemPerUnit)??>
 							( ${list.itemPerUnit}	pcs.)					
-						</#if> 
-					
+						</#if> </li>
+					</ul>
 				</td>
 				
-				
-				<td class="gridCell" valign="top" style="width:150px; ">
-					<strong>Visible</strong>:  ${list.itemVisible}<br>
-					<div style="color:black">
-						<strong>Stock</strong>: ${list.itemStock} Pcs.<br>
-					</div>
-					<div style="margin-top:10px;">
-						<a href="/ja/promoitem/modipage?itemCD=${list.itemCD}">
-							Update Item Info
-						</a><br/>
-						<#if (list.aidx)??>
-						<#else>
-							<a href="/ja/promoitem/delitem?itemCD=${list.itemCD}">Delete Item</a>	
-						</#if> 
+				<td  class="left valin_t">
+					<ul class="product_list">
+						<li><span class="tit">Visible :</span>${list.itemVisible}</li>
+						<li><span class="tit">Stock :</span>${list.itemStock} Pcs.</li>
+					</ul>
+					<div class="btnArea_txt p0">
+						<a href="/ja/promoitem/modipage?itemCD=${list.itemCD}" class="btn_info">Update Item Info</a>
 					</div>
 				</td>
-			</td>
+				<#if (list.aidx)??>
+					<td>
+					</td>	
+				<#else>
+					<td>
+						<a href="/ja/promoitem/delitem?itemCD=${list.itemCD}" class="btn_delete">delete</a>
+					</td>	
+				</#if> 
 		</tr>
 		</table>
 		<#else>
