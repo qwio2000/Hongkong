@@ -23,8 +23,8 @@
 				<col width="90">
 				<col width="60">
 				<col width="*">
-				<col width="70">
-				<col width="70">
+				<col width="60">
+				<col width="60">
 				<col width="120">
 				<col width="90">
 				<col width="90">
@@ -61,10 +61,10 @@
 			<td>{{inc @index}}</td>
 			<td>{{stateName}}</td>
 			<td>{{deptName}}</td>
-			<td class="left"><img src="/public/img/ico_name.png" alt="" />{{mfstName}}{{mlstName}}</td>
+			<td class="left"><img src="/public/img/ico_name.png" alt="" /><a class="blue" href="/ja/members/search/{{memKey}}">{{mfstName}}{{mlstName}}</a></td>
 			<td>{{gradeName}}</td>
 			<td>{{splitSubj memSubjStr}}</td>
-			<td>{{guardianName}}</td>
+			<td class="left">{{guardianName}}</td>
 			<td>{{gphone}}</td>
 			<td>{{statusName}}</td>
 			<td>{{registFstYMD}}</td>

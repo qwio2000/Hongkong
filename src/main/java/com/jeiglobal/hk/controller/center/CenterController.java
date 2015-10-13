@@ -1,7 +1,9 @@
 package com.jeiglobal.hk.controller.center;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jeiglobal.hk.domain.auth.LoginInfo;
 import com.jeiglobal.hk.domain.center.CenterSearchList;
@@ -34,6 +37,7 @@ import com.jeiglobal.hk.utils.PageUtil;
  * 작성일 : 2015. 9. 10.
  *
  * 작성자 : 전승엽(IT지원팀)
+ * 수정자 : 노윤희(IT지원팀)
  * 
  * [Centers] Controller
  */
@@ -56,15 +60,13 @@ public class CenterController {
 	@Value("${page.size}")
 	private int pageSize;
 	
-	//한 페이지에 출력할 레코드 개수
+	//페이지 블럭수
 	@Value("${page.blockSize}")
 	private int blockSize;
 	
 	// 센터검색
-	@RequestMapping(value={"/ja/centers/search"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/ja/centers/centerSearch"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCenterSearch(Model model, @ModelAttribute LoginInfo loginInfo){
-		String userType = loginInfo.getUserType();
-		log.debug("Getting centerSearch Page, UserType : {}", userType);
 		
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("centerSearch");
@@ -74,33 +76,61 @@ public class CenterController {
 		return "center/centerSearch";
 	}
 	
-	// 센터 검색 결과 리스트
-	@RequestMapping(value={"/ja/centers/searchResults"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	// 센터 검색 결과
+	@RequestMapping(value={"/ja/centers/centerSearchResults"},method = {RequestMethod.POST, RequestMethod.HEAD})
 	public String getCenterSearchResult(Model model, @ModelAttribute LoginInfo loginInfo,
-		@RequestParam(defaultValue="1") int pageNum,String deptName, String city, String stateCD, String statusCD, String sortKind, String sort){
+		String deptName, String city, String stateCD, String statusCD){
 		
-		List<CenterSearchList> centerSearchResultList = centerService.getCenterSearchList(loginInfo.getJisaCD(), deptName, city, stateCD, statusCD, sortKind, sort, pageNum, pageSize);
-		
-		int totalCnt = (centerSearchResultList.size()>0)? centerSearchResultList.get(0).getRCnt() : 0;
-		PageUtil pageUtil = new PageUtil(pageNum, totalCnt, pageSize, blockSize);		
-		
-		model.addAttribute("centerSearchList", centerSearchResultList);
-		model.addAttribute("pageInfo", pageUtil);
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerSearch");
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("deptName", deptName);
+		model.addAttribute("city", city);
+		model.addAttribute("stateCD", stateCD);
+		model.addAttribute("statusCD", statusCD);
 		return "center/centerSearchResult";
+	}	
+	
+	// 센터 검색 결과 리스트 JSON
+	@RequestMapping(value={"/ja/centers/centerSearchResultJson"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> getCenterSearchResultJson(@ModelAttribute LoginInfo loginInfo,
+		@RequestParam(defaultValue="1") int pageNum, 
+		String deptName, String city, String stateCD, String statusCD, String sortKind, String sort){
+		
+		List<CenterSearchList> dataCenterSearchList = centerService.getCenterSearchList(loginInfo.getJisaCD(), deptName, city, stateCD, statusCD, sortKind, sort, pageNum, pageSize);
+		//log.debug("Getting centerSearchResult Page, dataCenterSearchList : {}", dataCenterSearchList);
+		
+		int totalCnt = (dataCenterSearchList.size()>0)? dataCenterSearchList.get(0).getRCnt() : 0;
+		PageUtil pageUtil = new PageUtil(pageNum, totalCnt, pageSize, blockSize);		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("centerSearchList", dataCenterSearchList);
+		map.put("pageInfo", pageUtil);
+		return map;
+	}	
+		
+	// 센터 뷰
+	@RequestMapping(value={"/ja/centers/centerView"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getCenterView(Model model, @ModelAttribute LoginInfo loginInfo){
+		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerView");
+		model.addAttribute("headerScript", headerScript);
+		return "center/centerView";
+	}	
+	// 센터 등록
+	@RequestMapping(value={"/ja/centers/centerRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getCenterRegist(Model model, @ModelAttribute LoginInfo loginInfo){
+		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerRegist");
+		model.addAttribute("headerScript", headerScript);
+		return "center/centerRegist";
 	}	
 	
 	
 	
 	
-	
-	
-	
-	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
-	@RequestMapping(value="/ja/centers",method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getCentersPage(){
-		log.debug("Getting Centers Page");
-		return "center/centers";
-	}
 	/**
 	 * 지사에서 가맹점으로 로그인 할 경우 로그인 처리
 	 * 1. 현재 쿠키(AUTHId, AUTHKey)를 다른 쿠키(JisaAUTHId, JisaAUTHKey)에 백업
@@ -115,7 +145,7 @@ public class CenterController {
 	 * @param model
 	 * @return 가맹점 계층으로 Redirect
 	 */
-	@RequestMapping(value="/login",method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value="/ja/centers/login",method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getFALogin(String memberId, 
 			@CookieValue(value="AUTHId") String AuthId, 
 			@CookieValue(value="AUTHKey") String AuthKey,

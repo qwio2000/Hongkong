@@ -22,11 +22,14 @@ public class CenterSearchList {
 	private String deptName;
 	private String empName;
 	private String phone;
+	private String contractDate;
+	private String openDate;
+	private String closeDate;
+	private String statusCD;
 	private String stateName;
 	private String userId;
-	private String userPasswd;
 	private int memCnt;
 	private int memSubjCnt;
-	private String satusName;
+	private String statusName;
 		
 }

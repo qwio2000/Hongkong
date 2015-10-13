@@ -73,4 +73,5 @@
 		#{itemfile3Url},#{itemfile3Ext},#{itemVisible},#{regDate},#{regID},#{updDate},#{updID} )
 	</insert>
 	
+
 </mapper>

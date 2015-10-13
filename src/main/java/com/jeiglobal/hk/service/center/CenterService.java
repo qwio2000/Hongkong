@@ -40,7 +40,7 @@ public class CenterService {
 	Map<String, Object> param = new HashMap<String, Object>();
 	
 	// 센터 검색
-	public List<CenterSearchList> getCenterSearchList(String jisaCD,String deptName,String city,String stateCD,String statusCD,String sortKind,String sort, int pageNum, int pageSize) {		
+	public List<CenterSearchList> getCenterSearchList(String jisaCD, String deptName, String city, String stateCD, String statusCD, String sortKind, String sort, int pageNum, int pageSize) {		
 		param.clear();
 		param.put("jisaCD", jisaCD);
 		param.put("deptName", deptName);		
@@ -52,7 +52,7 @@ public class CenterService {
 		param.put("pageNum", pageNum);
 		param.put("pageSize", pageSize);		
 		
-		return centerRepository.findSearchResults(param);				
+		return centerRepository.centerSearchList(param);				
 	}
 	
 	

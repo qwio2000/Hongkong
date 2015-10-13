@@ -7,4 +7,70 @@
 	#{memberSearch.cellPhone},#{memberSearch.email},#{memberSearch.grade},#{memberSearch.subject},#{memberSearch.classDay},
 	#{memberSearch.orderBy},#{memberSearch.direction},#{pageNum},#{pageSize})
 	</select>
+	<select id="findMemMstByMemKey" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemMst">
+	SELECT memKey, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, 
+		stateCD, zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, regDate, 
+		regID, updDate, updID
+	FROM globalbiz.MemMst
+	WHERE memKey = #{memKey}
+	</select>
+	<select id="findMemMstsByGuardianName" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportInfo">
+	SELECT a.memKey, a.mFstName, a.mLstName, a.mBirthDay, a.gradeCD, globalbiz.FuncCodeDtlNM(b.jisaCD,'0003',a.gradeCD,'','Y') AS gradeName, 
+		a.schoolName, a.mEmail, a.eContact, a.ePhone, a.remarks, a.regDate, MIN(b.StatusCD) AS statusCD, 
+		globalbiz.FuncCodeDtlNM(b.jisaCD,'0008',MIN(b.statusCD),'','Y') AS statusName
+	FROM globalbiz.MemMst AS a 
+		INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey
+	WHERE gFstName = #{gFstName} and gLstName = #{gLstName}
+	GROUP BY a.memKey
+	ORDER BY statusCD
+	</select>
+	<select id="findMemSubjMstsByMemKey" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportSubjInfo">
+	SELECT a.memKey, a.subj, a.statusCD, b.yoil, globalbiz.FuncCodeDtlNM(a.jisaCD, '0006', b.yoil, 'E', 'Y') AS yoilName, a.registFstYMD, 
+		a.registFnlYMD, CASE a.registFnlYMD WHEN '' THEN a.registFstYMD ELSE a.registFnlYMD END AS recentRegistFnlYMD, 
+		DATE_FORMAT(CASE a.registFnlYMD WHEN '' THEN a.registFstYMD ELSE a.registFnlYMD END, '%m/%d/%Y') AS convertRegistYMD, 
+		a.dropFnlYMD, IFNULL(DATE_FORMAT(a.dropFnlYMD, '%m/%d/%Y'), '') AS convertDropYMD, b.visitHours, 
+		globalbiz.FuncCodeDtlNM(a.jisaCD, '0206' , b.visitHours, '', 'Y') AS visitHourName, c.digYN
+	FROM globalbiz.MemSubjMst AS a 
+	INNER JOIN globalbiz.MemSubjStudy AS b ON a.memKey = b.memKey AND a.subj = b.subj
+	INNER JOIN globalbiz.DeptSubjInfo AS c ON a.jisaCD = c.jisaCD AND a.deptCD = c.deptCD AND a.subj = c.subj
+	WHERE a.memKey = #{memKey}
+	ORDER BY statusCD, subj desc
+	</select>
+	<insert id="insertMemMstHis" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemMstHis 
+		(memKey, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, regDate, regID, updDate, updID, hUpdCD, hRegDate, hRegID)
+	SELECT memKey, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, regDate, regID, updDate, updID, '10', NOW(), #{workId}
+	FROM globalbiz.MemMst
+		<where>
+			memKey IN 
+			 <foreach item="item" index="index" collection="memKeys"
+			     open="(" separator="," close=")">
+			       #{item}
+			 </foreach>
+		</where>
+	</insert>
+	<update id="updateGuardianInfo" parameterType="hashMap">
+	UPDATE globalbiz.MemMst 
+	SET gFstName = #{guardianInfo.gFstName}, gLstName = #{guardianInfo.gLstName}, city = #{guardianInfo.city}, stateCD = #{guardianInfo.stateCD},
+		zip = #{guardianInfo.zip}, addr = #{guardianInfo.addr}, gEmail = #{guardianInfo.gEmail}, gPhone = #{guardianInfo.gPhone},
+		gCellPhone = #{guardianInfo.gCellPhone}, updDate=NOW(), updID=#{workId}
+		<where>
+			memKey IN 
+			 <foreach item="item" index="index" collection="memKeys"
+			     open="(" separator="," close=")">
+			       #{item}
+			 </foreach>
+		</where>
+	</update>
+	<insert id="insertMemCommentCall" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemCommentCall 
+		(callDate, memKey, memName, callNotes, jisaCD, deptCD, regDate, regID)
+	VALUES (#{callDate}, #{memKey}, #{memName}, #{callNotes}, #{jisaCD}, #{deptCD}, NOW(), #{regID})
+	</insert>
+	<select id="getMemberSubjects" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT subj 
+	FROM globalbiz.MemSubjMst
+	WHERE memKey = #{memKey} and statusCD = '1'
+	ORDER BY subj DESC
+	</select>
 </mapper>

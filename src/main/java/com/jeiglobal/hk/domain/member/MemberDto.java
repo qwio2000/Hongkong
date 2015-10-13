@@ -1,5 +1,7 @@
 package com.jeiglobal.hk.domain.member;
 
+import java.util.*;
+
 import lombok.*;
 
 /**
@@ -100,5 +102,44 @@ public class MemberDto {
 		private int studyNum;
 		private int bookNum;
 		private String visitHours;
+	}
+	
+	@Data
+	public static class MemberReportInfo{
+		private String memKey;
+		private String mFstName;
+		private String mLstName;
+		private String mBirthDay;
+		private String gradeCD;
+		private String gradeName;
+		private String schoolName;
+		private String mEmail;
+		private String eContact;
+		private String ePhone;
+		private String remarks;
+		private Date regDate;
+		private String statusCD;
+		private String statusName;
+		private List<MemberReportSubjInfo> memberReportSubjInfos;
+		
+	}
+	
+	@Data
+	public static class MemberReportSubjInfo{
+		private String memKey;
+		private String subj;
+		private String statusCD;
+		private String yoil;
+		private String yoilName;
+		private String registFstYMD;
+		private String registFnlYMD;
+		private String convertRegistYMD;
+		private String recentRegistFnlYMD;
+		private String dropFnlYMD;
+		private String convertDropYMD;
+		private String visitHour;
+		private String visitHourName;
+		private String digYN;
+		private String isCancle;
 	}
 }

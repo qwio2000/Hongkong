@@ -94,4 +94,5 @@ public class MemberSearchController {
 		map.put("pageInfo", pageUtil);
 		return map;
 	}
+	
 }

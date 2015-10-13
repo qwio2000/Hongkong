@@ -29,5 +29,16 @@ public interface DiagnosisRepository {
 	
 	List<DiagnosisDto.DiagnosisJDSys8070P> findDiagnosisJDSys8070P(Map<String, Object> map);	
 	
+	String findDiagnosisOmrGicho(DiagnosisDto.DiagnosisOmrInsert omrInsert);
+	
+	String findDiagnosisOmrOdab(Map<String, Object> map);
+	
+	String findDiagnosisOmrOdabG(Map<String, Object> map);
+	
+	List<DiagnosisDto.DiagnosisOmrChkG> findDiagnosisOmrChkG(Map<String, Object> map);
+
+	String findDiagnosisOmrBan(Map<String, Object> map);	
+	
+	
 	
 }
