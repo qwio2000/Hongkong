@@ -33,7 +33,11 @@ public interface DiagnosisRepository {
 	
 	String findDiagnosisOmrOdab(Map<String, Object> map);
 	
+	String findDiagnosisOmrOdabG(Map<String, Object> map);
 	
+	List<DiagnosisDto.DiagnosisOmrChkG> findDiagnosisOmrChkG(Map<String, Object> map);
+
+	String findDiagnosisOmrBan(Map<String, Object> map);	
 	
 	
 	

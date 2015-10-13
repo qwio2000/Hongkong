@@ -1,22 +1,7 @@
 package com.jeiglobal.hk.common.config;
 
-import com.jeiglobal.hk.common.FileDownload;
-import com.jeiglobal.hk.common.MenuIntercepter;
-import com.jeiglobal.hk.utils.MessageSourceAccessor;
-import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.HiddenHttpMethodFilter;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import java.util.*;
 
-import java.util.Locale;
 import org.modelmapper.*;
 import org.springframework.boot.context.embedded.*;
 import org.springframework.context.*;
@@ -94,14 +79,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/public/js/**")
-		.addResourceLocations("/public/js/")
-		.setCachePeriod(31556926);
+		.addResourceLocations("/public/js/");
+//		.setCachePeriod(31556926);
 		registry.addResourceHandler("/public/css/**")
-		.addResourceLocations("/public/css/")
-		.setCachePeriod(31556926);
+		.addResourceLocations("/public/css/");
+//		.setCachePeriod(31556926);
 		registry.addResourceHandler("/public/img/**")
-		.addResourceLocations("/public/img/")
-		.setCachePeriod(31556926);
+		.addResourceLocations("/public/img/");
+//		.setCachePeriod(31556926);
 		registry.addResourceHandler("/public/promotion/**")
 		.addResourceLocations("/public/promotion/");
 	}

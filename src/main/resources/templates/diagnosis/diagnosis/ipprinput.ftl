@@ -93,6 +93,14 @@
 				<input type="hidden" id="subjname" value="${subjname}">
 				<input type="hidden" id="Rw" value="${readchk}">
 				<input type="hidden" id="NOmr" value="${nomr}">
+				<input type="hidden" id="testType" value="${testType}">
+				
+				<input type="hidden" id="OmrPath" value="">
+				<input type="hidden" id="OmrSetCnt" value="">
+				<input type="hidden" id="OmrWeekCnt" value="">
+				
+				<input type="hidden" id="lastOK" value="Y">
+				
 				<div id="inputAnswer"></div>
 				
 	</div>

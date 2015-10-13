@@ -216,7 +216,7 @@ public class DiagnosisController {
 
 	
 	@RequestMapping(value={"/fa/diagnosis/ipprinputJson"}, method={RequestMethod.POST,RequestMethod.HEAD})
-	public String diagnosisIpprinputJson(Model model,String memKey, String jisaCD, String leveldung, String subjname, String mBirthDay, String testType) {
+	public String diagnosisIpprinputJson(Model model, String jisaCD, String leveldung, String subjname, String testType) {
 
 		String smaster = "";
 		String jdmaster = "";
@@ -243,25 +243,39 @@ public class DiagnosisController {
 			totalCnt = diagnosisTotMunGet.getTot();	
 		}
 		
-
-		model.addAttribute("memKey", memKey);   //회원번호
 		model.addAttribute("subjname", CommonUtils.RightString(subjname,1));    //과목
 		model.addAttribute("leveldung", leveldung);  //등급
 		model.addAttribute("totalCnt", totalCnt);      //문항수
-		model.addAttribute("MBirthDay", mBirthDay);   //생년월일
 		
 		String returnurl = "";
-		int iOdabCnt = 10;
-		int iOdabFor = totalCnt/iOdabCnt;
+		int iOdabCnt = 0 ;
+		int iOdabFor = 0 ;
 		
-		model.addAttribute("iOdabCnt", iOdabCnt);
-		model.addAttribute("iOdabFor", iOdabFor);
-		model.addAttribute("leveldung", leveldung);
+		if( ("G").equals(CommonUtils.RightString(subjname,1))) { 
+			
+			List<DiagnosisDto.DiagnosisOmrChkG> diagnosisOmrChkG = diagnosisService.getDiagnosisOmrChkG(jisaCD, subjname, leveldung, testType);
+			
+			iOdabCnt = 5;
+			iOdabFor = totalCnt/iOdabCnt;
+			
+			model.addAttribute("iOdabCnt", iOdabCnt);
+			model.addAttribute("iOdabFor", iOdabFor);
+			model.addAttribute("leveldung", leveldung);
+			model.addAttribute("omrChkG", diagnosisOmrChkG);
+			
+		}else{
+			iOdabCnt = 10;
+			iOdabFor = totalCnt/iOdabCnt;
+			
+			model.addAttribute("iOdabCnt", iOdabCnt);
+			model.addAttribute("iOdabFor", iOdabFor);
+			model.addAttribute("leveldung", leveldung);
+		}
 		
 		
-		if( CommonUtils.RightString(subjname,1).equals("G") ) {   // 한글
+		if( ("G").equals(CommonUtils.RightString(subjname,1))) {   // 한글
 			returnurl =  "diagnosis/diagnosis/JindoGInput";	
-		}else if(CommonUtils.RightString(subjname,1).equals("M")){  //수학
+		}else if(("M").equals(CommonUtils.RightString(subjname,1))){  //수학
 			List<DiagnosisDto.DiagnosisJDSys8070P> diagnosisJDSys8070P = diagnosisService.getDiagnosisJDSys8070P(jisaCD, jdmaster, subjname, leveldung);			
 			model.addAttribute("jdSys8070P", diagnosisJDSys8070P);			
 			returnurl = "diagnosis/diagnosis/JDJindoMInput";
@@ -284,7 +298,7 @@ public class DiagnosisController {
 		if ("N".equals(omrGichoisOK)) {
 			alertMsg = messageSourceAccesor.getMessage("Ippr.OmrGicho.Insert.Error");
 		}
-		
+	
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("alertMsg", alertMsg);
 		map.put("omrGichoisOK", omrGichoisOK);
@@ -295,21 +309,51 @@ public class DiagnosisController {
 	// 오답 입력 저장
 	@RequestMapping(value={"/fa/diagnosis/ipprOdabSave"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	@ResponseBody
-	public Map<String, Object> diagnosisIpprOdabSaveJson(Model model, String jisaCD, String omrDate, String hkey, String kwamok, String omrGrd, String mun, String chk) {
+	public Map<String, Object> diagnosisIpprOdabSaveJson(Model model, String jisaCD, String omrDate, String hkey, String kwamok, String omrGrd, String munchk, String omrKind) {
 		
-		String alertMsg = "";		
-		String omrOmrOdabOK = diagnosisService.getDiagnosisOmrOdab(jisaCD,omrDate,hkey,kwamok,omrGrd,mun,chk);
-
-		if ("N".equals(omrOmrOdabOK)) {
+		String alertMsg = "";
+		String omrOdabOK = "";
+		
+		String[] munchkarrer = munchk.split("##");
+		
+		omrOdabOK = diagnosisService.addDiagnosisOmrOdab(jisaCD, omrDate, hkey, kwamok, omrGrd, munchkarrer, omrKind);
+		
+	
+		
+		
+		if ("N".equals(omrOdabOK)) {
 			alertMsg = messageSourceAccesor.getMessage("Ippr.Odab.Insert.Error");
 		}
-		
+	
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("alertMsg", alertMsg);
-		map.put("omrOmrOdabOK", omrOmrOdabOK);
+		map.put("omrOmrOdabOK", omrOdabOK);
 		
 		return map;
 	}
+	
+	// ippr 처방 분석
+	@RequestMapping(value={"/fa/diagnosis/ipprOmrBan"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> diagnosisIpprOmrBanJson(Model model, String jisaCD, String omrDate, String hkey, String kwamok, String rw, String nOmr, String omrGrd
+			, String omrHak, String omrKind, String omrDay1, String omrBirth, String omrSetCnt, String omrWeekCnt, String omrDay2, String workID) {
+		
+		String alertMsg = "";
+		String omrBanOK = "";
+		
+		omrBanOK = diagnosisService.addDiagnosisOmrBan(jisaCD, omrDate, hkey, kwamok, rw, nOmr, omrGrd, omrHak, omrKind, omrDay1, omrBirth, omrSetCnt, omrWeekCnt, omrDay2, workID);
+		
+		if ("N".equals(omrBanOK)) {
+			alertMsg = messageSourceAccesor.getMessage("Ippr.Ban.Insert.Error");
+		}
+	
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("alertMsg", alertMsg);
+		map.put("omrBanOK", omrBanOK);
+		
+		return map;
+	}
+	
 	
 
 
