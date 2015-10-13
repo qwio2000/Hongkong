@@ -41,6 +41,9 @@ public class PromotionItem {
 	private String	updDate;
 	private String	updID;
 	
+	// 임시
+	private String aidx;
+	
 	//파일
 	private MultipartFile[] multipartFile;
 	

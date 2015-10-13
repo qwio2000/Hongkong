@@ -2,13 +2,21 @@
 <!-- Main Content -->
 <div class="content">
 	<h2 class="conTit">PromotionItem List</h2>
-	<form id="PromotionItem" action="/ja/promoitem/promoitemlist" method="get">		
-		<ul class="memSearch" <#if loginInfo.userType == "JA"> style="float:right;"</#if>>
+	<form id="PromotionItem" action="/fa/promoitem/promoitemfalist" method="get">		
+		<ul class="memSearch" <#if loginInfo.userType == "FA"> style="float:right;"</#if>>
 			<a href="/ja/promoitem/addpage">글쓰기</a>
 		</ul>
 		
 		
-	
+		<!--주문내역-->
+		<div>
+					
+		</div>
+		
+		<!--카트내역(장바구니)-->
+		<div>
+		
+		</div>
 		
 		
 		<#list list as list>
@@ -41,18 +49,15 @@
 				
 				
 				<td class="gridCell" valign="top" style="width:150px; ">
-					<strong>Visible</strong>:  ${list.itemVisible}<br>
-					<div style="color:black">
-						<strong>Stock</strong>: ${list.itemStock} Pcs.<br>
-					</div>
+					<strong>Order Qty:</strong>:  
+						<select name="scQty" id="scQty_1">
+							<#list 1..100 as i>
+								<option value="${i}">${i}</option>
+							</#list>
+						</select>
+					<br>
 					<div style="margin-top:10px;">
-						<a href="/ja/promoitem/modipage?itemCD=${list.itemCD}">
-							Update Item Info
-						</a><br/>
-						<#if (list.aidx)??>
-						<#else>
-							<a href="/ja/promoitem/delitem?itemCD=${list.itemCD}">Delete Item</a>	
-						</#if> 
+						<input type="button" value="Add to Cart" onclick="cartAdd('1');" style="width:120px;">
 					</div>
 				</td>
 			</td>

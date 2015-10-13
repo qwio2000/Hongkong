@@ -48,7 +48,7 @@ public class PromotionItemController {
 		String userType = loginInfo.getUserType();
 		log.debug("Getting List Page, UserType : {}", userType);
 		
-		List<PromotionItem> promolist = promotionitemservice.promotionitemList();
+		List<PromotionItem> promolist = promotionitemservice.promotionitemList(loginInfo.getJisaCD());
 		model.addAttribute("list", promolist);
 		
 		return "promotionitem/list";
@@ -272,6 +272,21 @@ public class PromotionItemController {
 		
 		return "redirect:/ja/promoitem/promoitemlist";
 	}
+	
+	
+	// 글수정 페이지
+	@RequestMapping(value={"/ja/promoitem/delitem","/ja/promoitem"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String DeletePromotion(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam int itemCD) {
+		String userType = loginInfo.getUserType();
+		log.debug("Getting Write Page, UserType : {}", userType);
+		PromotionItem promo = promotionitemservice.PromotionitemOne(itemCD);
+		// 히스토리 입력
+		promotionitemservice.promotionitemhisins(promo);
+		// 삭제
+		promotionitemservice.promotionitemdelete(itemCD);
+		return "redirect:/ja/promoitem/promoitemlist";
+	}
+	
 
-
+	
 }
