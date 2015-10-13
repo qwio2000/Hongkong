@@ -57,7 +57,7 @@ public interface MemberRegistRepository {
 
 	public void insertMemMstHis(Map<String, Object> param);
 
-	public void insertMemSubjMstHis(Map<String, Object> param);
+	public void insertMemSubjMstHis(MemSubjMst memSubjMst);
 
 	public void insertMemSubjStudyHis(MemSubjStudy memSubjStudy);
 

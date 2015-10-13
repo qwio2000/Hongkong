@@ -62,7 +62,7 @@ public class MemberRegistController {
 			String name,
 			@ModelAttribute LoginInfo loginInfo){
 		log.debug("get MemberRegist Search : {}", name);
-		List<MemberDto.MemberRegistSearchInfo> registSearches = memberRegistService.getMemberRegistSearch(name, loginInfo.getJisaCD());
+		List<MemberDto.MemberRegistSearchInfo> registSearches = memberRegistService.getMemberRegistSearch(name, loginInfo.getJisaCD(), loginInfo.getDeptCD());
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", registSearches);
 		return map;
@@ -188,7 +188,7 @@ public class MemberRegistController {
 				MemSubjTuition memSubjTuition = memberRegistService.getMemSubjTution(i, currentDate, memMst, loginInfo, subj[i], bookNum[i], monthNum[i], firstManageDate[i], type, isResume[i]);
 				log.debug("type : {}, isResume[{}] : {}", type, i, isResume[i]);
 				if("2".equals(type) && "2".equals(isResume[i])){//타과목 입회과목이 복회인 경우 : MemSubjMst, MemSubjStudy Update
-					memberRegistService.setMemSubjMst(memSubjMst, isResume[i]);//His 쌓을 때 UpdCD 구분하기 위해 isResume[i] 사용
+					memberRegistService.setMemSubjMst(memSubjMst);//His 쌓을 때 UpdCD 구분하기 위해 isResume[i] 사용
 					memberRegistService.setMemSubjStudy(memSubjStudy);
 				}else{//그 외 : Insert
 					memberRegistService.addNewMemSubjMst(memSubjMst);

@@ -107,7 +107,7 @@
 										<span class="info_line">Drop Date : ${subj.convertDropYMD?default('') }</span>
 										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">IPPR</a></span>
 										<#if subj.isCancle == 'true'>
-										<span class="info_line"><a href="#" class="blue">DROP.CANCLE</a></span>
+										<span class="info_line"><a href="javascript:dropCancelMember('${subj.memKey }','${subj.subj }', '${subj.convertDropYMD?default('') }');" class="blue">DROP.CANCLE</a></span>
 										</#if>
 										</#if>
 									</td>
@@ -115,11 +115,10 @@
 								<#if subj.statusCD == "1">
 								<tr class="subject">
 									<td colspan="2">
-										<span class="info_line_first"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">DIAG</a></span>
+										<span class="info_line_first"><a href="javascript:var a=window.open('/fa/diagnosis/ippr?memKey=${subj.memKey }&subj=${subj.subj }&freejindan=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">DIAG</a></span>
 										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">IPPR</a></span>
 										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">MPR</a></span>
-										<span class="info_line"><a href="#" class="blue">DROP</a></span>
-										<span class="info_line"><a href="#" class="<#if subj.isCancle == 'true'>blue<#else>gray</#if>">REG.CANCLE</a></span>
+										<span class="info_line"><a href="javascript:dropMember('${subj.memKey }','${subj.subj }','${info.MFstName?default('') } ${info.MFstName?default('') }');" class="blue">DROP</a></span>
 									</td>
 								</tr>
 								</#if>

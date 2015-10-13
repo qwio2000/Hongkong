@@ -111,12 +111,14 @@ public class MemberRegistService {
 	 * 입회 전 회원 검색 리스트를 가져오는 메서드
 	 * @param name
 	 * @param jisaCD 
+	 * @param deptCD 
 	 * @return List<MemberRegistSearchInfo>
 	 */
-	public List<MemberRegistSearchInfo> getMemberRegistSearch(String name, String jisaCD) {
+	public List<MemberRegistSearchInfo> getMemberRegistSearch(String name, String jisaCD, String deptCD) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("name", name);
 		paramMap.put("jisaCD", jisaCD);
+		paramMap.put("deptCD", deptCD);
 		return memberRegistRepository.findMemberRegistSearch(paramMap);
 	}
 	/**
@@ -358,13 +360,9 @@ public class MemberRegistService {
 	/**
 	 * MemSubjMst Update : 타과목 복회
 	 * @param memSubjMst
-	 * @param isResume 
 	 */
-	public void setMemSubjMst(MemSubjMst memSubjMst, String isResume) {
-		Map<String, Object> param = new HashMap<>();
-		param.put("isResume", isResume);
-		param.put("memSubjMst", memSubjMst);
-		memberRegistRepository.insertMemSubjMstHis(param);
+	public void setMemSubjMst(MemSubjMst memSubjMst) {
+		memberRegistRepository.insertMemSubjMstHis(memSubjMst);
 		memberRegistRepository.updateMemSubjMst(memSubjMst);
 		
 	}

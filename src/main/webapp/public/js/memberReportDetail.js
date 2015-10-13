@@ -1,4 +1,12 @@
-$(function(){	
+var url = '';
+$(function(){
+	var currentPath = $(location).attr('href');
+	
+	if($.contains(currentPath, '/fa')){
+		url = '/fa/members/reports/';
+	}else if($.contains(currentPath, '/ja')){
+		url = '/ja/members/search/';
+	}
 	$("#hiddenPicker").datepicker({
 		changeMonth: true,
 		changeYear: true,
@@ -42,7 +50,7 @@ function setMemSubjStudyInfo(memKey){
 	window.open('/fa/members/reports/memsubjstudyinfo?memKey='+memKey, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
 }
 function dropMember(memKey, subj, memName){
-	window.open('/fa/members/reports/drop?memKey='+memKey+"&memName="+memName+"&subj="+subj, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
+	window.open(url+'drop?memKey='+memKey+"&memName="+memName+"&subj="+subj, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
 }
 
 function guardianInfoSubmit(){
@@ -150,7 +158,7 @@ function dropMemberSubmit(){
 		var param = $("#dropMemberForm").serialize();
 		console.log(param);
 		$.ajax({
-			url:"/fa/members/reports/drop",
+			url:url+"drop",
 			type:"POST",
 			cache: true,
 			data: param,
@@ -171,7 +179,7 @@ function dropCancelMember(memKey, subj, dropDate){
 		var param = {"memKey":memKey, "subj":subj, "dropDate":dropDate};
 		console.log(param);
 		$.ajax({
-			url:"/fa/members/reports/dropcancel",
+			url:url+"dropcancel",
 			type:"POST",
 			cache: true,
 			data: param,

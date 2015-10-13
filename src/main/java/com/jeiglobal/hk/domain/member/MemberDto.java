@@ -141,6 +141,8 @@ public class MemberDto {
 		private String visitHourName;
 		private String digYN;
 		private String isCancle;
+		private String jisaCD;
+		private String omrDate;
 	}
 	
 	@Data

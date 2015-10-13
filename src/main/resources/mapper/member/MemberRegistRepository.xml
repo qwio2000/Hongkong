@@ -13,7 +13,7 @@
 			addr AS address, city, gPhone AS phone, MIN(statusCD) AS statusCD, globalbiz.FuncCodeDtlNM(#{jisaCD},'0008', MIN(statusCD),'','') AS statusName
 		FROM globalbiz.MemMst AS a
 		INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey
-		WHERE CONCAT(mFstName, mLstName) LIKE CONCAT('%', #{name}, '%') OR CONCAT(gFstName, gLstNAme) LIKE CONCAT('%', #{name}, '%')
+		WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD} AND CONCAT(mFstName, mLstName) LIKE CONCAT('%', #{name}, '%') OR CONCAT(gFstName, gLstNAme) LIKE CONCAT('%', #{name}, '%')
 		GROUP BY a.memKey
 	</select>
 	<select id="findDeptOpenCloseTime" parameterType="hashMap" resultType="hashMap">
@@ -128,9 +128,9 @@
 	<insert id="insertMemSubjMstHis" parameterType="com.jeiglobal.hk.domain.member.MemSubjMst">
 		INSERT INTO globalbiz.MemSubjMstHis 
 			(memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, hUpdCD, hRegDate, hRegID)
-		SELECT memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, CASE #{isResume} WHEN '1' THEN '13' WHEN '2' THEN '11' END, NOW(), #{memSubjMst.regID}
+		SELECT memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, '11', NOW(), #{regID}
 		FROM globalbiz.MemSubjMst
-		WHERE memKey = #{memSubjMst.memKey} AND subj = #{memSubjMst.subj}
+		WHERE memKey = #{memKey} AND subj = #{subj}
 	</insert>
 	<insert id="insertMemSubjStudyHis" parameterType="com.jeiglobal.hk.domain.member.MemSubjStudy">
 		INSERT INTO globalbiz.MemSubjStudyHis 

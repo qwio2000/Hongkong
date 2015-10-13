@@ -225,7 +225,7 @@ public class MemberReportController {
 		}
 		return msa.getMessage("member.report.memberInfo.update.success");
 	}
-	@RequestMapping(value={"/fa/members/reports/drop"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members/reports/drop","/ja/members/search/drop"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMemberDropPop(Model model,
 			String memKey, String subj, String memName,
 			@ModelAttribute LoginInfo loginInfo) {
@@ -240,7 +240,7 @@ public class MemberReportController {
 		return "member/report/memberDrop";
 	}
 	
-	@RequestMapping(value={"/fa/members/reports/drop"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@RequestMapping(value={"/fa/members/reports/drop", "/ja/members/search/drop"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String setMemberDropPop(String memKey, String subj, String dropReason, String notes, String memName, 
 			@ModelAttribute LoginInfo loginInfo, HttpServletRequest request) {
@@ -251,7 +251,7 @@ public class MemberReportController {
 		String[] args = {memKey, subj};
 		return msa.getMessage("member.report.member.drop.success", args);
 	}
-	@RequestMapping(value={"/fa/members/reports/dropcancel"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@RequestMapping(value={"/fa/members/reports/dropcancel", "/ja/members/search/dropcancel"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String setMemberDropCancelPop(String memKey, String subj, String dropDate,
 			@ModelAttribute LoginInfo loginInfo, HttpServletRequest request) throws ParseException {
