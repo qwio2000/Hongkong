@@ -106,7 +106,6 @@ public class MemberRegistController {
 		int currentYear = cal.get(Calendar.YEAR);
 		int currentMonth = cal.get(Calendar.MONTH)+1;
 		int currentDay = cal.get(Calendar.DATE);
-		
 		//월 목록
 		List<MonthInfo> months = CommonUtils.getMonths();
 		//현재 년 월의 최대 일자
@@ -170,21 +169,12 @@ public class MemberRegistController {
 		memMst.setRegDate(currentDate);
 		memMst.setUpdDate(currentDate);
 		
-		//MemMst 
-		if("1".equals(type)){//최초 신입 : Insert
-			memberRegistService.addNewMemMst(memMst);
-		}else if("2".equals(type)){//타 과목 : Update
-			memberRegistService.setMemMst(memMst, memKey, type);
-		}else if("3".equals(type)){//형제 회원 : 형제의 MemMst의 부모 정보 업데이트 후 Insert
-			memberRegistService.setGuadianInfoForMemMst(memMst, memKey, type);
-			memberRegistService.addNewMemMst(memMst);
-		}
 		if(subj != null){
 			//MemSubjMst, MemSubjStudy, MemSubjRegist, MemSubjTuition
 			for (int i = 0; i < subj.length; i++) {
 				MemSubjMst memSubjMst = memberRegistService.getMemSubjMst(memMst, loginInfo, subj[i], firstManageDate[i], bookNum[i], studyNum[i], monthNum[i], currentDate, isResume[i]);
 				MemSubjStudy memSubjStudy = memberRegistService.getMemSubjStudy(memMst, loginInfo, subj[i], firstManageDate[i], bookNum[i], studyNum[i], manageTime[i], currentDate);
-				MemSubjRegist memSubjRegist = memberRegistService.getMemSubjRegist(memMst, loginInfo, subj[i], type, firstManageDate[i], manageTime[i], bookNum[i], studyNum[i], currentDate, isResume[i]);
+				MemSubjRegist memSubjRegist = memberRegistService.getMemSubjRegist(i, memMst, loginInfo, subj[i], type, firstManageDate[i], manageTime[i], bookNum[i], studyNum[i], currentDate, isResume[i], memKey);
 				MemSubjTuition memSubjTuition = memberRegistService.getMemSubjTution(i, currentDate, memMst, loginInfo, subj[i], bookNum[i], monthNum[i], firstManageDate[i], type, isResume[i]);
 				log.debug("type : {}, isResume[{}] : {}", type, i, isResume[i]);
 				if("2".equals(type) && "2".equals(isResume[i])){//타과목 입회과목이 복회인 경우 : MemSubjMst, MemSubjStudy Update
@@ -197,6 +187,15 @@ public class MemberRegistController {
 				memberRegistService.addNewMemSubjRegist(memSubjRegist);
 				memberRegistService.addNewMemSubjTuition(memSubjTuition);
 			}
+		}
+		//MemMst 
+		if("1".equals(type)){//최초 신입 : Insert
+			memberRegistService.addNewMemMst(memMst);
+		}else if("2".equals(type)){//타 과목 : Update
+			memberRegistService.setMemMst(memMst, memKey, type);
+		}else if("3".equals(type)){//형제 회원 : 형제의 MemMst의 부모 정보 업데이트 후 Insert
+			memberRegistService.setGuadianInfoForMemMst(memMst, memKey, type);
+			memberRegistService.addNewMemMst(memMst);
 		}
 		
 		model.addAttribute("message", "성공");

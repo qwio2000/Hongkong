@@ -52,6 +52,7 @@ public class MemSubjRegist {
 	private int studyNum;
 	private int bookNum;
 	private String digGrade;
+	private String siblingMemKey;
 	private String empKey;
 	private String deptCD;
 	private String jisaCD;

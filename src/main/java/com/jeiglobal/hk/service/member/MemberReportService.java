@@ -73,13 +73,16 @@ public class MemberReportService {
 		Map<String, Object> param = new HashMap<>();
 		param.put("gFstName", memMst.getGFstName());
 		param.put("gLstName", memMst.getGLstName());
+		param.put("jisaCD", loginInfo.getJisaCD());
+		param.put("deptCD", loginInfo.getDeptCD());
 		List<MemberReportInfo> memberReportInfos = memberReportRepository.findMemMstsByGuardianName(param);
 		for (MemberReportInfo memberReportInfo : memberReportInfos) {
 			//생일 출력 방식 변경
 			if(!memberReportInfo.getMBirthDay().equals("")){
 				memberReportInfo.setMBirthDay(CommonUtils.changeDateFormat("yyyy-MM-dd", "MM/dd/yyyy", memberReportInfo.getMBirthDay()));
 			}
-			memberReportInfo.setMemberReportSubjInfos(memberReportRepository.findMemSubjMstsByMemKey(memberReportInfo.getMemKey()));
+			param.put("memKey", memberReportInfo.getMemKey());
+			memberReportInfo.setMemberReportSubjInfos(memberReportRepository.findMemSubjMstsByMemKey(param));
 		}
 		//(입회,퇴회) 취소 가능 여부
 		memberReportInfos = getIsCancle(memberReportInfos, loginInfo.getJisaCD());

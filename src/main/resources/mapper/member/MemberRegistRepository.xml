@@ -87,11 +87,11 @@
 		INSERT INTO globalbiz.MemSubjRegist (registYMD, memKey, subj, registGubunCD, mFstName, mLstName, mBirthDay, gradeCD, 
 			schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, 
 			registWhy, registWhyEtc, registHow, registHowEtc, remarks, fstVisitYMD, yoil, visitHours, weekNum, studyNum, bookNum, 
-			digGrade, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, apmIdx)
+			digGrade, siblingMemKey, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, apmIdx)
 		VALUES(#{registYMD}, #{memKey}, #{subj}, #{registGubunCD}, #{mFstName}, #{mLstName}, #{mBirthDay}, #{gradeCD}, 
 			#{schoolName}, #{mEmail}, #{eContact}, #{ePhone}, #{gFstName}, #{gLstName}, #{city}, #{stateCD}, #{zip}, #{addr}, #{gEmail}, #{gPhone}, #{gCellPhone}, 
 			IFNULL(#{registWhy},''), IFNULL(#{registWhyEtc},''), IFNULL(#{registHow},''), IFNULL(#{registHowEtc},''), #{remarks}, #{fstVisitYMD}, #{yoil}, #{visitHours}, #{weekNum}, #{studyNum}, #{bookNum}, 
-			#{digGrade}, #{empKey}, #{deptCD}, #{jisaCD}, #{regDate}, #{regID}, #{updDate}, #{updID}, #{apmIdx})
+			#{digGrade}, #{siblingMemKey}, #{empKey}, #{deptCD}, #{jisaCD}, #{regDate}, #{regID}, #{updDate}, #{updID}, #{apmIdx})
 	</insert>
 	<insert id="insertNewMemSubjTuition" parameterType="com.jeiglobal.hk.domain.member.MemSubjTuition" useGeneratedKeys="true" keyProperty="idx">
 		INSERT INTO globalbiz.MemSubjTuition (feeYMD, memKey, subj, memName, feeGubunCD, feeKindCD, freeType, registFee, sectionFee, monthFee, longFee, totalFee, expireYMD, bookNum, weekNum, monthNum, feeUnit, empKey, deptCD, jisaCD, regDate, regID)

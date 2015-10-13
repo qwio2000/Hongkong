@@ -28,7 +28,7 @@ public interface MemberReportRepository {
 	public List<MemberReportInfo> findMemMstsByGuardianName(
 			Map<String, Object> param);
 
-	public List<MemberReportSubjInfo> findMemSubjMstsByMemKey(String memKey);
+	public List<MemberReportSubjInfo> findMemSubjMstsByMemKey(Map<String, Object> param);
 
 	public void insertMemMstHisForGuadianInfo(Map<String, Object> param);
 

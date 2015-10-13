@@ -20,11 +20,14 @@
 		globalbiz.FuncCodeDtlNM(b.jisaCD,'0008',MIN(b.statusCD),'','Y') AS statusName
 	FROM globalbiz.MemMst AS a 
 		INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey
-	WHERE gFstName = #{gFstName} and gLstName = #{gLstName}
+	WHERE gFstName = #{gFstName} AND gLstName = #{gLstName} AND b.jisaCD = #{jisaCD} 
+	<if test="deptCD != '00000'">
+		AND b.deptCD = #{deptCD}
+	</if>
 	GROUP BY a.memKey
 	ORDER BY a.memKey
 	</select>
-	<select id="findMemSubjMstsByMemKey" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportSubjInfo">
+	<select id="findMemSubjMstsByMemKey" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportSubjInfo">
 	SELECT a.memKey, a.subj, a.statusCD, b.yoil, globalbiz.FuncCodeDtlNM(a.jisaCD, '0006', b.yoil, 'E', 'Y') AS yoilName, a.registFstYMD, 
 		a.registFnlYMD, CASE a.registFnlYMD WHEN '' THEN a.registFstYMD ELSE a.registFnlYMD END AS recentRegistFnlYMD, 
 		DATE_FORMAT(CASE a.registFnlYMD WHEN '' THEN a.registFstYMD ELSE a.registFnlYMD END, '%m/%d/%Y') AS convertRegistYMD, 
@@ -39,7 +42,10 @@
 		ORDER BY omrDate DESC
 		LIMIT 0,1
 	) AS d ON a.memKey = d.hkey AND a.subj = d.kwamok
-	WHERE a.memKey = #{memKey}
+	WHERE a.memKey = #{memKey} AND a.jisaCD = #{jisaCD} 
+	<if test="deptCD != '00000'">
+		AND b.deptCD = #{deptCD}
+	</if>
 	ORDER BY statusCD, subj DESC
 	</select>
 	<insert id="insertMemMstHisForGuadianInfo" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">

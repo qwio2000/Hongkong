@@ -246,6 +246,7 @@ public class MemberRegistService {
 	}
 	/**
 	 * 입회 시 입력한 정보를 토대로 MemSubjRegist에 관한 정보를 만들어 객체에 담아 리턴
+	 * @param i 
 	 * @param memMst
 	 * @param loginInfo
 	 * @param subj
@@ -256,16 +257,17 @@ public class MemberRegistService {
 	 * @param studyNum
 	 * @param currentDate
 	 * @param isResume
+	 * @param memKey 
 	 * @return MemSubjRegist
 	 * @throws ParseException 
 	 */
-	public MemSubjRegist getMemSubjRegist(MemMst memMst, LoginInfo loginInfo,
+	public MemSubjRegist getMemSubjRegist(int i, MemMst memMst, LoginInfo loginInfo,
 			String subj, String type, String firstManageDate, String manageTime, String bookNum,
-			String studyNum, Date currentDate, String isResume) throws ParseException {
+			String studyNum, Date currentDate, String isResume, String memKey) throws ParseException {
 		MemSubjRegist memSubjRegist = modelMapper.map(memMst, MemSubjRegist.class);
 		memSubjRegist.setRegistYMD(CommonUtils.getDateForFormat(currentDate));
 		memSubjRegist.setSubj(subj);
-		memSubjRegist.setRegistGubunCD(("1".equals(type) || "3".equals(type)) ? "01" : ("1".equals(isResume)) ? "03" : "02");//신입
+		memSubjRegist.setRegistGubunCD(("1".equals(type) || "3".equals(type) && i == 0) ? "01" : ("1".equals(isResume)) ? "03" : "02");//신입
 		memSubjRegist.setFstVisitYMD(CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", firstManageDate));
 		memSubjRegist.setYoil(getYoil(firstManageDate));
 		memSubjRegist.setVisitHours(manageTime);
@@ -276,6 +278,7 @@ public class MemberRegistService {
 		memSubjRegist.setEmpKey((commonService.getDeptMstByDeptCD(loginInfo.getDeptCD())).getEmpKey());
 		memSubjRegist.setDeptCD(loginInfo.getDeptCD());
 		memSubjRegist.setJisaCD(loginInfo.getJisaCD());
+		memSubjRegist.setSiblingMemKey(("3".equals(type))? memKey : "");
 		//TODO Appointment로 입회 넘어온 경우 apmIdx 추가
 		return memSubjRegist;
 	}
@@ -302,7 +305,7 @@ public class MemberRegistService {
 		param.put("weekNum", weekNum);
 		//Key : registFee, monthFee, sectionFee, feeUnit, freeType
 		Map<String, Object> resultMap = memberRegistRepository.findMemFeeInfo(param);
-		String feeGubun = ("1".equals(type) || "3".equals(type)) ? "01" : ("1".equals(isResume)) ? "03" : ("2".equals(isResume)) ? "02" : "04";
+		String feeGubun = ("1".equals(type) || "3".equals(type)) && i == 0 ? "01" : ("1".equals(isResume)) ? "03" : ("2".equals(isResume)) ? "02" : "04";
 		//TODO feeKind : 입금 종류 (일반, 할인, 면제)
 		String feeKind = "1";
 		int registFee = ("2".equals(type))? 0 : (i == 0)? Integer.parseInt(resultMap.get("registFee").toString()) : 0;
