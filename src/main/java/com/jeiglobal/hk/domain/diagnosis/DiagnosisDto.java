@@ -83,10 +83,23 @@ public class DiagnosisDto {
 		private String sset;
 	}
 	
-	
-
-	
-	
-	
+	@Data
+	public static class DiagnosisOmrPrint{
+		private String hkey;
+		private String omrBirth;
+		private String omrKindNM;
+		private String omrYoil;
+		private String omrYoilNM;
+		private String mName;
+		private String omrDate;
+		private String sname;
+		private String omrGrd;
+		private String omrHak;
+		private String omrHakNM;
+		private String regDate;
+		private String deptCD;
+		private String sp;
+		private String SPNM;
+	}
 	
 }

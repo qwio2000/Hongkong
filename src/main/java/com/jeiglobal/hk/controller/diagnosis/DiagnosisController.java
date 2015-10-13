@@ -357,9 +357,12 @@ public class DiagnosisController {
 	
 	// ippr 처방 기록부
 	@RequestMapping(value={"/fa/diagnosis/OmrPrint"}, method={RequestMethod.GET,RequestMethod.HEAD})  
-	public String diagnosisIpprOmrPrint(Model model, String jisa, String Mujin, String Omrdate, String memKey, String subj, String PopGraph)  {
-		log.debug("Getting ipprinput List Page");
-	
+	public String diagnosisIpprOmrPrint(Model model, String jisa, String omrdate, String memKey, String subj, String PopGraph, String mujin)  {
+		log.debug("Getting OmrPrint List Page");
+		String lang = "";
+		DiagnosisDto.DiagnosisOmrPrint diagnosisOmrPrint = diagnosisService.getDiagnosisOmrPrint(jisa, omrdate, memKey, subj, mujin, lang);	 //회원정보
+		
+		model.addAttribute("omrgicho", diagnosisOmrPrint);			
 		
 		return "diagnosis/diagnosis/OmrPrint";	
 	}

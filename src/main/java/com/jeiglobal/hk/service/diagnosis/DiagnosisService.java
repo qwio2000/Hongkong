@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
+import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisOmrPrint;
 import com.jeiglobal.hk.repository.diagnosis.DiagnosisRepository;
 import com.jeiglobal.hk.utils.CommonUtils;
 
@@ -152,6 +153,21 @@ public class DiagnosisService {
 		map.put("workID", workID);
 		
 		return diagnosisRepository.findDiagnosisOmrBan(map);
+	}
+
+
+	public DiagnosisDto.DiagnosisOmrPrint getDiagnosisOmrPrint(String jisa, String omrdate,
+			String memKey, String subj, String mujin, String lang) {
+		
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("mujin", mujin);
+			map.put("lang", lang);
+			
+			return diagnosisRepository.findDiagnosisOmrPrint(map);
 	}
 	
 	

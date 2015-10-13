@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
+import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisOmrPrint;
 import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
 
 /**
@@ -37,7 +38,9 @@ public interface DiagnosisRepository {
 	
 	List<DiagnosisDto.DiagnosisOmrChkG> findDiagnosisOmrChkG(Map<String, Object> map);
 
-	String findDiagnosisOmrBan(Map<String, Object> map);	
+	String findDiagnosisOmrBan(Map<String, Object> map);
+
+	DiagnosisDto.DiagnosisOmrPrint findDiagnosisOmrPrint(Map<String, Object> map);	
 	
 	
 	
