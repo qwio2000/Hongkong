@@ -16,6 +16,7 @@ import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.*;
+import com.jeiglobal.hk.repository.member.*;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
 import com.jeiglobal.hk.utils.*;
@@ -51,6 +52,9 @@ public class MemberReportController {
 	
 	@Value("${page.blockSize}")
 	private int pageBlockSize;
+	
+	@Value("${flag.studyNum}")
+	private int studyNum;
 	
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(value={"/fa/members/reports"},method = {RequestMethod.GET, RequestMethod.HEAD})
@@ -140,6 +144,7 @@ public class MemberReportController {
 		memberReportService.addCommentCall(memKey, memName, callNotes, loginInfo, workId);
 		return msa.getMessage("member.report.commentcall.insert.success");
 	}
+	
 	@RequestMapping(value={"/fa/members/reports/appointment"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getAppointmentPop(Model model,
 			String memKey, 
@@ -157,5 +162,68 @@ public class MemberReportController {
 		model.addAttribute("subjects", subjects);
 		model.addAttribute("headerScript", headerScript);
 		return "member/report/appointment";
+	}
+	
+	@RequestMapping(value={"/fa/members/reports/appointment"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String addAppointmentPop(String memKey, String memName, String preferredYMD, String preferredTimes, String preferredNotes, 
+			String subj, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) throws ParseException {
+		String workId = CommonUtils.getWorkId(request);
+		memberReportService.addAppointment(memKey, memName, preferredYMD, preferredTimes, preferredNotes, subj, loginInfo, workId);
+		return msa.getMessage("member.report.appointment.insert.success");
+	}
+	@RequestMapping(value={"/fa/members/reports/memberinfo"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getMemberInfoPop(Model model,
+			String memKey, 
+			@ModelAttribute LoginInfo loginInfo) throws ParseException {
+		//학년 리스트
+		List<CodeDtl> grades = commonService.getCodeDtls("0003", loginInfo.getJisaCD(), 1, "Y");
+		MemMst memMst = memberRegistService.getMemMst(memKey);
+		memMst.setMBirthDay(CommonUtils.changeDateFormat("yyyy-MM-dd", "MM/dd/yyyy", memMst.getMBirthDay()));
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberReportDetail");
+		model.addAttribute("memKey", memKey);
+		model.addAttribute("memMst", memMst);
+		model.addAttribute("grades", grades);
+		model.addAttribute("headerScript", headerScript);
+		return "member/report/memberInfo";
+	}
+	
+	@RequestMapping(value={"/fa/members/reports/memberinfo"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String addMemberInfoPop(MemMst memMst, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) throws ParseException {
+		//TODO StatusCD 업데이트 할 경우 
+		String workId = CommonUtils.getWorkId(request);
+		memberReportService.setMemberInfo(memMst, loginInfo, workId);
+		return msa.getMessage("member.report.memberInfo.update.success");
+	}
+	@RequestMapping(value={"/fa/members/reports/memsubjstudyinfo"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getMemSubjStudyInfoPop(Model model,
+			String memKey, 
+			@ModelAttribute LoginInfo loginInfo) {
+		List<CodeDtl> manageTimes = memberRegistService.getManageTimes(loginInfo.getJisaCD(), loginInfo.getDeptCD());
+		List<MemberReportSubjStudyInfo> subjStudys = memberReportService.getMemberReportSubjStudys(memKey);
+		List<CodeDtl> yoils = commonService.getCodeDtls("0006", loginInfo.getJisaCD(), 1, "Y");
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberReportDetail");
+		model.addAttribute("memKey", memKey);
+		model.addAttribute("subjStudys", subjStudys);
+		model.addAttribute("manageTimes", manageTimes);
+		model.addAttribute("studyNum", studyNum);
+		model.addAttribute("yoils", yoils);
+		model.addAttribute("headerScript", headerScript);
+		return "member/report/changeYoil";
+	}
+	
+	@RequestMapping(value={"/fa/members/reports/memsubjstudyinfo"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String setMemSubjStudyInfoPop(String[] subj, int[] studyNum, String[] yoil, String[] manageTimes, 
+			String memKey, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) {
+		String workId = CommonUtils.getWorkId(request);
+		for (int i = 0; i < subj.length; i++) {
+			//TODO 관리 요일 변경 시 진도 업데이트
+			memberReportService.setMemSubjStudyInfo(subj[i], studyNum[i], yoil[i], manageTimes[i], workId, memKey);
+		}
+		return msa.getMessage("member.report.memberInfo.update.success");
 	}
 }

@@ -140,8 +140,8 @@
 						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
 						<a href="javascript:addCommentCall('${info.memKey }','${info.MFstName} ${info.MLstName }');" class="btn_talk tooltip" title="회원/학부모 상담이력 입력">회원/학부모 상담이력 입력</a>
 						<a href="javascript:addAppointment('${info.memKey }','${info.MFstName} ${info.MLstName }');" class="btn_clock tooltip"  title="입회상담 약속 입력">입회상담 약속 입력</a>
-						<a href="#" class="btn_info tooltip"  title="회원 정보 추가 수정 ">회원 정보 추가 수정 </a>
-						<a href="#" class="btn_date tooltip"  title="관리 횟수/요일/시간 변경">관리 횟수/요일/시간 변경</a>
+						<a href="javascript:setMemberInfo('${info.memKey }')" class="btn_info tooltip"  title="회원 정보 추가 수정 ">회원 정보 추가 수정 </a>
+						<a href="javascript:setMemSubjStudyInfo('${info.memKey }')" class="btn_date tooltip"  title="관리 횟수/요일/시간 변경">관리 횟수/요일/시간 변경</a>
 						<a href="/fa/members/regist/new?type=2&memKey=${info.memKey?default('') }" class="btn_doc_add tooltip"  title="타과목 입회">타과목 입회</a>
 						<span class="tooltip_Area"></span>
 					</div>

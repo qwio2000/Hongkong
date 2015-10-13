@@ -5,6 +5,7 @@ import java.util.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjStudyInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberSearchInfo;
 import com.jeiglobal.hk.repository.*;
 
@@ -29,12 +30,30 @@ public interface MemberReportRepository {
 
 	public List<MemberReportSubjInfo> findMemSubjMstsByMemKey(String memKey);
 
-	public void insertMemMstHis(Map<String, Object> param);
+	public void insertMemMstHisForGuadianInfo(Map<String, Object> param);
 
 	public void updateGuardianInfo(Map<String, Object> param);
 
 	public void insertMemCommentCall(Map<String, Object> param);
 
 	public List<String> getMemberSubjects(String memKey);
+
+	public void insertMemAppointment(Map<String, Object> param);
+
+	public void insertMemMstHisForMemberInfo(Map<String, Object> param);
+
+	public void updateMemMst(Map<String, Object> param);
+
+	public void updateMemSubjMstForMemName(Map<String, Object> param);
+
+	public List<MemberReportSubjStudyInfo> findMemberReportSubjStudys(String memKey);
+
+	public void insertMemSubjMstHis(Map<String, Object> param);
+
+	public void updateMemSubjMstForStudyNum(Map<String, Object> param);
+
+	public void insertMemSubjStudyHis(Map<String, Object> param);
+
+	public void updateMemSubjStudy(Map<String, Object> param);
 
 }

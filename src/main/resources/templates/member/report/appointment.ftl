@@ -1,10 +1,11 @@
 <#include "/include/popupheader.ftl">
 <!-- Main Content -->
 	<div class="popup">
-		<div class="popup_top"><h1>New Appointment</h1> <a href="javascript:close();" class="btn_popup_close">close</a></div>
+		<div class="popup_top"><h1>New Appointment</h1> <a href="javascript:self.close();" class="btn_popup_close">close</a></div>
 		<div class="popup_content">
 			<div class="pop_gm">
 			<form action="" id="appointmentForm">
+				<input type="hidden" name="memKey" value="${memKey }"/>
 				<ul class="list02">
 					<li>
 						<label for="memName" class="tit">Student Name</label>
@@ -40,7 +41,7 @@
 				</ul>
 				</form>
 				<div class="btnArea">
-					<a href="#"><span>Create Appointment</span></a>
+					<a href="javascript:appointmentSubmit();"><span>Create Appointment</span></a>
 				</div>
 			</div>
 		</div>
