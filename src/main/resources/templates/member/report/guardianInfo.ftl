@@ -1,7 +1,7 @@
 <#include "/include/popupheader.ftl">
 <!-- Main Content -->
 	<div class="popup">
-		<div class="popup_top"><h1>Update Guardian Information</h1> <a href="javascript:close();" class="btn_popup_close">close</a></div>
+		<div class="popup_top"><h1>Update Guardian Information</h1> <a href="javascript:self.close();" class="btn_popup_close">close</a></div>
 		<div class="popup_content">
 			<form id="guardianForm" action="/fa/members/reports/guardian" method="post">
 			<input type="hidden" name="memKeys" value="${memKeys?default('') }"/>

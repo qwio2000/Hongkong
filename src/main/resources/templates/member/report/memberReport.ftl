@@ -116,7 +116,7 @@
 										<span class="info_line">Drop Date : ${subj.convertDropYMD?default('') }</span>
 										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">IPPR</a></span>
 										<#if subj.isCancle == 'true'>
-										<span class="info_line"><a href="#" class="blue">DROP.CANCLE</a></span>
+										<span class="info_line"><a href="javascript:dropCancelMember('${subj.memKey }','${subj.subj }', '${subj.convertDropYMD?default('') }');" class="blue">DROP.CANCEL</a></span>
 										</#if>
 										</#if>
 									</td>
@@ -127,8 +127,8 @@
 										<span class="info_line_first"><a href="javascript:var a=window.open('/fa/diagnosis/ippr?memKey=${subj.memKey }&subj=${subj.subj }&freejindan=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">DIAG</a></span>
 										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">IPPR</a></span>
 										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">MPR</a></span>
-										<span class="info_line"><a href="#" class="blue">DROP</a></span>
-										<span class="info_line"><a href="#" class="<#if subj.isCancle == 'true'>blue<#else>gray</#if>">REG.CANCLE</a></span>
+										<span class="info_line"><a href="javascript:dropMember('${subj.memKey }','${subj.subj }','${info.MFstName?default('') } ${info.MFstName?default('') }');" class="blue">DROP</a></span>
+										<span class="info_line"><a href="#" class="<#if subj.isCancle == 'true'>blue<#else>gray</#if>">REG.CANCEL</a></span>
 									</td>
 								</tr>
 								</#if>
@@ -140,8 +140,8 @@
 						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
 						<a href="javascript:addCommentCall('${info.memKey }','${info.MFstName} ${info.MLstName }');" class="btn_talk tooltip" title="회원/학부모 상담이력 입력">회원/학부모 상담이력 입력</a>
 						<a href="javascript:addAppointment('${info.memKey }','${info.MFstName} ${info.MLstName }');" class="btn_clock tooltip"  title="입회상담 약속 입력">입회상담 약속 입력</a>
-						<a href="#" class="btn_info tooltip"  title="회원 정보 추가 수정 ">회원 정보 추가 수정 </a>
-						<a href="#" class="btn_date tooltip"  title="관리 횟수/요일/시간 변경">관리 횟수/요일/시간 변경</a>
+						<a href="javascript:setMemberInfo('${info.memKey }')" class="btn_info tooltip"  title="회원 정보 추가 수정 ">회원 정보 추가 수정 </a>
+						<a href="javascript:setMemSubjStudyInfo('${info.memKey }')" class="btn_date tooltip"  title="관리 횟수/요일/시간 변경">관리 횟수/요일/시간 변경</a>
 						<a href="/fa/members/regist/new?type=2&memKey=${info.memKey?default('') }" class="btn_doc_add tooltip"  title="타과목 입회">타과목 입회</a>
 						<span class="tooltip_Area"></span>
 					</div>

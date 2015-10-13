@@ -9,7 +9,12 @@ import org.springframework.stereotype.*;
 import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
-import com.jeiglobal.hk.domain.member.MemberDto.*;
+import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberReportInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjStudyInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberSearch;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberSearchInfo;
 import com.jeiglobal.hk.repository.member.*;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.utils.*;
@@ -149,7 +154,7 @@ public class MemberReportService {
 		param.put("guardianInfo", guardianInfo);
 		param.put("memKeys", memKeys.split("\\|"));
 		param.put("workId", workId);
-		memberReportRepository.insertMemMstHis(param);
+		memberReportRepository.insertMemMstHisForGuadianInfo(param);
 		memberReportRepository.updateGuardianInfo(param);
 	}
 
@@ -191,6 +196,165 @@ public class MemberReportService {
 			}
 		}
 		return subjectsOfDept;
+	}
+
+	/**
+	 * MemberReport => 입회 상담 약속 등록
+	 * @param memKey
+	 * @param memName
+	 * @param preferredYMD
+	 * @param preferredTimes
+	 * @param preferredNotes
+	 * @param subj 
+	 * @param loginInfo
+	 * @param workId 
+	 * @throws ParseException 
+	 */
+	public void addAppointment(String memKey, String memName,
+			String preferredYMD, String preferredTimes, String preferredNotes,
+			String subj, LoginInfo loginInfo, String workId) throws ParseException {
+		String currentYMD = CommonUtils.getCurrentYMD();
+		Map<String, Object> param = new HashMap<>();
+		param.put("currentYMD", currentYMD);
+		param.put("memKey", memKey);
+		param.put("memName", memName);
+		param.put("subj", subj);
+		param.put("preferredYMD", CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", preferredYMD));
+		param.put("preferredTimes", preferredTimes);
+		param.put("preferredNotes", preferredNotes);
+		param.put("loginInfo", loginInfo);
+		param.put("workId", workId);
+		memberReportRepository.insertMemAppointment(param);
+	}
+
+	/**
+	 * 회원 정보 변경
+	 * @param memMst
+	 * @param loginInfo
+	 * @param workId void
+	 * @throws ParseException 
+	 */
+	public void setMemberInfo(MemMst memMst, LoginInfo loginInfo, String workId) throws ParseException {
+		Map<String, Object> param = new HashMap<>();
+		memMst.setMBirthDay(CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", memMst.getMBirthDay()));
+		param.put("memMst", memMst);
+		param.put("loginInfo", loginInfo);
+		param.put("workId", workId);
+		//MemMst History
+		memberReportRepository.insertMemMstHisForMemberInfo(param);
+		//MemMst Update
+		memberReportRepository.updateMemMst(param);
+		//MemSubjMst memName Update
+		memberReportRepository.updateMemSubjMstForMemName(param);
+		//TODO 다른 테이블들 memName 변경 여부?
+		
+	}
+
+	/**
+	 * 관리요일 변경 시 필요한 과목정보
+	 * @param memKey
+	 * @return List<MemberReportSubjStudy>
+	 */
+	public List<MemberReportSubjStudyInfo> getMemberReportSubjStudys(String memKey) {
+		return memberReportRepository.findMemberReportSubjStudys(memKey);
+	}
+
+	/**
+	 * 관리요일 변경
+	 * @param subj
+	 * @param studyNum
+	 * @param yoil
+	 * @param manageTimes
+	 * @param workId
+	 * @param memKey 
+	 */
+	public void setMemSubjStudyInfo(String subj, int studyNum, String yoil,
+			String manageTimes, String workId, String memKey) {
+		//TODO 2불출 가능 시 변경
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("subj", subj);
+		param.put("studyNum", studyNum);
+		param.put("yoil", yoil);
+		param.put("manageTimes", manageTimes);
+		param.put("workId", workId);
+		memberReportRepository.insertMemSubjMstHis(param);
+		memberReportRepository.updateMemSubjMstForStudyNum(param);
+		memberReportRepository.insertMemSubjStudyHis(param);
+		memberReportRepository.updateMemSubjStudy(param);
+	}
+
+	/**
+	 * @param memKey
+	 * @param subj
+	 * @param currentYMD
+	 * @param workId void
+	 */
+	public void setMemSubjMstByDrop(String memKey, String subj,
+			String currentYMD, String workId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("subj", subj);
+		param.put("currentYMD", currentYMD);
+		param.put("workId", workId);
+		memberReportRepository.insertMemSubjMstHisByDrop(param);
+		memberReportRepository.updateMemSubjMstByDrop(param);
+	}
+
+	/**
+	 * @param memKey
+	 * @param subj
+	 * @param dropReason
+	 * @param notes
+	 * @param memName
+	 * @param loginInfo void
+	 * @param workId 
+	 * @param currentYMD 
+	 */
+	public void addMemSubjDrop(String memKey, String subj, String dropReason,
+			String notes, String memName, LoginInfo loginInfo, String currentYMD, String workId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("subj", subj);
+		param.put("dropReason", dropReason);
+		param.put("notes", notes);
+		param.put("memName", memName);
+		param.put("loginInfo", loginInfo);
+		param.put("currentYMD", currentYMD);
+		param.put("workId", workId);
+		memberReportRepository.insertMemSubjDrop(param);
+	}
+
+	/**
+	 * @param memKey
+	 * @param subj
+	 * @param workId 
+	 */
+	public void setMemSubjMstByDropCancel(String memKey, String subj, String workId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("subj", subj);
+		param.put("workId", workId);
+		memberReportRepository.insertMemSubjMstHisByDropCancel(param);
+		memberReportRepository.deleteMemSubjMstByDropCancel(param);
+		memberReportRepository.insertMemSubjMstByDropCancel(param);
+	}
+
+	/**
+	 * @param memKey
+	 * @param subj
+	 * @param workId void
+	 * @param convDropDate 
+	 */
+	public void removeMemSubjDropByDropCancel(String memKey, String subj,
+			String workId, String convDropDate) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("subj", subj);
+		param.put("workId", workId);
+		param.put("convDropDate", convDropDate);
+		memberReportRepository.insertMemSubjDropHisByDropCancel(param);
+		memberReportRepository.deleteMemSubjDropByDropCancel(param);
 	}
 
 

@@ -9,7 +9,10 @@ import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
 public interface PromotionitemRepository {
 	
 	int promotionitemAdd(PromotionItem promo);
-	List<PromotionItem> promotionitemList();
+	List<PromotionItem> promotionitemList(String jisaCD);
 	PromotionItem promotionitemOne(int itemCD);
 	void promotionitemUpdate(PromotionItem promo);
+	void promotionitemdelete(int itemCD);
+	void promotionitemhisins(PromotionItem promo);
+	
 }

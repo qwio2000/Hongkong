@@ -48,7 +48,7 @@ public class PromotionItemController {
 		String userType = loginInfo.getUserType();
 		log.debug("Getting List Page, UserType : {}", userType);
 		
-		List<PromotionItem> promolist = promotionitemservice.promotionitemList();
+		List<PromotionItem> promolist = promotionitemservice.promotionitemList(loginInfo.getJisaCD());
 		model.addAttribute("list", promolist);
 		
 		return "promotionitem/list";
@@ -174,32 +174,6 @@ public class PromotionItemController {
 		String userType = loginInfo.getUserType();
 		log.debug("글 업데이트, UserType : {}", userType);
 		
-    	//System.out.println("promo.getItemfile1NameConvert()====> " + promo.getItemfile1NameConvert());
-    	
-    	if(promo.getItemfile1NameConvert() != null || promo.getItemfile1NameConvert() != ""){
-        	promo.setItemfile1Name(null);
-        	promo.setItemfile1NameConvert(null);
-        	promo.setItemfile1Size(0);
-        	promo.setItemfile1Ext(null);
-        	new File(promotionitempath + promo.getItemfile1NameConvert()).delete();
-    	}
-    	
-    	if(promo.getItemfile2NameConvert() != null || promo.getItemfile1NameConvert() != ""){
-        	promo.setItemfile2Name(null);
-        	promo.setItemfile2NameConvert(null);
-        	promo.setItemfile2Size(0);
-        	promo.setItemfile2Ext(null);
-        	new File(promotionitempath + promo.getItemfile2NameConvert()).delete();
-    	}
-    	
-    	if(promo.getItemfile3NameConvert() != null || promo.getItemfile1NameConvert() != ""){
-        	promo.setItemfile3Name(null);
-        	promo.setItemfile3NameConvert(null);
-        	promo.setItemfile3Size(0);
-        	promo.setItemfile3Ext(null);
-    		new File(promotionitempath + promo.getItemfile3NameConvert()).delete();
-    	}
-
 		MultipartFile[] file = promo.getMultipartFile();
 				
 		for(int i=0;i<file.length;i++){
@@ -272,6 +246,21 @@ public class PromotionItemController {
 		
 		return "redirect:/ja/promoitem/promoitemlist";
 	}
+	
+	
+	// 글수정 페이지
+	@RequestMapping(value={"/ja/promoitem/delitem","/ja/promoitem"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String DeletePromotion(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam int itemCD) {
+		String userType = loginInfo.getUserType();
+		log.debug("Getting Write Page, UserType : {}", userType);
+		PromotionItem promo = promotionitemservice.PromotionitemOne(itemCD);
+		// 히스토리 입력
+		promotionitemservice.promotionitemhisins(promo);
+		// 삭제
+		promotionitemservice.promotionitemdelete(itemCD);
+		return "redirect:/ja/promoitem/promoitemlist";
+	}
+	
 
-
+	
 }
