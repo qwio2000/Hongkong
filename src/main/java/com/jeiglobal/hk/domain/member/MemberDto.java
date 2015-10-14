@@ -103,6 +103,7 @@ public class MemberDto {
 		private int studyNum;
 		private int bookNum;
 		private String visitHours;
+		private String visitHoursName;
 	}
 	
 	@Data
@@ -159,7 +160,7 @@ public class MemberDto {
 	}
 	/**
 	 * 
-	 * 클래스명 : MemberDto.java
+	 * 클래스명 : MemberIpprInfo
 	 *
 	 * 작성일 : 2015. 10. 14.
 	 *
@@ -174,5 +175,50 @@ public class MemberDto {
 		private String omrDate;
 		private String jisaCD;
 		private String digYN;
+	}
+	/**
+	 * 
+	 * 클래스명 : MemberWorkbookInfo
+	 *
+	 * 작성일 : 2015. 10. 14.
+	 *
+	 * 작성자 : 전승엽(IT지원팀)
+	 * 
+	 * Workbook 정보
+	 */
+	@Data
+	public static class MemberWorkbookInfo{
+		private String memKey;
+		private String gradeCD;
+		private String gradeName;
+		private List<MemberWorkbookSubjInfo> workbookSubjInfos;
+	}
+	
+	/**
+	 * 
+	 * 클래스명 : MemberWorkbookSubjInfo
+	 *
+	 * 작성일 : 2015. 10. 14.
+	 *
+	 * 작성자 : 전승엽(IT지원팀)
+	 * 
+	 * Workbook 과목 정보
+	 */
+	@Data
+	public static class MemberWorkbookSubjInfo{
+		private String memKey;
+		private String subj;
+		private String yoil;
+		private String yoilName;
+		private String visitHours;
+		private String visitHoursName;
+		private String set1;
+		private String set2;
+		private String set3;
+		private String set4;
+		private String set5;
+		private String set6;
+		private String set7;
+		private String set8;
 	}
 }

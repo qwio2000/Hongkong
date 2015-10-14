@@ -11,8 +11,9 @@
 					<li>
 						<label for="subj" class="tit">${ippr.subj }</label>
 						<#if ippr.digYN == "Y">
-						<a href="javascript:viewIppr('${ippr.jisaCD }','${ippr.omrDate }','${ippr.memKey }','${ippr.subj }');" class="btn_search"><span>IPPR</span></a>
+						<a href="javascript:viewIppr('${ippr.jisaCD }','${ippr.omrDate }','${ippr.memKey }','${ippr.subj }');" class="btn_search"><span class="<#if ippr.omrDate == ''>gray<#else>blue</#if>">IPPR</span></a>
 						</#if>
+						<span>${ippr.omrDate }</span>
 					</li>
 					</#list>
 				</ul>

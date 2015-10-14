@@ -37,10 +37,10 @@
 	INNER JOIN globalbiz.MemSubjStudy AS b ON a.memKey = b.memKey AND a.subj = b.subj
 	INNER JOIN globalbiz.DeptSubjInfo AS c ON a.jisaCD = c.jisaCD AND a.deptCD = c.deptCD AND a.subj = c.subj
 	LEFT JOIN (
-		SELECT hkey, kwamok, omrDate
+		SELECT hkey, kwamok, MAX(omrDate) AS omrDate
 		FROM globaldig.OmrGicho AS aa
+		GROUP BY hkey
 		ORDER BY omrDate DESC
-		LIMIT 0,1
 	) AS d ON a.memKey = d.hkey AND a.subj = d.kwamok
 	WHERE a.memKey = #{memKey} AND a.jisaCD = #{jisaCD} 
 	<if test="deptCD != '00000'">

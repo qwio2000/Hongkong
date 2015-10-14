@@ -84,6 +84,7 @@ public class MemberReportService {
 			}
 			param.put("memKey", memberReportInfo.getMemKey());
 			memberReportInfo.setMemberReportSubjInfos(memberReportRepository.findMemSubjMstsByMemKey(param));
+			memberReportInfo.setRemarks(memberReportInfo.getRemarks().replaceAll("\r\n", "<br/>"));
 		}
 		//(입회,퇴회) 취소 가능 여부
 		memberReportInfos = getIsCancle(memberReportInfos, loginInfo.getJisaCD());

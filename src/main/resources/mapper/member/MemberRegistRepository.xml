@@ -44,7 +44,7 @@
 	</select>
 	<select id="findRegistSubjects" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$RegistSubject">
 		SELECT a.jisaCD, a.deptCD, a.subj, a.studyNum AS subjStudyNum, a.bookNum AS subjBookNum, a.monthNum AS subjMonthNum, a.digYN AS subjDigYN, a.sortCD, 
-		b.memKey, b.statusCD, b.yoil, globalbiz.FuncCodeDtlNM(a.jisaCD,'0006',b.yoil,'E','') AS yoilName, b.studyNum, b.bookNum, b.visitHours
+		b.memKey, b.statusCD, b.yoil, globalbiz.FuncCodeDtlNM(a.jisaCD,'0006',b.yoil,'E','Y') AS yoilName, b.studyNum, b.bookNum, b.visitHours, globalbiz.FuncCodeDtlNM(a.jisaCD,'0206',b.visitHours,'','Y') AS visitHoursName
 		FROM globalbiz.DeptSubjInfo AS a 
 		LEFT JOIN (
 			SELECT aa.memKey, aa.subj, statusCD, aa.yoil, aa.studyNum, aa.bookNum, bb.visitHours
@@ -94,8 +94,8 @@
 			#{digGrade}, #{siblingMemKey}, #{empKey}, #{deptCD}, #{jisaCD}, #{regDate}, #{regID}, #{updDate}, #{updID}, #{apmIdx})
 	</insert>
 	<insert id="insertNewMemSubjTuition" parameterType="com.jeiglobal.hk.domain.member.MemSubjTuition" useGeneratedKeys="true" keyProperty="idx">
-		INSERT INTO globalbiz.MemSubjTuition (feeYMD, memKey, subj, memName, feeGubunCD, feeKindCD, freeType, registFee, sectionFee, monthFee, longFee, totalFee, expireYMD, bookNum, weekNum, monthNum, feeUnit, empKey, deptCD, jisaCD, regDate, regID)
-		VALUES(#{feeYMD}, #{memKey}, #{subj}, #{memName}, #{feeGubunCD}, #{feeKindCD}, #{freeType}, #{registFee}, #{sectionFee}, #{monthFee}, #{longFee}, #{totalFee}, #{expireYMD}, #{bookNum}, #{weekNum}, #{monthNum}, #{feeUnit}, #{empKey}, #{deptCD}, #{jisaCD}, #{regDate}, #{regID})
+		INSERT INTO globalbiz.MemSubjTuition (feeYMD, memKey, subj, memName, feeGubunCD, feeKindCD, freeType, registFee, sectionFee, monthFee, longFee, totalFee, expireYMD, bookNum, weekNum, monthNum, feeUnit, fstVisitYMD, empKey, deptCD, jisaCD, regDate, regID)
+		VALUES(#{feeYMD}, #{memKey}, #{subj}, #{memName}, #{feeGubunCD}, #{feeKindCD}, #{freeType}, #{registFee}, #{sectionFee}, #{monthFee}, #{longFee}, #{totalFee}, #{expireYMD}, #{bookNum}, #{weekNum}, #{monthNum}, #{feeUnit}, #{fstVisitYMD}, #{empKey}, #{deptCD}, #{jisaCD}, #{regDate}, #{regID})
 	</insert>
 	<update id="updateMemMst" parameterType="com.jeiglobal.hk.domain.member.MemMst">
 		UPDATE globalbiz.MemMst 

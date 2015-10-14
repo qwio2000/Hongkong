@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 
 import lombok.extern.slf4j.*;
 
+import org.apache.commons.lang.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
@@ -198,6 +199,7 @@ public class MemberReportController {
 	public String addMemberInfoPop(MemMst memMst, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) throws ParseException {
 		//TODO StatusCD 업데이트 하는 부분 논의 후 추가
 		String workId = CommonUtils.getWorkId(request);
+		memMst.setRemarks(StringEscapeUtils.escapeHtml(memMst.getRemarks()));
 		memberReportService.setMemberInfo(memMst, loginInfo, workId);
 		return msa.getMessage("member.report.memberInfo.update.success");
 	}

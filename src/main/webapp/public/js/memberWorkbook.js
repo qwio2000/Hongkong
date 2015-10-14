@@ -1,6 +1,6 @@
 $(function(){	
 	$.extend({
-		getMemberReport:function(){
+		getWorkbookReport:function(){/*
 			var pageNum = $("#pageNum").val();
 			var searchUrl = "/fa/members/reports/"+pageNum;
 			var memberStatus = $("#memberStatus").val();
@@ -89,71 +89,15 @@ $(function(){
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert(thrownError);
 				}
-			});
+			});*/
 		}
 	});
 	
-	$.getMemberReport();
+	$.getWorkbookReport();
 	
 	$(".paging").on("click","a.naviPage",function() {
 		var pageNum = $(this).attr('pageNo');	
 		$('#pageNum').val(pageNum);
-		$.getMemberReport();
-	});	
-	$("a[href=#btnSort]").on('click',function(){
-		var sortKind = $(this).attr('sortKind');
-		var sort = $("#direction").val();
-
-		if(sort=='ASC' || sort==''){
-			sort = 'DESC';
-		}else{
-			sort = 'ASC';
-		}
-			
-		$("#orderBy").val(sortKind);
-		$("#direction").val(sort);
-					
-		$.getMemberReport();
+		$.getWorkbookReport();
 	});	
 });
-function deleteAppointment(idx){
-	if(confirm('입회 상담 정보를 삭제 하시겠습니까?')){
-		$.ajax({
-			url:"/fa/members/reports/removeappointment",
-			type:"POST",
-			cache: true,
-			data: {"idx":idx},
-			dataType: "text",
-			success: function(result, textStatus, XMLHttpRequest) {
-				alert(result);
-				$.getMemberReport();
-			},
-			error:function (xhr, ajaxOptions, thrownError){	
-				alert(thrownError);
-			}
-		});
-	}
-}
-function addCommentCall(memKey, memName){
-	$.openPop('/fa/members/reports/commentcall?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
-}
-function commentCallSubmit(){
-	if(confirm('상담 이력을 입력하시겠습니까?')){
-		var param = $("#commentCallForm").serialize();
-		$.ajax({
-			url:"/fa/members/reports/commentcall",
-			type:"POST",
-			cache: true,
-			data: param,
-			dataType: "text",
-			success: function(result, textStatus, XMLHttpRequest) {
-				alert(result);
-				self.close();
-				opener.location.reload();
-			},
-			error:function (xhr, ajaxOptions, thrownError){	
-				alert(thrownError);
-			}
-		});
-	}
-}

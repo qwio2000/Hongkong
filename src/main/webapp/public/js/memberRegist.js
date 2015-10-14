@@ -80,10 +80,16 @@ $(function(){
 		yearRange: '1950:2015',
 		dateFormat: 'dd/mm/yy',
 		onSelect: function(dataText, inst){
+			var today = new Date();
 			var dataSplit = dataText.split("/");
 			var yy = dataSplit[2];
 			var mm = dataSplit[1];
 			var dd = dataSplit[0];
+			var dob = new Date(yy, mm-1, dd);
+			if(today < dob){
+				alert('DOB가 오늘 날짜보다 클 수는 없습니다');
+				return false;
+			}
 			$("#dobMonth").val(mm);
 			$("#dobDay").val(dd);
 			$("#dobYear").val(yy);
@@ -176,6 +182,7 @@ $(function(){
 		if(this.value == '99'){
 			$("#registWhyEtc").attr("disabled", false);
 		}else{
+			$("#registWhyEtc").val('');
 			$("#registWhyEtc").attr("disabled", true);
 		}
 	});
@@ -183,6 +190,7 @@ $(function(){
 		if(this.value == '99'){
 			$("#registHowEtc").attr("disabled", false);
 		}else{
+			$("#registHowEtc").val('');
 			$("#registHowEtc").attr("disabled", true);
 		}
 	});
@@ -289,7 +297,12 @@ function submitValid(){
 		$("#dobYear").focus();
 		return false;
 	}
-	
+	var today = new Date();
+	var date = new Date($.trim($("#dobYear").val()),$("#dobMonth").val()-1,$("#dobDay").val());
+	if(today < date){
+		alert('DOB가 오늘 보다 클 수는 없습니다.');
+		return false;
+	}
 	//학부모 이메일
 	if($.trim($("#gEmail").val()) != ''){
 		if(!$.emailCheck("gEmail")){

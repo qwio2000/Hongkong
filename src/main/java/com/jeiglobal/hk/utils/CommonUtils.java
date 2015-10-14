@@ -102,16 +102,17 @@ public class CommonUtils {
 	}
 
 	/**
-	 * 
+	 * type : 1 : {January, Febuary, ...}
+	 * type : 2 : {Jan, Feb, ...}
 	 * @return List<CodeDtl>
 	 */
-	public static List<MonthInfo> getMonths() {
+	public static List<MonthInfo> getMonths(int type) {
 		List<MonthInfo> months = new ArrayList<MonthInfo>();
 		DateFormatSymbols dateFormatSymbolsEng = new DateFormatSymbols(Locale.ENGLISH);
-		String[] shortMonths = dateFormatSymbolsEng.getShortMonths();
+		String[] monthArray = (type == 1) ? dateFormatSymbolsEng.getMonths() : (type == 2) ? dateFormatSymbolsEng.getShortMonths() : null;
 		String[] monthNum = {"01","02","03","04","05","06","07","08","09","10","11","12"};
 		for (int i = 0; i < monthNum.length; i++) {
-			months.add(new MonthInfo(monthNum[i], shortMonths[i]));
+			months.add(new MonthInfo(monthNum[i], monthArray[i]));
 		}
 		return months;
 	}

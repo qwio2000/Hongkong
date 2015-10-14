@@ -268,7 +268,7 @@ public class MemberRegistService {
 		MemSubjRegist memSubjRegist = modelMapper.map(memMst, MemSubjRegist.class);
 		memSubjRegist.setRegistYMD(CommonUtils.getDateForFormat(currentDate));
 		memSubjRegist.setSubj(subj);
-		memSubjRegist.setRegistGubunCD(("1".equals(type) || "3".equals(type) && i == 0) ? "01" : ("1".equals(isResume)) ? "03" : "02");//신입
+		memSubjRegist.setRegistGubunCD((i == 0 && ("1".equals(type) || "3".equals(type))) ? "01" : ("1".equals(isResume)) ? "03" : "02");//신입
 		memSubjRegist.setFstVisitYMD(CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", firstManageDate));
 		memSubjRegist.setYoil(getYoil(firstManageDate));
 		memSubjRegist.setVisitHours(manageTime);
@@ -311,11 +311,10 @@ public class MemberRegistService {
 		String feeKind = "1";
 		int registFee = ("2".equals(type))? 0 : (i == 0)? Integer.parseInt(resultMap.get("registFee").toString()) : 0;
 		int longFee = Integer.parseInt(resultMap.get("monthFee").toString()) * (Integer.parseInt(monthNum) - 1);
-		int totalFee = registFee
-				+ Integer.parseInt(resultMap.get("sectionFee").toString())
+		int totalFee = Integer.parseInt(resultMap.get("sectionFee").toString())
 				+ Integer.parseInt(resultMap.get("monthFee").toString())
 				+ longFee;
-		return new MemSubjTuition(0, CommonUtils.getDateForFormat(currentDate), memMst.getMemKey(), subj, memMst.getMFstName()+memMst.getMLstName(), feeGubun, feeKind, resultMap.get("freeType").toString(), registFee, Integer.parseInt(resultMap.get("sectionFee").toString()), Integer.parseInt(resultMap.get("monthFee").toString()), longFee, totalFee, getExpireYMD(Integer.parseInt(monthNum)), Integer.parseInt(bookNum), weekNum, Integer.parseInt(monthNum), resultMap.get("feeUnit").toString(), (commonService.getDeptMstByDeptCD(loginInfo.getDeptCD())).getEmpKey(), loginInfo.getDeptCD(), loginInfo.getJisaCD(), currentDate, memMst.getRegID());
+		return new MemSubjTuition(0, CommonUtils.getDateForFormat(currentDate), memMst.getMemKey(), subj, memMst.getMFstName()+memMst.getMLstName(), feeGubun, feeKind, resultMap.get("freeType").toString(), registFee, Integer.parseInt(resultMap.get("sectionFee").toString()), Integer.parseInt(resultMap.get("monthFee").toString()), longFee, totalFee, getExpireYMD(Integer.parseInt(monthNum)), Integer.parseInt(bookNum), weekNum, Integer.parseInt(monthNum), resultMap.get("feeUnit").toString(), CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", firstManageDate),(commonService.getDeptMstByDeptCD(loginInfo.getDeptCD())).getEmpKey(), loginInfo.getDeptCD(), loginInfo.getJisaCD(), currentDate, memMst.getRegID());
 	}
 	/**
 	 * MemSubjMst Insert

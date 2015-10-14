@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 
 import lombok.extern.slf4j.*;
 
+import org.apache.commons.lang.*;
 import org.modelmapper.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -124,8 +125,8 @@ public class MemberRegistController {
 		int currentYear = cal.get(Calendar.YEAR);
 		int currentMonth = cal.get(Calendar.MONTH)+1;
 		int currentDay = cal.get(Calendar.DATE);
-		//월 목록
-		List<MonthInfo> months = CommonUtils.getMonths();
+		//월 목록(short Type)
+		List<MonthInfo> months = CommonUtils.getMonths(2);
 		//현재 년 월의 최대 일자
 		int maxDays = CommonUtils.getMaxDays(currentYear, currentMonth);
 		
@@ -184,6 +185,7 @@ public class MemberRegistController {
 		}else{
 			memMst.setMemKey(memKey);
 		}
+		memMst.setRemarks(StringEscapeUtils.escapeHtml(memMst.getRemarks()));
 		memMst.setMBirthDay(dobYear + "-" + dobMonth + "-" + dobDay);
 		String workId = CommonUtils.getWorkId(request);
 		memMst.setRegID(workId);

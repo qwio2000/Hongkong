@@ -177,16 +177,12 @@
 				<#list registSubjects as registSubject>
 					<#if registSubject.memKey?? && registSubject.statusCD == "1">
 						<li>
-							<span class="chk_s01"><img src="/public/img/btn_check2_on.png" alt="" /> <label for="yoil">${registSubject.subj }</label></span>
-							<select name="firstManageDate" id="firstManageDate" style="width:158px;margin-right:3px" disabled>
-								<#list firstManageDates as manageDate>
-									<option value="${manageDate }" >${manageDate }</option>
-								</#list>
+							<span class="chk_s01"><img src="${imgPath }/btn_check2_on.png" alt="" /> <label for="yoil">${registSubject.subj }</label></span>
+							<select name="yoil" id="yoil" style="width:116px;margin-right:3px" disabled>
+									<option value="${registSubject.yoil }" >${registSubject.yoilName }</option>
 							</select>
-							<select name="manageTime" id="manageTime" style="width:158px" disabled>
-								<#list manageTimes as manageTime>
-									<option value="${manageTime.dtlCD }" <#if manageTime.dtlCD == registSubject.visitHours>selected</#if>>${manageTime.dtlCDNM }</option>
-								</#list>
+							<select name="manageTime" id="manageTime" style="width:110px" disabled>
+									<option value="${registSubject.visitHours }" >${registSubject.visitHoursName }</option>
 							</select>
 						</li>
 					<#else>
@@ -219,7 +215,7 @@
 							</select>
 							<input type="text"  class="searchInput" name="fee" id="fee_${registSubject.subj }" style="width:53px;" readonly="readonly" disabled/>
 							<#if registSubject.subjDigYN == "Y">
-							<a href="">DIAG</a>
+							<a href="javascript:$.openPop('/fa/diagnosis/ippr?memKey=${info.memKey }&subj=${registSubject.subj }&freejindan=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');">DIAG</a>
 							</#if>
 						</li>
 					</#if>

@@ -39,29 +39,29 @@ $(function(){
 	});
 });
 function guardianInfoPop(){
-	window.open('/fa/members/reports/guardian?memKey='+$('#memKey').val()+'&memKeys='+$('#memKeys').val(), 'memberReportPop', 'width=630,height=480,scrollbars=no,resizable=no');
+	$.openPop('/fa/members/reports/guardian?memKey='+$('#memKey').val()+'&memKeys='+$('#memKeys').val(), 'memberReportPop', 'width=630,height=480,scrollbars=no,resizable=no');
 }
 function addCommentCall(memKey, memName){
-	window.open('/fa/members/reports/commentcall?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
+	$.openPop('/fa/members/reports/commentcall?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
 }
 function addAppointment(memKey, memName){
-	window.open('/fa/members/reports/appointment?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
+	$.openPop('/fa/members/reports/appointment?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
 }
 function setMemberInfo(memKey){
-	window.open('/fa/members/reports/memberinfo?memKey='+memKey, 'memberReportPop', 'width=625,height=650,scrollbars=no,resizable=no');
+	$.openPop('/fa/members/reports/memberinfo?memKey='+memKey, 'memberReportPop', 'width=625,height=650,scrollbars=no,resizable=no');
 }
 function setMemSubjStudyInfo(memKey){
-	window.open('/fa/members/reports/memsubjstudyinfo?memKey='+memKey, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
+	$.openPop('/fa/members/reports/memsubjstudyinfo?memKey='+memKey, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
 }
 function dropMember(memKey, subj, memName){
-	window.open(url+'drop?memKey='+memKey+"&memName="+memName+"&subj="+subj, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
+	$.openPop(url+'drop?memKey='+memKey+"&memName="+memName+"&subj="+subj, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
 }
 function getIpprs(memKey, memName){
-	window.open(url+'ipprs?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=610,height=400,scrollbars=no,resizable=no');
+	$.openPop(url+'ipprs?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=610,height=400,scrollbars=no,resizable=no');
 }
 function viewIppr(jisaCD, omrDate, memKey, subj){
 	if(omrDate != ''){
-		window.open('/fa/diagnosis/OmrPrint?jisa='+jisaCD+'&mujin=0&omrdate='+omrDate+'&memKey='+memKey+'&subj='+subj, 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
+		$.openPop('/fa/diagnosis/OmrPrint?jisa='+jisaCD+'&mujin=0&omrdate='+omrDate+'&memKey='+memKey+'&subj='+subj, 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
 	}else{
 		alert(subj+' 과목의 처방 내역이 존재하지 않습니다.');
 		return false;

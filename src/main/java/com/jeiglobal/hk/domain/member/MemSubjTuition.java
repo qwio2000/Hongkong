@@ -36,6 +36,7 @@ public class MemSubjTuition {
 	private int weekNum;
 	private int monthNum;
 	private String feeUnit;
+	private String fstVisitYMD;
 	private String empKey;
 	private String deptCD;
 	private String jisaCD;

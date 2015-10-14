@@ -116,7 +116,7 @@
 										<span class="info_line">Drop Date : ${subj.convertDropYMD?default('') }</span>
 										<!-- 퇴회 상태 IPPR -->
 										<#if subj.digYN == 'Y' && subj.omrDate != ''>
-											<span class="info_line"><a href="javascript:var a=window.open('/fa/diagnosis/OmrPrint?jisa=${subj.jisaCD }&mujin=0&omrdate=${subj.omrDate }&memKey=${subj.memKey }&subj=${subj.subj }', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">IPPR</a></span>
+											<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/OmrPrint?jisa=${subj.jisaCD }&mujin=0&omrdate=${subj.omrDate }&memKey=${subj.memKey }&subj=${subj.subj }', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">IPPR</a></span>
 										<#else>
 											<span class="info_line gray">IPPR</span>
 										</#if>
@@ -132,13 +132,13 @@
 									<td colspan="2">
 										<!-- DIAG -->
 										<#if subj.digYN == 'Y'>
-											<span class="info_line_first"><a href="javascript:var a=window.open('/fa/diagnosis/ippr?memKey=${subj.memKey }&subj=${subj.subj }&freejindan=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">DIAG</a></span>
+											<span class="info_line_first"><a href="javascript:$.openPop('/fa/diagnosis/ippr?memKey=${subj.memKey }&subj=${subj.subj }&freejindan=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">DIAG</a></span>
 										<#else>
 											<span class="info_line_first gray">DIAG</span>
 										</#if>
 										<!-- IPPR -->
 										<#if subj.digYN == 'Y' && subj.omrDate != ''>
-											<span class="info_line"><a href="javascript:var a=window.open('/fa/diagnosis/OmrPrint?jisa=${subj.jisaCD }&mujin=0&omrdate=${subj.omrDate }&memKey=${subj.memKey }&subj=${subj.subj }', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">IPPR</a></span>
+											<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/OmrPrint?jisa=${subj.jisaCD }&mujin=0&omrdate=${subj.omrDate }&memKey=${subj.memKey }&subj=${subj.subj }', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">IPPR</a></span>
 										<#else>
 											<span class="info_line gray">IPPR</span>
 										</#if>

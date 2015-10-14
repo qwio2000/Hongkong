@@ -115,7 +115,7 @@
 								<#if subj.statusCD == "1">
 								<tr class="subject">
 									<td colspan="2">
-										<span class="info_line_first"><a href="javascript:var a=window.open('/fa/diagnosis/ippr?memKey=${subj.memKey }&subj=${subj.subj }&freejindan=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">DIAG</a></span>
+										<span class="info_line_first"><a href="javascript:$.openPop('/fa/diagnosis/ippr?memKey=${subj.memKey }&subj=${subj.subj }&freejindan=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">DIAG</a></span>
 										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">IPPR</a></span>
 										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">MPR</a></span>
 										<span class="info_line"><a href="javascript:dropMember('${subj.memKey }','${subj.subj }','${info.MFstName?default('') } ${info.MFstName?default('') }');" class="blue">DROP</a></span>
