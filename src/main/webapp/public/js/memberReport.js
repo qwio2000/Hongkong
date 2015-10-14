@@ -134,3 +134,26 @@ function deleteAppointment(idx){
 		});
 	}
 }
+function addCommentCall(memKey, memName){
+	window.open('/fa/members/reports/commentcall?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
+}
+function commentCallSubmit(){
+	if(confirm('상담 이력을 입력하시겠습니까?')){
+		var param = $("#commentCallForm").serialize();
+		$.ajax({
+			url:"/fa/members/reports/commentcall",
+			type:"POST",
+			cache: true,
+			data: param,
+			dataType: "text",
+			success: function(result, textStatus, XMLHttpRequest) {
+				alert(result);
+				self.close();
+				opener.location.reload();
+			},
+			error:function (xhr, ajaxOptions, thrownError){	
+				alert(thrownError);
+			}
+		});
+	}
+}

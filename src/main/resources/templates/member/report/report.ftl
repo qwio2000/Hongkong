@@ -59,8 +59,9 @@
 		<tr>
 			<td>{{inc @index}}</td>
 			<td class="left">
+				<a href="javascript:addCommentCall('{{memKey}}','{{mfstName}} {{mlstName}}')"><img src="/public/img/ico_name.png" alt="" /></a>
 				{{#xIf statusCD "!=" 3}}<a class="blue" href="/fa/members/reports/{{memKey}}">{{/xIf}}
-				<img src="/public/img/ico_name.png" alt="" />{{mfstName}} {{mlstName}}
+				{{mfstName}} {{mlstName}}
 				{{#xIf statusCD "!=" 3}}</a>{{/xIf}}
 			</td>
 			<td>{{gradeName}}</td>
