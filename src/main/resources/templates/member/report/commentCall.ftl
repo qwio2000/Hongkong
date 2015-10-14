@@ -25,7 +25,7 @@
 				<input type="hidden" name="memKey" value="${memKey }"/>
 				<input type="hidden" name="memName" value="${memName }"/>
 				<div class="textarea_wrap">
-					<textarea name="callNotes" id="callNotes" cols="30" rows="10"></textarea>
+					<textarea name="callNotes" id="callNotes" cols="30" rows="10" maxlength="500"></textarea>
 					<span class="max">Max 500</span>
 					<div class="max_char_txt">You have 500 chracters left</div>
 				</div>

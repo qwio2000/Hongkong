@@ -168,6 +168,7 @@
 						<a href="javascript:setMemberInfo('${info.memKey }')" class="btn_info tooltip"  title="회원 정보 추가 수정 ">회원 정보 추가 수정 </a>
 						<a href="javascript:setMemSubjStudyInfo('${info.memKey }')" class="btn_date tooltip"  title="관리 횟수/요일/시간 변경">관리 횟수/요일/시간 변경</a>
 						<a href="/fa/members/regist/new?type=2&memKey=${info.memKey?default('') }" class="btn_doc_add tooltip"  title="타과목 입회">타과목 입회</a>
+						<a href="javascript:getIpprs('${info.memKey }','${info.MFstName} ${info.MLstName }')" class="btn_all f_right tooltip"  title="과목별 IPPR">과목별 IPPR</a>
 						<span class="tooltip_Area"></span>
 					</div>
 					</#list>

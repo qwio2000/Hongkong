@@ -10,6 +10,7 @@ import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberIpprInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjStudyInfo;
@@ -376,6 +377,14 @@ public class MemberReportService {
 	public void removeMemAppointment(int idx) {
 		memberReportRepository.deleteMemAppointment(idx);
 		
+	}
+
+	/**
+	 * @param memKey
+	 * @return List<Map<String,Object>>
+	 */
+	public List<MemberIpprInfo> getMemberIpprs(String memKey) {
+		return memberReportRepository.findMemberIpprs(memKey);
 	}
 
 

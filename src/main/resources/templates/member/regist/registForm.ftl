@@ -24,23 +24,23 @@
 			<ul class="memSearch">
 				<li>
 					<label for="gFstName">First Name <span class="must">*</span></label>
-					<input type="text"  class="searchInput" name="gFstName" id="gFstName" style="width:334px" value="${info.GFstName?default('') }" <#if type != '1'>readonly</#if> />
+					<input type="text"  class="searchInput" name="gFstName" id="gFstName" style="width:334px" value="${info.GFstName?default('') }" <#if type != '1'>readonly</#if> maxlength='20'/>
 				</li>
 				<li>
 					<label for="gLstName">Last Name <span class="must">*</span></label>
-					<input type="text"  class="searchInput" name="gLstName" id="gLstName" style="width:334px" value="${info.GLstName?default('') }" <#if type != '1'>readonly</#if>/>
+					<input type="text"  class="searchInput" name="gLstName" id="gLstName" style="width:334px" value="${info.GLstName?default('') }" <#if type != '1'>readonly</#if> maxlength='30'/>
 				</li>
 				<li>
 					<label for="addr">Address <span class="must">*</span></label>
-					<input type="text"  class="searchInput" name="addr" id="addr" style="width:334px" value="${info.addr?default('') }"/>
+					<input type="text"  class="searchInput" name="addr" id="addr" style="width:334px" value="${info.addr?default('') }" maxlength='100'/>
 				</li>
 				<li>
 					<label for="zip">Zipcode</label>
-					<input type="text"  class="searchInput" name="zip" id="zip" style="width:334px" value="${info.zip?default('') }"/>
+					<input type="text"  class="searchInput" name="zip" id="zip" style="width:334px" value="${info.zip?default('') }" maxlength='6'/>
 				</li>
 				<li>
 					<label for="city">City / State</label>
-					<input type="text"  class="searchInput" name="city" id="city" style="width:168px" value="${info.city?default('') }"/>
+					<input type="text"  class="searchInput" name="city" id="city" style="width:168px" value="${info.city?default('') }" maxlength='50'/>
 					<select name="stateCD" id="stateCD" style="width:162px">
 						<option value="">STATE</option>
 						<#list states as state>
@@ -50,15 +50,15 @@
 				</li>
 				<li>
 					<label for="gEmail">Email</label>
-					<input type="text" name="gEmail" id="gEmail" class="searchInput" style="width:334px" value="${info.GEmail?default('') }"/>
+					<input type="text" name="gEmail" id="gEmail" class="searchInput" style="width:334px" value="${info.GEmail?default('') }" maxlength='100'/>
 				</li>
 				<li>
 					<label for="gPhone">Phone <span class="must">*</span></label>
-					<input type="text" name="gPhone" id="gPhone" class="searchInput" style="width:334px" value="${info.GPhone?default('') }"/>
+					<input type="text" name="gPhone" id="gPhone" class="searchInput" style="width:334px" value="${info.GPhone?default('') }" maxlength='15'/>
 				</li>
 				<li>
 					<label for="gCellPhone">Cell Phone <span class="must">*</span></label>
-					<input type="text" name="gCellPhone" id="gCellPhone" class="searchInput" style="width:334px" value="${info.GCellPhone?default('') }"/>
+					<input type="text" name="gCellPhone" id="gCellPhone" class="searchInput" style="width:334px" value="${info.GCellPhone?default('') }" maxlength='15'/>
 				</li>
 			</ul>
 			<div class="question_list">
@@ -70,7 +70,7 @@
 							<span class="radio_wrap">
 								<input type="radio" value="${registWhy.dtlCD }" name="registWhy" id="registWhy_num${registWhy_index+1 }" <#if registWhy.dtlCD == info.registWhy?default('')>checked</#if>/>
 								<label class="radio_label" for="registWhy_num${registWhy_index+1 }"> Other,please explain</label>
-								<input type="text"  class="searchInput" name="registWhyEtc" id="registWhyEtc" style="width:280px" value="${info.registWhyEtc?default('') }" <#if info.registWhyEtc?default('') == ''>disabled</#if>/>
+								<input type="text"  class="searchInput" name="registWhyEtc" id="registWhyEtc" style="width:280px" value="${info.registWhyEtc?default('') }" <#if info.registWhyEtc?default('') == ''>disabled</#if> maxlength='30'/>
 							</span>
 						</li>
 						<#else>
@@ -94,7 +94,7 @@
 							<span class="radio_wrap">
 								<input type="radio" value="${registHow.dtlCD }" name="registHow" id="registHow_num${registHow_index+1 }" <#if registHow.dtlCD == info.registHow?default('')>checked</#if>/>
 								<label class="radio_label" for="registHow_num${registHow_index+1 }"> Other,please explain</label>
-								<input type="text"  class="searchInput" name="registHowEtc" id="registHowEtc" style="width:280px" value="${info.registHowEtc?default('') }" <#if info.registHowEtc?default('') == ''>disabled</#if>/>
+								<input type="text"  class="searchInput" name="registHowEtc" id="registHowEtc" style="width:280px" value="${info.registHowEtc?default('') }" <#if info.registHowEtc?default('') == ''>disabled</#if> maxlength='30'/>
 							</span>
 						</li>
 						<#else>
@@ -115,11 +115,11 @@
 			<ul class="memSearch">
 				<li>
 					<label for="mFstName">First Name <span class="must">*</span></label>
-					<input type="text"  class="searchInput" style="width:334px" name="mFstName" id="mFstName" value="${info.MFstName?default('') }" <#if type == '2'>readonly</#if>/>
+					<input type="text"  class="searchInput" style="width:334px" name="mFstName" id="mFstName" value="${info.MFstName?default('') }" <#if type == '2'>readonly</#if> maxlength='20'/>
 				</li>
 				<li>
 					<label for="mLstName">Last Name <span class="must">*</span></label>
-					<input type="text"  class="searchInput" style="width:334px" name="mLstName" id="mLstName" value="${info.MLstName?default('') }" <#if type == '2'>readonly</#if>/>
+					<input type="text"  class="searchInput" style="width:334px" name="mLstName" id="mLstName" value="${info.MLstName?default('') }" <#if type == '2'>readonly</#if> maxlength='30'/>
 				</li>
 				<li>
 					<label for="dobMonth">DOB <span class="must">*</span></label>
@@ -137,7 +137,7 @@
 							</#if>
 						</#list>
 					</select>
-					<input type="text"  class="searchInput" style="width:88px" name="dobYear" id="dobYear" value="${currentYear?c }" />
+					<input type="text"  class="searchInput" style="width:88px" name="dobYear" id="dobYear" value="${currentYear?c }" maxlength='4'/>
 					<input type="hidden" id="hiddenPicker"/>
 					<a class="btn_calendar" id="dobDatePicker" style="cursor: pointer;">view calendar</a>
 				</li>
@@ -152,22 +152,22 @@
 				</li>
 				<li>
 					<label for="schoolName">School <span class="must">*</span></label>
-					<input type="text" name="schoolName" id="schoolName" class="searchInput" style="width:334px" value="${info.schoolName?default('') }"/>
+					<input type="text" name="schoolName" id="schoolName" class="searchInput" style="width:334px" value="${info.schoolName?default('') }" maxlength='50'/>
 				</li>
 				<li>
 					<label for="mEmail">Email</label>
-					<input type="text" name="mEmail" id="mEmail" class="searchInput" style="width:334px" value="${info.MEmail?default('') }"/>
+					<input type="text" name="mEmail" id="mEmail" class="searchInput" style="width:334px" value="${info.MEmail?default('') }" maxlength='100'/>
 				</li>
 				<li>
 					<label for="eContact">Emrg Contact</label>
-					<input type="text" name="eContact" id="eContact" class="searchInput" style="width:334px" value="${info.EContact?default('') }"/>
+					<input type="text" name="eContact" id="eContact" class="searchInput" style="width:334px" value="${info.EContact?default('') }" maxlength='50'/>
 				</li>
 				<li>
 					<label for="ePhone">Emrg Phone</label>
-					<input type="text" name="ePhone" id="ePhone" class="searchInput" style="width:334px" value="${info.EPhone?default('') }"/>
+					<input type="text" name="ePhone" id="ePhone" class="searchInput" style="width:334px" value="${info.EPhone?default('') }" maxlength='15'/>
 				</li>
 				<li>
-					<span class="textarea_wrap"><label for="remarks">Remarks</label> <textarea name="remarks" id="remarks" cols="15" rows="10">${info.remarks?default('') }</textarea><span class="max">Max 500</span><span class="max_char_txt">You have 500 chracters left</span></span>
+					<span class="textarea_wrap"><label for="remarks">Remarks</label> <textarea name="remarks" id="remarks" cols="15" rows="10" maxlength="500">${info.remarks?default('') }</textarea><span class="max">Max 500</span><span class="max_char_txt">You have 500 chracters left</span></span>
 				</li>
 			</ul>
 			<div class="select_list">

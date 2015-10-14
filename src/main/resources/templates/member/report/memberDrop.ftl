@@ -26,7 +26,7 @@
 					</li>
 					<li>
 						<label for="notes" class="tit2">Notes</label>
-						<input type="text" id="notes" name="notes" class="searchInput" style="width:353px">
+						<input type="text" id="notes" name="notes" class="searchInput" style="width:353px" maxlength="30">
 					</li>
 				</ul>
 				<div class="btnArea">

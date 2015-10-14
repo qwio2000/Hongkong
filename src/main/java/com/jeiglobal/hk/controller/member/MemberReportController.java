@@ -16,6 +16,7 @@ import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberIpprInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjStudyInfo;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
@@ -277,5 +278,19 @@ public class MemberReportController {
 			@ModelAttribute LoginInfo loginInfo, HttpServletRequest request) throws ParseException {
 		memberReportService.removeMemAppointment(idx);
 		return msa.getMessage("member.report.memappointment.delete.success");
+	}
+	@RequestMapping(value={"/fa/members/reports/ipprs"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getIpprsPop(Model model,
+			String memKey, String memName,
+			@ModelAttribute LoginInfo loginInfo) {
+		
+		List<MemberIpprInfo> ipprs = memberReportService.getMemberIpprs(memKey);
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberReportDetail");
+		model.addAttribute("memKey", memKey);
+		model.addAttribute("memName", memName);
+		model.addAttribute("ipprs", ipprs);
+		model.addAttribute("headerScript", headerScript);
+		return "member/report/ipprs";
 	}
 }

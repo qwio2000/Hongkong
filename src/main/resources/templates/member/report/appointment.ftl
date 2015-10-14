@@ -26,7 +26,7 @@
 					</li>
 					<li>
 						<label for="" class="tit">Notes</label>
-						<input type="text" id="preferredNotes" name="preferredNotes" class="searchInput" style="width:384px">
+						<input type="text" id="preferredNotes" name="preferredNotes" class="searchInput" style="width:384px" maxlength="500">
 					</li>
 					<li>
 						<label for="" class="tit">Subject Interested</label>

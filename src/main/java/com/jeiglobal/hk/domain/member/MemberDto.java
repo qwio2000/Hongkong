@@ -157,4 +157,22 @@ public class MemberDto {
 		private String visitHours;
 		private String visitHoursName;
 	}
+	/**
+	 * 
+	 * 클래스명 : MemberDto.java
+	 *
+	 * 작성일 : 2015. 10. 14.
+	 *
+	 * 작성자 : 전승엽(IT지원팀)
+	 * 
+	 * MemberReport => IPPR 전체 조회
+	 */
+	@Data
+	public static class MemberIpprInfo{
+		private String memKey;
+		private String subj;
+		private String omrDate;
+		private String jisaCD;
+		private String digYN;
+	}
 }

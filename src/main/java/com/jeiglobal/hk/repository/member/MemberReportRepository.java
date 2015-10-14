@@ -3,6 +3,7 @@ package com.jeiglobal.hk.repository.member;
 import java.util.*;
 
 import com.jeiglobal.hk.domain.member.*;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberIpprInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjStudyInfo;
@@ -73,5 +74,7 @@ public interface MemberReportRepository {
 	public void deleteMemSubjDropByDropCancel(Map<String, Object> param);
 
 	public void deleteMemAppointment(int idx);
+
+	public List<MemberIpprInfo> findMemberIpprs(String memKey);
 
 }

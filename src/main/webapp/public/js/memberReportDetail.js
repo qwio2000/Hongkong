@@ -56,6 +56,17 @@ function setMemSubjStudyInfo(memKey){
 function dropMember(memKey, subj, memName){
 	window.open(url+'drop?memKey='+memKey+"&memName="+memName+"&subj="+subj, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
 }
+function getIpprs(memKey, memName){
+	window.open(url+'ipprs?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=610,height=400,scrollbars=no,resizable=no');
+}
+function viewIppr(jisaCD, omrDate, memKey, subj){
+	if(omrDate != ''){
+		window.open('/fa/diagnosis/OmrPrint?jisa='+jisaCD+'&mujin=0&omrdate='+omrDate+'&memKey='+memKey+'&subj='+subj, 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
+	}else{
+		alert(subj+' 과목의 처방 내역이 존재하지 않습니다.');
+		return false;
+	}
+}
 
 function guardianInfoSubmit(){
 	if(confirm('부모 정보를 변경 하시겠습니까?')){
