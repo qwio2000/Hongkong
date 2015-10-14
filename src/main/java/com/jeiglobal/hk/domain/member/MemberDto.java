@@ -51,6 +51,7 @@ public class MemberDto {
 		private String dropFnlYMD;
 		private String stateName;
 		private String deptName;
+		private int memAppIdx;
 	}
 	
 	@Data

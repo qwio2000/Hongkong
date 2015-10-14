@@ -72,4 +72,6 @@ public interface MemberReportRepository {
 
 	public void deleteMemSubjDropByDropCancel(Map<String, Object> param);
 
+	public void deleteMemAppointment(int idx);
+
 }

@@ -72,11 +72,27 @@ public class MemberRegistController {
 	public String getMemberRegistPage(Model model,
 			String type, // 1 : 최초 신입, 2: 타과목, 3: 형제 회원
 			String memKey,
+			Integer appIdx,
 			@ModelAttribute LoginInfo loginInfo) throws ParseException{
 		log.debug("Getting MemberRegist Page");
 		log.debug("Type : {}, memKey : {}", type, memKey);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberRegist");
+		log.debug("appIdx : {}", appIdx);
+		List<String> appSubjs = null;
+		MemAppointment memAppointment = null;
+		if(appIdx != null && appIdx != 0){
+			memAppointment = memberRegistService.getAppointmentByIdx(appIdx);
+			if(memAppointment.getMemKey() != null && !memAppointment.getMemKey().isEmpty()){
+				type="2";
+				memKey = memAppointment.getMemKey();
+			}else{
+				type="1";
+			}
+			if(memAppointment.getSubj() != null && !memAppointment.getSubj().isEmpty()){
+				appSubjs = Arrays.asList(memAppointment.getSubj().split(","));
+			}
+		}
 		//학년 리스트
 		List<CodeDtl> grades = commonService.getCodeDtls("0003", loginInfo.getJisaCD(), 1, "Y");
 		//입회 경로 리스트
@@ -102,6 +118,8 @@ public class MemberRegistController {
 			registSubjects = memberRegistService.getRegistSubjects(memKey, loginInfo);
 		}else if("3".equals(type)){//형제 회원
 			guardianInfo = memberRegistService.getGuardianInfo(memKey);
+		}else if("1".equals(type) && memAppointment != null){
+			cal.setTime(sdf.parse(memAppointment.getMBirthDay()));
 		}
 		int currentYear = cal.get(Calendar.YEAR);
 		int currentMonth = cal.get(Calendar.MONTH)+1;
@@ -129,6 +147,9 @@ public class MemberRegistController {
 		model.addAttribute("subjectOfDepts", subjectOfDepts);
 		model.addAttribute("type", type);
 		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("appIdx", appIdx);
+		model.addAttribute("appSubjs", appSubjs);
+		model.addAttribute("memAppointment", memAppointment);
 		return "member/regist/registForm";
 	}
 	
@@ -151,7 +172,7 @@ public class MemberRegistController {
 	@RequestMapping(value="/fa/members", method = {RequestMethod.POST})
 	public String addMemberRegist(Model model, String type, MemMst memMst, 
 			String[] subj, String[] firstManageDate, String[] manageTime, String[] fee, String[] bookNum, String[] studyNum, String[] monthNum, String[] isResume,
-			String memKey,
+			String memKey, int appIdx,
 			String dobMonth, String dobDay, String dobYear,
 			@ModelAttribute LoginInfo loginInfo,
 			HttpServletRequest request) throws ParseException{
@@ -164,7 +185,8 @@ public class MemberRegistController {
 			memMst.setMemKey(memKey);
 		}
 		memMst.setMBirthDay(dobYear + "-" + dobMonth + "-" + dobDay);
-		memMst.setRegID(CommonUtils.getWorkId(request));
+		String workId = CommonUtils.getWorkId(request);
+		memMst.setRegID(workId);
 		memMst.setUpdID(memMst.getRegID());
 		memMst.setRegDate(currentDate);
 		memMst.setUpdDate(currentDate);
@@ -174,7 +196,7 @@ public class MemberRegistController {
 			for (int i = 0; i < subj.length; i++) {
 				MemSubjMst memSubjMst = memberRegistService.getMemSubjMst(memMst, loginInfo, subj[i], firstManageDate[i], bookNum[i], studyNum[i], monthNum[i], currentDate, isResume[i]);
 				MemSubjStudy memSubjStudy = memberRegistService.getMemSubjStudy(memMst, loginInfo, subj[i], firstManageDate[i], bookNum[i], studyNum[i], manageTime[i], currentDate);
-				MemSubjRegist memSubjRegist = memberRegistService.getMemSubjRegist(i, memMst, loginInfo, subj[i], type, firstManageDate[i], manageTime[i], bookNum[i], studyNum[i], currentDate, isResume[i], memKey);
+				MemSubjRegist memSubjRegist = memberRegistService.getMemSubjRegist(i, memMst, loginInfo, subj[i], type, firstManageDate[i], manageTime[i], bookNum[i], studyNum[i], currentDate, isResume[i], memKey, appIdx);
 				MemSubjTuition memSubjTuition = memberRegistService.getMemSubjTution(i, currentDate, memMst, loginInfo, subj[i], bookNum[i], monthNum[i], firstManageDate[i], type, isResume[i]);
 				log.debug("type : {}, isResume[{}] : {}", type, i, isResume[i]);
 				if("2".equals(type) && "2".equals(isResume[i])){//타과목 입회과목이 복회인 경우 : MemSubjMst, MemSubjStudy Update
@@ -188,6 +210,7 @@ public class MemberRegistController {
 				memberRegistService.addNewMemSubjTuition(memSubjTuition);
 			}
 		}
+		
 		//MemMst 
 		if("1".equals(type)){//최초 신입 : Insert
 			memberRegistService.addNewMemMst(memMst);
@@ -196,6 +219,9 @@ public class MemberRegistController {
 		}else if("3".equals(type)){//형제 회원 : 형제의 MemMst의 부모 정보 업데이트 후 Insert
 			memberRegistService.setGuadianInfoForMemMst(memMst, memKey, type);
 			memberRegistService.addNewMemMst(memMst);
+		}
+		if(appIdx != 0){
+			memberRegistService.setMemAppointRegistYMD(appIdx, currentDate, workId, memMst.getMemKey());
 		}
 		
 		model.addAttribute("message", "성공");

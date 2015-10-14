@@ -273,7 +273,7 @@ public class MemberReportService {
 	 */
 	public void setMemSubjStudyInfo(String subj, int studyNum, String yoil,
 			String manageTimes, String workId, String memKey) {
-		//TODO 2불출 가능 시 변경
+		//TODO 2불출 가능 시 변경, 현재는 2불출 고려 안함
 		Map<String, Object> param = new HashMap<>();
 		param.put("memKey", memKey);
 		param.put("subj", subj);
@@ -288,10 +288,11 @@ public class MemberReportService {
 	}
 
 	/**
+	 * MemSubjMstHis Insert & MemSubjMst Update
 	 * @param memKey
 	 * @param subj
 	 * @param currentYMD
-	 * @param workId void
+	 * @param workId 
 	 */
 	public void setMemSubjMstByDrop(String memKey, String subj,
 			String currentYMD, String workId) {
@@ -305,14 +306,15 @@ public class MemberReportService {
 	}
 
 	/**
+	 * 퇴회 정보 Insert
 	 * @param memKey
 	 * @param subj
 	 * @param dropReason
 	 * @param notes
 	 * @param memName
-	 * @param loginInfo void
-	 * @param workId 
-	 * @param currentYMD 
+	 * @param loginInfo
+	 * @param currentYMD
+	 * @param workId
 	 */
 	public void addMemSubjDrop(String memKey, String subj, String dropReason,
 			String notes, String memName, LoginInfo loginInfo, String currentYMD, String workId) {
@@ -329,6 +331,7 @@ public class MemberReportService {
 	}
 
 	/**
+	 * 퇴회 취소 시 정보 변경
 	 * @param memKey
 	 * @param subj
 	 * @param workId 
@@ -338,16 +341,20 @@ public class MemberReportService {
 		param.put("memKey", memKey);
 		param.put("subj", subj);
 		param.put("workId", workId);
+		//MemSubjMstHis Insert
 		memberReportRepository.insertMemSubjMstHisByDropCancel(param);
+		//MemSubjMst delete
 		memberReportRepository.deleteMemSubjMstByDropCancel(param);
+		//MemSubjMst 복구
 		memberReportRepository.insertMemSubjMstByDropCancel(param);
 	}
 
 	/**
+	 * 퇴회 취소로 인한 퇴회 정보 삭제
 	 * @param memKey
 	 * @param subj
-	 * @param workId void
-	 * @param convDropDate 
+	 * @param workId
+	 * @param convDropDate
 	 */
 	public void removeMemSubjDropByDropCancel(String memKey, String subj,
 			String workId, String convDropDate) {
@@ -356,8 +363,19 @@ public class MemberReportService {
 		param.put("subj", subj);
 		param.put("workId", workId);
 		param.put("convDropDate", convDropDate);
+		//MemSubjDropHis Insert
 		memberReportRepository.insertMemSubjDropHisByDropCancel(param);
+		//MemSubjDrop Delete
 		memberReportRepository.deleteMemSubjDropByDropCancel(param);
+	}
+
+	/**
+	 * MemAppointment 삭제
+	 * @param idx void
+	 */
+	public void removeMemAppointment(int idx) {
+		memberReportRepository.deleteMemAppointment(idx);
+		
 	}
 
 

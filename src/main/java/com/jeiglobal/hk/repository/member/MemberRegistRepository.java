@@ -63,4 +63,8 @@ public interface MemberRegistRepository {
 
 	public void updateGuadianInfoForMemMst(Map<String, Object> param);
 
+	public MemAppointment findAppointmentByIdx(Integer appIdx);
+
+	public void updateMemAppointRegistYMD(Map<String, Object> param);
+
 }

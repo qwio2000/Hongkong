@@ -199,4 +199,9 @@
 	ORDER BY regDate DESC
 	LIMIT 1
 	</delete>
+	<delete id="deleteMemAppointment" parameterType="int">
+	DELETE 
+	FROM globalbiz.MemAppointment 
+	WHERE idx = #{idx}
+	</delete>
 </mapper>

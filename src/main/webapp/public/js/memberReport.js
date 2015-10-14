@@ -116,7 +116,21 @@ $(function(){
 		$.getMemberReport();
 	});	
 });
-function guardianInfoPop(){
-	window.open('/fa/members/reports/guardian?memKey='+$('#memKey').val()+'&memKeys='+$('#memKeys').val(), 'memberReportPop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
-//	window.open('URL', 'memberReportPop', 'width=730, height=750, toolbar=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no');
+function deleteAppointment(idx){
+	if(confirm('입회 상담 정보를 삭제 하시겠습니까?')){
+		$.ajax({
+			url:"/fa/members/reports/removeappointment",
+			type:"POST",
+			cache: true,
+			data: {"idx":idx},
+			dataType: "text",
+			success: function(result, textStatus, XMLHttpRequest) {
+				alert(result);
+				$.getMemberReport();
+			},
+			error:function (xhr, ajaxOptions, thrownError){	
+				alert(thrownError);
+			}
+		});
+	}
 }

@@ -71,7 +71,7 @@
 				<td colspan="3">
 					<div class="appoint">
 						<p>{{statusName}}</p>
-						[<a href="#"><span class="font_blue">Register</span></a>] [<a href=""><span class="font_blue">Free Diad</span></a>] [<a href=""><span class="font_red">Delete</span></a>]
+						[<a href="/fa/members/regist/new?type=&appIdx={{memAppIdx}}"><span class="font_blue">Register</span></a>] [<a href=""><span class="font_blue">Free Diad</span></a>] [<a href="javascript:deleteAppointment('{{memAppIdx}}');"><span class="font_red">Delete</span></a>]
 					</div>
 				</td>
 			{{else}}

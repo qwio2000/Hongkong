@@ -1,6 +1,14 @@
 <#include "/include/header.ftl">
 <!-- Main Content -->
-<#if type == "1" || type == "2">
+<#if type == "1">
+	<#if memAppointment??>
+		<#if memAppointment.memKey == "">
+			<#assign info = memAppointment>
+		</#if>	
+	<#else>
+		<#assign info = memMst>
+	</#if>
+<#elseif type == "2">
 	<#assign info = memMst>
 <#elseif type == "3">
 	<#assign info = guardianInfo>
@@ -10,6 +18,7 @@
 		<form id="registForm" name="registForm" action="/fa/members" method="post">
 		<input type="hidden" name="type" value="${type }">
 		<input type="hidden" name="memKey" value="${memKey?default('') }">
+		<input type="hidden" id="appIdx" name="appIdx" value="${appIdx?default('0') }">
 		<div class="conLeft">
 			<h2 class="conTit">Parent(Guardian) Information</h2>
 			<ul class="memSearch">
@@ -186,7 +195,12 @@
 							<input type="hidden" id="monthNum_${registSubject.subj }" name="monthNum" value="${registSubject.subjMonthNum }" disabled/>
 							<input type="hidden" id="bookNum_${registSubject.subj }" name="bookNum" value="${registSubject.subjBookNum }" disabled/>
 							<input type="hidden" id="isResume_${registSubject.subj }" name="isResume" value="${registSubject.statusCD?default('1') }" disabled/>
+							<#if appSubjs??>
+							<span class="chk_s01"><input type="checkbox" name="subj" value="${registSubject.subj }" id="chk_${registSubject.subj }" 
+								<#list appSubjs as appSubj><#if appSubj == registSubject.subj>checked</#if> </#list> />
+							<#else>
 							<span class="chk_s01"><input type="checkbox" name="subj" value="${registSubject.subj }" id="chk_${registSubject.subj }" />
+							</#if>
 							<#if registSubject.memKey?? && registSubject.statusCD == "2">
 								<label for="chk_${registSubject.subj }"><font color="blue">${registSubject.subj }</font></label>
 							<#else>
@@ -217,7 +231,12 @@
 							<input type="hidden" id="monthNum_${subject.subj }" name="monthNum" value="${subject.monthNum }" disabled/>
 							<input type="hidden" id="bookNum_${subject.subj }" name="bookNum" value="${subject.bookNum }" disabled/>
 							<input type="hidden" id="isResume_${subject.subj }" name="isResume" value="1" disabled/>
+							<#if appSubjs??>
+							<span class="chk_s01"><input type="checkbox" name="subj" value="${subject.subj }" id="chk_${subject.subj }" 
+								<#list appSubjs as appSubj><#if appSubj == subject.subj>checked</#if> </#list> />
+							<#else>
 							<span class="chk_s01"><input type="checkbox" name="subj" value="${subject.subj }" id="chk_${subject.subj}"/>
+							</#if>
 								<label for="chk_${subject.subj}">${subject.subj }</label>
 							</span>
 							<select name="firstManageDate" id="firstManageDate_${subject.subj }" style="width:120px;margin-right:3px" disabled>

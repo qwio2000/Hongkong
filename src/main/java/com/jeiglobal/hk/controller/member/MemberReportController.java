@@ -110,6 +110,7 @@ public class MemberReportController {
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
 		GuardianInfo guardianInfos = memberRegistService.getGuardianInfo(memKey);
+		//State 정보
 		List<CenterState> states = commonService.getCenterStates(loginInfo.getJisaCD());
 		model.addAttribute("memKey", memKey);
 		model.addAttribute("states", states);
@@ -122,6 +123,7 @@ public class MemberReportController {
 	@ResponseBody
 	public String setGuardianInfoPop(GuardianInfo guardianInfo, String memKeys, HttpServletRequest request) {
 		String workId = CommonUtils.getWorkId(request);
+		//MemMst의 부모 정보 Update
 		memberReportService.setGuardianInfo(guardianInfo, memKeys, workId);
 		return msa.getMessage("member.report.guardianInfo.update.success");
 	}
@@ -176,8 +178,10 @@ public class MemberReportController {
 	public String getMemberInfoPop(Model model,
 			String memKey, 
 			@ModelAttribute LoginInfo loginInfo) throws ParseException {
+		//학년 정보
 		List<CodeDtl> grades = commonService.getCodeDtls("0003", loginInfo.getJisaCD(), 1, "Y");
 		MemMst memMst = memberRegistService.getMemMst(memKey);
+		//MM/dd/yyyy 형태로 변경
 		memMst.setMBirthDay(CommonUtils.changeDateFormat("yyyy-MM-dd", "MM/dd/yyyy", memMst.getMBirthDay()));
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
@@ -191,7 +195,7 @@ public class MemberReportController {
 	@RequestMapping(value={"/fa/members/reports/memberinfo"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String addMemberInfoPop(MemMst memMst, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) throws ParseException {
-		//TODO StatusCD 업데이트 할 경우 
+		//TODO StatusCD 업데이트 하는 부분 논의 후 추가
 		String workId = CommonUtils.getWorkId(request);
 		memberReportService.setMemberInfo(memMst, loginInfo, workId);
 		return msa.getMessage("member.report.memberInfo.update.success");
@@ -200,9 +204,12 @@ public class MemberReportController {
 	public String getMemSubjStudyInfoPop(Model model,
 			String memKey, 
 			@ModelAttribute LoginInfo loginInfo) {
+		//가맹점 관리 시간
 		List<CodeDtl> manageTimes = memberRegistService.getManageTimes(loginInfo.getJisaCD(), loginInfo.getDeptCD());
-		List<MemberReportSubjStudyInfo> subjStudys = memberReportService.getMemberReportSubjStudys(memKey);
+		//요일 목록
 		List<CodeDtl> yoils = commonService.getCodeDtls("0006", loginInfo.getJisaCD(), 1, "Y");
+		//회원 과목의 학습 정보
+		List<MemberReportSubjStudyInfo> subjStudys = memberReportService.getMemberReportSubjStudys(memKey);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
 		model.addAttribute("memKey", memKey);
@@ -229,6 +236,7 @@ public class MemberReportController {
 	public String getMemberDropPop(Model model,
 			String memKey, String subj, String memName,
 			@ModelAttribute LoginInfo loginInfo) {
+		//퇴회 사유
 		List<CodeDtl> dropReasons = commonService.getCodeDtls("0021", loginInfo.getJisaCD(), 1, "Y");
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
@@ -246,6 +254,7 @@ public class MemberReportController {
 			@ModelAttribute LoginInfo loginInfo, HttpServletRequest request) {
 		String currentYMD = CommonUtils.getCurrentYMD();
 		String workId = CommonUtils.getWorkId(request);
+		//SubjMst Update : statusCD, dropFnlYMD
 		memberReportService.setMemSubjMstByDrop(memKey, subj, currentYMD, workId);
 		memberReportService.addMemSubjDrop(memKey, subj, dropReason, notes, memName, loginInfo, currentYMD, workId);
 		String[] args = {memKey, subj};
@@ -261,5 +270,12 @@ public class MemberReportController {
 		memberReportService.removeMemSubjDropByDropCancel(memKey, subj, workId, convDropDate);
 		String[] args = {memKey, subj};
 		return msa.getMessage("member.report.member.dropcancel.success", args);
+	}
+	@RequestMapping(value={"/fa/members/reports/removeappointment"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String removeMemAppointment(int idx,
+			@ModelAttribute LoginInfo loginInfo, HttpServletRequest request) throws ParseException {
+		memberReportService.removeMemAppointment(idx);
+		return msa.getMessage("member.report.memappointment.delete.success");
 	}
 }

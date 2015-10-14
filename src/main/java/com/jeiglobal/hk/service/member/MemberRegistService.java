@@ -258,12 +258,13 @@ public class MemberRegistService {
 	 * @param currentDate
 	 * @param isResume
 	 * @param memKey 
+	 * @param appIdx 
 	 * @return MemSubjRegist
 	 * @throws ParseException 
 	 */
 	public MemSubjRegist getMemSubjRegist(int i, MemMst memMst, LoginInfo loginInfo,
 			String subj, String type, String firstManageDate, String manageTime, String bookNum,
-			String studyNum, Date currentDate, String isResume, String memKey) throws ParseException {
+			String studyNum, Date currentDate, String isResume, String memKey, int appIdx) throws ParseException {
 		MemSubjRegist memSubjRegist = modelMapper.map(memMst, MemSubjRegist.class);
 		memSubjRegist.setRegistYMD(CommonUtils.getDateForFormat(currentDate));
 		memSubjRegist.setSubj(subj);
@@ -279,7 +280,7 @@ public class MemberRegistService {
 		memSubjRegist.setDeptCD(loginInfo.getDeptCD());
 		memSubjRegist.setJisaCD(loginInfo.getJisaCD());
 		memSubjRegist.setSiblingMemKey(("3".equals(type))? memKey : "");
-		//TODO Appointment로 입회 넘어온 경우 apmIdx 추가
+		memSubjRegist.setApmIdx((appIdx != 0)?appIdx:0);
 		return memSubjRegist;
 	}
 	/**
@@ -390,6 +391,27 @@ public class MemberRegistService {
 		param.put("memKey", memKey);
 		memberRegistRepository.insertMemMstHis(param);
 		memberRegistRepository.updateGuadianInfoForMemMst(param);		
+	}
+	/**
+	 * @param appIdx
+	 * @return MemAppointment
+	 */
+	public MemAppointment getAppointmentByIdx(Integer appIdx) {
+		return memberRegistRepository.findAppointmentByIdx(appIdx);
+	}
+	/**
+	 * @param appIdx
+	 * @param currentDate 
+	 * @param workId 
+	 * @param memKey 
+	 */
+	public void setMemAppointRegistYMD(int appIdx, Date currentDate, String workId, String memKey) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("appIdx", appIdx);
+		param.put("currentYMD", CommonUtils.getDateForFormat(currentDate));
+		param.put("workId", workId);
+		param.put("memKey", memKey);
+		memberRegistRepository.updateMemAppointRegistYMD(param);
 	}
 	
 }

@@ -186,7 +186,25 @@ $(function(){
 			$("#registHowEtc").attr("disabled", true);
 		}
 	});
+	checkedSubj();
 });
+function checkedSubj(){
+	var appIdx = $("#appIdx").val();
+	if(appIdx != 0){
+		$("input[name='subj']:checked").each(function(){
+			var subj = $(this).val();
+			$("#firstManageDate_"+subj).attr("disabled",false);
+			$("#manageTime_"+subj).attr("disabled",false);
+			$("#bookNum_"+subj).attr("disabled",false);
+			$("#monthNum_"+subj).attr("disabled",false);
+			$("#studyNum_"+subj).attr("disabled",false);
+			$("#fee_"+subj).attr("disabled",false);
+			$("#isResume_"+subj).attr("disabled",false);
+			feeCalc(subj);
+		});
+		$()
+	}
+}
 //회비 계산
 function feeCalc(subj){
 	var bookNum = $("#bookNum_"+subj).val();

@@ -145,4 +145,14 @@
 			gCellPhone=#{memMst.gCellPhone}, updDate=#{memMst.updDate}, updID=#{memMst.updID}
 		WHERE memKey = #{memKey}
 	</update>
+	<select id="findAppointmentByIdx" parameterType="int" resultType="com.jeiglobal.hk.domain.member.MemAppointment">
+		SELECT idx, apmRegistYMD, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, preferredYMD, preferredTimes, preferredNotes, apmStatusCD, subj, memKey, registYMD, freeDigYMD, deptCD, jisaCD, regDate, regID, updDate, updID
+		FROM globalbiz.MemAppointment
+		WHERE idx = #{idx}
+	</select>
+	<update id="updateMemAppointRegistYMD" parameterType="hashMap">
+		UPDATE globalbiz.MemAppointment 
+		SET registYMD = #{currentYMD}, memKey = #{memKey}, updDate = NOW(), updID = #{workId}
+		WHERE idx = #{appIdx}
+	</update>
 </mapper>
