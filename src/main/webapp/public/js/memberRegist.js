@@ -78,17 +78,17 @@ $(function(){
 		changeMonth: true,
 		changeYear: true,
 		yearRange: '1950:2015',
-		dateFormat: 'dd/mm/yy',
+		dateFormat: 'mm/dd/yy',
 		onSelect: function(dataText, inst){
 			var today = new Date();
 			var dataSplit = dataText.split("/");
 			var yy = dataSplit[2];
-			var mm = dataSplit[1];
-			var dd = dataSplit[0];
+			var mm = dataSplit[0];
+			var dd = dataSplit[1];
 			var dob = new Date(yy, mm-1, dd);
 			if(today < dob){
 				alert('DOB가 오늘 날짜보다 클 수는 없습니다');
-				return false;
+				return;
 			}
 			$("#dobMonth").val(mm);
 			$("#dobDay").val(dd);
@@ -238,89 +238,89 @@ function submitValid(){
 	//학부모 이름
 	if(!$.required('gFstName','학부모 First Name')){
 		$("#gFstName").focus();
-		return false;
+		return;
 	}
 	if(!$.required('gLstName','학부모 Last Name')){
 		$("#gLstName").focus();
-		return false;
+		return;
 	}
 	//학부모 주소
 	if(!$.required('addr','주소')){
 		$("#addr").focus();
-		return false;
+		return;
 	}
 	//학부모 연락처
 	if($.trim($("#gPhone").val()) == '' && $.trim($("#gCellPhone").val()) == ''){
 		alert('학부모 연락처를 하나 이상 입력해 주십시오.');
 		$("#gPhone").focus();
-		return false;
+		return;
 	}
 	//회원 이름
 	if(!$.required('mFstName','회원 First Name')){
 		$("#mFstName").focus();
-		return false;
+		return;
 	}
 	if(!$.required('mLstName','회원 Last Name')){
 		$("#mLstName").focus();
-		return false;
+		return;
 	}
 	//회원 생년월일
 	if(!$.required('dobMonth','생년월일 중 월')){
 		$("#dobMonth").focus();
-		return false;
+		return;
 	}
 	if(!$.required('dobDay','생년월일 중 일')){
 		$("#dobDay").focus();
-		return false;
+		return;
 	}
 	if(!$.required('dobYear','생년월일 중 년')){
 		$("#dobYear").focus();
-		return false;
+		return;
 	}
 	//회원 학년
 	if(!$.required('gradeCD','학년')){
 		$("#gradeCD").focus();
-		return false;
+		return;
 	}
 	//회원 학교
 	if(!$.required('schoolName','학교 명')){
 		$("#schoolName").focus();
-		return false;
+		return;
 	}
 	//회원 생년월일 년도
 	if($.trim($("#dobYear").val()) == ''){
 		alert('회원의 생일을 입력해 주세요.');
 		$("#dobYear").focus();
-		return false;
+		return;
 	}else if($.trim($("#dobYear").val()).length != 4){
 		alert('년도를 4자리로 입력해주세요 ex)2000');
 		$("#dobYear").focus();
-		return false;
+		return;
 	}
 	var today = new Date();
 	var date = new Date($.trim($("#dobYear").val()),$("#dobMonth").val()-1,$("#dobDay").val());
 	if(today < date){
 		alert('DOB가 오늘 보다 클 수는 없습니다.');
-		return false;
+		return;
 	}
 	//학부모 이메일
 	if($.trim($("#gEmail").val()) != ''){
 		if(!$.emailCheck("gEmail")){
 			$("#gEmail").focus();
-			return false;
+			return;
 		}
 	}
 	//회원 이메일
 	if($.trim($("#mEmail").val()) != ''){
 		if(!$.emailCheck("mEmail")){
 			$("#mEmail").focus();
-			return false;
+			return;
 		}
 	}
 	
 	if(!$("input:checkbox[name='subj']").is(":checked")){
 		alert('입회 하려는 과목을 선택해 주십시오');
-		return false;
+		return;
 	}
 	
 	return true;

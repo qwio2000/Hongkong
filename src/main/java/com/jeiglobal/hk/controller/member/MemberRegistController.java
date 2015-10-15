@@ -7,7 +7,6 @@ import javax.servlet.http.*;
 
 import lombok.extern.slf4j.*;
 
-import org.apache.commons.lang.*;
 import org.modelmapper.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -17,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
-import com.jeiglobal.hk.domain.member.MemberDto.*;
+import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MonthInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.RegistSubject;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
 import com.jeiglobal.hk.utils.*;
@@ -186,7 +187,6 @@ public class MemberRegistController {
 			memMst.setMemKey(memKey);
 		}
 		memMst.setRemarks(CommonUtils.subStrByte(memMst.getRemarks(), 0, 500, 3));
-		memMst.setRemarks(StringEscapeUtils.escapeHtml(memMst.getRemarks()));
 		memMst.setMBirthDay(dobYear + "-" + dobMonth + "-" + dobDay);
 		String workId = CommonUtils.getWorkId(request);
 		memMst.setRegID(workId);

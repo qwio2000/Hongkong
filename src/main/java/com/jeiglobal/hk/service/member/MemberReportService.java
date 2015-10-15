@@ -403,5 +403,42 @@ public class MemberReportService {
 		return memberReportRepository.findMemberIpprs(memKey);
 	}
 
+	/**
+	 * @param memKey
+	 * @return int
+	 */
+	public int getMemCommentCallsCount(String memKey) {
+		return memberReportRepository.findMemCommentCallsCount(memKey);
+	}
+
+	/**
+	 * @param memKey
+	 * @param startRow
+	 * @param rowBlockSize
+	 * @return List<MemCommentCall>
+	 * @throws ParseException 
+	 */
+	public List<MemCommentCall> getMemCommentCalls(String memKey, int startRow,
+			int rowBlockSize) throws ParseException {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("startRow", startRow);
+		param.put("rowBlockSize", rowBlockSize);
+		List<MemCommentCall> list = memberReportRepository.findMemCommentCalls(param);
+		if(list != null && !list.isEmpty()){
+			for (MemCommentCall memCommentCall : list) {
+				memCommentCall.setCallDate(CommonUtils.changeDateFormat("yyyy-MM-dd", "MM/dd/yyyy", memCommentCall.getCallDate()));
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * @param idx void
+	 */
+	public void removeCommentCall(int idx) {
+		memberReportRepository.deleteCommentCall(idx);
+	}
+
 
 }

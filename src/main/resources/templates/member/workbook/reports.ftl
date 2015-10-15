@@ -56,7 +56,7 @@
 			<tbody>
 				<tr>
 					<td>1</td>
-					<td class="left"><img src="../public/img/ico_name.png" alt="" />Aileen Ahn</td>
+					<td class="left"><img src="${imgPath}/ico_name.png" alt="" />Aileen Ahn</td>
 					<td>4TH</td>
 					<td>ENGLISH MATH</td>
 					<td>I Shil Ahn</td>
@@ -67,7 +67,7 @@
 				</tr>
 				<tr>
 					<td>2</td>
-					<td class="left"><img src="../public/img/ico_name.png" alt="" />Aileen Ahn</td>
+					<td class="left"><img src="${imgPath}/ico_name.png" alt="" />Aileen Ahn</td>
 					<td>4TH</td>
 					<td>ENGLISH MATH</td>
 					<td>I Shil Ahn</td>
@@ -78,7 +78,7 @@
 				</tr>
 				<tr>
 					<td>3</td>
-					<td class="left"><img src="../public/img/ico_name.png" alt="" />Aileen Ahn</td>
+					<td class="left"><img src="${imgPath}/ico_name.png" alt="" />Aileen Ahn</td>
 					<td>4TH</td>
 					<td>ENGLISH MATH</td>
 					<td>I Shil Ahn</td>
@@ -89,7 +89,7 @@
 				</tr>
 				<tr>
 					<td>4</td>
-					<td class="left"><img src="../public/img/ico_name.png" alt="" />Aileen Ahn</td>
+					<td class="left"><img src="${imgPath}/ico_name.png" alt="" />Aileen Ahn</td>
 					<td>4TH</td>
 					<td>ENGLISH MATH</td>
 					<td>I Shil Ahn</td>
@@ -100,7 +100,7 @@
 				</tr>
 				<tr>
 					<td>5</td>
-					<td class="left"><img src="../public/img/ico_name.png" alt="" />Aileen Ahn</td>
+					<td class="left"><img src="${imgPath}/ico_name.png" alt="" />Aileen Ahn</td>
 					<td>4TH</td>
 					<td>ENGLISH MATH</td>
 					<td>I Shil Ahn</td>
@@ -111,7 +111,7 @@
 				</tr>
 				<tr>
 					<td>6</td>
-					<td class="left"><img src="../public/img/ico_name.png" alt="" />Aileen Ahn</td>
+					<td class="left"><img src="${imgPath}/ico_name.png" alt="" />Aileen Ahn</td>
 					<td>4TH</td>
 					<td>ENGLISH MATH</td>
 					<td>I Shil Ahn</td>
@@ -122,7 +122,7 @@
 				</tr>
 				<tr>
 					<td>7</td>
-					<td class="left"><img src="../public/img/ico_name.png" alt="" />Aileen Ahn</td>
+					<td class="left"><img src="${imgPath}/ico_name.png" alt="" />Aileen Ahn</td>
 					<td>4TH</td>
 					<td>ENGLISH MATH</td>
 					<td>I Shil Ahn</td>
@@ -133,7 +133,7 @@
 				</tr>
 				<tr>
 					<td>8</td>
-					<td class="left"><img src="../public/img/ico_name.png" alt="" />Aileen Ahn</td>
+					<td class="left"><img src="${imgPath}/ico_name.png" alt="" />Aileen Ahn</td>
 					<td>4TH</td>
 					<td>ENGLISH MATH</td>
 					<td>I Shil Ahn</td>
@@ -144,7 +144,7 @@
 				</tr>
 				<tr>
 					<td>9</td>
-					<td class="left"><img src="../public/img/ico_name.png" alt="" />Aileen Ahn</td>
+					<td class="left"><img src="${imgPath}/ico_name.png" alt="" />Aileen Ahn</td>
 					<td>4TH</td>
 					<td>ENGLISH MATH</td>
 					<td>I Shil Ahn</td>
@@ -155,7 +155,7 @@
 				</tr>
 				<tr>
 					<td>10</td>
-					<td class="left"><img src="../public/img/ico_name.png" alt="" />Aileen Ahn</td>
+					<td class="left"><img src="${imgPath}/ico_name.png" alt="" />Aileen Ahn</td>
 					<td>4TH</td>
 					<td>ENGLISH MATH</td>
 					<td>I Shil Ahn</td>

@@ -233,4 +233,19 @@
 		INNER JOIN globalbiz.DeptSubjInfo AS c ON a.jisaCD = c.jisaCD AND a.deptCD = c.deptCD AND a.subj = c.subj
 		WHERE a.memKey = #{memKey}
 	</select>
+	<select id="findMemCommentCallsCount" parameterType="java.lang.String" resultType="int">
+	SELECT COUNT(1)
+	FROM globalbiz.MemCommentCall
+	WHERE memKey = #{memKey}
+	</select>
+	<select id="findMemCommentCalls" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemCommentCall">
+	SELECT *
+	FROM globalbiz.MemCommentCall
+	WHERE memKey = #{memKey}
+	ORDER BY callDate DESC, regDate DESC 
+	LIMIT #{startRow},#{rowBlockSize}
+	</select>
+	<delete id="deleteCommentCall" parameterType="int">
+	DELETE FROM globalbiz.MemCommentCall WHERE idx = #{idx}
+	</delete>
 </mapper>

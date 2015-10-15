@@ -41,6 +41,9 @@ $(function(){
 					Handlebars.registerHelper("inc", function(value, options){
 						return (pageNum - 1) * pageSize + parseInt(value) + 1;
 					});
+					Handlebars.registerHelper("imgPath", function(options){
+						return imgPath;
+					});
 					Handlebars.registerHelper('splitSubj', function(str) {
 						var rtnStr = "";
 						if(str.indexOf(",") > -1){

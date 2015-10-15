@@ -18,7 +18,7 @@
 					<li>
 						<label for="mBirthDay" class="tit">DOB</label>
 						<input type="text"  class="searchInput" style="width:348px" name="mBirthDay" id="mBirthDay" value="${memMst.MBirthDay }" readonly="readonly"/>
-						<input type="hidden" id="hiddenPicker"/>
+						<input type="hidden" id="hiddenBirthPicker"/>
 						<a class="btn_calendar" id="mBirthDayPicker" style="cursor: pointer;">view calendar</a>
 					</li>
 					<li>
@@ -30,11 +30,11 @@
 						</select>
 					</li>
 					<li>
-						<label for="schoolName" class="tit">Email</label>
+						<label for="schoolName" class="tit">School</label>
 						<input type="text" id="schoolName" name="schoolName" class="searchInput" style="width:384px" value="${memMst.schoolName }" maxlength="50">
 					</li>
 					<li>
-						<label for="mEmail" class="tit">School</label>
+						<label for="mEmail" class="tit">Email</label>
 						<input type="text" id="mEmail" name="mEmail" class="searchInput" style="width:384px" value="${memMst.MEmail }" maxlength="100">
 					</li>
 					<li>

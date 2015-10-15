@@ -7,7 +7,6 @@ import javax.servlet.http.*;
 
 import lombok.extern.slf4j.*;
 
-import org.apache.commons.lang.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
@@ -135,6 +134,36 @@ public class MemberReportController {
 		return msa.getMessage("member.report.guardianInfo.update.success");
 	}
 	
+	@RequestMapping(value={"/fa/members/reports/commentcall/{pageNum:[0-9]{1,4}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> getCommentCalls(Model model,
+			String memKey, @PathVariable int pageNum) throws ParseException {
+		Map<String, Object> map = new HashMap<>();
+		PageUtil pageUtil = new PageUtil(pageNum, memberReportService.getMemCommentCallsCount(memKey), 5, pageBlockSize);
+		if(pageUtil.getTotalRowCnt() > 0){
+			List<MemCommentCall> commentCalls = memberReportService.getMemCommentCalls(memKey, pageUtil.getStartRow(), pageUtil.getRowBlockSize());
+			map.put("commentCalls", commentCalls);
+		}
+		map.put("pageInfo", pageUtil);
+		return map;
+	}
+	
+	@RequestMapping(value={"/fa/members/reports/commentcall"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String addCommentCallPop(String memKey, String memName, String callNotes, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) {
+		String workId = CommonUtils.getWorkId(request);
+		callNotes = CommonUtils.subStrByte(callNotes, 0, 500, 3);
+		memberReportService.addCommentCall(memKey, memName, callNotes, loginInfo, workId);
+		return msa.getMessage("member.report.commentcall.insert.success");
+	}
+	
+	@RequestMapping(value={"/fa/members/reports/commentcall/delete"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String removeCommentCall(int idx) {
+		memberReportService.removeCommentCall(idx);
+		return msa.getMessage("member.report.commentcall.delete.success");
+	}
+	
 	@RequestMapping(value={"/fa/members/reports/commentcall"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCommentCallPop(Model model,
 			String memKey, String memName) {
@@ -144,14 +173,6 @@ public class MemberReportController {
 		model.addAttribute("memName", memName);
 		model.addAttribute("headerScript", headerScript);
 		return "member/report/commentCall";
-	}
-	
-	@RequestMapping(value={"/fa/members/reports/commentcall"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
-	@ResponseBody
-	public String addCommentCallPop(String memKey, String memName, String callNotes, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) {
-		String workId = CommonUtils.getWorkId(request);
-		memberReportService.addCommentCall(memKey, memName, callNotes, loginInfo, workId);
-		return msa.getMessage("member.report.commentcall.insert.success");
 	}
 	
 	@RequestMapping(value={"/fa/members/reports/appointment"},method = {RequestMethod.GET, RequestMethod.HEAD})
@@ -205,7 +226,6 @@ public class MemberReportController {
 		//TODO StatusCD 업데이트 하는 부분 논의 후 추가
 		String workId = CommonUtils.getWorkId(request);
 		memMst.setRemarks(CommonUtils.subStrByte(memMst.getRemarks(), 0, 500, 3));
-		memMst.setRemarks(StringEscapeUtils.escapeHtml(memMst.getRemarks()));
 		memberReportService.setMemberInfo(memMst, loginInfo, workId);
 		return msa.getMessage("member.report.memberInfo.update.success");
 	}

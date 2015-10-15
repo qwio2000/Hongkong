@@ -123,6 +123,8 @@
 										<!-- 퇴회 취소 -->
 										<#if subj.isCancle == 'true'>
 											<span class="info_line"><a href="javascript:dropCancelMember('${subj.memKey }','${subj.subj }', '${subj.convertDropYMD?default('') }');" class="blue">DROP.CANCEL</a></span>
+										<#else>
+											<span class="info_line gray">DROP.CANCEL</span>
 										</#if>
 									</#if>
 									</td>
@@ -148,7 +150,7 @@
 										<#else>
 											<span class="info_line gray">MPR</span>
 										</#if>
-										<span class="info_line"><a href="javascript:dropMember('${subj.memKey }','${subj.subj }','${info.MFstName?default('') } ${info.MLstName?default('') }');" class="blue">DROP</a></span>
+										<span class="info_line"><a href="javascript:dropMember('${subj.memKey }','${subj.subj }','${info.MFstName?default('') } ${info.MLstName?default('') }','${subj.convertRegistYMD }','${subj.isCancle }','${.now?string('MM/dd/yyyy') }');" class="blue">DROP</a></span>
 										<#if subj.isCancle == 'true'>
 											<span class="info_line"><a href="#" class="blue">REG.CANCEL</a></span>
 										<#else>

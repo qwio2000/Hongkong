@@ -1,7 +1,7 @@
 <#include "/include/popupheader.ftl">
 <!-- Main Content -->
 	<div class="popup">
-		<div class="popup_top"><h1>Drop</h1> <a href="#" class="btn_popup_close">close</a></div>
+		<div class="popup_top"><h1>Drop</h1> <a href="javascript:self.close();" class="btn_popup_close">close</a></div>
 		<div class="popup_content">
 		<form action="" id="dropMemberForm">
 		<input type="hidden" name="memKey" value="${memKey }"/>
@@ -19,6 +19,7 @@
 					<li>
 						<label for="dropReason" class="tit2">Drop Reason</label>
 						<select name="dropReason" id="dropReason" style="width:365px">
+							<option value=""></option>
 							<#list dropReasons as dropReason>
 							<option value="${dropReason.dtlCD }">${dropReason.dtlCDNM }</option>
 							</#list>

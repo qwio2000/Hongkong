@@ -80,4 +80,10 @@ public interface MemberReportRepository {
 	public MemSubjStudy findMemSubjStudyByMemKeyAndSubj(
 			Map<String, Object> param);
 
+	public int findMemCommentCallsCount(String memKey);
+
+	public List<MemCommentCall> findMemCommentCalls(Map<String, Object> param);
+
+	public void deleteCommentCall(int idx);
+
 }

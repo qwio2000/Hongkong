@@ -195,13 +195,9 @@
 							<span class="chk_s01"><input type="checkbox" name="subj" value="${registSubject.subj }" id="chk_${registSubject.subj }" 
 								<#list appSubjs as appSubj><#if appSubj == registSubject.subj>checked</#if> </#list> />
 							<#else>
-							<span class="chk_s01"><input type="checkbox" name="subj" value="${registSubject.subj }" id="chk_${registSubject.subj }" />
+							<span class="chk_s01 <#if registSubject.memKey?? && registSubject.statusCD == '2'>icon_resume</#if>"><input type="checkbox" name="subj" value="${registSubject.subj }" id="chk_${registSubject.subj }" />
 							</#if>
-							<#if registSubject.memKey?? && registSubject.statusCD == "2">
-								<label for="chk_${registSubject.subj }"><font color="blue">${registSubject.subj }</font></label>
-							<#else>
 								<label for="chk_${registSubject.subj }">${registSubject.subj }</label>
-							</#if>
 							</span>
 							<select name="firstManageDate" id="firstManageDate_${registSubject.subj }" style="width:116px;margin-right:3px" disabled>
 								<#list firstManageDates as manageDate>
