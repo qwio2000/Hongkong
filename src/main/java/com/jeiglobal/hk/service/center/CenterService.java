@@ -12,6 +12,9 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.center.CenterSearchList;
+import com.jeiglobal.hk.domain.center.CenterView;
+import com.jeiglobal.hk.domain.center.MemFeeInfoList;
+import com.jeiglobal.hk.domain.center.UserList;
 import com.jeiglobal.hk.repository.center.CenterRepository;
 import com.jeiglobal.hk.service.auth.AuthoritiesService;
 import com.jeiglobal.hk.utils.CommonUtils;
@@ -22,6 +25,7 @@ import com.jeiglobal.hk.utils.CommonUtils;
  * 작성일 : 2015. 9. 10.
  *
  * 작성자 : 전승엽(IT지원팀)
+ * 수정자 : 노윤희(IT지원팀)
  * 
  * Centers 서비스
  */
@@ -37,11 +41,10 @@ public class CenterService {
 	@Autowired
 	private CenterRepository centerRepository;
 	
-	Map<String, Object> param = new HashMap<String, Object>();
 	
 	// 센터 검색
 	public List<CenterSearchList> getCenterSearchList(String jisaCD, String deptName, String city, String stateCD, String statusCD, String sortKind, String sort, int pageNum, int pageSize) {		
-		param.clear();
+		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("jisaCD", jisaCD);
 		param.put("deptName", deptName);		
 		param.put("city", city);
@@ -54,6 +57,32 @@ public class CenterService {
 		
 		return centerRepository.centerSearchList(param);				
 	}
+	// 센터 뷰 getCenterView
+	public CenterView getCenterView(String jisaCD, String deptCD) {		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		
+		return centerRepository.centerView(param);				
+	}	
+	// User 리스트
+	public List<UserList> getUserList(String jisaCD, String deptCD) {		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		return centerRepository.userList(param);				
+	}
+	// 회비 정보 팝업
+	public List<MemFeeInfoList> getMemFeeInfoList(String jisaCD, String deptCD) {		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		return centerRepository.memFeeInfoList(param);				
+	}
+	
+	
+	
+	
 	
 	
 	

@@ -4,10 +4,10 @@
 	<h2 class="conTit">Centers</h2>		
 	<input type="hidden" id="userType" value="${loginInfo.userType }"/>
 	<input type="hidden" id="pageNum" value=""/>
-	<input type="hidden" id="deptName" value="${deptName}">
-	<input type="hidden" id="city" value="${city}">
-	<input type="hidden" id="stateCD" value="${stateCD}">
-	<input type="hidden" id="statusCD" value="${statusCD}">	
+	<input type="hidden" id="deptName" value="${deptName?default('')}">
+	<input type="hidden" id="city" value="${city?default('')}">
+	<input type="hidden" id="stateCD" value="${stateCD?default('')}">
+	<input type="hidden" id="statusCD" value="${statusCD?default('')}">	
 	<input type="hidden" id="sortKind" value="">
 	<input type="hidden" id="sort" value="">
 		
@@ -35,7 +35,7 @@
 					<th>Director</th>
 					<th>Phone</th>
 					<th>Status</th>
-					<th><#if statusCD == "2">Close Date</#if></th>
+					<th><#if statusCD?default('') == "2">Close Date</#if></th>
 				</tr>
 			</thead>
 			<tbody id="mainContent"></tbody>

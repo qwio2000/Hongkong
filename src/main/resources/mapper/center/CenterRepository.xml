@@ -4,4 +4,13 @@
 	<select id="centerSearchList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.CenterSearchList">
 		CALL SPCenterSearchList(#{jisaCD},#{deptName},#{city},#{stateCD},#{statusCD},#{sortKind},#{sort},#{pageNum},#{pageSize})
 	</select>
+	<select id="centerView" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.CenterView">
+		CALL SPCenterView(#{jisaCD},#{deptCD})
+	</select>
+	<select id="userList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.UserList">
+		CALL SPUserList(#{jisaCD},#{deptCD})
+	</select>
+	<select id="memFeeInfoList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.MemFeeInfoList">
+		CALL SPMemFeeInfoList(#{jisaCD},#{deptCD})
+	</select>			
 </mapper>
