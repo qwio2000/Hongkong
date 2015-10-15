@@ -32,6 +32,9 @@
 			<script type="text/javascript" src="${jsPath }/${script}.js"></script>
 		</#list>
 	</#if>
+	<script type="text/javascript">
+		var imgPath = '${imgPath}';
+	</script>
 </head>
 <body>
 	<div class="wrap">
