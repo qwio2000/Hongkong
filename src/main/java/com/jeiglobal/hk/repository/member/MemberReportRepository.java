@@ -77,4 +77,7 @@ public interface MemberReportRepository {
 
 	public List<MemberIpprInfo> findMemberIpprs(String memKey);
 
+	public MemSubjStudy findMemSubjStudyByMemKeyAndSubj(
+			Map<String, Object> param);
+
 }

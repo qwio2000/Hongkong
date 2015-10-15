@@ -94,6 +94,11 @@ public class MemberReportController {
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
 		MemMst memMst = memberReportService.getMemMstByMemKey(memKey);
+		if(memMst == null){
+			model.addAttribute("message", msa.getMessage("member.report.notfound"));
+			model.addAttribute("url", "/fa/members/reports");
+			return "alertAndRedirect";
+		}
 		List<MemberDto.MemberReportInfo> memberReportInfos = memberReportService.getMemberReportInfo(memMst, loginInfo);
 		String memKeys = memberReportService.getMemKeys(memberReportInfos);
 		model.addAttribute("guardianInfo", memMst);

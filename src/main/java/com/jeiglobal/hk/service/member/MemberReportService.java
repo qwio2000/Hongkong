@@ -275,6 +275,7 @@ public class MemberReportService {
 	 */
 	public void setMemSubjStudyInfo(String subj, int studyNum, String yoil,
 			String manageTimes, String workId, String memKey) {
+		String type = "";
 		//TODO 2불출 가능 시 변경, 현재는 2불출 고려 안함
 		Map<String, Object> param = new HashMap<>();
 		param.put("memKey", memKey);
@@ -283,6 +284,20 @@ public class MemberReportService {
 		param.put("yoil", yoil);
 		param.put("manageTimes", manageTimes);
 		param.put("workId", workId);
+		param.put("currentYMD", CommonUtils.getCurrentYMD());
+		MemSubjStudy subjStudy = memberReportRepository.findMemSubjStudyByMemKeyAndSubj(param);
+		if(!subjStudy.getYoil().equals(yoil)){
+			if(subjStudy.getStudyNum() != studyNum){
+				type = "3";
+			}else{
+				type = "1";
+			}
+		}else if(subjStudy.getStudyNum() != studyNum){
+			type = "2";
+		}else{
+			type = "0";
+		}
+		param.put("type", type);
 		memberReportRepository.insertMemSubjMstHis(param);
 		memberReportRepository.updateMemSubjMstForStudyNum(param);
 		memberReportRepository.insertMemSubjStudyHis(param);

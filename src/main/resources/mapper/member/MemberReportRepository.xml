@@ -124,10 +124,28 @@
 	FROM globalbiz.MemSubjMst
 	WHERE memKey = #{memKey} and subj = #{subj}
 	</insert>
+	<select id="findMemSubjStudyByMemKeyAndSubj" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemSubjStudy">
+	SELECT *
+	FROM globalbiz.MemSubjStudy
+	WHERE memKey = #{memKey} AND subj = #{subj} AND yoilSeq = 1
+	</select>
 	<update id="updateMemSubjMstForStudyNum" parameterType="hashMap">
 	UPDATE globalbiz.MemSubjMst 
-	SET studyNum = #{studyNum}, yoil=#{yoil}, updDate=NOW(), updID=#{workId}
-	WHERE memKey = #{memKey}
+	<set>
+		<choose>
+			<when test="type.equals('1'.toString())">
+				befoYoil = yoil, yoil = #{yoil}, yoilChgYMD = #{currentYMD},
+			</when>
+			<when test="type.equals('2'.toString())">
+				befoStudyNum = studyNum, studyNum = #{studyNum}, studyNumChgYMD = #{currentYMD},
+			</when>
+			<when test="type.equals('3'.toString())">
+				befoYoil = yoil, yoil = #{yoil}, yoilChgYMD = #{currentYMD}, befoStudyNum = studyNum, studyNum = #{studyNum}, studyNumChgYMD = #{currentYMD},
+			</when>
+		</choose>
+	updDate=NOW(), updID=#{workId}
+	</set>
+	WHERE memKey = #{memKey} AND subj = #{subj}
 	</update>
 	<insert id="insertMemSubjStudyHis" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
 	INSERT INTO globalbiz.MemSubjStudyHis 
