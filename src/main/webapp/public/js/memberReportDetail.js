@@ -113,7 +113,12 @@ function getIpprs(memKey, memName){
 }
 function viewIppr(jisaCD, omrDate, memKey, subj){
 	if(omrDate != ''){
-		$.openPop('/fa/diagnosis/OmrPrint?jisa='+jisaCD+'&mujin=0&omrdate='+omrDate+'&memKey='+memKey+'&subj='+subj, 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
+		if(subj == 'KM' || subj == 'EM'){
+			$.openPop('/fa/diagnosis/OmrPrintJD?jisa='+jisaCD+'&mujin=0&omrdate='+omrDate+'&memKey='+memKey+'&subj='+subj+'&popGraph=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
+		}else{
+			$.openPop('/fa/diagnosis/OmrPrint?jisa='+jisaCD+'&mujin=0&omrdate='+omrDate+'&memKey='+memKey+'&subj='+subj+'&popGraph=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
+			
+		}
 	}else{
 		alert(subj+' 과목의 처방 내역이 존재하지 않습니다.');
 		return;
