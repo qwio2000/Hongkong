@@ -278,6 +278,10 @@ function memSubjStudyInfoSubmit(){
 }
 function dropMemberSubmit(){
 	if(confirm('해당 회원의 과목을 퇴회하시겠습니까?')){
+		if(!$.required('dropReason','Drop Reason')){
+			$("#dropReason").focus();
+			return;
+		}
 		var param = $("#dropMemberForm").serialize();
 		console.log(param);
 		$.ajax({

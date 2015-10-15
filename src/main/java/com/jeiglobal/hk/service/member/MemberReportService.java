@@ -427,6 +427,7 @@ public class MemberReportService {
 		List<MemCommentCall> list = memberReportRepository.findMemCommentCalls(param);
 		if(list != null && !list.isEmpty()){
 			for (MemCommentCall memCommentCall : list) {
+				memCommentCall.setCallNotes(memCommentCall.getCallNotes().replaceAll("\r\n", "<br/>"));
 				memCommentCall.setCallDate(CommonUtils.changeDateFormat("yyyy-MM-dd", "MM/dd/yyyy", memCommentCall.getCallDate()));
 			}
 		}

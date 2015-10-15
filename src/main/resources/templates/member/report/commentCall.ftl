@@ -61,7 +61,7 @@
 	{{#each commentCalls}}
 		<tr>
 			<td>{{callDate}}</td>
-			<td class='left'>{{callNotes}}</td>
+			<td class='left'>{{{callNotes}}}</td>
 			<td>
 				<a href="javascript:deleteCommentCall('{{idx}}')" class="btn_delete">delete</a>
 			</td>
