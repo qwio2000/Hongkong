@@ -174,8 +174,8 @@
 	<!-- event calender -->
 	<div class="event_calender">
 		<link rel="stylesheet" href="${cssPath }/fullcalendar.css" />
-		<script type="text/javascript" src="${jsPath }/moment.min.js"></script>
-		<script type="text/javascript" src="${jsPath }/fullcalendar.min.js"></script>
+		<script type="text/javascript" src="${jsPath }/common/moment.min.js"></script>
+		<script type="text/javascript" src="${jsPath }/common/fullcalendar.min.js"></script>		
 		<h2 class="conTit">Event Calender</h2>
 		<div class="fc fc-ltr fc-unthemed" id="calendar">
 		</div>
