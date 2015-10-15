@@ -170,7 +170,7 @@ img {border:0;}
 					<#else>
 						<#assign OdabGubunStyle = "style7">					
 					</#if>	
-					<#if ((omrOdabLeftIndex_index/2)?int * 2) = omrOdabLeftIndex_index?int>
+					<#if omrOdabLeftIndex_index%2 = 0>
 						<#assign addBG = "#FFFFFF">
 					<#else>
 						<#assign addBG = "#dadbdd">
@@ -183,10 +183,10 @@ img {border:0;}
 						<td align="center" bgcolor="${addBG }" class="${OdabGubunStyle}">${omrOdabLeftIndex.hakGubun}</td>
 					</tr>
 				</#list>
-			
+
 				<#if rowLeftCnt?number lt maxOdabLine>
 					<#list rowLeftCnt.. maxOdabLine as maxOdabLineIndex>
-						<#if ((maxOdabLineIndex_index/2)?int * 2) = maxOdabLineIndex_index>
+						<#if maxOdabLineIndex%2 = 0>
 							<#assign addBG = "#FFFFFF">
 						<#else>
 							<#assign addBG = "#dadbdd">
@@ -228,7 +228,7 @@ img {border:0;}
 					<#else>
 						<#assign OdabGubunStyle = "style7">					
 					</#if>	
-					<#if ((omrOdabRightIndex_index/2)?int * 2) = omrOdabRightIndex_index?int>
+					<#if omrOdabRightIndex_index%2 = 0>
 						<#assign addBG = "#FFFFFF">
 					<#else>
 						<#assign addBG = "#dadbdd">
@@ -244,7 +244,7 @@ img {border:0;}
 			
 				<#if rowRightCnt?number lt maxOdabLine>
 					<#list rowRightCnt.. maxOdabLine as maxOdabLineIndex>	
-						<#if ((maxOdabLineIndex_index/2)?int * 2) = maxOdabLineIndex_index>
+						<#if maxOdabLineIndex%2 = 0>
 							<#assign addBG = "#FFFFFF">
 						<#else>
 							<#assign addBG = "#dadbdd">
