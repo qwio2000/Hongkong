@@ -140,7 +140,7 @@
 										</#if>
 										<!-- IPPR -->
 										<#if subj.digYN == 'Y' && subj.omrDate != ''>
-											<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/OmrPrint?jisa=${subj.jisaCD }&mujin=0&omrdate=${subj.omrDate }&memKey=${subj.memKey }&subj=${subj.subj }', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">IPPR</a></span>
+											<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/OmrPrintJD?jisa=${subj.jisaCD }&mujin=0&omrdate=${subj.omrDate }&memKey=${subj.memKey }&subj=${subj.subj }&popGraph=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">IPPR</a></span>
 										<#else>
 											<span class="info_line gray">IPPR</span>
 										</#if>

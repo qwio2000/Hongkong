@@ -337,6 +337,7 @@ function getCommentCalls(){
 			var totalRowCnt = pageInfo.totalRowCnt;
 			var pageNum = pageInfo.pageNum;
 			var pageSize = pageInfo.rowBlockSize;
+			$("#mainContent").empty();
 			if(totalRowCnt > 0){
 				if(pageInfo.totalPageCnt > 1){
 					$("#pageNavi").html($.pageUtil(pageInfo.pageNum,pageInfo.totalPageCnt, 
@@ -344,7 +345,6 @@ function getCommentCalls(){
 				}
 				var source = $("#commentCallTemplate").html();
 				var template = Handlebars.compile(source);
-				$("#mainContent").empty();
 				$("#mainContent").append(template(jsonData));
 			}
 		},
