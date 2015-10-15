@@ -123,9 +123,51 @@ public class CommonService {
 	 * @return String
 	 */
 	public String getClosingDate(String jisaCD, String currentYYYYMM) {
-		Map<String, Object> param = new HashMap<String, Object>();
+		param.clear();
 		param.put("currentYYYYMM", currentYYYYMM);
 		param.put("jisaCD", jisaCD);
 		return commonRepository.findClosingDate(param);
+	}
+	/**
+	 * 해당 지사, 가맹점의 회원 관리 시간(oHours) 리스트를 가져오는 메서드
+	 * @param jisaCD
+	 * @param deptCD
+	 * @return List<CodeDtl>
+	 */
+	public List<CodeDtl> getMemberManageTimes(String jisaCD, String deptCD) {
+		param.clear();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		Map<String, Object> deptHour = commonRepository.findDeptOpenCloseTime(param);
+		return getDeptAvailableTimes(jisaCD, deptHour.get("oHoursStart").toString(), deptHour.get("oHoursEnd").toString());
+	}
+
+	/**
+	 * 해당 지사, 가맹점의 영업 시간(cHours) 리스트를 가져오는 메서드
+	 * @param jisaCD
+	 * @param deptCD
+	 * @return List<CodeDtl>
+	 */
+	public List<CodeDtl> getBusinessTimes(String jisaCD, String deptCD) {
+		param.clear();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		Map<String, Object> deptHour = commonRepository.findDeptOpenCloseTime(param);
+		return getDeptAvailableTimes(jisaCD, deptHour.get("cHoursStart").toString(), deptHour.get("cHoursEnd").toString());
+	}
+	
+	/**
+	 * @param CodeDtl에서 시간 범위에 맞는 시간 리스트 가져오는 메서드 
+	 * @param String
+	 * @param String
+	 * @return List<CodeDtl>
+	 */
+	private List<CodeDtl> getDeptAvailableTimes(String jisaCD, String start, Object end) {
+		param.clear();
+		param.put("start", start);
+		param.put("end", end);
+		param.put("jisaCD", jisaCD);
+		return commonRepository.findDeptAvailableTimes(param);
+		
 	}
 }

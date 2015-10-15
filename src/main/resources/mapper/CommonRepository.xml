@@ -58,4 +58,14 @@
 		FROM globalbiz.MagamDate 
 		WHERE jisaCD = #{jisaCD} AND mgMonth = #{currentYYYYMM}
 	</select>
+	<select id="findDeptOpenCloseTime" parameterType="hashMap" resultType="hashMap">
+		SELECT cHoursStart, cHoursEnd, oHoursStart, oHoursEnd
+		FROM globalbiz.DeptMst 
+		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD}
+	</select>
+	<select id="findDeptAvailableTimes" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.CodeDtl">
+		SELECT * 
+		FROM globalbiz.CodeDtl 
+		WHERE jisaCD = #{jisaCD} AND mstCD = '0206' AND dtlCD BETWEEN #{start} AND #{end}
+	</select>
 </mapper>

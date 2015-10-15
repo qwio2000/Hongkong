@@ -2,7 +2,6 @@ package com.jeiglobal.hk.repository.member;
 
 import java.util.*;
 
-import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberRegistSearchInfo;
@@ -24,10 +23,6 @@ public interface MemberRegistRepository {
 	public int getCalcFee(Map<String, Object> param);
 
 	public List<MemberRegistSearchInfo> findMemberRegistSearch(Map<String, Object> paramMap);
-
-	public Map<String, Object> findDeptOpenCloseTime(Map<String, Object> param);
-
-	public List<CodeDtl> findDeptAvailableTimes(Map<String, Object> param);
 
 	public MemMst findMemMst(String memKey);
 

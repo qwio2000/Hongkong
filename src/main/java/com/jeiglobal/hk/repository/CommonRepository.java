@@ -31,4 +31,8 @@ public interface CommonRepository {
 	public DeptMst findDeptMstByDeptCD(String deptCD);
 
 	public String findClosingDate(Map<String, Object> param);
+	
+	public Map<String, Object> findDeptOpenCloseTime(Map<String, Object> param);
+
+	public List<CodeDtl> findDeptAvailableTimes(Map<String, Object> param);
 }

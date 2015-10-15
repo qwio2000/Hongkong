@@ -106,7 +106,7 @@ public class MemberRegistController {
 		//State 리스트
 		List<CenterState> states = commonService.getCenterStates(loginInfo.getJisaCD());
 		//가맹점 시간 리스트
-		List<CodeDtl> manageTimes = memberRegistService.getManageTimes(loginInfo.getJisaCD(), loginInfo.getDeptCD());
+		List<CodeDtl> manageTimes = commonService.getMemberManageTimes(loginInfo.getJisaCD(), loginInfo.getDeptCD());
 		//가맹점 취급 과목 리스트
 		List<SubjectOfDept> subjectOfDepts = commonService.getSubjectsOfDept(loginInfo.getJisaCD(),loginInfo.getDeptCD());
 		Calendar cal = Calendar.getInstance();

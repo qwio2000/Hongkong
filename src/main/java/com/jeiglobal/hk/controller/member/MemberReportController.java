@@ -181,7 +181,7 @@ public class MemberReportController {
 			String memName,
 			@ModelAttribute LoginInfo loginInfo) {
 		//가맹점 시간 리스트
-		List<CodeDtl> manageTimes = memberRegistService.getManageTimes(loginInfo.getJisaCD(), loginInfo.getDeptCD());
+		List<CodeDtl> manageTimes = commonService.getMemberManageTimes(loginInfo.getJisaCD(), loginInfo.getDeptCD());
 		//회원이 진행 중인 과목 리스트를 제외한 가맹점 취급 과목 리스트
 		List<SubjectOfDept> subjects = memberReportService.getMemberSubjects(memKey, loginInfo);
 		List<String> headerScript = new ArrayList<String>();
@@ -234,7 +234,7 @@ public class MemberReportController {
 			String memKey, 
 			@ModelAttribute LoginInfo loginInfo) {
 		//가맹점 관리 시간
-		List<CodeDtl> manageTimes = memberRegistService.getManageTimes(loginInfo.getJisaCD(), loginInfo.getDeptCD());
+		List<CodeDtl> manageTimes = commonService.getMemberManageTimes(loginInfo.getJisaCD(), loginInfo.getDeptCD());
 		//요일 목록
 		List<CodeDtl> yoils = commonService.getCodeDtls("0006", loginInfo.getJisaCD(), 1, "Y");
 		//회원 과목의 학습 정보

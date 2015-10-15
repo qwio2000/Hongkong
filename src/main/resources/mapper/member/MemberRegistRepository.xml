@@ -16,16 +16,6 @@
 		WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD} AND CONCAT(mFstName, mLstName) LIKE CONCAT('%', #{name}, '%') OR CONCAT(gFstName, gLstNAme) LIKE CONCAT('%', #{name}, '%')
 		GROUP BY a.memKey
 	</select>
-	<select id="findDeptOpenCloseTime" parameterType="hashMap" resultType="hashMap">
-		SELECT cHoursStart, cHoursEnd 
-		FROM globalbiz.DeptMst 
-		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD}
-	</select>
-	<select id="findDeptAvailableTimes" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.CodeDtl">
-		SELECT * 
-		FROM globalbiz.CodeDtl 
-		WHERE jisaCD = #{jisaCD} AND mstCD = #{mstCD} AND dtlCD BETWEEN #{deptHour.cHoursStart} AND #{deptHour.cHoursEnd}
-	</select>
 	<select id="findMemMst" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemMst">
 		SELECT * 
 		FROM globalbiz.MemMst 

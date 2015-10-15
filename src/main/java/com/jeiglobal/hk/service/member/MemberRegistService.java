@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
-import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
@@ -120,21 +119,6 @@ public class MemberRegistService {
 		paramMap.put("jisaCD", jisaCD);
 		paramMap.put("deptCD", deptCD);
 		return memberRegistRepository.findMemberRegistSearch(paramMap);
-	}
-	/**
-	 * 해당 지사, 가맹점의 관리 시간 리스트를 가져오는 메서드
-	 * @param jisaCD
-	 * @param deptCD
-	 * @return List<CodeDtl>
-	 */
-	public List<CodeDtl> getManageTimes(String jisaCD, String deptCD) {
-		Map<String, Object> param = new HashMap<>();
-		param.put("jisaCD", jisaCD);
-		param.put("deptCD", deptCD);
-		Map<String, Object> deptHour = memberRegistRepository.findDeptOpenCloseTime(param);
-		param.put("mstCD", "0206");
-		param.put("deptHour", deptHour);
-		return memberRegistRepository.findDeptAvailableTimes(param);
 	}
 	/**
 	 * 해당 회원 번호의 회원 정보를 가져오는 메서드
