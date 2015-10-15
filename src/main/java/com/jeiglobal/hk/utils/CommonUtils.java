@@ -219,4 +219,34 @@ public class CommonUtils {
 
 	    return sConvertText;
 	}
+	
+	/**
+	 * byte 단위로 substring
+	 * @param target
+	 * @param beginIndex 문자열 자를 시작 인덱스
+	 * @param endIndex substr할 바이트 수 , 2-byte문자의 경우 바이트가 부족하면 그 앞 글자까지만 자름
+	 * @param bytesForDB 2-byte 문자(한글 등)의 DB에서의 바이트 수
+	 * @return String
+	 */
+	public static String subStrByte(String target, int beginIndex, int endIndex, int bytesForDB){
+		if(target == null) return "";
+		
+		String tmp = target;
+		int slen = 0, blen = 0;
+		char c;
+		
+		if(tmp.getBytes().length > endIndex - 1){
+			while (blen + 1 < endIndex - 1) {
+				c = tmp.charAt(slen);
+				blen++;
+				slen++;
+				
+				if(c > 127){
+					blen = blen + (bytesForDB - 1);
+				}
+			}
+			tmp = tmp.substring(0, slen);
+		}
+		return tmp;
+	}
 }

@@ -148,7 +148,7 @@
 										<#else>
 											<span class="info_line gray">MPR</span>
 										</#if>
-										<span class="info_line"><a href="javascript:dropMember('${subj.memKey }','${subj.subj }','${info.MFstName?default('') } ${info.MFstName?default('') }');" class="blue">DROP</a></span>
+										<span class="info_line"><a href="javascript:dropMember('${subj.memKey }','${subj.subj }','${info.MFstName?default('') } ${info.MLstName?default('') }');" class="blue">DROP</a></span>
 										<#if subj.isCancle == 'true'>
 											<span class="info_line"><a href="#" class="blue">REG.CANCEL</a></span>
 										<#else>

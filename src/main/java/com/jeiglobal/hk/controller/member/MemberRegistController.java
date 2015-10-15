@@ -185,6 +185,7 @@ public class MemberRegistController {
 		}else{
 			memMst.setMemKey(memKey);
 		}
+		memMst.setRemarks(CommonUtils.subStrByte(memMst.getRemarks(), 0, 500, 3));
 		memMst.setRemarks(StringEscapeUtils.escapeHtml(memMst.getRemarks()));
 		memMst.setMBirthDay(dobYear + "-" + dobMonth + "-" + dobDay);
 		String workId = CommonUtils.getWorkId(request);
