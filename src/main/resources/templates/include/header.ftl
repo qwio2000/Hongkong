@@ -28,13 +28,10 @@
 	<script type="text/javascript" src="${jsPath }/common/ux.js"></script>
 	<script type="text/javascript" src="${jsPath }/common/jquery-ui.1.11.4.min.js"></script>
 	<#if headerScript?has_content>
-	<#list headerScript as script>
-		<script type="text/javascript" src="${jsPath }/${script}.js"></script>
-	</#list>
+		<#list headerScript as script>
+			<script type="text/javascript" src="${jsPath }/${script}.js"></script>
+		</#list>
 	</#if>
-	<script type="text/javascript">
-		var imgPath = '${imgPath}';
-	</script>
 </head>
 <body>
 	<div class="wrap">

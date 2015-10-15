@@ -1,4 +1,3 @@
-
 package com.jeiglobal.hk.repository.diagnosis;
 
 import java.util.List;
@@ -37,7 +36,29 @@ public interface DiagnosisRepository {
 	
 	List<DiagnosisDto.DiagnosisOmrChkG> findDiagnosisOmrChkG(Map<String, Object> map);
 
-	String findDiagnosisOmrBan(Map<String, Object> map);	
+	String findDiagnosisOmrBan(Map<String, Object> map);
+
+	DiagnosisDto.DiagnosisOmrPrint findDiagnosisOmrPrint(Map<String, Object> map);
+
+	List<DiagnosisDto.DiagnosisOdab> findDiagnosisOdab(Map<String, Object> map);
+
+	DiagnosisDto.DiagnosisRangeAllGet findDiagnosisRangeAllGet(Map<String, Object> map);
+
+	DiagnosisDto.DiagnosisRange findDiagnosisRange(Map<String, Object> map);
+
+	List<DiagnosisDto.DiagnosisOdab12> findDiagnosisOdab12(Map<String, Object> map);
+
+	List<DiagnosisDto.DiagnosisOdab2> findDiagnosisOdab2(Map<String, Object> map);
+
+	List<DiagnosisDto.DiagnosisOdab4> findDiagnosisOdab4(Map<String, Object> map);
+
+	DiagnosisDto.DiagnosisSooJun findDiagnosisSooJun(Map<String, Object> map);
+
+	DiagnosisDto.DiagnosisStartYYMM findDiagnosisStartYYMM(Map<String, Object> map);
+
+	List<DiagnosisDto.DiagnosisJindo> findDiagnosisJindo(Map<String, Object> map);
+
+	List<DiagnosisDto.DiagnosisNext> findDiagnosisNext(Map<String, Object> map);	
 	
 	
 	
