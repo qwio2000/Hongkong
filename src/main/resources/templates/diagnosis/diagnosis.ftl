@@ -17,10 +17,18 @@
 	
 	
 	<br/>
-	<a href="javascript:var a=window.open('/fa/diagnosis/OmrPrint?jisa=08&Mujin=0&Omrdate=2015-10-12&&memKey=HK000051&subj=KM&PopGraph=B', 'PrintPop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');">
-		수학 처방기록부!!
+	<a href="javascript:var a=window.open('/fa/diagnosis/OmrPrintJD?jisa=08&mujin=0&omrdate=2013-04-09&&memKey=AA208784&subj=KM&popGraph=B', 'PrintPop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');">
+		KM수학 처방기록부!!
 	</a>
+	<br/>
+	<a href="javascript:var a=window.open('/fa/diagnosis/OmrPrintJD?jisa=08&mujin=0&omrdate=2014-05-15&&memKey=AA293358&subj=EM&popGraph=B', 'PrintPop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');">
+		EM수학 처방기록부!!
+	</a>
+	
 </div>
+
+
+
+
 <!--// Main Content -->
 <#include "/include/footer.ftl">
-

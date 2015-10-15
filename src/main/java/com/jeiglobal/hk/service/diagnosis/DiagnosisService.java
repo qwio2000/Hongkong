@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
-import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisOmrPrint;
 import com.jeiglobal.hk.repository.diagnosis.DiagnosisRepository;
 import com.jeiglobal.hk.utils.CommonUtils;
 
@@ -155,10 +154,27 @@ public class DiagnosisService {
 		return diagnosisRepository.findDiagnosisOmrBan(map);
 	}
 
-
-	public DiagnosisDto.DiagnosisOmrPrint getDiagnosisOmrPrint(String jisa, String omrdate,
-			String memKey, String subj, String mujin, String lang) {
-		
+	/** 개인별 처방기록부 **/
+		//회원 기초정보
+		public DiagnosisDto.DiagnosisOmrPrint getDiagnosisOmrPrint(String jisa, String omrdate,
+				String memKey, String subj, String mujin, String lang) {
+			
+				Map<String, Object> map = new HashMap<>();
+				map.put("jisa", jisa);		
+				map.put("omrdate", omrdate);		
+				map.put("memKey", memKey);
+				map.put("subj", subj);
+				map.put("mujin", mujin);
+				map.put("lang", lang);
+				
+				return diagnosisRepository.findDiagnosisOmrPrint(map);
+		}
+	
+	
+		//오답내용
+		public List<DiagnosisDto.DiagnosisOdab> getDiagnosisOdab(String jisa, String omrdate,
+				String memKey, String subj, String mujin, String lang, String gubun) {
+	
 			Map<String, Object> map = new HashMap<>();
 			map.put("jisa", jisa);		
 			map.put("omrdate", omrdate);		
@@ -166,12 +182,155 @@ public class DiagnosisService {
 			map.put("subj", subj);
 			map.put("mujin", mujin);
 			map.put("lang", lang);
+			map.put("gubun", gubun);
 			
-			return diagnosisRepository.findDiagnosisOmrPrint(map);
-	}
+			return diagnosisRepository.findDiagnosisOdab(map);		
+		}
+
+
+		public DiagnosisDto.DiagnosisRangeAllGet getDiagnosisRangeAllGet(String jisa,
+				String subj, String omrGrd, String omrPath, String lang) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("jisa", jisa);		
+				map.put("subj", subj);		
+				map.put("omrGrd", omrGrd);
+				map.put("omrPath", omrPath);
+				map.put("lang", lang);
+			
+			return diagnosisRepository.findDiagnosisRangeAllGet(map);		
+		}
+
+
+		public DiagnosisDto.DiagnosisRange getDiagnosisRange(String jisa, String omrdate,
+				String memKey, String subj, String mujin, String lang) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("mujin", mujin);
+			map.put("lang", lang);
+			return diagnosisRepository.findDiagnosisRange(map);		
+		}
+
+
+		public List<DiagnosisDto.DiagnosisOdab12> getDiagnosisOdab12(String jisa, String omrdate,
+				String memKey, String subj, String omrGrd, String omrKind,
+				String mujin, String lang) {
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("omrGrd", omrGrd);
+			map.put("omrKind", omrKind);
+			map.put("mujin", mujin);
+			map.put("lang", lang);
+			return diagnosisRepository.findDiagnosisOdab12(map);	
+		}
+
+
+		public List<DiagnosisDto.DiagnosisOdab2> getDiagnosisOdab2(String jisa,
+				String omrdate, String memKey, String subj, String mujin,
+				String lang) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("mujin", mujin);
+			map.put("lang", lang);
+			return diagnosisRepository.findDiagnosisOdab2(map);	
+		}
+
+
+		public List<DiagnosisDto.DiagnosisOdab4> getDiagnosisOdab4(String jisa,
+				String omrdate, String memKey, String subj, String omrGrd,
+				String omrKind, String mujin, String lang) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("omrGrd", omrGrd);
+			map.put("omrKind", omrKind);
+			map.put("mujin", mujin);
+			map.put("lang", lang);
+			return diagnosisRepository.findDiagnosisOdab4(map);	
+		}
+
+
+		public DiagnosisDto.DiagnosisSooJun getDiagnosisSooJun(String jisa, String omrdate,
+				String memKey, String subj, String omrKind, String omrGrd,
+				String omrHak, String omrBirth, String omrPath, String lang) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("omrKind", omrKind);
+			map.put("omrGrd", omrGrd);
+			map.put("omrHak", omrHak);
+			map.put("omrBirth", omrBirth);
+			map.put("omrPath", omrPath);
+			map.put("lang", lang);
+			return diagnosisRepository.findDiagnosisSooJun(map);	
+		}
+
+
+		public DiagnosisDto.DiagnosisStartYYMM getDiagnosisStartYYMM(String jisa,
+				String omrdate, String memKey, String subj, String omrPath,
+				String lang) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("omrPath", omrPath);
+			map.put("lang", lang);
+			
+			return diagnosisRepository.findDiagnosisStartYYMM(map);	
+		}
+
+
+		public List<DiagnosisDto.DiagnosisJindo> getDiagnosisJindo(String jisa,
+				String omrdate, String memKey, String subj, String weeks,
+				String mujin) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("weeks", weeks);
+			map.put("mujin", mujin);
+			
+			return diagnosisRepository.findDiagnosisJindo(map);	
+		}
+
+
+		public List<DiagnosisDto.DiagnosisNext> getDiagnosisNext(String jisa,
+				String omrdate, String memKey, String subj, String mujin) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("mujin", mujin);
+			
+			return diagnosisRepository.findDiagnosisNext(map);	
+		}
+
+
+
+		
+
+		
+
+
+
 	
-	
-	
+	/** //개인별 처방기록부 **/
 	
 	
 	

@@ -228,21 +228,18 @@ $(function(){
 					if (jsonData.omrOmrOdabOK == 'N'){			
 						$("#lastOK").val(jsonData.alertMsg)								
 					}
+					
+					if($("#lastOK").val() == "Y" ){
+						$.getOmrBan();				
+					}else{
+						alert($("#lastOK").val());
+						return;
+					}
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert(thrownError);
 				}
 			});
-			
-		
-			if($("#lastOK").val() == "Y" ){
-				$.getOmrBan();				
-			}else{
-				alert($("#lastOK").val());
-				return;
-			}
-			
-				
 			
 		},
 		

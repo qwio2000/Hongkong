@@ -1,4 +1,3 @@
-
 package com.jeiglobal.hk.controller.diagnosis;
 
 import java.text.ParseException;
@@ -355,22 +354,97 @@ public class DiagnosisController {
 	}
 	
 	
-	// ippr 처방 기록부
-	@RequestMapping(value={"/fa/diagnosis/OmrPrint"}, method={RequestMethod.GET,RequestMethod.HEAD})  
-	public String diagnosisIpprOmrPrint(Model model, String jisa, String omrdate, String memKey, String subj, String PopGraph, String mujin)  {
+	// ippr 처방 기록부 KM
+	@RequestMapping(value={"/fa/diagnosis/OmrPrintJD"}, method={RequestMethod.GET,RequestMethod.HEAD})  
+	public String diagnosisIpprOmrPrintKM(Model model, String jisa, String omrdate, String memKey, String subj, String mujin)  {
 		log.debug("Getting OmrPrint List Page");
 		String lang = "";
-		DiagnosisDto.DiagnosisOmrPrint diagnosisOmrPrint = diagnosisService.getDiagnosisOmrPrint(jisa, omrdate, memKey, subj, mujin, lang);	 //회원정보
+		int odabWidth = 22;
+		int MaxOdabLine = 0;
+		if ("EM".equals(subj)) {
+			MaxOdabLine = 27;
+		}else{
+			MaxOdabLine = 26;
+		}
+		 
+		//회원 기초정보
+		DiagnosisDto.DiagnosisOmrPrint diagnosisOmrPrint = diagnosisService.getDiagnosisOmrPrint(jisa, omrdate, memKey, subj, mujin, lang);	 
+		/* 오답내용 */
+		List<DiagnosisDto.DiagnosisOdab> diagnosisOdabLeft = diagnosisService.getDiagnosisOdab(jisa, omrdate, memKey, subj, mujin, lang, "L");		
+		List<DiagnosisDto.DiagnosisOdab> diagnosisOdabRight = diagnosisService.getDiagnosisOdab(jisa, omrdate, memKey, subj, mujin, lang, "R");
+
+		String omrGrd = diagnosisOmrPrint.getOmrGrd();
+		String omrPath = diagnosisOmrPrint.getOmrPath();
+		String omrKind = diagnosisOmrPrint.getOmrKind();
+		String omrHak = diagnosisOmrPrint.getOmrHak();
+		String omrBirth = diagnosisOmrPrint.getOmrBirth();
 		
-		model.addAttribute("omrgicho", diagnosisOmrPrint);			
+		/* 영역별 분석 */
+		//영역명가져오기
+		DiagnosisDto.DiagnosisRangeAllGet diagnosisRangeAllGet = diagnosisService.getDiagnosisRangeAllGet(jisa, subj, omrGrd, omrPath, lang);
+		//문항수
+		DiagnosisDto.DiagnosisRange diagnosisRange = diagnosisService.getDiagnosisRange(jisa, omrdate, memKey, subj, mujin, lang);
+
+		/* 오답내용 분석 */
+		//학습내용별 분석
+		List<DiagnosisDto.DiagnosisOdab12> diagnosisOdab12 = diagnosisService.getDiagnosisOdab12(jisa, omrdate, memKey, subj, omrGrd, omrKind, mujin, lang);
+		//학습기능별 분석
+		List<DiagnosisDto.DiagnosisOdab2> diagnosisOdab2 = diagnosisService.getDiagnosisOdab2(jisa, omrdate, memKey, subj, mujin, lang);
+		//학습기능별 분석
+		List<DiagnosisDto.DiagnosisOdab4> diagnosisOdab4 = diagnosisService.getDiagnosisOdab4(jisa, omrdate, memKey, subj, omrGrd, omrKind, mujin, lang);
+
+		/* 학습 수준 분석 기준 */
+		DiagnosisDto.DiagnosisSooJun diagnosisSooJun = diagnosisService.getDiagnosisSooJun(jisa, omrdate, memKey, subj, omrKind, omrGrd, omrHak, omrBirth, omrPath, lang);
 		
-		return "diagnosis/diagnosis/OmrPrint";	
+		/* 처방프로그램 */
+		// 월 가져오기
+		DiagnosisDto.DiagnosisStartYYMM diagnosisStartYYMM = diagnosisService.getDiagnosisStartYYMM(jisa, omrdate, memKey, subj, omrPath, lang);
+		// 진도 가져오기	
+		List<DiagnosisDto.DiagnosisJindo> diagnosisJindo1 = diagnosisService.getDiagnosisJindo(jisa, omrdate, memKey, subj, "1", mujin);
+		List<DiagnosisDto.DiagnosisJindo> diagnosisJindo2 = diagnosisService.getDiagnosisJindo(jisa, omrdate, memKey, subj, "2", mujin);
+		List<DiagnosisDto.DiagnosisJindo> diagnosisJindo3 = diagnosisService.getDiagnosisJindo(jisa, omrdate, memKey, subj, "3", mujin);
+		List<DiagnosisDto.DiagnosisJindo> diagnosisJindo4 = diagnosisService.getDiagnosisJindo(jisa, omrdate, memKey, subj, "4", mujin);
+		List<DiagnosisDto.DiagnosisJindo> diagnosisJindo5 = diagnosisService.getDiagnosisJindo(jisa, omrdate, memKey, subj, "5", mujin);		
+		/* 예상진도 */
+		List<DiagnosisDto.DiagnosisNext> diagnosisNext = diagnosisService.getDiagnosisNext(jisa, omrdate, memKey, subj, mujin);
+		
+		
+		
+		model.addAttribute("odabWidth", odabWidth);	
+		model.addAttribute("maxOdabLine", MaxOdabLine);
+		
+		model.addAttribute("omrgicho", diagnosisOmrPrint);	
+		model.addAttribute("omrOdabLeft", diagnosisOdabLeft);
+		model.addAttribute("omrOdabRight", diagnosisOdabRight);
+		
+		model.addAttribute("rangeAllGet", diagnosisRangeAllGet);
+		model.addAttribute("range", diagnosisRange);	
+		
+		model.addAttribute("odab12", diagnosisOdab12);
+		model.addAttribute("odab2", diagnosisOdab2);
+		model.addAttribute("odab4", diagnosisOdab4);
+		
+		model.addAttribute("sooJun", diagnosisSooJun);
+		
+		model.addAttribute("startYYMM", diagnosisStartYYMM);
+		model.addAttribute("jindo1", diagnosisJindo1);
+		model.addAttribute("jindo2", diagnosisJindo2);
+		model.addAttribute("jindo3", diagnosisJindo3);
+		model.addAttribute("jindo4", diagnosisJindo4);
+		model.addAttribute("jindo5", diagnosisJindo5);
+
+
+		model.addAttribute("next", diagnosisNext);
+		
+		if ("EM".equals(subj)) {
+			return "diagnosis/diagnosis/OmrPrintEM";	
+		}else{
+			return "diagnosis/diagnosis/OmrPrintKM";	
+		}
+		
 	}
 	
 	
-
-
-		
 
 
 }
