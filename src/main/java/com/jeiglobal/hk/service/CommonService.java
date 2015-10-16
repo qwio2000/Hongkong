@@ -129,7 +129,7 @@ public class CommonService {
 		return commonRepository.findClosingDate(param);
 	}
 	/**
-	 * 해당 지사, 가맹점의 회원 관리 시간(oHours) 리스트를 가져오는 메서드
+	 * 해당 지사, 가맹점의 회원 관리 시간(cHours) 리스트를 가져오는 메서드
 	 * @param jisaCD
 	 * @param deptCD
 	 * @return List<CodeDtl>
@@ -139,7 +139,7 @@ public class CommonService {
 		param.put("jisaCD", jisaCD);
 		param.put("deptCD", deptCD);
 		Map<String, Object> deptHour = commonRepository.findDeptOpenCloseTime(param);
-		return getDeptAvailableTimes(jisaCD, deptHour.get("oHoursStart").toString(), deptHour.get("oHoursEnd").toString());
+		return getDeptAvailableTimes(jisaCD, deptHour.get("cHoursStart").toString(), deptHour.get("cHoursEnd").toString());
 	}
 
 	/**
@@ -153,7 +153,7 @@ public class CommonService {
 		param.put("jisaCD", jisaCD);
 		param.put("deptCD", deptCD);
 		Map<String, Object> deptHour = commonRepository.findDeptOpenCloseTime(param);
-		return getDeptAvailableTimes(jisaCD, deptHour.get("cHoursStart").toString(), deptHour.get("cHoursEnd").toString());
+		return getDeptAvailableTimes(jisaCD, deptHour.get("oHoursStart").toString(), deptHour.get("oHoursEnd").toString());
 	}
 	
 	/**

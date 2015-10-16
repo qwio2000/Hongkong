@@ -321,4 +321,47 @@ public class MemberReportController {
 		model.addAttribute("headerScript", headerScript);
 		return "member/report/ipprs";
 	}
+	@RequestMapping(value={"/fa/members/reports/registCancel"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public Map<String, Object> removeMemAppointment(String memKey, String subj,
+			@ModelAttribute LoginInfo loginInfo, HttpServletRequest request) throws ParseException {
+		String workId = CommonUtils.getWorkId(request);
+		MemSubjRegist memberRegist = memberReportService.getMemSubjRegistByMemKeyAndSubj(memKey, subj);
+		String type = memberRegist.getRegistGubunCD();
+		Map<String, Object> returnMap = new HashMap<>();
+		String hUpdCD = "01".equals(type) ? "16" : "02".equals(type) ? "18" : "17";
+		returnMap.put("result", "false");
+		if("01".equals(type)){
+			int otherSubjCount = memberReportService.getMemSubjRegistOtherSubj(memberRegist);
+			if(otherSubjCount > 0){
+				returnMap.put("result", "true"); //다른 과목 존재 => 입회 취소 실패
+			}else{
+				//MemMst
+				memberReportService.removeMemMstByMemKey(memberRegist, workId, hUpdCD);
+			}
+		}
+		if("false".equals(returnMap.get("result").toString())){
+			if("02".equals(type)){
+				//MemSubjMst
+				memberReportService.setMemSubjMstByMemKeyAndSubj(memberRegist, workId, hUpdCD);
+				//MemSubjStudy
+				memberReportService.setMemSubjStudyByMemKeyAndSubj(memberRegist, workId, hUpdCD);
+			}else{
+				//MemSubjMst
+				memberReportService.removeMemSubjMstByMemKeyAndSubj(memberRegist, workId, hUpdCD);
+				//MemSubjStudy
+				memberReportService.removeMemSubjStudyByMemKeyAndSubj(memberRegist, workId, hUpdCD);
+			}
+			//MemSubjRegist
+			memberReportService.removeMemSubjRegistByMemKeyAndSubj(memberRegist, workId, hUpdCD);
+			//MemSubjTuition
+			memberReportService.removeMemSubjTuitionByMemKeyAndSubj(memberRegist, workId, hUpdCD);
+			if(!"02".equals(type)){
+				//MemSubjProgress
+				memberReportService.removeMemSubjProgressByMemKeyAndSubj(memberRegist, workId, hUpdCD);
+			}
+		}
+		returnMap.put("count", memberReportService.getMemSubjRegistOtherSubj(memberRegist));
+		return returnMap;
+	}
 }

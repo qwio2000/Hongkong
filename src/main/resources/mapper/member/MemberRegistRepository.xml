@@ -118,14 +118,14 @@
 	<insert id="insertMemSubjMstHis" parameterType="com.jeiglobal.hk.domain.member.MemSubjMst">
 		INSERT INTO globalbiz.MemSubjMstHis 
 			(memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, hUpdCD, hRegDate, hRegID)
-		SELECT memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, '11', NOW(), #{regID}
+		SELECT memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, '13', NOW(), #{regID}
 		FROM globalbiz.MemSubjMst
 		WHERE memKey = #{memKey} AND subj = #{subj}
 	</insert>
 	<insert id="insertMemSubjStudyHis" parameterType="com.jeiglobal.hk.domain.member.MemSubjStudy">
 		INSERT INTO globalbiz.MemSubjStudyHis 
 			(memKey, subj, studyNum, bookNum, yoil, yoilSeq, bookFlag, visitHours, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, hUpdCD, hRegDate, hRegID)
-		SELECT memKey, subj, studyNum, bookNum, yoil, yoilSeq, bookFlag, visitHours, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, '11', NOW(), #{regID}
+		SELECT memKey, subj, studyNum, bookNum, yoil, yoilSeq, bookFlag, visitHours, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, '13', NOW(), #{regID}
 		FROM globalbiz.MemSubjStudy
 		WHERE memKey = #{memKey} AND subj = #{subj} AND yoilSeq = #{yoilSeq}
 	</insert>
