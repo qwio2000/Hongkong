@@ -441,5 +441,143 @@ public class MemberReportService {
 		memberReportRepository.deleteCommentCall(idx);
 	}
 
+	/**
+	 * @param memKey
+	 * @param subj
+	 * @return MemSubjRegist
+	 */
+	public MemSubjRegist getMemSubjRegistByMemKeyAndSubj(String memKey, String subj) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("subj", subj);
+		return memberReportRepository.findMemSubjRegistByMemKeyAndSubj(param);
+	}
+
+	/**
+	 * @param memberRegist
+	 * @return int
+	 */
+	public int getMemSubjRegistOtherSubj(MemSubjRegist memberRegist) {
+		return memberReportRepository.findMemSubjRegistOtherSubjCount(memberRegist);
+	}
+
+	/**
+	 * @param memberRegist
+	 * @param workId 
+	 */
+	public void removeMemMstByMemKey(MemSubjRegist memberRegist, String workId, 
+			String hUpdCD) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memberRegist", memberRegist);
+		param.put("workId", workId);
+		param.put("hUpdCD", hUpdCD);
+		memberReportRepository.insertMemMstHisByRegistCancel(param);
+		memberReportRepository.deleteMemMstByRegistCancel(param);
+	}
+
+	/**
+	 * @param memberRegist
+	 * @param workId
+	 */
+	public void removeMemSubjMstByMemKeyAndSubj(MemSubjRegist memberRegist,
+			String workId, String hUpdCD) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memberRegist", memberRegist);
+		param.put("workId", workId);
+		param.put("hUpdCD", hUpdCD);
+		memberReportRepository.insertMemSubjMstHisByRegistCancel(param);
+		memberReportRepository.deleteMemSubjMstByRegistCancel(param);
+		
+	}
+
+	/**
+	 * @param memberRegist
+	 * @param workId void
+	 */
+	public void removeMemSubjStudyByMemKeyAndSubj(MemSubjRegist memberRegist,
+			String workId, String hUpdCD) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memberRegist", memberRegist);
+		param.put("workId", workId);
+		param.put("hUpdCD", hUpdCD);
+		memberReportRepository.insertMemSubjStudyHisByRegistCancel(param);
+		memberReportRepository.deleteMemSubjStudyByRegistCancel(param);
+	}
+
+	/**
+	 * @param memberRegist
+	 * @param workId void
+	 */
+	public void removeMemSubjRegistByMemKeyAndSubj(MemSubjRegist memberRegist,
+			String workId, String hUpdCD) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memberRegist", memberRegist);
+		param.put("workId", workId);
+		param.put("hUpdCD", hUpdCD);
+		memberReportRepository.insertMemSubjRegistHisByRegistCancel(param);
+		memberReportRepository.deleteMemSubjRegistByRegistCancel(param);
+		
+	}
+
+	/**
+	 * @param memberRegist
+	 * @param workId void
+	 */
+	public void removeMemSubjTuitionByMemKeyAndSubj(MemSubjRegist memberRegist,
+			String workId, String hUpdCD) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memberRegist", memberRegist);
+		param.put("workId", workId);
+		param.put("hUpdCD", hUpdCD);
+		memberReportRepository.insertMemSubjTuitionHisByRegistCancel(param);
+		memberReportRepository.deleteMemSubjTuitionByRegistCancel(param);
+		
+	}
+
+	/**
+	 * @param memberRegist
+	 * @param workId void
+	 */
+	public void removeMemSubjProgressByMemKeyAndSubj(
+			MemSubjRegist memberRegist, String workId, String hUpdCD) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memberRegist", memberRegist);
+		param.put("workId", workId);
+		param.put("hUpdCD", hUpdCD);
+		memberReportRepository.insertMemSubjProgressHisByRegistCancel(param);
+		memberReportRepository.deleteMemSubjProgressByRegistCancel(param);
+		
+	}
+
+	/**
+	 * @param memberRegist
+	 * @param workId
+	 * @param hUpdCD void
+	 */
+	public void setMemSubjMstByMemKeyAndSubj(MemSubjRegist memberRegist,
+			String workId, String hUpdCD) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memberRegist", memberRegist);
+		param.put("workId", workId);
+		param.put("hUpdCD", hUpdCD);
+		memberReportRepository.insertMemSubjMstHisByRegistCancel(param);
+		memberReportRepository.updateMemSubjMstByRegistCancel(param);
+	}
+
+	/**
+	 * @param memberRegist
+	 * @param workId
+	 * @param hUpdCD void
+	 */
+	public void setMemSubjStudyByMemKeyAndSubj(MemSubjRegist memberRegist,
+			String workId, String hUpdCD) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memberRegist", memberRegist);
+		param.put("workId", workId);
+		param.put("hUpdCD", hUpdCD);
+		memberReportRepository.insertMemSubjStudyHisByRegistCancel(param);
+		memberReportRepository.updateMemSubjStudyByRegistCancel(param);
+	}
+
 
 }

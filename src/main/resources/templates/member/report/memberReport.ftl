@@ -160,7 +160,7 @@
 										</#if>
 										<span class="info_line"><a href="javascript:dropMember('${subj.memKey }','${subj.subj }','${info.MFstName?default('') } ${info.MLstName?default('') }','${subj.convertRegistYMD }','${subj.isCancle }','${.now?string('MM/dd/yyyy') }');" class="blue">DROP</a></span>
 										<#if subj.isCancle == 'true'>
-											<span class="info_line"><a href="#" class="blue">REG.CANCEL</a></span>
+											<span class="info_line"><a href="javascript:registCancel('${subj.memKey }','${subj.subj }')" class="blue">REG.CANCEL</a></span>
 										<#else>
 											<span class="info_line gray">REG.CANCEL</span>
 										</#if>
