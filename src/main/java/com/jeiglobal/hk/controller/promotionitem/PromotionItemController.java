@@ -26,9 +26,10 @@ import com.jeiglobal.hk.service.promotionitem.PromotionitemService;
 
 
 /**
- * @since  2015-10-01
- * @author 이지은
- *
+ * @since	2015-10-01
+ * @author	이지은
+ * @see		지사 컨트롤러. 가맹은 PromotionItemFAController 로.
+ * 			판촉물 입력, 수정, 삭제.
  */
 
 @Slf4j
@@ -48,7 +49,7 @@ public class PromotionItemController {
 		String userType = loginInfo.getUserType();
 		log.debug("Getting List Page, UserType : {}", userType);
 		
-		List<PromotionItem> promolist = promotionitemservice.promotionitemList(loginInfo.getJisaCD());
+		List<PromotionItem> promolist = promotionitemservice.promotionitemList(loginInfo);
 		model.addAttribute("list", promolist);
 		
 		return "promotionitem/list";
@@ -260,6 +261,8 @@ public class PromotionItemController {
 		promotionitemservice.promotionitemdelete(itemCD);
 		return "redirect:/ja/promoitem/promoitemlist";
 	}
+	
+
 	
 
 	
