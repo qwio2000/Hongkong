@@ -86,4 +86,37 @@ public interface MemberReportRepository {
 
 	public void deleteCommentCall(int idx);
 
+	public MemSubjRegist findMemSubjRegistByMemKeyAndSubj(
+			Map<String, Object> param);
+
+	public int findMemSubjRegistOtherSubjCount(MemSubjRegist memberRegist);
+
+	public void insertMemMstHisByRegistCancel(Map<String, Object> param);
+
+	public void deleteMemMstByRegistCancel(Map<String, Object> param);
+
+	public void insertMemSubjMstHisByRegistCancel(Map<String, Object> param);
+
+	public void deleteMemSubjMstByRegistCancel(Map<String, Object> param);
+
+	public void insertMemSubjStudyHisByRegistCancel(Map<String, Object> param);
+
+	public void deleteMemSubjStudyByRegistCancel(Map<String, Object> param);
+	
+	public void insertMemSubjRegistHisByRegistCancel(Map<String, Object> param);
+	
+	public void deleteMemSubjRegistByRegistCancel(Map<String, Object> param);
+	
+	public void insertMemSubjTuitionHisByRegistCancel(Map<String, Object> param);
+	
+	public void deleteMemSubjTuitionByRegistCancel(Map<String, Object> param);
+	
+	public void insertMemSubjProgressHisByRegistCancel(Map<String, Object> param);
+	
+	public void deleteMemSubjProgressByRegistCancel(Map<String, Object> param);
+
+	public void updateMemSubjMstByRegistCancel(Map<String, Object> param);
+
+	public void updateMemSubjStudyByRegistCancel(Map<String, Object> param);
+
 }
