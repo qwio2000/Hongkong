@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.MemberDto.*;
 import com.jeiglobal.hk.service.*;
+import com.jeiglobal.hk.service.member.*;
 import com.jeiglobal.hk.utils.*;
 
 /**
@@ -39,6 +40,9 @@ public class MemberWorkbookController {
 	@Value("${page.blockSize}")
 	private int blockSize;
 	
+	@Autowired
+	private MemberWorkbookService memberWorkbookService;
+	
 	@RequestMapping(value={"/fa/members/workbook"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMembers(Model model,
 			@ModelAttribute LoginInfo loginInfo){
@@ -52,19 +56,22 @@ public class MemberWorkbookController {
 		model.addAttribute("subjs", subjs);
 		return "member/workbook/reports";
 	}
-//	@RequestMapping(value={"/ja/members/search/{pageNum:[0-9]+}"},method = {RequestMethod.GET, RequestMethod.HEAD})
-//	@ResponseBody
-//	public Map<String, Object> getMemberSearches(@ModelAttribute LoginInfo loginInfo,
-//			MemberDto.MemberSearch memberSearch,
-//			@PathVariable int pageNum){
-//		log.debug("get member searches {}",memberSearch);
-//		List<MemberDto.MemberSearchInfo> members = memberSearchService.getSearchResults(memberSearch, loginInfo, pageNum, pageSize);
-//		int totalCnt = (members.size()>0)? members.get(0).getRCnt() : 0;
-//		PageUtil pageUtil = new PageUtil(pageNum, totalCnt, pageSize, blockSize);
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("members", members);
-//		map.put("pageInfo", pageUtil);
-//		return map;
-//	}
+	@RequestMapping(value={"/fa/members/workbook/{pageNum:[0-9]+}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> getMemberWorkbookJson(@ModelAttribute LoginInfo loginInfo,
+			int month, int year, int week, String subj,
+			@PathVariable int pageNum){
+		log.debug("get member Workbook, year : {}, month : {}, week Range : {}", year, month, week);
+		Map<String, Object> map = new HashMap<String, Object>();
+		PageUtil pageUtil = new PageUtil(pageNum, memberWorkbookService.getMemberWorkbookCount(loginInfo.getJisaCD(), loginInfo.getDeptCD(), subj), pageSize, blockSize);
+		if(pageUtil.getTotalPageCnt() > 0){
+			List<MemberWorkbookInfo> workbooks = memberWorkbookService.getMemberWorkbooks(year, month, week, subj, loginInfo.getJisaCD(), loginInfo.getDeptCD(), pageUtil.getStartRow(), pageUtil.getRowBlockSize());
+			map.put("workbooks", workbooks);
+		}
+		map.put("monthName", memberWorkbookService.getMonthName(month, CommonUtils.getMonths(2)));
+		map.put("week", week);
+		map.put("pageInfo", pageUtil);
+		return map;
+	}
 	
 }

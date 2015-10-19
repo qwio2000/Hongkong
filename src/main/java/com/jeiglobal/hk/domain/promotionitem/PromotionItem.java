@@ -6,6 +6,13 @@ import lombok.NoArgsConstructor;
 
 import org.springframework.web.multipart.MultipartFile;
 
+
+/**
+ * @since  2015-10-01
+ * @author Jieun
+ * @see 판촉물 관리(Mst) Entity.
+ **/
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -46,6 +53,7 @@ public class PromotionItem {
 	
 	//파일
 	private MultipartFile[] multipartFile;
+
 	
 
 }
