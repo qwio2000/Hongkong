@@ -42,7 +42,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 		SecurityContext context = hsscr.loadContext(hrrh);
 		Authentication authentication = context.getAuthentication();
 		LoginInfo loginInfo = (LoginInfo) authentication.getPrincipal();
-		
+		log.debug("loginInfo : {}", loginInfo);
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
