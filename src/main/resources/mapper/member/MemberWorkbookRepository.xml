@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.member.MemberWorkbookRepository">
+	<select id="findMemberWorkbookCount" parameterType="hashMap" resultType="int">
+		SELECT COUNT(1)
+		FROM(
+			SELECT a.memKey, a.gradeCD, globalbiz.FuncCodeDtlNM(b.jisaCD, '0003', a.gradeCD, '', 'Y') AS gradeName
+			FROM globalbiz.MemMst AS a
+				INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey
+				INNER JOIN globalbiz.MemSubjStudy AS c ON b.memKey = c.memKey AND b.subj = c.subj
+			WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD} AND b.statusCD = '1'
+			<if test="subj != null and subj != ''">
+				AND b.subj = #{subj}
+			</if>
+			GROUP BY a.memKey
+		) AS a;
+	</select>
+	<select id="findMemberWorkbookInfo" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberWorkbookInfo">
+		SELECT a.memKey, a.mFstName, a.mLstName, a.gradeCD, globalbiz.FuncCodeDtlNM(b.jisaCD, '0003', a.gradeCD, '', 'Y') AS gradeName
+		FROM globalbiz.MemMst AS a
+			INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey
+			INNER JOIN globalbiz.MemSubjStudy AS c ON b.memKey = c.memKey AND b.subj = c.subj
+		WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD} AND b.statusCD = '1'
+		<if test="subj != null and subj != ''">
+			AND b.subj = #{subj}
+		</if>
+		GROUP BY a.memKey
+		ORDER BY a.memKey
+		LIMIT #{startRow}, #{rowBlockSize}
+	</select>
+	<select id="findMemberWorkbookSubjInfo" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberWorkbookSubjInfo">
+		SELECT a.memKey, a.subj, b.yoil, globalbiz.FuncCodeDtlNM(a.jisaCD, '0006', b.yoil, 'K', 'Y') AS yoilName, b.visitHours, globalbiz.FuncCodeDtlNM(a.jisaCD, '0206', b.visitHours, '', 'Y') AS visitHoursName,
+			globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set1}, '1') AS set1,  globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set1}, '2') AS setWbOutYMD1,
+			globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set2}, '1') AS set2,  globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set2}, '2') AS setWbOutYMD2,
+			globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set3}, '1') AS set3,  globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set3}, '2') AS setWbOutYMD3,
+			globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set4}, '1') AS set4,  globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set4}, '2') AS setWbOutYMD4,
+			globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set5}, '1') AS set5,  globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set5}, '2') AS setWbOutYMD5,
+			<choose>
+				<when test="week gt 5">
+					globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set6}, '1') AS set6, globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set6}, '2') AS setWbOutYMD6,
+					globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set7}, '1') AS set7, globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set7}, '2') AS setWbOutYMD7,
+					globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set8}, '1') AS set8, globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set8}, '2') AS setWbOutYMD8,
+					globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set9}, '1') AS set9, globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set9}, '2') AS setWbOutYMD9,
+					globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set10}, '1') AS set10, globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set10}, '2') AS setWbOutYMD10
+				</when>
+				<otherwise>
+					'' AS set6, '' AS setWbOutYMD6, '' AS set7, '' AS setWbOutYMD7, '' AS set8, '' AS setWbOutYMD8, '' AS set9, '' AS setWbOutYMD9, '' AS set10, '' AS setWbOutYMD10 
+				</otherwise>
+			</choose>
+		FROM globalbiz.MemSubjMst AS a
+			INNER JOIN globalbiz.MemSubjStudy AS b ON a.memKey = b.memKey AND a.subj = b.subj
+		WHERE a.jisaCD = #{jisaCD} AND a.deptCD = #{deptCD} AND statusCD = '1' AND a.memKey = #{memKey}
+			<if test="subj != null and subj != ''">
+				AND a.subj = #{subj}
+			</if>
+	</select>
+</mapper>

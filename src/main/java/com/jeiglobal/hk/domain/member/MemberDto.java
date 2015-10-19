@@ -189,6 +189,8 @@ public class MemberDto {
 	@Data
 	public static class MemberWorkbookInfo{
 		private String memKey;
+		private String mFstName;
+		private String mLstname;
 		private String gradeCD;
 		private String gradeName;
 		private List<MemberWorkbookSubjInfo> workbookSubjInfos;
@@ -213,12 +215,24 @@ public class MemberDto {
 		private String visitHours;
 		private String visitHoursName;
 		private String set1;
+		private String setWbOutYMD1;
 		private String set2;
+		private String setWbOutYMD2;
 		private String set3;
+		private String setWbOutYMD3;
 		private String set4;
+		private String setWbOutYMD4;
 		private String set5;
+		private String setWbOutYMD5;
 		private String set6;
+		private String setWbOutYMD6;
 		private String set7;
+		private String setWbOutYMD7;
 		private String set8;
+		private String setWbOutYMD8;
+		private String set9;
+		private String setWbOutYMD9;
+		private String set10;
+		private String setWbOutYMD10;
 	}
 }
