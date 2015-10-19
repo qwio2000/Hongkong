@@ -24,6 +24,12 @@
 	<a href="javascript:var a=window.open('/fa/diagnosis/OmrPrintJD?jisa=08&mujin=0&omrdate=2014-05-15&&memKey=AA293358&subj=EM&popGraph=B', 'PrintPop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');">
 		EM수학 처방기록부!!
 	</a>
+	<br/>
+	<a href="javascript:var a=window.open('/fa/diagnosis/OmrPrint?jisa=08&mujin=0&omrdate=2013-03-20&&memKey=AA287661&subj=CL&lang=C&avg=Y', 'PrintPop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');">
+		CL수학 처방기록부!!
+	</a>
+
+	
 	
 </div>
 

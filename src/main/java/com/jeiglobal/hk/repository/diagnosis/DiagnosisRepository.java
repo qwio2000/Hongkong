@@ -4,6 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
+import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisJindoLang;
+import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisNextLang;
+import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisRangeGrpLang;
+import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisRangeHlLang;
+import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisStartYYMMLang;
 import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
 
 /**
@@ -39,12 +44,14 @@ public interface DiagnosisRepository {
 	String findDiagnosisOmrBan(Map<String, Object> map);
 
 	DiagnosisDto.DiagnosisOmrPrint findDiagnosisOmrPrint(Map<String, Object> map);
+	DiagnosisDto.DiagnosisOmrPrintLang findDiagnosisOmrPrintLang(Map<String, Object> map);
 
 	List<DiagnosisDto.DiagnosisOdab> findDiagnosisOdab(Map<String, Object> map);
 
 	DiagnosisDto.DiagnosisRangeAllGet findDiagnosisRangeAllGet(Map<String, Object> map);
 
 	DiagnosisDto.DiagnosisRange findDiagnosisRange(Map<String, Object> map);
+	DiagnosisDto.DiagnosisRangeGrpLang findDiagnosisRangeGrpLang(Map<String, Object> map);
 
 	List<DiagnosisDto.DiagnosisOdab12> findDiagnosisOdab12(Map<String, Object> map);
 
@@ -55,10 +62,23 @@ public interface DiagnosisRepository {
 	DiagnosisDto.DiagnosisSooJun findDiagnosisSooJun(Map<String, Object> map);
 
 	DiagnosisDto.DiagnosisStartYYMM findDiagnosisStartYYMM(Map<String, Object> map);
-
+	DiagnosisDto.DiagnosisStartYYMMLang findDiagnosisStartYYMMLang(Map<String, Object> map);
+	
 	List<DiagnosisDto.DiagnosisJindo> findDiagnosisJindo(Map<String, Object> map);
+	List<DiagnosisDto.DiagnosisJindoLang> findDiagnosisJindoLang(Map<String, Object> map);
 
-	List<DiagnosisDto.DiagnosisNext> findDiagnosisNext(Map<String, Object> map);	
+	List<DiagnosisDto.DiagnosisNext> findDiagnosisNext(Map<String, Object> map);
+	List<DiagnosisDto.DiagnosisNextLang> findDiagnosisNextLang(Map<String, Object> map);
+	
+	DiagnosisDto.DiagnosisRangeHlLang findDiagnosisRangeHlLang(Map<String, Object> map);
+
+	
+
+	
+
+	
+
+		
 	
 	
 	

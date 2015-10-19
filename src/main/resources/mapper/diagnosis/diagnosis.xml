@@ -43,6 +43,16 @@
 		<select id="findDiagnosisOmrPrint" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOmrPrint">
 			CALL globaldig.SPOmrPrint20Gicho (#{jisa},#{omrdate},#{memKey},#{subj},#{mujin},#{lang});
 		</select>
+		<select id="findDiagnosisOmrPrintLang" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOmrPrintLang">
+			CALL globaldig.SPOmrPrintGicho (#{jisa},#{omrdate},#{memKey},#{subj},#{lang},#{mujin});
+		</select>
+		
+		<!--  종합 성취도 -->
+		<select id="findDiagnosisRangeHlLang" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisRangeHlLang">
+			CALL globaldig.SPOmrRangeHl (#{jisa},#{omrdate},#{memKey},#{subj},#{mujin});
+		</select>
+		
+		
 		
 		<!-- 오답내용 과목 KM, EM -->
 		<select id="findDiagnosisOdab" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOdab">
@@ -58,6 +68,12 @@
 		<select id="findDiagnosisRange" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisRange">
 			CALL globaldig.SPOmrPrint20Range (#{jisa},#{omrdate},#{memKey},#{subj},#{mujin},#{lang});
 		</select>
+		<!-- 문항수 과목 수학 외-->
+		<select id="findDiagnosisRangeGrpLang" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisRangeGrpLang">	
+			CALL globaldig.SPOmrPrintRangeGrp (#{jisa},#{omrdate},#{memKey},#{subj},#{mujin});
+		</select>
+		
+		
 		
 		<!-- 학습내용별분석 KM, EM-->
 		<select id="findDiagnosisOdab12" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOdab12">
@@ -83,16 +99,32 @@
 		<select id="findDiagnosisStartYYMM" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisStartYYMM">
 			CALL globaldig.SPOmrPrint20StartYYMM(#{jisa},#{omrdate},#{memKey},#{subj},#{omrPath},#{lang});
 		</select>
+		<!-- 처방프로그램 월 가져오기 수학 외-->
+		<select id="findDiagnosisStartYYMMLang" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisStartYYMMLang">			
+			CALL globaldig.SPOmrPrintWol (#{jisa},#{omrdate},#{memKey},#{subj},#{mujin});
+		</select>
+		
 		
 		<!-- 처방프로그램 진도 가져오기 -->
 		<select id="findDiagnosisJindo" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisJindo">
 			CALL globaldig.SPOmrPrint20PrintJindo(#{jisa},#{omrdate},#{memKey},#{subj},#{weeks},#{mujin});
 		</select>
+		<!-- 처방프로그램 진도 가져오기 수학 외 -->
+		<select id="findDiagnosisJindoLang" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisJindoLang">
+			CALL globaldig.SPOmrPrintPrintJindo(#{jisa},#{omrdate},#{memKey},#{subj},#{weeks},#{mujin});
+		</select>
+		
+		
 
 		<!-- 예상진도 -->
 		<select id="findDiagnosisNext" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisNext">
 			CALL globaldig.SPOmrPrint20PrintNext(#{jisa},#{omrdate},#{memKey},#{subj},#{mujin});
 		</select>
+		<!-- 예상진도 수학 외-->
+		<select id="findDiagnosisNextLang" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisNextLang">
+			CALL globaldig.SPOmrPrintPrintNext(#{jisa},#{omrdate},#{memKey},#{subj},#{lang},#{mujin});
+		</select>
+		
 			
 
 	<!--// 개인별 처방기록부 -->

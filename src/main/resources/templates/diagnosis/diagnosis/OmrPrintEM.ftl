@@ -170,7 +170,7 @@ img {border:0;}
 					<#else>
 						<#assign OdabGubunStyle = "style7">					
 					</#if>	
-					<#if omrOdabLeftIndex_index%2 = 1>
+					<#if omrOdabLeftIndex_index%2 = 0>
 						<#assign addBG = "#FFFFFF">
 					<#else>
 						<#assign addBG = "#dadbdd">

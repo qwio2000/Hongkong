@@ -1,0 +1,74 @@
+﻿body {font: 9pt "Tahoma", "Gulim", "굴림", "SimSun"; color:585858;
+ scrollbar-face-color: #FFFFFF;
+ scrollbar-highlight-color: #CCC9B8;
+ scrollbar-3dlight-color: #FFFFFF;
+ scrollbar-shadow-color: #CCC9B8;
+ scrollbar-darkshadow-color: #FFFFFF;
+ scrollbar-track-color: #FFFFFF;
+ scrollbar-arrow-color: #000000}
+ 
+td {font: 9pt Tahoma,Gulim,굴림; color:585858;}
+
+a:link {font-size:9pt; font-family:"Tahoma", "굴림"; text-decoration:none; color: #585858;} 
+a:visited {font-size:9pt; font-family:"Tahoma", "굴림"; text-decoration:none; color:#585858;} 
+a:hover {font-size:9pt; text-decoration:none; color:#000000; font-family: "Tahoma", "굴림", "Arial"} 
+
+a.o:link {font-size:9pt; font-family:"Tahoma", "굴림";  font-weight: bold; text-decoration:none; color: #F07D0D;} 
+a.o:visited {font-size:9pt; font-family:"Tahoma", "굴림";  font-weight: bold; text-decoration:none; color:#F07D0D;} 
+a.o:hover {font-size:9pt; font-family: "Tahoma", "굴림"; font-weight: bold; text-decoration:none; color:#F07D0D; }
+
+a.g:link {font-size:9pt; font-family:"Tahoma", "굴림";  font-weight: bold; text-decoration:none; color: #585858;} 
+a.g:visited {font-size:9pt; font-family:"Tahoma", "굴림";  font-weight: bold; text-decoration:none; color:#585858;} 
+a.g:hover {font-size:9pt; font-family: "Tahoma", "굴림"; font-weight: bold; text-decoration:none; color:#000000; }
+
+a.g_s:link {font-size:9pt; font-family:"Tahoma", "굴림";  text-decoration:none; color: #585858;} 
+a.g_s:visited {font-size:9pt; font-family:"Tahoma", "굴림";  text-decoration:none; color:#585858;} 
+a.g_s:hover {font-size:9pt; font-family: "Tahoma", "굴림";  text-decoration:none; color:#000000; }
+
+.counsel-m { font-family: "Tahoma", "Verdana", "Arial", "Helvetica", "sans-serif"; font-size: 11px; color: 000000; font-weight: normal}
+.ver-m { font-family: "Tahoma", "Verdana", "Arial", "Helvetica", "sans-serif"; font-size: 10px; color: 000000; font-weight: normal}
+.log-m { font: "Tahoma", "Gulim", "굴림"; font-size: 11px; color: 000000; font-weight: normal}
+.gray_bold_l {
+	font-family: "Tahoma", "굴림";
+	font-size: 12px;
+	font-weight: bold;
+	color: 585858;
+}
+
+.location_l {
+	font-size: 11px;
+}
+.title_l {
+	font-family: "Tahoma", "굴림";
+	font-size: 14px;
+	font-weight: bold;
+	color: #000000;
+}
+.title_l2 {
+	font-family: "Tahoma", "굴림";
+	font-size: 20px;
+	font-weight: bold;
+	color: #ff0000;
+}
+.title_l3 {
+	font-family: "Tahoma", "굴림";
+	font-size: 13px;
+	font-weight: bold;
+	color: #ff0000;
+}
+
+.table-font_l {
+	color: 393939;
+}
+.textbox_l { BORDER-RIGHT: #DEDEDE 1px solid; BORDER-TOP: #939393 1px solid; BORDER-LEFT: #939393 1px solid; BORDER-BOTTOM: #DEDEDE 1px solid; } 
+.textbox_w { font-weight: bold; background-color:#ffffff; BORDER-RIGHT: #ffffff 1px solid; BORDER-TOP: #ffffff 1px solid; BORDER-LEFT: #ffffff 1px solid; BORDER-BOTTOM: #ffffff 1px solid; } 
+.back_l {
+	background-attachment: fixed;
+	background-image: url(/jeiglobal/images/img_006.gif);
+	background-repeat: repeat-x;
+ background-position: right top;
+
+}
+
+
+
