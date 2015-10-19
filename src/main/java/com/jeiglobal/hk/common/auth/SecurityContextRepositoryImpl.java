@@ -53,10 +53,8 @@ public class SecurityContextRepositoryImpl implements SecurityContextRepository{
 	@Override
 	public SecurityContext loadContext(
 			HttpRequestResponseHolder requestResponseHolder) {
-		System.out.println("SecurityContextRepositoryImpl");
 		contextRep = new HttpSessionSecurityContextRepository();
 		ctx = contextRep.loadContext(requestResponseHolder);
-		System.out.println("1 : "+ctx.getAuthentication());
 		Map<String,Object> map = new HashMap<String, Object>();
 		HttpServletRequest request = requestResponseHolder.getRequest();
 		map = getAuthCookieValue(request);
@@ -65,7 +63,6 @@ public class SecurityContextRepositoryImpl implements SecurityContextRepository{
 			String encodeCookie = map.get("AUTHKey").toString();
 			long cnt = authoritiesService.countMemberByIdAndEncodeCookie(userName, encodeCookie);
 			if(cnt == 1){
-				System.out.println("2 :" +ctx.getAuthentication());
 				if(ctx.getAuthentication() == null){
 					LoginInfo member = authoritiesService.findMemberById(userName);
 					member.setUserPasswd("");
@@ -74,7 +71,6 @@ public class SecurityContextRepositoryImpl implements SecurityContextRepository{
 					Authentication authentication = new UsernamePasswordAuthenticationToken(member,"",null);
 					ctx.setAuthentication(authentication);
 				}
-				System.out.println("3 :" +ctx.getAuthentication());
 			}else{
 				HttpServletResponse response = requestResponseHolder.getResponse();
 				menuService.removeCache();
