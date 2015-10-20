@@ -48,6 +48,28 @@ $(function(){
 					        return options.inverse(this);
 					    }
 					});
+					Handlebars.registerHelper('splitSchedule', function(str) {
+						var rtnStr = "";
+						if(str.indexOf(",") > -1){
+							var splitStr = str.split(",");
+							for (var i = 0; i < splitStr.length; i++) {
+								if(splitStr[i].indexOf("|") > -1){
+									var memSplitStr = splitStr[i].split("|");
+									rtnStr += "<a href='/fa/members/weeklyschedule/"+memSplitStr[0]+"' title='"+memSplitStr[2]+"' class='btn_schedule'>"+memSplitStr[0]+"("+memSplitStr[1]+")</a>";
+								}else{
+									return new Handlebars.SafeString("error");
+								}
+							}
+						}else{
+							if(str.indexOf("|")> -1){
+								var memSplitStr = str.split("|");
+								rtnStr += "<a href='/fa/members/weeklyschedule/"+memSplitStr[0]+"' title='"+memSplitStr[2]+"' class='btn_schedule'>"+memSplitStr[0]+"("+memSplitStr[1]+")</a>";
+							}else{
+								return new Handlebars.SafeString("error");
+							}
+						}
+						return new Handlebars.SafeString(rtnStr);
+					});
 					$("#mainContent").empty();
 					$("#mainContent").append(template(jsonData));
 				},

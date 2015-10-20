@@ -51,6 +51,9 @@ public class MemberWeeklyScheduleController {
 		log.debug("get member WeeklySchedule, subj : {}", subj);
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<MemberWeeklyScheduleInfo> scheduleInfos = memberWeeklyScheduleService.getMemberWeeklySchedule(loginInfo.getJisaCD(), loginInfo.getDeptCD(), subj);
+		for (MemberWeeklyScheduleInfo memberWeeklyScheduleInfo : scheduleInfos) {
+			System.out.println(memberWeeklyScheduleInfo);
+		}
 		map.put("scheduleInfos", scheduleInfos);
 		return map;
 	}
