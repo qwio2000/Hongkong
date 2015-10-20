@@ -39,7 +39,7 @@
 	LEFT JOIN (
 		SELECT hkey, kwamok, MAX(omrDate) AS omrDate
 		FROM globaldig.OmrGicho AS aa
-		GROUP BY hkey
+		GROUP BY hkey, kwamok
 		ORDER BY omrDate DESC
 	) AS d ON a.memKey = d.hkey AND a.subj = d.kwamok
 	WHERE a.memKey = #{memKey} AND a.jisaCD = #{jisaCD} 
