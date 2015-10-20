@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
+import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisRangeHlLang;
 import com.jeiglobal.hk.repository.diagnosis.DiagnosisRepository;
 import com.jeiglobal.hk.utils.CommonUtils;
 
@@ -169,6 +170,21 @@ public class DiagnosisService {
 				
 				return diagnosisRepository.findDiagnosisOmrPrint(map);
 		}
+		
+		//회원 기초정보 수학외
+		public DiagnosisDto.DiagnosisOmrPrintLang getDiagnosisOmrPrintLang(String jisa, String omrdate,
+				String memKey, String subj, String lang, String mujin) {
+			
+				Map<String, Object> map = new HashMap<>();
+				map.put("jisa", jisa);		
+				map.put("omrdate", omrdate);		
+				map.put("memKey", memKey);
+				map.put("subj", subj);
+				map.put("lang", lang);
+				map.put("mujin", mujin);				
+				
+				return diagnosisRepository.findDiagnosisOmrPrintLang(map);
+		}
 	
 	
 		//오답내용
@@ -186,8 +202,23 @@ public class DiagnosisService {
 			
 			return diagnosisRepository.findDiagnosisOdab(map);		
 		}
+		//오답내용 수학 외
+		public List<DiagnosisDto.DiagnosisOdabLang> getDiagnosisOdabLang(String jisa, String omrdate,
+				String memKey, String subj, String mujin) {
+	
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("mujin", mujin);
+		
+			
+			return diagnosisRepository.findDiagnosisOdabLang(map);		
+		}
+		
 
-
+		//영역별 분석 항목
 		public DiagnosisDto.DiagnosisRangeAllGet getDiagnosisRangeAllGet(String jisa,
 				String subj, String omrGrd, String omrPath, String lang) {
 				Map<String, Object> map = new HashMap<>();
@@ -200,7 +231,7 @@ public class DiagnosisService {
 			return diagnosisRepository.findDiagnosisRangeAllGet(map);		
 		}
 
-
+		//영역별 분석 문항
 		public DiagnosisDto.DiagnosisRange getDiagnosisRange(String jisa, String omrdate,
 				String memKey, String subj, String mujin, String lang) {
 			Map<String, Object> map = new HashMap<>();
@@ -212,6 +243,20 @@ public class DiagnosisService {
 			map.put("lang", lang);
 			return diagnosisRepository.findDiagnosisRange(map);		
 		}
+		
+		//영역별 분석 문항 수학외
+		public DiagnosisDto.DiagnosisRangeGrpLang getDiagnosisRangeGrpLang(String jisa, String omrdate,
+				String memKey, String subj, String mujin) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("mujin", mujin);
+			return diagnosisRepository.findDiagnosisRangeGrpLang(map);		
+		}
+		
+		
 
 
 		public List<DiagnosisDto.DiagnosisOdab12> getDiagnosisOdab12(String jisa, String omrdate,
@@ -278,7 +323,7 @@ public class DiagnosisService {
 			return diagnosisRepository.findDiagnosisSooJun(map);	
 		}
 
-
+		// 예상진도 월
 		public DiagnosisDto.DiagnosisStartYYMM getDiagnosisStartYYMM(String jisa,
 				String omrdate, String memKey, String subj, String omrPath,
 				String lang) {
@@ -292,8 +337,22 @@ public class DiagnosisService {
 			
 			return diagnosisRepository.findDiagnosisStartYYMM(map);	
 		}
+		// 예상진도 월 수학 외
+		public DiagnosisDto.DiagnosisStartYYMMLang getDiagnosisStartYYMMLang(String jisa,
+				String omrdate, String memKey, String subj,
+				String mujin) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("mujin", mujin);
+			
+			return diagnosisRepository.findDiagnosisStartYYMMLang(map);	
+		}
 
-
+		
+		//예상 진도
 		public List<DiagnosisDto.DiagnosisJindo> getDiagnosisJindo(String jisa,
 				String omrdate, String memKey, String subj, String weeks,
 				String mujin) {
@@ -307,6 +366,21 @@ public class DiagnosisService {
 			
 			return diagnosisRepository.findDiagnosisJindo(map);	
 		}
+		//예상 진도 수학 외
+		public List<DiagnosisDto.DiagnosisJindoLang> getDiagnosisJindoLang(String jisa,
+				String omrdate, String memKey, String subj, String weeks,
+				String mujin) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("weeks", weeks);
+			map.put("mujin", mujin);
+			
+			return diagnosisRepository.findDiagnosisJindoLang(map);	
+		}
+		
 
 
 		public List<DiagnosisDto.DiagnosisNext> getDiagnosisNext(String jisa,
@@ -319,6 +393,33 @@ public class DiagnosisService {
 			map.put("mujin", mujin);
 			
 			return diagnosisRepository.findDiagnosisNext(map);	
+		}
+		
+		public List<DiagnosisDto.DiagnosisNextLang> getDiagnosisNextLang(String jisa,
+				String omrdate, String memKey, String subj, String lang, String mujin) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("lang", lang);
+			map.put("mujin", mujin);
+			
+			return diagnosisRepository.findDiagnosisNextLang(map);	
+		}
+		
+
+
+		public DiagnosisDto.DiagnosisRangeHlLang getDiagnosisRangeHlLang(String jisa,
+				String omrdate, String memKey, String subj, String mujin) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("mujin", mujin);			
+			
+			return diagnosisRepository.findDiagnosisRangeHlLang(map);	
 		}
 
 

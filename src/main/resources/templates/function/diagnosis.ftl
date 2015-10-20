@@ -29,6 +29,7 @@
 		</#if>
 	</#if>
 </#function>
+
 <#function UFNDisplayJinSetE kwamokArgs, fsetArgs>
 	<#if fsetArgs?length < 4>
 		<#return fsetArgs>
@@ -60,6 +61,101 @@
 		</#if>
 	</#if>
 </#function>
+
+
+<#function UFNDisplayJinSetK kwamokArgs, fsetArgs, fsetArgs2>
+	<#if fsetArgs?length < 4>
+		<#return "<font size = '2'>"+fsetArgs2+"</font>">
+	<#else>
+		<#if fsetArgs = "Z999">
+			<#return "<font size = '2'>수료</font>">
+		<#elseif fsetArgs = "5000">
+			<#if kwamokArgs = "G">
+				<#return "<font size = '2'>국어0</font>">
+			<#else>
+				<#return "<font size = '2'>영어0</font>">
+			</#if>
+		<#elseif fsetArgs = "5001"> 
+			<#if kwamokArgs = "G">
+				<#return "<font size = '2'>국어1</font>">
+			<#else>
+				<#return "<font size = '2'>영어1</font>">
+			</#if>
+		<#elseif fsetArgs?substring(1,4) = "000"> 
+			<#return fsetArgs?substring(0,1)+"<font size = '2'>진단</font>">
+		<#elseif fsetArgs?substring(1,4) = "999">
+			<#return fsetArgs?substring(0,1)+"<font size = '2'>총괄</font>">
+		<#elseif fsetArgs?substring(1,4) = "992">
+			<#return fsetArgs?substring(0,1)+"<font size = '2'>총필</font>">
+		<#elseif fsetArgs?substring(1,4) = "994">
+			<#return fsetArgs?substring(0,1)+"<font size = '2'>진필</font>">
+		<#else>
+				<#return "<font size = '2'>"+fsetArgs2+"</font>">
+		</#if>
+	</#if>
+</#function>
+
+<#function UFNDisplayJinSetC kwamokArgs, fsetArgs, fsetArgs2>
+	<#if fsetArgs?length < 4>
+		<#return "<font size = '2'>"+fsetArgs2+"</font>">
+	<#else>
+		<#if fsetArgs = "Z999">
+			<#return "<font size = '2'>结业</font>">
+		<#elseif fsetArgs = "5000">
+			<#if kwamokArgs = "G">
+				<#return "<font size = '2'>국어0</font>">
+			<#else>
+				<#return "<font size = '2'>才能英语0</font>">
+			</#if>
+		<#elseif fsetArgs = "5001"> 
+			<#if kwamokArgs = "G">
+				<#return "<font size = '2'>국어1</font>">
+			<#else>
+				<#return "<font size = '2'>才能英语1</font>">
+			</#if>
+		<#elseif fsetArgs?substring(1,4) = "000"> 
+			<#return fsetArgs?substring(0,1)+"<font size = '2'>诊断</font>">
+		<#elseif fsetArgs?substring(1,4) = "999">
+			<#return fsetArgs?substring(0,1)+"<font size = '2'>总括</font>">
+		<#elseif fsetArgs?substring(1,4) = "992">
+			<#return fsetArgs?substring(0,1)+"<font size = '2'>总必</font>">
+		<#elseif fsetArgs?substring(1,4) = "994">
+			<#return fsetArgs?substring(0,1)+"<font size = '2'>诊必</font>">
+		<#else>
+				<#return "<font size = '2'>"+fsetArgs2+"</font>">
+		</#if>
+	</#if>
+</#function>
+
+<#function UFNDisplayJinSetEE kwamokArgs, fsetArgs, fsetArgs2>
+	<#if fsetArgs?length < 4>
+		<#return "<font size = '2'>"+fsetArgs2+"</font>">
+	<#else>
+		<#if fsetArgs = "Z999">
+			<#return "<font size = '2'>COM</font>">
+		<#elseif fsetArgs = "5000">
+			<#if kwamokArgs = "G">
+				<#return "<font size = '2'>k0</font>">
+			</#if>
+		<#elseif fsetArgs = "5001"> 
+			<#if kwamokArgs = "G">
+				<#return "<font size = '2'>k1</font>">
+			</#if>
+		<#elseif fsetArgs?substring(1,4) = "000"> 
+			<#return fsetArgs?substring(0,1)+"<font size = '2'>-Dig.</font>">
+		<#elseif fsetArgs?substring(1,4) = "999">
+			<#return fsetArgs?substring(0,1)+"<font size = '2'>-Sum.</font>">
+		<#elseif fsetArgs?substring(1,4) = "992">
+			<#return fsetArgs?substring(0,1)+"<font size = '2'>-Rev.</font>">
+		<#elseif fsetArgs?substring(1,4) = "994">
+			<#return fsetArgs?substring(0,1)+"<font size = '2'>-Prep</font>">
+		<#else>
+				<#return "<font size = '2'>"+fsetArgs2+"</font>">
+		</#if>
+	</#if>
+</#function>
+
+
 
 
 <#function UFNDisplayOdab odabArgs>
