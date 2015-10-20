@@ -39,7 +39,7 @@
 							<td>${orderlist.orderYMD}</td>
 							<td><a href="javascript:orderdtllist('${orderlist.aidx}')" class="blue">#${orderlist.aidx}</a></td>
 							<td>${orderlist.orderTotQty}</td>
-							<td>$${orderlist.shipTotAmt}</td>
+							<td>$${orderlist.orderTotAmt}</td>
 							<td>${orderlist.shipTotQty}</td>
 							<td>$${orderlist.shipTotAmt}</td>
 							<td class="left">${orderlist.orderNote}</td>
