@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	작성일 : 2015-10-14  
+	작성자 : 이지은
+	내  용 : 판촉물 관련 쿼리
+-->
 <mapper namespace="com.jeiglobal.hk.repository.promotionitem.PromotionitemRepository">
 	
 	<!-- 지사/가맹 판촉물 리스트. 지사별로 보이도록 지사 코드 받아오기. -->
-	<select id="promotionitemList" resultType="com.jeiglobal.hk.domain.promotionitem.PromotionItem" parameterType="String">
+	<select id="promotionitemList" resultType="com.jeiglobal.hk.domain.promotionitem.PromotionItem" parameterType="com.jeiglobal.hk.domain.auth.LoginInfo">
 		SELECT A.itemCD,A.jisaCD,A.itemName,A.itemDescription,A.itemColor,A.itemPrice,A.itemUOM,A.itemStock,A.itemfile1Name
 				,A.itemfile1NameConvert,A.itemfile1Size,A.itemfile1Url,A.itemfile1Ext,A.itemfile2Name,A.itemfile2NameConvert
 				,A.itemfile2Size,A.itemfile2Url,A.itemfile2Ext,A.itemfile3Name,A.itemfile3NameConvert,A.itemfile3Size
-				,A.itemfile3Url,A.itemfile3Ext,A.itemVisible,A.regDate,A.regID,A.updDate,A.updID, B.aidx
+				,A.itemfile3Url,A.itemfile3Ext, A.itemVisible,A.regDate,A.regID,A.updDate,A.updID
+				,CASE WHEN A.itemCD IN (SELECT itemCD FROM IvnPromotionItemOrderDtl) THEN 'Y' ELSE 'N' END AS aidx
 		FROM globalbiz.IvnPromotionItemMst AS A
-		LEFT JOIN globalbiz.IvnPromotionItemOrderMst AS B
-		ON A.itemCD = B.itemidx
-		WHERE A.jisaCD = #{jisaCD}
+		<where>
+			A.jisaCD = #{jisaCD}
+			<if test=" deptCD != '00000' ">
+				AND A.itemVisible = 'Y'
+			</if>
+		</where>
 	</select>
 	
 	<!-- 지사에서 판촉물 추가 쿼리  -->
@@ -73,5 +82,82 @@
 		#{itemfile3Url},#{itemfile3Ext},#{itemVisible},#{regDate},#{regID},#{updDate},#{updID} )
 	</insert>
 	
-
+	<!-- 판촉물 장바구니 담기 Mst -->
+	<insert id="promotionitemCartIns" parameterType="com.jeiglobal.hk.domain.promotionitem.PromotionCartItem" useGeneratedKeys="true" keyColumn="aidx" keyProperty="aidx">
+		INSERT INTO IvnPromotionItemCart
+		( jisaCD, deptCD, cartYMD, itemCD, itemName, itemColor, itemPrice, itemUOM, cartQty, cartAmt, regDate, regID)
+		VALUES
+		( #{jisaCD},#{deptCD},DATE_FORMAT(NOW(), "%Y-%m-%d"),#{itemCD},#{itemName},#{itemColor},#{itemPrice},#{itemUOM},#{cartQty},#{cartAmt},NOW(),#{regID} )
+		<selectKey resultType="int" keyProperty="aidx" order="AFTER">
+        	SELECT LAST_INSERT_ID() 
+    	</selectKey> 
+	</insert>
+	
+	<!-- 판촉물 장바구니 존재 여부 체크 -->
+	<select id="promotionitemCartChk" parameterType="com.jeiglobal.hk.domain.promotionitem.PromotionCartItem" resultType="int">
+		SELECT COUNT(*) CNT 
+		FROM IvnPromotionItemCart
+		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} AND itemCD = #{itemCD}
+	</select>
+	
+	<!-- 판촉물 장바구니에 동일한 판촉물 존재시 업데이트 -->
+	<update id="promotionitemCartUdt" parameterType="com.jeiglobal.hk.domain.promotionitem.PromotionCartItem" >
+		UPDATE IvnPromotionItemCart
+		SET	cartQty = cartQty + #{cartQty}, cartAmt= cartAmt + #{cartAmt}
+		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} AND itemCD = #{itemCD} 
+	</update>
+	
+	<!-- 판촉물 장바구니 리스트 -->
+	<select id="promotionitemCartList" parameterType="com.jeiglobal.hk.domain.auth.LoginInfo" resultType="com.jeiglobal.hk.domain.promotionitem.PromotionCartItem">
+		SELECT aidx, jisaCD, deptCD, cartYMD, itemCD, itemName, itemColor, itemPrice, itemUOM, cartQty, cartAmt, regDate, regID
+		FROM IvnPromotionItemCart
+		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD}
+	</select>
+	
+	<!-- 판촉물 장바구니 리스트 삭제 -->
+	<delete id="promotionitemCartDel" parameterType="int">
+		DELETE FROM IvnPromotionItemCart
+		WHERE aidx = #{aidx}
+	</delete>
+	
+	<!-- 판촉물 Order Mst 입력 -->
+	<insert id="promotionitemOrderMstIns" parameterType="com.jeiglobal.hk.domain.promotionitem.PromotionOrderItem"  useGeneratedKeys="true" keyColumn="aidx" keyProperty="aidx">
+		INSERT INTO IvnPromotionItemOrderMst
+		(jisaCD, deptCD, orderYMD, orderNote, orderTotQty, orderTotamt,regDate,regID)
+		SELECT #{jisaCD},#{deptCD},DATE_FORMAT(NOW(), "%Y-%m-%d"),#{orderNote},SUM(cartQty),SUM(cartAmt),NOW(),#{regID} FROM IvnPromotionItemCart WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} 
+		<selectKey resultType="int" keyProperty="aidx" order="AFTER">
+        	SELECT LAST_INSERT_ID() 
+    	</selectKey> 
+	</insert>
+	
+	<!-- 판촉물 Order Dtl 입력 -->
+	<insert id="promotionitemOrderDtlIns" parameterType="com.jeiglobal.hk.domain.promotionitem.PromotionOrderItem">
+		INSERT INTO IvnPromotionItemOrderDtl
+		(fidx,itemCD, itemName, itemColor, itemPrice, itemUOM, orderQty, orderAmt,regDate,regID)
+		SELECT #{aidx}, itemCD, itemName, itemColor, itemPrice, itemUOM, cartQty, cartAmt, NOW(), #{regID} FROM IvnPromotionItemCart WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} 
+	</insert>
+	
+	<!-- 카트내역 삭제하기. -->
+	<delete id="promotionitemCartAllDel" parameterType="com.jeiglobal.hk.domain.auth.LoginInfo" >
+		DELETE FROM IvnPromotionItemCart
+		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} 
+	</delete>
+	
+	<!-- 판촉물 주문내역 리스트 -->
+	<select id="promotionitemOrderList" parameterType="com.jeiglobal.hk.domain.auth.LoginInfo" resultType="com.jeiglobal.hk.domain.promotionitem.PromotionOrderItem">
+		SELECT aidx, jisaCD, jisaCD, deptCD, orderYMD, orderNote, orderTotQty, orderTotAmt, shipTotQty, shipTotAmt, shipYMD, regID, regDate
+		FROM IvnPromotionItemOrderMst
+		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} 
+	</select>
+	
+	<!-- 판촉물 주문내역 상세 리스트 -->
+	<select id="promotionitemOrderDtlList" parameterType="int" resultType="com.jeiglobal.hk.domain.promotionitem.PromotionOrderItem">
+		SELECT A.aidx, A.fidx, A.itemCD, A.itemName, A.itemColor, A.itemPrice, A.itemUOM, A.orderQty, A.orderAmt, A.shipQty, A.shipAmt
+				, A.regDate, A.regID, B.orderNote, B.shipTotQty
+		FROM  IvnPromotionItemOrderDtl  AS A
+		LEFT JOIN IvnPromotionItemOrderMst AS B
+		ON A.fidx = B.aidx
+		WHERE A.fidx = #{aidx}
+	</select>
+	
 </mapper>

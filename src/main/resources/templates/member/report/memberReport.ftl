@@ -116,7 +116,11 @@
 										<span class="info_line">Drop Date : ${subj.convertDropYMD?default('') }</span>
 										<!-- 퇴회 상태 IPPR -->
 										<#if subj.digYN == 'Y' && subj.omrDate != ''>
-											<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/OmrPrint?jisa=${subj.jisaCD }&mujin=0&omrdate=${subj.omrDate }&memKey=${subj.memKey }&subj=${subj.subj }', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">IPPR</a></span>
+											<#if subj.subj == 'KM' || subj.subj == 'EM'>
+											<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/OmrPrintJD?jisa=${subj.jisaCD }&mujin=0&omrdate=${subj.omrDate }&memKey=${subj.memKey }&subj=${subj.subj }&popGraph=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">IPPR</a></span>
+											<#else>
+											<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/OmrPrint?jisa=${subj.jisaCD }&mujin=0&omrdate=${subj.omrDate }&memKey=${subj.memKey }&subj=${subj.subj }&popGraph=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">IPPR</a></span>
+											</#if>
 										<#else>
 											<span class="info_line gray">IPPR</span>
 										</#if>
@@ -140,7 +144,11 @@
 										</#if>
 										<!-- IPPR -->
 										<#if subj.digYN == 'Y' && subj.omrDate != ''>
-											<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/OmrPrint?jisa=${subj.jisaCD }&mujin=0&omrdate=${subj.omrDate }&memKey=${subj.memKey }&subj=${subj.subj }', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">IPPR</a></span>
+											<#if subj.subj == 'KM' || subj.subj == 'EM'>
+												<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/OmrPrintJD?jisa=${subj.jisaCD }&mujin=0&omrdate=${subj.omrDate }&memKey=${subj.memKey }&subj=${subj.subj }&popGraph=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">IPPR</a></span>
+											<#else>
+												<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/OmrPrint?jisa=${subj.jisaCD }&mujin=0&omrdate=${subj.omrDate }&memKey=${subj.memKey }&subj=${subj.subj }&popGraph=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">IPPR</a></span>
+											</#if>
 										<#else>
 											<span class="info_line gray">IPPR</span>
 										</#if>
@@ -152,7 +160,7 @@
 										</#if>
 										<span class="info_line"><a href="javascript:dropMember('${subj.memKey }','${subj.subj }','${info.MFstName?default('') } ${info.MLstName?default('') }','${subj.convertRegistYMD }','${subj.isCancle }','${.now?string('MM/dd/yyyy') }');" class="blue">DROP</a></span>
 										<#if subj.isCancle == 'true'>
-											<span class="info_line"><a href="#" class="blue">REG.CANCEL</a></span>
+											<span class="info_line"><a href="javascript:registCancel('${subj.memKey }','${subj.subj }')" class="blue">REG.CANCEL</a></span>
 										<#else>
 											<span class="info_line gray">REG.CANCEL</span>
 										</#if>

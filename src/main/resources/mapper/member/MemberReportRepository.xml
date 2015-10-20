@@ -248,4 +248,99 @@
 	<delete id="deleteCommentCall" parameterType="int">
 	DELETE FROM globalbiz.MemCommentCall WHERE idx = #{idx}
 	</delete>
+	<select id="findMemSubjRegistByMemKeyAndSubj" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemSubjRegist">
+	SELECT idx, registYMD, memKey, subj, registGubunCD, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, fstVisitYMD, yoil, visitHours, weekNum, studyNum, bookNum, digGrade, siblingMemKey, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, apmIdx 
+	FROM globalbiz.MemSubjRegist 
+	WHERE memKey = #{memKey} AND subj = #{subj} 
+	ORDER BY regDate DESC 
+	LIMIT 0,1
+	</select>
+	<select id="findMemSubjRegistOtherSubjCount" parameterType="com.jeiglobal.hk.domain.member.MemSubjRegist" resultType="int">
+	SELECT COUNT(1)
+	FROM globalbiz.MemSubjRegist 
+	WHERE memKey = #{memKey} AND subj != #{subj}
+	</select>
+	<insert id="insertMemMstHisByRegistCancel" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemMstHis
+		(memKey, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, regDate, regID, updDate, updID, hUpdCD, hUpdIdx, hRegDate, hRegID)
+	SELECT memKey, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, regDate, regID, updDate, updID, #{hUpdCD}, #{memberRegist.idx}, NOW(), #{workId}
+	FROM globalbiz.MemMst
+	WHERE memKey = #{memberRegist.memKey}
+	</insert>
+	<delete id="deleteMemMstByRegistCancel" parameterType="hashMap">
+	DELETE FROM globalbiz.MemMst WHERE memKey = #{memberRegist.memKey}
+	</delete>
+	<insert id="insertMemSubjMstHisByRegistCancel" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemSubjMstHis
+		(memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, hUpdCD, hRegDate, hRegID)
+	SELECT memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, registFnlYMD, dropFnlYMD, expireYMD, feeFnlYMD, yoilChgYMD, studyNumChgYMD, bookNumChgYMD, befoYoil, befoStudyNum, befoBookNum, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, #{hUpdCD}, NOW(), #{workId}
+	FROM globalbiz.MemSubjMst
+	WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj}
+	</insert>
+	<delete id="deleteMemSubjMstByRegistCancel" parameterType="hashMap">
+	DELETE FROM globalbiz.MemSubjMst WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj}
+	</delete>
+	<insert id="insertMemSubjStudyHisByRegistCancel" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemSubjStudyHis
+		(memKey, subj, studyNum, bookNum, yoil, yoilSeq, bookFlag, visitHours, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, hUpdCD, hRegDate, hRegID)
+	SELECT memKey, subj, studyNum, bookNum, yoil, yoilSeq, bookFlag, visitHours, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, #{hUpdCD}, NOW(), #{workId}
+	FROM globalbiz.MemSubjStudy
+	WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj}
+	</insert>
+	<delete id="deleteMemSubjStudyByRegistCancel" parameterType="hashMap">
+	DELETE FROM globalbiz.MemSubjStudy WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj} AND yoilSeq = '1'
+	</delete>
+	
+	
+	<insert id="insertMemSubjRegistHisByRegistCancel" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemSubjRegistHis
+		(hIdx, registYMD, memKey, subj, registGubunCD, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, fstVisitYMD, yoil, visitHours, weekNum, studyNum, bookNum, digGrade, siblingMemKey, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, apmIdx, hUpdCD, hRegDate, hRegID)
+	SELECT idx, registYMD, memKey, subj, registGubunCD, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, registWhy, registWhyEtc, registHow, registHowEtc, remarks, fstVisitYMD, yoil, visitHours, weekNum, studyNum, bookNum, digGrade, siblingMemKey, empKey, deptCD, jisaCD, regDate, regID, updDate, updID, apmIdx, #{hUpdCD}, NOW(), #{workId}
+	FROM globalbiz.MemSubjRegist
+	WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj} AND registYMD = #{memberRegist.registYMD}
+	</insert>
+	<delete id="deleteMemSubjRegistByRegistCancel" parameterType="hashMap">
+	DELETE FROM globalbiz.MemSubjRegist 
+	WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj} AND registYMD = #{memberRegist.registYMD}
+	ORDER BY regDate DESC 
+	LIMIT 1
+	</delete>
+	
+	
+	<insert id="insertMemSubjTuitionHisByRegistCancel" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemSubjTuitionHis
+		(hIdx, feeYMD, memKey, subj, memName, feeGubunCD, feeKindCD, freeType, registFee, sectionFee, monthFee, longFee, totalFee, expireYMD, bookNum, weekNum, monthNum, feeUnit, fstVisitYMD, empKey, deptCD, jisaCD, regDate, regID, hUpdCD, hRegDate, hRegID)
+	SELECT idx, feeYMD, memKey, subj, memName, feeGubunCD, feeKindCD, freeType, registFee, sectionFee, monthFee, longFee, totalFee, expireYMD, bookNum, weekNum, monthNum, feeUnit, fstVisitYMD, empKey, deptCD, jisaCD, regDate, regID, #{hUpdCD}, NOW(), #{workId}
+	FROM globalbiz.MemSubjTuition
+	WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj} AND feeYMD >= #{memberRegist.registYMD}
+	</insert>
+	<delete id="deleteMemSubjTuitionByRegistCancel" parameterType="hashMap">
+	DELETE FROM globalbiz.MemSubjTuition WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj} AND feeYMD >= #{memberRegist.registYMD}
+	</delete>
+	
+	
+	<insert id="insertMemSubjProgressHisByRegistCancel" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+	INSERT INTO globalbiz.MemSubjProgressMstHis
+		(memKey, subj, yy, mm, wk, wkSeq, yoil, wbSet, wbOutYMD, yymmwk, regCD, regDate, regID, updCD, updDate, updID, hUpdCD, hUpdDate, hUpdID)
+	SELECT memKey, subj, yy, mm, wk, wkSeq, yoil, wbSet, wbOutYMD, yymmwk, regCD, regDate, regID, updCD, updDate, updID, #{hUpdCD}, NOW(), #{workId}
+	FROM globalbiz.MemSubjProgressMst
+	WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj}
+	ORDER BY yy, mm, wk
+	</insert>
+	<delete id="deleteMemSubjProgressByRegistCancel" parameterType="hashMap">
+	DELETE FROM globalbiz.MemSubjProgressMst WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj}
+	</delete>
+	
+	<update id="updateMemSubjMstByRegistCancel" parameterType="hashMap">
+	UPDATE globalbiz.MemSubjMst AS a, globalbiz.MemSubjMstHis AS b
+	SET a.memKey = b.memKey, a.subj = b.subj, a.statusCD = b.statusCD, a.memName = b.memName, a.yoil = b.yoil, a.studyNum = b.studyNum, a.bookNum = b.bookNum, a.digGrade = b.digGrade, a.registFstYMD = b.registFstYMD, a.registFnlYMD = b.registFnlYMD, a.dropFnlYMD = b.dropFnlYMD, a.expireYMD = b.expireYMD, a.feeFnlYMD = b.feeFnlYMD, a.yoilChgYMD = b.yoilChgYMD, a.studyNumChgYMD = b.studyNumChgYMD, a.bookNumChgYMD = b.bookNumChgYMD, a.befoYoil = b.befoYoil, a.befoStudyNum = b.befoStudyNum, a.befoBookNum = b.befoBookNum, a.empKey = b.empKey, a.deptCD = b.deptCD, a.jisaCD = b.jisaCD, a.regDate = b.regDate, a.regID = b.regID, a.updDate = b.updDate, a.updID = b.updID
+	WHERE a.memKey = b.memKey AND a.subj = b.subj
+		AND b.memKey = #{memberRegist.memKey} AND b.subj = #{memberRegist.subj} AND b.hUpdCD = '13' AND DATE_FORMAT(b.hRegDate,'%Y-%m-%d') = #{memberRegist.registYMD} AND b.statusCD != '1'
+	</update>
+	<update id="updateMemSubjStudyByRegistCancel" parameterType="hashMap">
+	UPDATE globalbiz.MemSubjStudy AS a, globalbiz.MemSubjStudyHis AS b
+	SET a.memKey = b.memKey, a.subj = b.subj, a.studyNum = b.studyNum, a.bookNum = b.bookNum, a.yoil = b.yoil, a.yoilSeq = b.yoilSeq, a.bookFlag = b.bookFlag, a.visitHours = b.visitHours, a.empKey = b.empKey, a.deptCD = b.deptCD, a.jisaCD = b.jisaCD, a.regDate = b.regDate, a.regID = b.regID, a.updDate = b.updDate, a.updID = b.updID
+	WHERE a.memKey = b.memKey AND a.subj = b.subj AND a.yoilSeq = '1'
+		AND b.memKey = #{memberRegist.memKey} AND b.subj = #{memberRegist.subj} AND b.hUpdCD = '13' AND DATE_FORMAT(b.hRegDate,'%Y-%m-%d') = #{memberRegist.registYMD}
+	</update>
 </mapper>

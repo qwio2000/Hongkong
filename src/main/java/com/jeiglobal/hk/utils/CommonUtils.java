@@ -249,4 +249,16 @@ public class CommonUtils {
 		}
 		return tmp;
 	}
+
+	/**
+	 * @param month
+	 * @return int
+	 */
+	public static String getMonthAttachZero(int month) {
+		if(month >= 10){
+			return ""+month;
+		}else{
+			return "0"+month;
+		}
+	}
 }
