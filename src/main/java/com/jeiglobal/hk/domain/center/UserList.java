@@ -3,7 +3,7 @@
  */
 package com.jeiglobal.hk.domain.center;
 
-import lombok.Data;
+import lombok.Getter;
 
 /**
  * 클래스명 : UserList.java
@@ -15,7 +15,7 @@ import lombok.Data;
  * 설명 : User 리스트
  *  	
  */
-@Data
+@Getter
 public class UserList {
 	
 	private String userId;

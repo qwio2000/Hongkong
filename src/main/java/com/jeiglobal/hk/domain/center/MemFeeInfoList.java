@@ -3,7 +3,7 @@
  */
 package com.jeiglobal.hk.domain.center;
 
-import lombok.Data;
+import lombok.Getter;
 
 /**
  * 클래스명 : MemFeeInfoList.java
@@ -14,7 +14,7 @@ import lombok.Data;
  * 
  * 설명	: 회비 정보 팝업
  */
-@Data
+@Getter
 public class MemFeeInfoList {
 	private String jisaCD;
 	private String deptCD;

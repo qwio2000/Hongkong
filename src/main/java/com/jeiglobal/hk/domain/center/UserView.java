@@ -3,7 +3,7 @@
  */
 package com.jeiglobal.hk.domain.center;
 
-import lombok.Data;
+import lombok.Getter;
 
 /**
  * 클래스명 : UserView.java
@@ -14,7 +14,7 @@ import lombok.Data;
  * 
  * 설명	: 사용자 정보
  */
-@Data
+@Getter
 public class UserView {
 	private String userId;
 	private String userFstName;
