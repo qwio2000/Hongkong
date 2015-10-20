@@ -43,7 +43,7 @@
 					</li>
 						<li>
 						<label for="" class="tit">UOM</label>
-						<select name="itemUOM" id="itemUOM" onchange="checkUOM();" value="${promo.itemUOM}" style="width:395px">
+						<select name="itemUOM" id="itemUOM" onchange="checkUOM();" value="${promo.itemUOM}" style="width:395px; float:left;">
 								<option value="EACH">EACH</option>
 								<option value="PCS">PCS.</option>
 								<option value="DOZEN">DOZEN</option>
@@ -52,6 +52,9 @@
 								<option value="BAG">BAG</option>
 								<option value="SET">SET</option>
 						</select>
+						<div id="visibleUOM" style="display:none; width:150px;float:left; margin-left:10px;">
+							<input type="text" class="searchInput" style="width:150px;" id="itemPerUnit" name="itemPerUnit" > pcs.
+						</div>
 					</li>
 					<li>
 						<label for="" class="tit">Stock</label>
