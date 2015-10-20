@@ -37,6 +37,7 @@
 					<ul class="product_list">
 						<li>
 							<em>${list.itemName}</em> 
+							<span class="txt">${list.itemDescription}</span>
 						</li>
 						<li><span class="tit">Color :</span>${list.itemColor} </li>
 						<li><span class="tit">Price :</span>$${list.itemPrice}/${list.itemUOM} 
@@ -55,7 +56,7 @@
 						<a href="/ja/promoitem/modipage?itemCD=${list.itemCD}" class="btn_info">Update Item Info</a>
 					</div>
 				</td>
-				<#if (list.aidx)??>
+				<#if list.aidx == "Y" >					
 					<td>
 					</td>	
 				<#else>
@@ -63,10 +64,11 @@
 						<a href="/ja/promoitem/delitem?itemCD=${list.itemCD}" class="btn_delete">delete</a>
 					</td>	
 				</#if> 
+				
+				
+			
 		</tr>
 		</table>
-		<#else>
-			No Result.
 		</#list>
 	
 	

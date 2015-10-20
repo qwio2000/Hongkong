@@ -378,31 +378,3 @@ function deleteCommentCall(idx){
 		});
 	}
 }
-function registCancel(memKey, subj){
-	if(confirm('입회 취소를 하시겠습니까?\nmemKey : '+memKey+'\nsubject : '+subj)){
-		var param = {"memKey":memKey, "subj": subj};
-		$.ajax({
-			url:"/fa/members/reports/registCancel",
-			type:"POST",
-			cache: true,
-			data: param,
-			dataType: "json",
-			success: function(jsonData, textStatus, XMLHttpRequest) {
-				console.log(jsonData);
-				if(jsonData.result == 'true'){
-					alert('진행 중인 다른 과목이 존재합니다. \n다른 과목을 입회 취소한 후 진행해 주십시오.');
-				}else{
-					alert('입회 취소가 정상 처리 되었습니다.');
-					if(jsonData.count > 0){
-						location.reload();
-					}else{
-						location.href='/fa/members/reports';
-					}
-				}
-			},
-			error:function (xhr, ajaxOptions, thrownError){	
-				alert(thrownError);
-			}
-		});
-	}
-}

@@ -1,14 +1,22 @@
 $(function(){	
 	$.extend({
-		getWorkbookReport:function(){
+		getWorkbookReport:function(){/*
 			var pageNum = $("#pageNum").val();
-			var searchUrl = "/fa/members/workbook/"+pageNum;
-			var month = $("#month").val();
-			var year     = $("#year").val();
-			var week    = $("#week").val();
-			var subj    = $("#subj").val();
-			var paramData = {"month":month, "year":year, "week":week, "subj":subj};
-			console.log(paramData);
+			var searchUrl = "/fa/members/reports/"+pageNum;
+			var memberStatus = $("#memberStatus").val();
+			var lastName     = $("#lastName").val();
+			var firstName    = $("#firstName").val();
+			var homePhone    = $("#homePhone").val();
+			var cellPhone    = $("#cellPhone").val();
+			var email        = $("#email").val();
+			var grade        = $("#grade").val();
+			var subject      = $("#subject").val();
+			var orderBy      = $("#orderBy").val();
+			var direction      = $("#direction").val();
+			var classDay     = $("#classDay").val();
+			var paramData = {"memberStatus":memberStatus, "lastName":lastName, "firstName":firstName, 
+					"homePhone":homePhone, "cellPhone":cellPhone, "email":email, "grade":grade, 
+					"subject":subject, "orderBy":orderBy, "direction":direction, "classDay":classDay};
 			$.ajax({
 				url:searchUrl,
 				type:"GET",
@@ -16,19 +24,31 @@ $(function(){
 				data: paramData,
 				dataType: "json",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
-					console.log(jsonData);
 					var pageInfo = jsonData.pageInfo;
 					var totalRowCnt = pageInfo.totalRowCnt;
 					var pageNum = pageInfo.pageNum;
 					var pageSize = pageInfo.rowBlockSize;
+					$("#totalCnt").html(totalRowCnt);
 					if(pageInfo.totalPageCnt > 1){
 						$("#pageNavi").html($.pageUtil(pageInfo.pageNum,pageInfo.totalPageCnt, 
 								pageInfo.pageBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));	
 					}
-					var source = $("#workbookScript").html();
+					var source = $("#memberReportTemplate").html();
 					var template = Handlebars.compile(source);
 					Handlebars.registerHelper("inc", function(value, options){
 						return (pageNum - 1) * pageSize + parseInt(value) + 1;
+					});
+					Handlebars.registerHelper('splitSubj', function(str) {
+						var rtnStr = "";
+						if(str.indexOf(",") > -1){
+							var splitStr = str.split(",");
+							for (var i = 0; i < splitStr.length; i++) {
+								rtnStr += (i != splitStr.length -1) ? splitStr[i]+"<br/>": splitStr[i];
+							}
+							return new Handlebars.SafeString(rtnStr);
+						}else{
+							return new Handlebars.SafeString(str);
+						}
 					});
 					Handlebars.registerHelper('xIf', function (lvalue, operator, rvalue, options) {
 					    var operators, result;
@@ -69,7 +89,7 @@ $(function(){
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert(thrownError);
 				}
-			});
+			});*/
 		}
 	});
 	
