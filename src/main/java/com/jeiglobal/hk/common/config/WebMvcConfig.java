@@ -6,6 +6,7 @@ import org.modelmapper.*;
 import org.springframework.boot.context.embedded.*;
 import org.springframework.context.*;
 import org.springframework.context.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.filter.*;
 import org.springframework.web.servlet.*;
 import org.springframework.web.servlet.config.annotation.*;
@@ -121,5 +122,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	@Bean
 	public ModelMapper modelMapper(){
 		return new ModelMapper();
+	}
+	
+	@Bean
+	public BCryptPasswordEncoder setBCryptPasswordEncoder(){
+		return new BCryptPasswordEncoder();
 	}
 }

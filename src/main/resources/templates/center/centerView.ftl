@@ -103,7 +103,7 @@
 					<tbody>
 						<tr>
 							<th class="left">User</th>
-							<td class="left"><div class="clearfix"><span class="area_left">${list.userId}</span> <span class="area_right"><a href="javascript:$.openEditUser('${list.userId}');" class="btn_icon btn_info"></a></span></div></td>
+							<td class="left"><div class="clearfix"><span class="area_left">${list.userId}</span> <span class="area_right"><a href="javascript:$.openEditUser('${list.deptCD}','${list.userId}');" class="btn_icon btn_info"></a></span></div></td>
 						</tr>
 						<tr>
 							<th class="left">User Level</th>
@@ -116,10 +116,6 @@
 						<tr>
 							<th class="left">Username</th>
 							<td class="left">${list.userName}</td>
-						</tr>
-						<tr>
-							<th class="left">Password</th>
-							<td class="left"><a href="javascript:$.userPwdClear('${list.userId}');" class="">[Clear]</a></td>
 						</tr>						
 						<tr>
 							<th class="left">Status</th>
