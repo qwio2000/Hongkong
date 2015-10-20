@@ -58,6 +58,11 @@
 		<select id="findDiagnosisOdab" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOdab">
 			CALL globaldig.SPOmrPrint20Odab11 (#{jisa},#{omrdate},#{memKey},#{subj},#{mujin},#{lang},#{gubun});
 		</select>
+		<!-- 오답내용 과목 수학외 -->
+		<select id="findDiagnosisOdabLang" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOdabLang">
+			CALL globaldig.SPOmrPrintODAB (#{jisa},#{omrdate},#{memKey},#{subj},#{mujin});
+		</select>
+		
 		
 		<!-- 영역명가져오기 -->
 		<select id="findDiagnosisRangeAllGet" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisRangeAllGet">
@@ -111,7 +116,7 @@
 		</select>
 		<!-- 처방프로그램 진도 가져오기 수학 외 -->
 		<select id="findDiagnosisJindoLang" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisJindoLang">
-			CALL globaldig.SPOmrPrintPrintJindo(#{jisa},#{omrdate},#{memKey},#{subj},#{weeks},#{mujin});
+			CALL globaldig.SPOmrPrintJindo(#{jisa},#{omrdate},#{memKey},#{subj},#{weeks},#{mujin});
 		</select>
 		
 		
@@ -122,7 +127,7 @@
 		</select>
 		<!-- 예상진도 수학 외-->
 		<select id="findDiagnosisNextLang" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisNextLang">
-			CALL globaldig.SPOmrPrintPrintNext(#{jisa},#{omrdate},#{memKey},#{subj},#{lang},#{mujin});
+			CALL globaldig.SPOmrPrintNext(#{jisa},#{omrdate},#{memKey},#{subj},#{lang},#{mujin});
 		</select>
 		
 			

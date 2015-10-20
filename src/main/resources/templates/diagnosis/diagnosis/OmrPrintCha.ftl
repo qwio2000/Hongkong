@@ -66,12 +66,29 @@
 						<td colspan=2 align="left"><font size=3><b>♣按领域分析  </b></font></td>
 					</tr>             
 					<tr height=180 width="640">
-						<td width="440" align=center><IMG SRC="/ChartFXInt62/Temp/CFT1019_11123529027.png"  WIDTH="440" HEIGHT="240" ></td>                 
+						<td width="440" align=center>
+							차트들어가야됨!!
+							<IMG SRC="/ChartFXInt62/Temp/CFT1019_11123529027.png"  WIDTH="440" HEIGHT="240" >
+						</td>               
+						 <#assign sung = (range.jung?number/range.tot?number) * 100><!--  gt :> , gte : >= , lt < , lte <= -->
+						 <#if sung?number gte 90>
+							<#assign tsung = "非常优秀">
+						 <#else>
+							<#if (sung?number gte 80) && (sung?number lt 90)>
+								<#assign tsung = "优秀">								
+							<#else>
+								<#if (sung?number gte 60) && (sung?number lt 80)>
+									<#assign tsung = "一般">									
+								<#else>
+									<#assign tsung = "表明需进一步努力">									
+								</#if>
+							</#if>
+						 </#if>
 						<td width="200" align=center>
 						
 							<table border=0 cellspacing=0 cellpadding=0 height="40" width=200>
 								<tr>
-									<td align="center"><b> 成就率:${rangehl.hsung } %</b></td>
+									<td align="center"><b> 成就率:${sung } %</b></td>
 								</tr>
 							</table>
 							<table border=0 cellspacing=0 cellpadding=0 width=200 bordercolorlight=LightCyan bordercolorlight=White>
@@ -87,9 +104,9 @@
 									<TD background="${imgPath}/diagnosis/ENG/report_04.gif">
 										<img src="${imgPath}/diagnosis/ENG/report_04.gif" WIDTH=13 HEIGHT=22>
 									</TD>
-									<td align="left">&nbsp;诊断结果的综合成就率<B>${rangehl.hsprt }。</b>
+									<td align="left">&nbsp;诊断结果的综合成就率<B>${tsung }。</b>
 										<#if kwamok?substring(1,2) != "L">
-											<#if (rangehl.hsung?number < 100) && (rangehl.hsung?number > 0)>
+											<#if (sung?number < 100) && (sung?number > 0)>
 												<b>${rangehl.hsprt?replace("<BR>"," ") }</b>领域掌握得最好。
 											</#if>
 										</#if>
@@ -339,7 +356,7 @@
 		</tr>
 	</table>	
 
-	<#if (omrgicho.pan = "하위") || (rangehl.hsung?number >= 100)>
+	<#if (omrgicho.pan = "하위") || (sung?number >= 100)>
 	<#else>	
 	<br><br><br><br><br><br>
 	<table align=center border=0 cellspacing=0 cellpadding=0 width=640 height="30">
@@ -365,40 +382,22 @@
 						<td width="480" align="center"><b>错答内容分析</B></td>
 						<td width="60" align="center">&nbsp;</td>
 					</TR>
-					
-					<tr>
-						<td width="50" ROWSPAN ="4" valign="middle" align="center" >基础阅读</td>
-					
-						<td width="50" align="center">1
-						</td>
-						<td width="480" align="left">&nbsp;没有掌握表示交通工具的单词(car)</td>
-						<td width="60" align="center">&nbsp;       </td>
-					</tr>         
-					
-					<tr>
-					
-						<td width="50" align="center">2
-						</td>
-						<td width="480" align="left">&nbsp;没有掌握表示颜色的单词(blue)</td>
-						<td width="60" align="center">&nbsp;       </td>
-					</tr>         
-					
-					<tr>
-					
-						<td width="50" align="center">3
-						</td>
-						<td width="480" align="left">&nbsp;没有掌握表示数(1~3)的单词(三)</td>
-						<td width="60" align="center">&nbsp;       </td>
-					</tr>         
-					
-					<tr>
-					
-						<td width="50" align="center">4
-						</td>
-						<td width="480" align="left">&nbsp;有掌握表示数(4~6)的单词(五)</td>
-						<td width="60" align="center">&nbsp;       </td>
-					</tr>         
-					
+					<#if omrOdab??>
+						<#assign rangecnt = 1><#assign rangecntfor = 0>
+						<#list omrOdab as omrOdabIndex>
+							<tr>
+								<#if omrOdabIndex_index+1 = rangecnt+rangecntfor>
+									<td width="50" ROWSPAN ="${omrOdabIndex.cnt }" valign="middle" align="center" >${omrOdabIndex.sprt }</td>
+									<#assign rangecntfor = rangecntfor+omrOdabIndex.cnt?number>
+								</#if>
+							
+								<td width="50" align="center">${omrOdabIndex.odab1 }${UFNDisplayOdab(omrOdabIndex.odab2) }
+								</td>
+								<td width="480" align="left">&nbsp;${omrOdabIndex.odabnm }</td>
+								<td width="60" align="center">&nbsp;${omrOdabIndex.odabschool }</td>
+							</tr>  
+						</#list>					
+					</#if>
 				</table>         
 			</td>
 		</tr>

@@ -202,6 +202,21 @@ public class DiagnosisService {
 			
 			return diagnosisRepository.findDiagnosisOdab(map);		
 		}
+		//오답내용 수학 외
+		public List<DiagnosisDto.DiagnosisOdabLang> getDiagnosisOdabLang(String jisa, String omrdate,
+				String memKey, String subj, String mujin) {
+	
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisa", jisa);		
+			map.put("omrdate", omrdate);		
+			map.put("memKey", memKey);
+			map.put("subj", subj);
+			map.put("mujin", mujin);
+		
+			
+			return diagnosisRepository.findDiagnosisOdabLang(map);		
+		}
+		
 
 		//영역별 분석 항목
 		public DiagnosisDto.DiagnosisRangeAllGet getDiagnosisRangeAllGet(String jisa,

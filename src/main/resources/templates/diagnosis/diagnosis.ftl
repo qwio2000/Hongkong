@@ -29,6 +29,9 @@
 		CL수학 처방기록부!!
 	</a>
 
+<a href="javascript:var a=window.open('/fa/diagnosis/OmrPrint?jisa=08&mujin=0&omrdate=2013-02-02&&memKey=AA283305&subj=EE&lang=E&avg=Y', 'PrintPop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');">
+		EE수학 처방기록부!!
+	</a>
 	
 	
 </div>

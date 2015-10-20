@@ -445,7 +445,7 @@ public class DiagnosisController {
 	
 	
 	
-	// ippr 처방 기록부 C*
+	// ippr 처방 기록부 수학 외
 	@RequestMapping(value={"/fa/diagnosis/OmrPrint"}, method={RequestMethod.GET,RequestMethod.HEAD})  
 	public String diagnosisIpprOmrPrint(Model model, String jisa, String omrdate, String memKey, String subj, String lang, String avg, String mujin)  {
 		log.debug("Getting OmrPrint List Page");
@@ -472,7 +472,12 @@ public class DiagnosisController {
 		// 중점 학습 내용
 		List<DiagnosisDto.DiagnosisNextLang> diagnosisNextLang = diagnosisService.getDiagnosisNextLang(jisa, omrdate, memKey, subj, lang, mujin);
 		
+		//오답 분석
+		List<DiagnosisDto.DiagnosisOdabLang> diagnosisOdabLang = diagnosisService.getDiagnosisOdabLang(jisa, omrdate, memKey, subj, mujin);
 
+		String omrGrd = diagnosisOmrPrintLang.getOmrGrd();
+		
+		model.addAttribute("omrGrd", omrGrd);
 		model.addAttribute("kwamok", subj);
 		model.addAttribute("omrgicho", diagnosisOmrPrintLang);
 		model.addAttribute("rangehl", diagnosisRangeHlLang);
@@ -488,7 +493,24 @@ public class DiagnosisController {
 
 		model.addAttribute("next", diagnosisNextLang);
 		
-		return "diagnosis/diagnosis/OmrPrintCha";	
+		model.addAttribute("omrOdab", diagnosisOdabLang);
+		
+		
+		if ("C".equals(lang)){
+			return "diagnosis/diagnosis/OmrPrintCha";	
+		}else if ("E".equals(lang)) {
+			return "diagnosis/diagnosis/OmrPrintEng";
+		}else if ("K".equals(lang)) {
+			return "diagnosis/diagnosis/OmrPrintKor";			
+		}else{		
+			String alertMsg = messageSourceAccesor.getMessage("Ippr.Diagnosis.IpprList");
+			model.addAttribute("message", alertMsg);
+			model.addAttribute("mode", "close");
+			return "alertAndRedirect";
+		}
+		
+	
+		
 		
 		
 	}

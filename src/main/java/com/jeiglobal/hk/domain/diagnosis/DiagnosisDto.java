@@ -138,7 +138,7 @@ public class DiagnosisDto {
 	
 	
 	
-	@Data  // 개인별 처방기록부 오답내용 왼쪽
+	@Data  // 개인별 처방기록부 오답내용
 	public static class DiagnosisOdab{
 		private String odab1;
 		private String odab2;
@@ -146,8 +146,18 @@ public class DiagnosisDto {
 		private String hakGubun;
 		private String odabNM;
 		private String odabSchool;
-		private String odabGrp;
-		
+		private String odabGrp;		
+	}
+	
+	@Data // 개인별 처방기록부 오답내용 수학 외
+	public static class DiagnosisOdabLang{
+		private String odab1;
+		private String odab2;
+		private String odabnm;
+		private String odabschool;
+		private String odabrange;
+		private String sprt;
+		private String cnt;
 	}
 	
 	@Data  // 개인별 처방기록부 영역명가져오기
