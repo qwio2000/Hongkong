@@ -212,7 +212,7 @@ public class CenterController {
 	@ResponseBody
 	public String getChangeUserPwdSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
 		String deptCD, String userId){
-		
+		log.debug(loginInfo.toString());
 		String newUserPwd = passwordEncoder.encode(userId);
 		String workId = CommonUtils.getWorkId(request);
 		centerService.setChangeUserPwdSave(userId, newUserPwd, workId);		

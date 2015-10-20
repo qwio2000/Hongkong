@@ -3,7 +3,7 @@
  */
 package com.jeiglobal.hk.domain.center;
 
-import lombok.Data;
+import lombok.Getter;
 
 /**
  * 클래스명 : CenterView.java
@@ -15,7 +15,7 @@ import lombok.Data;
  * 설명 :  센터 뷰 SP
  * 
  */
-@Data
+@Getter
 public class CenterView {
 	
 	private String jisaCD;

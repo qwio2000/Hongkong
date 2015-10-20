@@ -1,11 +1,11 @@
 package com.jeiglobal.hk.domain.center;
 
-import lombok.Data;
+import lombok.Getter;
 
 /**
  * Centers : 센터 검색 리스트 SP
  */
-@Data
+@Getter
 public class CenterSearchList {
 	
 	/**

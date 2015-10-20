@@ -3,7 +3,7 @@
  */
 package com.jeiglobal.hk.domain.center;
 
-import lombok.Data;
+import lombok.Getter;
 
 /**
  * 클래스명 : CenterOpenSubjList.java
@@ -14,7 +14,7 @@ import lombok.Data;
  * 
  * 설명	 :  상품 정보
  */
-@Data
+@Getter
 public class CenterOpenSubjList {
 	
 	private String jisaCD;
