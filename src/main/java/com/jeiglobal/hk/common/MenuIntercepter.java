@@ -64,7 +64,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 				menuList.remove(0);
 			}
 			for (GlobalMenu globalMenu : menuList) {
-				if(ant.match(globalMenu.getMAntPattern(),currentUrl)){
+				if(ant.match(globalMenu.getMAntPattern(), currentUrl)){
 					menuCode = globalMenu.getMMenuCode();
 				}
 				if(globalMenu.getMMenuCode().length() == 1){
@@ -84,7 +84,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 			
 			if(!menuCode.isEmpty() || 
 					"/ja".equalsIgnoreCase(currentUrl) || "/fa".equalsIgnoreCase(currentUrl)
-					|| ant.match("/fa/diagnosis/**",currentUrl)){
+					|| ant.match("/fa/diagnosis/**", currentUrl)){
 				if(menuCodeCnt == 1){
 					menuFirstCode = menuCode.substring(0,1);
 				}else if(menuCodeCnt == 3){
@@ -103,9 +103,9 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 				
 				for (int i = 0; i < headerMenuList.size(); i++) {
 					List<GlobalMenu> tempMenuList = new ArrayList<GlobalMenu>();
-					tempMenuList.add(headerMenuList. get(i));
+					tempMenuList.add(headerMenuList.get(i));
 					for (GlobalMenu menu : menuList) {
-						if(headerMenuList.get(i).getMIdx() == menu.getMParentIdx()){
+						if(headerMenuList.get(i).getMIdx().longValue() == menu.getMParentIdx().longValue()){
 							tempMenuList.add(menu);
 						}
 					}
