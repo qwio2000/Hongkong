@@ -1,8 +1,15 @@
 <#include "/include/header.ftl">
 <!-- Main Content -->
 <div class="content">
-	<h2 class="conTit">Appointment</h2><a href="/fa/diagnosis/AppointmentNew">New Appointment</a>
-	<div class="tbl01">
+	<h2 class="conTit">Appointment</h2>
+	<div class="clearfix pb10 pt30">
+		<div class="float_l">
+			<div class="btnArea_txt p0">
+				<a href="/fa/diagnosis/appointmentNew" class="btn_doc m0">New Appointment</a>
+			</div>
+		</div>
+	</div>
+	<div class="tbl01 mt0">
 		<table>
 			<colgroup>
 				<col width="30">
@@ -29,7 +36,7 @@
 			<tbody>
 				<tr>
 					<td>1</td>
-					<td class="left pl10"><a href="#"><img src="${imgPath}/ico_name.png" alt="">Aileen Ahn</a></td>
+					<td class="left pl10"><a href="#"><img src="../public/img/ico_name.png" alt="">Aileen Ahn</a></td>
 					<td>1ST</td>
 					<td>ENGLISH</td>
 					<td class="left pl10">Kelly Aliperti <br />Slow to progress in Reading. At this time, reading at a level 6</td>
@@ -38,7 +45,7 @@
 					<td>
 						<div class="btnArea_icon2">
 							<a href="#" class="btn_doc_add">입회입력</a>
-							<a href="#" class="btn_doc">무료진단입력</a>
+							<a href="#" class="btn_doc2">무료진단입력</a>
 							<a href="#" class="btn_info">내용수정</a>
 							<a href="#" class="btn_del">명단삭제</a>
 						</div>
@@ -46,7 +53,7 @@
 				</tr>
 				<tr>
 					<td>2</td>
-					<td class="left pl10"><a href="#"><img src="${imgPath}/ico_name.png" alt="">Aileen Ahn</a></td>
+					<td class="left pl10"><a href="#"><img src="../public/img/ico_name.png" alt="">Aileen Ahn</a></td>
 					<td>1ST</td>
 					<td>ENGLISH</td>
 					<td class="left pl10">Kelly Aliperti <br />Slow to progress in Reading. At this time, reading at a level 6</td>
@@ -55,7 +62,7 @@
 					<td>
 						<div class="btnArea_icon2">
 							<a href="#" class="btn_doc_add">입회입력</a>
-							<a href="#" class="btn_doc">무료진단입력</a>
+							<a href="#" class="btn_doc2">무료진단입력</a>
 							<a href="#" class="btn_info">내용수정</a>
 							<a href="#" class="btn_del">명단삭제</a>
 						</div>

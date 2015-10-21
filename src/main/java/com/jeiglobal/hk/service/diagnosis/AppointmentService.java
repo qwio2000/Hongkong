@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.diagnosis.AppointmentDto;
-import com.jeiglobal.hk.domain.diagnosis.AppointmentDto.AppointmentSerch;
 import com.jeiglobal.hk.repository.diagnosis.AppointmentRepository;
 /**
  * 클래스명 : AppointmentService.java
@@ -25,7 +24,7 @@ public class AppointmentService {
 	@Autowired
 	private AppointmentRepository appointmentRepository;
 
-	public List<AppointmentSerch> getAppointmentSearch(String name,
+	public List<AppointmentDto.AppointmentSerch> getAppointmentSearch(String name,
 			String jisaCD, String deptCD, int pageNum, int pageSize) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("name", name);		
@@ -35,6 +34,16 @@ public class AppointmentService {
 		map.put("pageSize", pageSize);
 		
 		return appointmentRepository.findAppointmentSerch(map);
+	}
+
+	public List<AppointmentDto.AppointmentSerchJson> getAppointmentSearchJson(String name,
+			String jisaCD, String deptCD) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("name", name);		
+		map.put("jisaCD", jisaCD);		
+		map.put("deptCD", deptCD);
+		
+		return appointmentRepository.findAppointmentSerchJson(map);
 	}
 
 
