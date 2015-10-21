@@ -44,7 +44,6 @@
 	</div>
 </div>
 <!--// Main Content -->
-<!--//TODO Appointment 데이터 추가 시 추가 작업 필요 -->
 <script id="workbookScript" type="text/x-handlebars-template">
 <colgroup>
 	<col width="35" />
