@@ -1,25 +1,30 @@
 package com.jeiglobal.hk.repository.diagnosis;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import com.jeiglobal.hk.domain.diagnosis.AppointmentDto;
-import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
-
+import com.jeiglobal.hk.domain.diagnosis.AppointmentDto.Appointment;
+import com.jeiglobal.hk.domain.member.*;
+import com.jeiglobal.hk.repository.*;
 /**
+ * 
  * 클래스명 : AppointmentRepository.java
  *
- * 작성일 : 2015. 10. 20.
+ * 작성일 : 2015. 10. 21.
  *
- * 작성자 : 성현범(IT지원팀)
+ * 작성자 : 전승엽(IT지원팀)
  * 
- * 설명
- *  src/main/resource/mapper/diagnosis/appointment.xml
+ * src/main/resource/mapper/diagnosis/AppointmentRepository.xml
+ * 
  */
-
 @PrimaryRepositoryAnnoInterface
 public interface AppointmentRepository {
 
-	List<AppointmentDto.AppointmentSerch> findAppointmentSerch(Map<String, Object> map);
+	public int findAppointmentsCount(Map<String, Object> param);
+
+	public List<MemAppointment> findAppointments(Map<String, Object> param);
+
+	public Appointment findAppointmentByIdx(int idx);
+
+	public void updateAppointmentByIdx(Map<String, Object> param);
 
 }
