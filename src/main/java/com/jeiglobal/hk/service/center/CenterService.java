@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.jeiglobal.hk.domain.center.CenterOpenSubjList;
 import com.jeiglobal.hk.domain.center.CenterSearchList;
 import com.jeiglobal.hk.domain.center.CenterView;
 import com.jeiglobal.hk.domain.center.MemFeeInfoList;
 import com.jeiglobal.hk.domain.center.UserList;
+import com.jeiglobal.hk.domain.center.UserView;
 import com.jeiglobal.hk.repository.center.CenterRepository;
 import com.jeiglobal.hk.service.auth.AuthoritiesService;
 import com.jeiglobal.hk.utils.CommonUtils;
@@ -42,7 +44,9 @@ public class CenterService {
 	private CenterRepository centerRepository;
 	
 	
-	// 센터 검색
+	/**
+	 * Center 정보 
+	 */		
 	public List<CenterSearchList> getCenterSearchList(String jisaCD, String deptName, String city, String stateCD, String statusCD, String sortKind, String sort, int pageNum, int pageSize) {		
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("jisaCD", jisaCD);
@@ -65,13 +69,7 @@ public class CenterService {
 		
 		return centerRepository.centerView(param);				
 	}	
-	// User 리스트
-	public List<UserList> getUserList(String jisaCD, String deptCD) {		
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("jisaCD", jisaCD);
-		param.put("deptCD", deptCD);
-		return centerRepository.userList(param);				
-	}
+
 	// 회비 정보 팝업
 	public List<MemFeeInfoList> getMemFeeInfoList(String jisaCD, String deptCD) {		
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -79,7 +77,73 @@ public class CenterService {
 		param.put("deptCD", deptCD);
 		return centerRepository.memFeeInfoList(param);				
 	}
-	
+	// 가맹점 운영시간 셋팅/변경 
+	public String getCenterHoursSave(String jisaCD, String deptCD, String oHoursStart, String oHoursEnd, String cHoursStart, String cHoursEnd, String workId) {		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);		
+		param.put("oHoursStart", oHoursStart);
+		param.put("oHoursEnd", oHoursEnd);
+		param.put("cHoursStart", cHoursStart);
+		param.put("cHoursEnd", cHoursEnd);
+		param.put("workId", workId);
+		return centerRepository.centerHoursSave(param);				
+	}
+	// 상품 정보 팝업
+	public List<CenterOpenSubjList> getCenterOpenSubjList(String jisaCD, String deptCD) {		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		return centerRepository.centerOpenSubjList(param);				
+	}	
+	public String getCenterOpenSubjSave(String jisaCD, String deptCD, String openSubj, String workId) {		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);		
+		param.put("openSubj", openSubj);
+		param.put("workId", workId);
+		return centerRepository.centerOpenSubjSave(param);				
+	}	
+		
+	/**
+	 * User 정보 
+	 */	
+	public List<UserList> getUserList(String jisaCD, String deptCD) {		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		return centerRepository.userList(param);				
+	}
+	public String getUserSave(String jisaCD, String deptCD, String userId, String userType, String userLevel, String dutyCD, String userFstName, String userLstName, String email,  String phone,  String title,  String department, String userPwd, String statusCD,String workId) {		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		param.put("userId", userId);
+		param.put("userType", userType);
+		param.put("userLevel", userLevel);
+		param.put("dutyCD", dutyCD);
+		param.put("userFstName", userFstName);
+		param.put("userLstName", userLstName);
+		param.put("email", email);
+		param.put("phone", phone);
+		param.put("title", title);
+		param.put("department", department);
+		param.put("userPwd", userPwd);
+		param.put("statusCD", statusCD);
+		param.put("workId", workId);
+		return centerRepository.userSave(param);				
+	}	
+	public void setChangeUserPwdSave(String userId, String userPwd,String workId) {		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("userId", userId);
+		param.put("userPwd", userPwd);
+		param.put("workId", workId);
+		centerRepository.changeUserPwdSave(param);				
+	}	
+	public UserView getUserView(String userId) {		
+		return centerRepository.userView(userId);				
+	}		
+		
 	
 	
 	

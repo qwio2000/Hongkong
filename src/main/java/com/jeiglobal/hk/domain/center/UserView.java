@@ -6,18 +6,16 @@ package com.jeiglobal.hk.domain.center;
 import lombok.Getter;
 
 /**
- * 클래스명 : UserList.java
+ * 클래스명 : UserView.java
  *
- * 작성일 : 2015. 10. 13.
+ * 작성일 : 2015. 10. 20.
  *
  * 작성자 : 노윤희(IT지원팀)
  * 
- * 설명 : User 리스트
- *  	
+ * 설명	: 사용자 정보
  */
 @Getter
-public class UserList {
-	
+public class UserView {
 	private String userId;
 	private String userFstName;
 	private String userLstName;
@@ -35,5 +33,6 @@ public class UserList {
 	private String statusCD;
 	private String userName;
 	private String userLevelName;
-	private String userStatusName;	
+	private String userStatusName;		
+
 }

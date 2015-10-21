@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jeiglobal.hk.repository.center.CenterRepository">
+	<!-- 센터 -->
 	<select id="centerSearchList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.CenterSearchList">
-		CALL SPCenterSearchList(#{jisaCD},#{deptName},#{city},#{stateCD},#{statusCD},#{sortKind},#{sort},#{pageNum},#{pageSize})
+		CALL globalbiz.SPCenterSearchList(#{jisaCD},#{deptName},#{city},#{stateCD},#{statusCD},#{sortKind},#{sort},#{pageNum},#{pageSize});
 	</select>
 	<select id="centerView" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.CenterView">
-		CALL SPCenterView(#{jisaCD},#{deptCD})
-	</select>
-	<select id="userList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.UserList">
-		CALL SPUserList(#{jisaCD},#{deptCD})
+		CALL globalbiz.SPCenterView(#{jisaCD},#{deptCD});
 	</select>
 	<select id="memFeeInfoList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.MemFeeInfoList">
-		CALL SPMemFeeInfoList(#{jisaCD},#{deptCD})
-	</select>			
+		CALL globalbiz.SPMemFeeInfoList(#{jisaCD},#{deptCD});
+	</select>	
+	<select id="centerHoursSave" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String">
+		CALL globalbiz.SPDeptHoursSave(#{jisaCD},#{deptCD},#{oHoursStart},#{oHoursEnd},#{cHoursStart},#{cHoursEnd},#{workId})
+	</select>
+	<select id="centerOpenSubjList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.CenterOpenSubjList">
+		CALL globalbiz.SPDeptOpenSubjList(#{jisaCD},#{deptCD});
+	</select>
+	<select id="centerOpenSubjSave" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String">
+		CALL globalbiz.SPDeptOpenSubjSave(#{jisaCD},#{deptCD},#{openSubj},#{workId})
+	</select>	
+	
+	<!-- 사용자 -->
+	<select id="userList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.UserList">
+		CALL globalbiz.SPUserList(#{jisaCD},#{deptCD});
+	</select>
+	<select id="userSave" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String">
+		CALL globalbiz.SPUserSave(#{jisaCD},#{deptCD},#{userId},#{userType},#{userLevel},#{dutyCD},#{userFstName},#{userLstName},#{email},#{phone},#{title},#{department},#{userPwd},#{statusCD},#{workId})
+	</select>	
+	<select id="userView" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.UserView">
+		CALL globalbiz.SPUserView(#{userId});
+	</select>	
+	<update id="changeUserPwdSave" parameterType="hashMap">
+		UPDATE globalbiz.Users 
+		SET userPasswd = #{userPwd},updDate=NOW(), updID=#{workId}
+		WHERE userId = #{userId}
+	</update>	
+	
+	
+	
+	
+	
+	
 </mapper>

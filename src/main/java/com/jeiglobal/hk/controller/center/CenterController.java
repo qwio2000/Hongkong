@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.context.HttpRequestResponseHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
@@ -23,14 +24,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.jeiglobal.hk.domain.CodeDtl;
 import com.jeiglobal.hk.domain.auth.LoginInfo;
+import com.jeiglobal.hk.domain.center.CenterOpenSubjList;
 import com.jeiglobal.hk.domain.center.CenterSearchList;
 import com.jeiglobal.hk.domain.center.CenterView;
 import com.jeiglobal.hk.domain.center.MemFeeInfoList;
 import com.jeiglobal.hk.domain.center.UserList;
+import com.jeiglobal.hk.domain.center.UserView;
 import com.jeiglobal.hk.service.CommonService;
 import com.jeiglobal.hk.service.center.CenterService;
+import com.jeiglobal.hk.utils.CommonUtils;
 import com.jeiglobal.hk.utils.MessageSourceAccessor;
 import com.jeiglobal.hk.utils.PageUtil;
 
@@ -57,11 +60,10 @@ public class CenterController {
 	private CommonService commonService;
 	
 	@Autowired
-	private CommonService memberRegistService;	
-	
-	@Autowired
 	private CenterService centerService;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;	
 	
 	//한 페이지에 출력할 레코드 개수
 	@Value("${page.size}")
@@ -165,20 +167,74 @@ public class CenterController {
 	}		
 	// 사용자 등록
 	@RequestMapping(value={"/ja/centers/userRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getUserRegist(Model model, @ModelAttribute LoginInfo loginInfo){
+	public String getUserRegist(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD){
+		// 센터 정보
+		CenterView dataCenterInfo = centerService.getCenterView(loginInfo.getJisaCD(), deptCD);
+		String chk = (dataCenterInfo == null)? "N" : "Y";
 		
 		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("userRegist");
+		headerScript.add("centerView");
 		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("userLevelList", commonService.getCodeDtls("0401", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("centerInfo", dataCenterInfo);
+		model.addAttribute("chk", chk);
+		model.addAttribute("deptCD", deptCD);		
+		
 		return "center/userRegist";
 	}
+	@RequestMapping(value={"/ja/centers/userSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String getUserSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
+		String deptCD, String userId, String dutyCD, String userLevel, String userFstName, String userLstName,
+		String email, String phone, String title, String department, String userPwd, String statusCD){
+		
+		//String userType = "FA";
+		String newUserPwd = "";
+		if("".equals(userId)){
+			newUserPwd = passwordEncoder.encode(userPwd);
+		}else{
+			newUserPwd = userPwd;
+		}
+		String workId = CommonUtils.getWorkId(request);
+		String rerult = centerService.getUserSave(loginInfo.getJisaCD(),deptCD, userId, "FA", userLevel, dutyCD, userFstName, userLstName, email,  phone,  title,  department, newUserPwd, statusCD, workId);		
+		String msgCode = "";
+		if("N1".equals(rerult)){
+			msgCode = "user.save.error.n1";
+		}else if("N2".equals(rerult)){
+			msgCode = "user.save.error.n2";
+		}else{
+			msgCode = "common.save.success";
+		}
+
+		return messageSource.getMessage(msgCode);
+	}
+	@RequestMapping(value={"/ja/centers/changeUserPwdSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String getChangeUserPwdSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
+		String deptCD, String userId){
+		log.debug(loginInfo.toString());
+		String newUserPwd = passwordEncoder.encode(userId);
+		String workId = CommonUtils.getWorkId(request);
+		centerService.setChangeUserPwdSave(userId, newUserPwd, workId);		
+		String msgCode = "common.save.success";
+		return messageSource.getMessage(msgCode);
+	}		
+	
 	// 사용자 정보 수정
 	@RequestMapping(value={"/ja/centers/userEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getUserEdit(Model model, @ModelAttribute LoginInfo loginInfo){
+	public String getUserEdit(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD, String userId){
+		
+		UserView dataUserInfo = centerService.getUserView(userId);
+		String chk = (dataUserInfo == null)? "N" : "Y";
 		
 		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("userEdit");
+		headerScript.add("centerView");
 		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("userLevelList", commonService.getCodeDtls("0401", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("userInfo", dataUserInfo);
+		model.addAttribute("deptCD", deptCD);
+		model.addAttribute("userId", userId);
+		model.addAttribute("chk", chk);
 		return "center/userEdit";
 	}	
 
@@ -192,32 +248,68 @@ public class CenterController {
 		return "center/centerInfoEdit";
 	}	
 	// 가맹점 운영시간 변경
-	@RequestMapping(value={"/ja/centers/centerHours"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/ja/centers/centerSetHours"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCenterBusinessClassroomHours(Model model, @ModelAttribute LoginInfo loginInfo,
-		String deptCD, String oHoursStart, String oHoursEnd, String cHoursStart, String cHoursEnd){
-		
-		//가맹점 시간 리스트
-		//List<CodeDtl> manageTimes = memberRegistService.getManageTimes(loginInfo.getJisaCD(), deptCD);
-		
+			String deptCD, String oHoursStart, String oHoursEnd, String cHoursStart, String cHoursEnd){
 		
 		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("centerHours");
+		headerScript.add("centerView");
 		model.addAttribute("headerScript", headerScript);
-		model.addAttribute("deptCD", deptCD);
+		model.addAttribute("centerTimes", commonService.getCodeDtls("0206", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("deptCD", deptCD);		
 		model.addAttribute("oHoursStart", oHoursStart);
 		model.addAttribute("oHoursEnd", oHoursEnd);
 		model.addAttribute("cHoursStart", cHoursStart);
 		model.addAttribute("cHoursEnd", cHoursEnd);
-		return "center/centerHours";
-	}	
+		return "center/centerSetHours";
+	}
+	@RequestMapping(value={"/ja/centers/centerHoursSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String getCenterHoursSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
+		String deptCD, String oHoursStart, String oHoursEnd, String cHoursStart, String cHoursEnd){
+		
+		String workId = CommonUtils.getWorkId(request);
+		String rerult = centerService.getCenterHoursSave(loginInfo.getJisaCD(),deptCD, oHoursStart, oHoursEnd, cHoursStart, cHoursEnd, workId);		
+		String msgCode = "";
+		if("Y".equals(rerult)){
+			msgCode = "common.save.success";
+		}else{
+			msgCode = "common.save.error";
+		}
+
+		return messageSource.getMessage(msgCode);
+	}
+	
 	// 가맹점 출시 상품 셋팅/변경
 	@RequestMapping(value={"/ja/centers/centerSetSubjPreference"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getCenterSetSubjPreference(Model model, @ModelAttribute LoginInfo loginInfo){
+	public String getCenterSetSubjPreference(Model model, @ModelAttribute LoginInfo loginInfo,
+		String deptCD){
 		
+		List<CenterOpenSubjList> dataCenterOpenSubjList = centerService.getCenterOpenSubjList(loginInfo.getJisaCD(), deptCD);
+		String 	chk = (dataCenterOpenSubjList.size()>0)? "Y" : "N";
+		log.debug("Getting centerView Page, dataCenterOpenSubjList : {}", dataCenterOpenSubjList);
 		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("centerSetSubjPreference");
+		headerScript.add("centerView");
 		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("centerOpenSubjList", dataCenterOpenSubjList);
+		model.addAttribute("deptCD", deptCD);
+		model.addAttribute("chk", chk);
 		return "center/centerSetSubjPreference";
+	}
+	@RequestMapping(value={"/ja/centers/centerSubjPreferenceSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String getCenterOpenSubjSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
+		String deptCD, String openSubj){
+		
+		String workId = CommonUtils.getWorkId(request);
+		String rerult = centerService.getCenterOpenSubjSave(loginInfo.getJisaCD(),deptCD, openSubj, workId);		
+		String msgCode = "";
+		if("Y".equals(rerult)){
+			msgCode ="common.save.success";
+		}else{
+			msgCode = "common.save.error";
+		}
+		return messageSource.getMessage(msgCode);
 	}	
 	// 회비 정보
 	@RequestMapping(value={"/ja/centers/tuitionMatrix"},method = {RequestMethod.GET, RequestMethod.HEAD})

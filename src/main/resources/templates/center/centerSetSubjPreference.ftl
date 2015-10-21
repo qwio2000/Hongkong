@@ -1,23 +1,30 @@
 <#include "/include/popupheader.ftl">
+<script type="text/javascript">
+<!--
+	if ("${chk}"=="N") {
+		alert("정보가 없습니다.");
+		self.close();
+	}
+//-->
+</script>
 <!-- Main Content -->
 <div class="popup">
 	<div class="popup_top"><h1>Set Subject Preference</h1> <a href="javascript:self.close();" class="btn_popup_close">close</a></div>
 	<div class="popup_content">
 		<div class="pop_jisa">
+			<form action="" name="centerOpenSubjForm" id="centerOpenSubjForm">
+			<input type="hidden" name="deptCD" value="${deptCD?default('')}"/>		
 			<div class="list03">
 				<p>Select subject(s) that this center offers.</p>
 				<ul>
-					<li><span class="chk_s01"><input type="checkbox" name="" value="" id="chk1"><label for="chk1">MATH</label></span></li>
-					<li><span class="chk_s01"><input type="checkbox" name="" value="" id="chk2"><label for="chk2">ENGLISTH</label></span></li>
-					<li><span class="chk_s01"><input type="checkbox" name="" value="" id="chk3"><label for="chk3">READING</label></span></li>
-					<li><span class="chk_s01"><input type="checkbox" name="" value="" id="chk4"><label for="chk4">KOREAN</label></span></li>
-					<li><span class="chk_s01"><input type="checkbox" name="" value="" id="chk5"><label for="chk5">PS MATH</label></span></li>
-					<li><span class="chk_s01"><input type="checkbox" name="" value="" id="chk6"><label for="chk6">HANGEUL</label></span></li>
-					<li><span class="chk_s01"><input type="checkbox" name="" value="" id="chk7"><label for="chk7">BRAIN SAFARI</label></span></li>
-				</ul>
+					<#list centerOpenSubjList as list>
+					<li><span class="chk_s01"><input type="checkbox" name="openSubj" value="${list.subj }" id="chkOpenSubj_${list.subj }"  <#if list.openSubj != "">checked</#if>><label for="chkOpenSubj_${list.subj }">${list.subj }</label></span></li>
+					</#list>
+				</ul>			
 			</div>
+			</form>
 			<div class="btnArea">
-				<a href="#"><span>Save Subject Preference</span></a>
+				<a href="javascript:;" id="saveCenterOpenSubj" ><span>Save Subject Preference</span></a>
 			</div>
 		</div>
 	</div>

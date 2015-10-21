@@ -196,6 +196,15 @@ $(document).ready(function() {
 				}
 				return true;
 			},
+			//비밀번호 형식 체크
+			passwordCheck:function(element,str) {
+				var pattern = /^.*(?=^.{8,20}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+				if(!pattern.test($.trim($("#"+element).val()))){
+				    alert(str + " 형식이 아닙니다.\n\n영대/소문자, 숫자 및 특수문자 조합 비밀번호 8자리 이상 20자리 이하로 가능\n");
+				    return false;
+				}
+				return true;
+			},			
 		    //파일 종류체크
 		    fileNameChk:function (element,flag){
 		    	var type = "";
