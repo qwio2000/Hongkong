@@ -74,16 +74,4 @@ public interface DiagnosisRepository {
 	
 	DiagnosisDto.DiagnosisRangeHlLang findDiagnosisRangeHlLang(Map<String, Object> map);
 
-	
-
-	
-
-	
-
-	
-
-		
-	
-	
-	
 }

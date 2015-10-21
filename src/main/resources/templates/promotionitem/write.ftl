@@ -61,7 +61,7 @@
 						<input type="text" id="itemStock" name="itemStock" value="${promo.itemStock}" style="width:150px;"/> Pcs.
 					</li>
 					<li>
-						<label for="" class="tit">Picture1</label>
+						<label for="" class="tit">Picture</label>
 						<div class="attach">
 							<input type="text" style="width:300px;" id="multipartFile1" <#if promo.itemfile1NameConvert?exists> value="${promo.itemfile1NameConvert}" </#if> class="file_input_textbox" readonly="">
 							<div class="file_input_div">
@@ -70,7 +70,7 @@
 							</div>
 						</div>
 					</li>
-					<li>
+					<!--li>
 						<label for="" class="tit">Picture2</label>
 						<div class="attach">
 							<input type="text" style="width:300px;" id="multipartFile2" <#if promo.itemfile2NameConvert?exists> value="${promo.itemfile2NameConvert}" </#if> class="file_input_textbox" readonly="">
@@ -89,7 +89,7 @@
 								<input type="file" id="multipartFile3" name="multipartFile" class="file_input_hidden"/> 
 							</div>
 						</div>
-					</li>
+					</li-->
 					<li>
 						<label for="" class="tit">Visible</label>
 						<span class="radio_wrap"><input type="radio" id="itemVisible" name="itemVisible" value="Y" <#if promo.itemVisible = 'Y' > checked </#if> ><label class="radio_label" for="visible1"> Yes</label></span>
@@ -100,7 +100,7 @@
 		</div>
 
 			<div class="btnArea">
-				<a href="/ja/promoitem/promoitemlist"><span>Cancle</span></a> <a href="javascript:document.PromotionItem.submit();"><span>Update Item Info</span></a>
+				<a href="/ja/promoitem/promoitemlist"><span>Cancle</span></a> <a href="javascript:gosubmit();"><span>Update Item Info</span></a>
 			</div>
 		</div>
 				
@@ -147,7 +147,7 @@
 					<input type="text" class="searchInput" style="width:150px" id="itemStock" name="itemStock"> Pcs.
 				</li>
 				<li>
-					<label for="" class="tit">Picture1</label>
+					<label for="" class="tit">Picture</label>
 					<div class="attach">
 						<input type="text" style="width:300px;" id="" name="" class="file_input_textbox" readonly="">
 						<div class="file_input_div">
@@ -156,7 +156,7 @@
 						</div>
 					</div>
 				</li>
-				<li>
+				<!--li>
 					<label for="" class="tit">Picture2</label>
 					<div class="attach">
 						<input type="text" style="width:300px;" id="" name="" class="file_input_textbox" readonly="">
@@ -175,7 +175,7 @@
 							<input type="file" class="file_input_hidden" id="multipartFile3" name="multipartFile">
 						</div>
 					</div>
-				</li>
+				</li-->
 				<li>
 					<label for="" class="tit">Visible</label>
 					<span class="radio_wrap"><input type="radio" value="Y" id="itemVisible" name="itemVisible" checked><label class="radio_label" for="visible1"> Yes</label></span>
@@ -183,7 +183,7 @@
 				</li>
 			</ul>
 			<div class="btnArea">
-				<a href="/ja/promoitem/promoitemlist"><span>Cancle</span></a> <a href="javascript:document.PromotionItem.submit();"><span>Add Item</span></a>
+				<a href="/ja/promoitem/promoitemlist"><span>Cancle</span></a> <a href="javascript:gosubmit();"><span>Add Item</span></a>
 			</div>
 		</div>
 		</form>
@@ -198,6 +198,27 @@
 			document.getElementById("visibleUOM").style.display = "";
 		}else{
 			document.getElementById("visibleUOM").style.display = "none";
+		}
+	}
+	
+	function gosubmit(){
+		if(document.PromotionItem.itemName.value.trim().length <1){
+			alert("Item Name cannot be empty.");
+			return;
+		}else if(document.PromotionItem.itemDescription.value.trim().length <1){
+			alert("Description cannot be empty.");
+			return;
+		}else if(document.PromotionItem.itemColor.value.trim().length <1){
+			alert("Color cannot be empty.");
+			return;
+		}else if(document.PromotionItem.itemPrice.value.trim().length <1){
+			alert("Price cannot be empty.");
+			return;
+		}else if(document.PromotionItem.itemStock.value.trim().length <1){
+			alert("Stock cannot be empty.");
+			return;
+		}else{
+			document.PromotionItem.submit();
 		}
 	}
 

@@ -100,24 +100,47 @@
 									<td colspan="2" class="left">
 										<a href="#" class="btn_graph">${subj.subj?default('') }</a>
 										<#if subj.statusCD == "1">
-										<span class="info_line">Since ${subj.convertRegistYMD }</span>
-										<span class="info_line">${subj.yoilName?default('') }</span>
-										<span class="info_line">${subj.visitHourName?default('') }</span>
+											<span class="info_line">Since ${subj.convertRegistYMD }</span>
+											<span class="info_line">${subj.yoilName?default('') }</span>
+											<span class="info_line">${subj.visitHourName?default('') }</span>
 										<#else>
-										<span class="info_line">Drop Date : ${subj.convertDropYMD?default('') }</span>
-										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">IPPR</a></span>
-										<#if subj.isCancle == 'true'>
-										<span class="info_line"><a href="javascript:dropCancelMember('${subj.memKey }','${subj.subj }', '${subj.convertDropYMD?default('') }');" class="blue">DROP.CANCLE</a></span>
-										</#if>
+											<span class="info_line">Drop Date : ${subj.convertDropYMD?default('') }</span>
+											<!-- 퇴회 상태 IPPR -->
+											<#if subj.digYN == 'Y' && subj.omrDate != ''>
+												<span class="info_line"><a href="javascript:viewIppr('${subj.jisaCD }','${subj.omrDate }','${subj.memKey }','${subj.subj }');" class="blue">IPPR</a></span>
+											<#else>
+												<span class="info_line gray">IPPR</span>
+											</#if>
+											<!-- 퇴회 취소 -->
+											<#if subj.isCancle == 'true'>
+												<span class="info_line"><a href="javascript:dropCancelMember('${subj.memKey }','${subj.subj }', '${subj.convertDropYMD?default('') }');" class="blue">DROP.CANCEL</a></span>
+											<#else>
+												<span class="info_line gray">DROP.CANCEL</span>
+											</#if>
 										</#if>
 									</td>
 								</tr>
 								<#if subj.statusCD == "1">
 								<tr class="subject">
 									<td colspan="2">
-										<span class="info_line_first"><a href="javascript:$.openPop('/fa/diagnosis/ippr?memKey=${subj.memKey }&subj=${subj.subj }&freejindan=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">DIAG</a></span>
-										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">IPPR</a></span>
-										<span class="info_line"><a href="#" class="<#if subj.digYN == 'Y'>blue<#else>gray</#if>">MPR</a></span>
+										<!-- DIAG -->
+										<#if subj.digYN == 'Y'>
+											<span class="info_line_first"><a href="javascript:$.openPop('/fa/diagnosis/ippr?memKey=${subj.memKey }&subj=${subj.subj }&freejindan=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">DIAG</a></span>
+										<#else>
+											<span class="info_line_first gray">DIAG</span>
+										</#if>
+										<!-- IPPR -->
+										<#if subj.digYN == 'Y' && subj.omrDate != ''>
+											<span class="info_line"><a href="javascript:viewIppr('${subj.jisaCD }','${subj.omrDate }','${subj.memKey }','${subj.subj }');" class="blue">IPPR</a></span>
+										<#else>
+											<span class="info_line gray">IPPR</span>
+										</#if>
+										<!-- MPR -->
+										<#if subj.digYN == 'Y'>
+											<span class="info_line"><a href="#" class="blue">MPR</a></span>
+										<#else>
+											<span class="info_line gray">MPR</span>
+										</#if>
 										<span class="info_line"><a href="javascript:dropMember('${subj.memKey }','${subj.subj }','${info.MFstName?default('') } ${info.MFstName?default('') }');" class="blue">DROP</a></span>
 									</td>
 								</tr>

@@ -93,7 +93,7 @@
 				<li>
 					<span class="tit" style="width:35px">Note</span> <input type="text" class="searchInput" name="orderNote" id="orderNote" style="width:712px" /> 
 					<span class="btnArea">
-						<a href="javascript:document.PromotionOrderItem.submit();"><span style="width:180px">Submit Order Request</span></a>
+						<a href="javascript:ordersubmit();"><span style="width:180px">Submit Order Request</span></a>
 					</span>
 				</li>
 			</ul>
@@ -204,6 +204,15 @@
 		document.getElementById("popbg").style.display = "none";
 		document.getElementById("popcontainer").style.display = "none";
 		$("#popcontainer").html("");
+	}
+	
+	function ordersubmit(){
+		if(document.PromotionOrderItem.orderNote.value.length > 200){
+			alert("200자 내외로 작성해 주십시오.");
+			return;
+		}else{
+			document.PromotionOrderItem.submit();
+		}
 	}
 
 </script>
