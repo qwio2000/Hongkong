@@ -44,9 +44,9 @@
 					<input type="hidden" id="memKeys" value="${memKeys?default('') }"/>
 					<div class="btnArea_icon clearfix">
 						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
-						<a href="javascript:guardianInfoPop();" class="btn_info tooltip" title="학부모 정보 추가/수정">학부모 정보 추가/수정</a>
-						<a href="/fa/members/regist/new?type=3&memKey=${memKey }" class="btn_member tooltip"  title="형제 회원 입회">형제 회원 입회</a>
-						<a href="#" class="btn_doc tooltip"  title="형제회원 무료진단 입력">형제회원 무료진단 입력</a>
+						<a href="javascript:guardianInfoPop();" class="btn_info tooltip" title="<@spring.message 'member.report.tooltip.guardianupdate'/>"></a>
+						<a href="/fa/members/regist/new?type=3&memKey=${memKey }" class="btn_member tooltip"  title="<@spring.message 'member.report.tooltip.siblingregist'/>"></a>
+						<a href="#" class="btn_doc tooltip"  title="<@spring.message 'member.report.tooltip.siblingfreediag'/>"></a>
 						<span class="tooltip_Area"></span>
 					</div>
 				</div>
@@ -165,12 +165,12 @@
 					</div>
 					<div class="btnArea_icon clearfix">
 						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
-						<a href="javascript:addCommentCall('${info.memKey }','${info.MFstName} ${info.MLstName }');" class="btn_talk tooltip" title="회원/학부모 상담이력 입력">회원/학부모 상담이력 입력</a>
-						<a href="javascript:addAppointment('${info.memKey }','${info.MFstName} ${info.MLstName }');" class="btn_clock tooltip"  title="입회상담 약속 입력">입회상담 약속 입력</a>
-						<a href="javascript:setMemberInfo('${info.memKey }')" class="btn_info tooltip"  title="회원 정보 추가 수정 ">회원 정보 추가 수정 </a>
-						<a href="javascript:setMemSubjStudyInfo('${info.memKey }')" class="btn_date tooltip"  title="관리 횟수/요일/시간 변경">관리 횟수/요일/시간 변경</a>
-						<a href="/fa/members/regist/new?type=2&memKey=${info.memKey?default('') }" class="btn_doc_add tooltip"  title="타과목 입회">타과목 입회</a>
-						<a href="javascript:getIpprs('${info.memKey }','${info.MFstName} ${info.MLstName }')" class="btn_all f_right tooltip"  title="과목별 IPPR">과목별 IPPR</a>
+						<a href="javascript:addCommentCall('${info.memKey }','${info.MFstName} ${info.MLstName }');" class="btn_talk tooltip" title="<@spring.message 'member.report.tooltip.commentcall'/>"></a>
+						<a href="javascript:addAppointment('${info.memKey }','${info.MFstName} ${info.MLstName }');" class="btn_clock tooltip" title="<@spring.message 'member.report.tooltip.appointment'/>"></a>
+						<a href="javascript:setMemberInfo('${info.memKey }')" class="btn_info tooltip" title="<@spring.message 'member.report.tooltip.memberinfoupdate'/>"></a>
+						<a href="javascript:setMemSubjStudyInfo('${info.memKey }')" class="btn_date tooltip" title="<@spring.message 'member.report.tooltip.manageUpdate'/>"></a>
+						<a href="/fa/members/regist/new?type=2&memKey=${info.memKey?default('') }" class="btn_doc_add tooltip" title="<@spring.message 'member.report.tooltip.othersubjectregist'/>"></a>
+						<a href="javascript:getIpprs('${info.memKey }','${info.MFstName} ${info.MLstName }')" class="btn_all f_right tooltip" title="<@spring.message 'member.report.tooltip.ippr'/>"></a>
 						<span class="tooltip_Area"></span>
 					</div>
 					</#list>
