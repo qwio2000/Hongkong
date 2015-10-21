@@ -4,12 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
-import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisJindoLang;
-import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisNextLang;
-import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisOdabLang;
-import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisRangeGrpLang;
-import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisRangeHlLang;
-import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisStartYYMMLang;
 import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
 
 /**

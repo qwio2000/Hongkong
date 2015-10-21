@@ -367,7 +367,15 @@ public class DiagnosisController {
 		}
 		 
 		//회원 기초정보
-		DiagnosisDto.DiagnosisOmrPrint diagnosisOmrPrint = diagnosisService.getDiagnosisOmrPrint(jisa, omrdate, memKey, subj, mujin, lang);	 
+		DiagnosisDto.DiagnosisOmrPrint diagnosisOmrPrint = diagnosisService.getDiagnosisOmrPrint(jisa, omrdate, memKey, subj, mujin, lang);
+		
+		if (diagnosisOmrPrint == null) {
+			String alertMsg = messageSourceAccesor.getMessage("Ippr.Diagnosis.IpprList");
+			model.addAttribute("message", alertMsg);
+			model.addAttribute("mode", "close");
+			return "alertAndRedirect";
+		}
+		
 		/* 오답내용 */
 		List<DiagnosisDto.DiagnosisOdab> diagnosisOdabLeft = diagnosisService.getDiagnosisOdab(jisa, omrdate, memKey, subj, mujin, lang, "L");		
 		List<DiagnosisDto.DiagnosisOdab> diagnosisOdabRight = diagnosisService.getDiagnosisOdab(jisa, omrdate, memKey, subj, mujin, lang, "R");
@@ -452,6 +460,13 @@ public class DiagnosisController {
 		
 		//회원 기초정보
 		DiagnosisDto.DiagnosisOmrPrintLang diagnosisOmrPrintLang = diagnosisService.getDiagnosisOmrPrintLang(jisa, omrdate, memKey, subj, lang, mujin );	 
+		
+		if (diagnosisOmrPrintLang == null) {
+			String alertMsg = messageSourceAccesor.getMessage("Ippr.Diagnosis.IpprList");
+			model.addAttribute("message", alertMsg);
+			model.addAttribute("mode", "close");
+			return "alertAndRedirect";
+		}
 		
 		//종합 성취도
 		DiagnosisDto.DiagnosisRangeHlLang diagnosisRangeHlLang = diagnosisService.getDiagnosisRangeHlLang(jisa, omrdate, memKey, subj, mujin );

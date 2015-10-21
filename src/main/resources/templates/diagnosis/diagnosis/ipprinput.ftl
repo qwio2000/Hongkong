@@ -63,7 +63,7 @@
 					
 					<div class="btnArea al_c">
 						<a href="javascript:$.getIpprSave();"><span style="width: 115px;">Save</span></a>
-						<a href="javascript:$.getReload();"><span style="width: 115px;">Cancle</span></a>
+						<a href="javascript:$.getReload();"><span style="width: 115px;">cancel</span></a>
 					</div>
 
 				</div>
