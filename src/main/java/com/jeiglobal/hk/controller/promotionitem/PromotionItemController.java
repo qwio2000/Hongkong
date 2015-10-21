@@ -95,9 +95,9 @@ public class PromotionItemController {
 				    String name=file[i].getOriginalFilename().trim().replaceAll("%", "").replaceAll("@", "");
 				    //System.out.println("업로드 파일명 ==> "+ name);
 
-				    // 파일 확장명 체크하기. 나중에 구현해도 될듯... ㅋㅋㅋㅋㅋㅋㅋ
+				    // 이미지 파일만 올라가도록 튕기기. 파일 타입 체크. 나중에 필요시 구현할것.
 					String fileType = file[i].getContentType();
-					if(!fileType.equalsIgnoreCase("jpeg") && !fileType.equalsIgnoreCase("bmp") && !fileType.equalsIgnoreCase("gif") && !fileType.equalsIgnoreCase("png")) {
+					if(!fileType.matches("image.*")) {
 						//log.debug("이미지 파일만 올라가도록 튕기기.");
 					}
 					
@@ -193,9 +193,9 @@ public class PromotionItemController {
 				    String name=file[i].getOriginalFilename().trim().replaceAll("%", "").replaceAll("@", "");
 				    //System.out.println("업로드 파일명 ==> "+ name);
 
-				    // 파일 확장명 체크하기. 나중에 구현해도 될듯... ㅋㅋㅋㅋㅋㅋㅋ
+				    // 이미지 파일만 올라가도록 튕기기. 파일 타입 체크. 나중에 필요시 구현할것.
 					String fileType = file[i].getContentType();
-					if(!fileType.equalsIgnoreCase("jpeg") && !fileType.equalsIgnoreCase("bmp") && !fileType.equalsIgnoreCase("gif") && !fileType.equalsIgnoreCase("png")) {
+					if(!fileType.matches("image.*")) {
 						//log.debug("이미지 파일만 올라가도록 튕기기.");
 					}
 					
