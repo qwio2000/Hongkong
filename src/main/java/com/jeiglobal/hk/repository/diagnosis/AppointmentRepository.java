@@ -22,4 +22,6 @@ public interface AppointmentRepository {
 
 	List<AppointmentDto.AppointmentSerch> findAppointmentSerch(Map<String, Object> map);
 
+	List<AppointmentDto.AppointmentSerchJson> findAppointmentSerchJson(Map<String, Object> map);
+
 }
