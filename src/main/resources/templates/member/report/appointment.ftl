@@ -31,9 +31,6 @@
 					<li>
 						<label for="" class="tit">Subject Interested</label>
 						<#list subjects as subject>
-						<#if subject_index == 5>
-						<br/>
-						</#if>
 						<span class="chk_s01"><input type="checkbox" name="subj" value="${subject.subj }" id="chk${subject_index+1 }"><label for="chk${subject_index+1 }">${subject.subj }</label></span>
 						</#list>
 					</li>

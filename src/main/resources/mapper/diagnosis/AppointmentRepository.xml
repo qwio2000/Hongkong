@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.diagnosis.AppointmentRepository">
+	<!--  무료진단 예약자 Count -->
+	<select id="findAppointmentsCount" parameterType="hashMap" resultType="int">
+		SELECT COUNT(1)
+		FROM globalbiz.MemAppointment 
+		<where>
+			jisaCD = #{jisaCD} AND deptCD = #{deptCD} 
+			AND registYMD = '' AND freeDigYMD = ''
+		</where>
+	</select>
+	<!--  무료진단 예약자 List -->
+	<select id="findAppointments" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.diagnosis.AppointmentDto$Appointment">
+		SELECT idx, apmRegistYMD, mFstName, mLstName, mBirthDay, gradeCD, globalbiz.FuncCodeDtlNM(jisaCD, '0003', gradeCD, '', 'Y') AS gradeName,
+			schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, 
+			preferredYMD, DATE_FORMAT(preferredYMD, '%m/%d/%Y') AS convPreferredYMD, preferredTimes, 
+			globalbiz.FuncCodeDtlNM(jisaCD, '0206', preferredTimes, '', 'Y') AS timeName, preferredNotes, apmStatusCD, subj, 
+			memKey, registYMD, freeDigYMD, deptCD, jisaCD, regDate, regID, updDate, updID
+		FROM globalbiz.MemAppointment
+		<where>
+			jisaCD = #{jisaCD} AND deptCD = #{deptCD} 
+			AND registYMD = '' AND freeDigYMD = ''
+		</where> 
+		ORDER BY idx DESC
+		LIMIT #{startRow}, #{endRow}
+	</select>
+	<!-- 정보 수정할 정보 GET -->
+	<select id="findAppointmentByIdx" parameterType="int" resultType="com.jeiglobal.hk.domain.diagnosis.AppointmentDto$Appointment">
+		SELECT idx, apmRegistYMD, mFstName, mLstName, mBirthDay, gradeCD, globalbiz.FuncCodeDtlNM(jisaCD, '0003', gradeCD, '', 'Y') AS gradeName,
+			schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, 
+			preferredYMD, DATE_FORMAT(preferredYMD, '%m/%d/%Y') AS convPreferredYMD, preferredTimes, 
+			globalbiz.FuncCodeDtlNM(jisaCD, '0206', preferredTimes, '', 'Y') AS timeName, preferredNotes, apmStatusCD, subj, 
+			memKey, registYMD, freeDigYMD, deptCD, jisaCD, regDate, regID, updDate, updID
+		FROM globalbiz.MemAppointment
+		<where>
+			idx = #{idx}
+		</where> 
+	</select>
+	<update id="updateAppointmentByIdx" parameterType="hashMap">
+		UPDATE globalbiz.MemAppointment
+		<set>
+			preferredYMD = #{appointment.preferredYMD}, 
+			preferredTimes = #{appointment.preferredTimes}, 
+			preferredNotes = #{appointment.preferredNotes},
+			subj = #{appointment.subj},
+			updDate = now(),
+			updID = #{workId}
+		</set>
+		<where>
+			idx = #{appointment.idx}
+		</where>
+	</update>
+</mapper>

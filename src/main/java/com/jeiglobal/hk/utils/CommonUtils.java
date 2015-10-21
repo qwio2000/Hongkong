@@ -104,7 +104,7 @@ public class CommonUtils {
 	/**
 	 * type : 1 : {January, Febuary, ...}
 	 * type : 2 : {Jan, Feb, ...}
-	 * @return List<CodeDtl>
+	 * @return List<MonthInfo>
 	 */
 	public static List<MonthInfo> getMonths(int type) {
 		List<MonthInfo> months = new ArrayList<MonthInfo>();
@@ -118,6 +118,7 @@ public class CommonUtils {
 	}
 
 	/**
+	 * 이 달의 마지막 날짜 가져오기
 	 * @param currentYear
 	 * @param currentMonth
 	 * @return int
@@ -251,8 +252,9 @@ public class CommonUtils {
 	}
 
 	/**
+	 * 한 자리 숫자 앞에 0붙여 두자리 만들기
 	 * @param month
-	 * @return int
+	 * @return String
 	 */
 	public static String getMonthAttachZero(int month) {
 		if(month >= 10){

@@ -3,8 +3,60 @@ $(function(){
 		// 센터 상담창 오픈
 		openCenterCallLog:function(deptCD){
 			var url = "/ja/centers/centerCommentCallRegist?deptCD="+deptCD;
-			$.openPop(url, "centerCommentCallRegist","menubar=no,toolbar=no,status=no,resizable=yes,scrollbars=yes,width=600,height=700");
-		},						
+			$.openPop(url, "centerCommentCallRegist","menubar=no,toolbar=no,status=no,resizable=yes,scrollbars=yes,width=620,height=700");
+		},	
+		getCenterCommentCallList:function(){
+			var pageNum = $("#pageNum").val();
+			var deptCD = $("#deptCD").val();
+			var param = {"deptCD":deptCD};
+			$.ajax({
+				url:"/ja/centers/centerCommentCallRegist/"+pageNum,
+				type:"GET",
+				cache: true,
+				data: param,
+				dataType: "json",
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					var pageInfo = jsonData.pageInfo;
+					var totalRowCnt = pageInfo.totalRowCnt;
+					var pageNum = pageInfo.pageNum;
+					var pageSize = pageInfo.rowBlockSize;
+					$("#mainContent").empty();
+					if(totalRowCnt > 0){
+						if(pageInfo.totalPageCnt > 1){
+							$("#pageNavi").html($.pageUtil(pageInfo.pageNum,pageInfo.totalPageCnt, 
+									pageInfo.pageBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));	
+						}
+						var source = $("#mainContentTemplate").html();
+						var template = Handlebars.compile(source);
+						$("#mainContent").append(template(jsonData));
+					}
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(_THROWNERROR);
+				}
+			});
+		},	
+		deleteCenterCommentCall:function(idx){
+			if(confirm('메모를 삭제 하시겠습니까?')){
+				var param = {"idx":idx};
+				$.ajax({
+					url:"/ja/centers/centerCommentCall/delete",
+					type:"POST",
+					cache: true,
+					data: param,
+					dataType: "text",
+					success: function(result, textStatus, XMLHttpRequest) {
+						//alert(result);
+						$.getCenterCommentCallList();
+					},
+					error:function (xhr, ajaxOptions, thrownError){	
+						alert(_THROWNERROR);
+					}
+				});
+			}
+		},
+		
+		
 		// User 등록
 		openAddNewUser:function(deptCD){
 			//var url = "/ja/centers/userRegist?deptCD="+deptCD+"&userType=FA";
@@ -123,6 +175,37 @@ $(function(){
 			}
 		}
 	});
+	
+	// 상담 등록
+	$("#saveCenterCommentCall").on("click", function() {
+		if(confirm('상담 이력을 입력하시겠습니까?')){
+			var param = $("#centerCommentCallForm").serialize();
+			$.ajax({
+				url:"/ja/centers/centerCommentCall/insert",
+				type:"POST",
+				cache: true,
+				data: param,
+				dataType: "text",
+				success: function(result, textStatus, XMLHttpRequest) {
+					//alert(result);
+					location.reload();
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(_THROWNERROR);
+				}
+			});
+		}	
+	});	
+	if(window.location.pathname == '/ja/centers/centerCommentCallRegist'){
+		$.getCenterCommentCallList();
+	}	
+	$(".paging").on("click","a.naviPage",function() {
+		var pageNum = $(this).attr('pageNo');	
+		$('#pageNum').val(pageNum);
+		$.getCenterCommentCallList();
+	});	
+	
+	
 	//User 등록/수정
 	$("#saveUserInfo").on("click", function() {
 		if(!($.required("dutyCD","User Duty"))){return;}		
@@ -170,4 +253,6 @@ $(function(){
 		});
 		
 	});	
+	
+
 });

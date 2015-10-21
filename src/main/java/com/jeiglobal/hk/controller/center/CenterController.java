@@ -1,5 +1,6 @@
 package com.jeiglobal.hk.controller.center;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,16 +20,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jeiglobal.hk.domain.auth.LoginInfo;
+import com.jeiglobal.hk.domain.center.CenterCommentCallList;
 import com.jeiglobal.hk.domain.center.CenterOpenSubjList;
 import com.jeiglobal.hk.domain.center.CenterSearchList;
 import com.jeiglobal.hk.domain.center.CenterView;
 import com.jeiglobal.hk.domain.center.MemFeeInfoList;
+import com.jeiglobal.hk.domain.center.RtyChargeGroupList;
 import com.jeiglobal.hk.domain.center.UserList;
 import com.jeiglobal.hk.domain.center.UserView;
 import com.jeiglobal.hk.service.CommonService;
@@ -68,10 +72,12 @@ public class CenterController {
 	//한 페이지에 출력할 레코드 개수
 	@Value("${page.size}")
 	private int pageSize;
-	
-	//페이지 블럭수
+	//페이지 블럭수	
 	@Value("${page.blockSize}")
-	private int blockSize;
+	private int pageBlockSize;	
+	
+
+
 	
 	// 센터검색
 	@RequestMapping(value={"/ja/centers/centerSearch"},method = {RequestMethod.GET, RequestMethod.HEAD})
@@ -119,7 +125,7 @@ public class CenterController {
 		//log.debug("Getting centerSearchResult Page, dataCenterSearchList : {}", dataCenterSearchList);
 		
 		int totalCnt = (dataCenterSearchList.size()>0)? dataCenterSearchList.get(0).getRCnt() : 0;
-		PageUtil pageUtil = new PageUtil(pageNum, totalCnt, pageSize, blockSize);		
+		PageUtil pageUtil = new PageUtil(pageNum, totalCnt, pageSize, pageBlockSize);		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("centerSearchList", dataCenterSearchList);
 		map.put("pageInfo", pageUtil);
@@ -145,109 +151,9 @@ public class CenterController {
 		model.addAttribute("chk", chk);
 		return "center/centerView";
 	}
-	
-	
-	// 센터 등록
-	@RequestMapping(value={"/ja/centers/centerRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getCenterRegist(Model model, @ModelAttribute LoginInfo loginInfo){
-		
-		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("centerRegist");
-		model.addAttribute("headerScript", headerScript);
-		return "center/centerRegist";
-	}	
-	// 센터 상담 이력 등록
-	@RequestMapping(value={"/ja/centers/centerCommentCallRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getCenterCommentCallRegist(Model model, @ModelAttribute LoginInfo loginInfo){
-		
-		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("centerCommentCallRegist");
-		model.addAttribute("headerScript", headerScript);
-		return "center/centerCommentCallRegist";
-	}		
-	// 사용자 등록
-	@RequestMapping(value={"/ja/centers/userRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getUserRegist(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD){
-		// 센터 정보
-		CenterView dataCenterInfo = centerService.getCenterView(loginInfo.getJisaCD(), deptCD);
-		String chk = (dataCenterInfo == null)? "N" : "Y";
-		
-		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("centerView");
-		model.addAttribute("headerScript", headerScript);
-		model.addAttribute("userLevelList", commonService.getCodeDtls("0401", loginInfo.getJisaCD(), 1, "Y"));
-		model.addAttribute("centerInfo", dataCenterInfo);
-		model.addAttribute("chk", chk);
-		model.addAttribute("deptCD", deptCD);		
-		
-		return "center/userRegist";
-	}
-	@RequestMapping(value={"/ja/centers/userSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
-	@ResponseBody
-	public String getUserSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
-		String deptCD, String userId, String dutyCD, String userLevel, String userFstName, String userLstName,
-		String email, String phone, String title, String department, String userPwd, String statusCD){
-		
-		//String userType = "FA";
-		String newUserPwd = "";
-		if("".equals(userId)){
-			newUserPwd = passwordEncoder.encode(userPwd);
-		}else{
-			newUserPwd = userPwd;
-		}
-		String workId = CommonUtils.getWorkId(request);
-		String rerult = centerService.getUserSave(loginInfo.getJisaCD(),deptCD, userId, "FA", userLevel, dutyCD, userFstName, userLstName, email,  phone,  title,  department, newUserPwd, statusCD, workId);		
-		String msgCode = "";
-		if("N1".equals(rerult)){
-			msgCode = "user.save.error.n1";
-		}else if("N2".equals(rerult)){
-			msgCode = "user.save.error.n2";
-		}else{
-			msgCode = "common.save.success";
-		}
 
-		return messageSource.getMessage(msgCode);
-	}
-	@RequestMapping(value={"/ja/centers/changeUserPwdSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
-	@ResponseBody
-	public String getChangeUserPwdSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
-		String deptCD, String userId){
-		log.debug(loginInfo.toString());
-		String newUserPwd = passwordEncoder.encode(userId);
-		String workId = CommonUtils.getWorkId(request);
-		centerService.setChangeUserPwdSave(userId, newUserPwd, workId);		
-		String msgCode = "common.save.success";
-		return messageSource.getMessage(msgCode);
-	}		
 	
-	// 사용자 정보 수정
-	@RequestMapping(value={"/ja/centers/userEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getUserEdit(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD, String userId){
-		
-		UserView dataUserInfo = centerService.getUserView(userId);
-		String chk = (dataUserInfo == null)? "N" : "Y";
-		
-		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("centerView");
-		model.addAttribute("headerScript", headerScript);
-		model.addAttribute("userLevelList", commonService.getCodeDtls("0401", loginInfo.getJisaCD(), 1, "Y"));
-		model.addAttribute("userInfo", dataUserInfo);
-		model.addAttribute("deptCD", deptCD);
-		model.addAttribute("userId", userId);
-		model.addAttribute("chk", chk);
-		return "center/userEdit";
-	}	
-
-	// 가맹점 정보 변경
-	@RequestMapping(value={"/ja/centers/centerInfoEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getCenterInfoEdit(Model model, @ModelAttribute LoginInfo loginInfo){
-		
-		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("centerInfoEdit");
-		model.addAttribute("headerScript", headerScript);
-		return "center/centerInfoEdit";
-	}	
-	// 가맹점 운영시간 변경
+	// 가맹점 운영시간 셋팅
 	@RequestMapping(value={"/ja/centers/centerSetHours"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCenterBusinessClassroomHours(Model model, @ModelAttribute LoginInfo loginInfo,
 			String deptCD, String oHoursStart, String oHoursEnd, String cHoursStart, String cHoursEnd){
@@ -331,6 +237,165 @@ public class CenterController {
 		model.addAttribute("feeUnitName", feeUnitName);
 		return "center/tuitionMatrix";
 	}		
+	// 로열티그룹 정보 팝업
+	@RequestMapping(value={"/ja/centers/royaltyGroupInfo"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getCenterRoyaltyGroupInfo(Model model, @ModelAttribute LoginInfo loginInfo){
+
+		List<RtyChargeGroupList> dataRtyChargeGroupList = centerService.getRtyChargeGroupInfoList(loginInfo.getJisaCD());
+		log.debug("Getting centerView Page, dataRtyChargeGroupList : {}", dataRtyChargeGroupList);
+		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerRegist");
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("rtyChargeGroupList", dataRtyChargeGroupList);
+		return "center/royaltyGroupInfo";
+	}	
+
+	/**
+	 * 
+	 * 센터 등록
+	 * 등록/수정
+	 * 
+	 */ 
+	@RequestMapping(value={"/ja/centers/centerRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getCenterRegist(Model model, @ModelAttribute LoginInfo loginInfo){
+		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerRegist");
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("centerStates", commonService.getCenterStates(loginInfo.getJisaCD()));
+		return "center/centerRegist";
+	}	
+	@RequestMapping(value={"/ja/centers/centerInfoEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getCenterInfoEdit(Model model, @ModelAttribute LoginInfo loginInfo){
+		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerInfoEdit");
+		model.addAttribute("headerScript", headerScript);
+		return "center/centerInfoEdit";
+	}
+	
+		
+		
+	/**
+	 * 센터 상담 팝업
+	 * 상담내용 등록/삭제/리스트
+	 */
+	@RequestMapping(value={"/ja/centers/centerCommentCallRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getCenterCommentCallRegist(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD){
+		CenterView dataCenterInfo = centerService.getCenterView(loginInfo.getJisaCD(), deptCD);
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerView");
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("centerInfo", dataCenterInfo);
+		model.addAttribute("deptCD", deptCD);
+		return "center/centerCommentCallRegist";
+	}	
+	@RequestMapping(value={"/ja/centers/centerCommentCallRegist/{pageNum:[0-9]{1,4}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> getCenterCommentCallList(Model model,
+			String deptCD, @PathVariable int pageNum) throws ParseException  {
+		Map<String, Object> map = new HashMap<>();
+		PageUtil pageUtil = new PageUtil(pageNum, centerService.getCenterCommentCallsCount(deptCD), 5, pageBlockSize);
+		if(pageUtil.getTotalRowCnt() > 0){
+			List<CenterCommentCallList> dataCommentCalls = centerService.getCenterCommentCallList(deptCD, pageUtil.getStartRow(), pageUtil.getRowBlockSize());
+			log.debug("Getting centerView Page, commentCalls : {}", dataCommentCalls);
+			map.put("commentCalls", dataCommentCalls);
+		}
+		map.put("pageInfo", pageUtil);
+		return map;
+	}
+	@RequestMapping(value={"/ja/centers/centerCommentCall/insert"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String addCenterCommentCall(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
+			String deptCD, String callNotes) {
+		String workId = CommonUtils.getWorkId(request);
+		callNotes = CommonUtils.subStrByte(callNotes, 0, 500, 3);
+		centerService.addCenterCommentCall(loginInfo.getJisaCD(), deptCD, callNotes, workId);
+		return messageSource.getMessage("common.insert.success");
+	}
+	@RequestMapping(value={"/ja/centers/centerCommentCall/delete"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String removeCenterCommentCall(int idx) {
+		centerService.removeCenterCommentCall(idx);
+		return messageSource.getMessage("common.delete.success");
+	}	
+	
+		
+	
+	/**
+	 * 사용자 팝업
+	 * 등록/수정/비번초기화
+	 */
+	@RequestMapping(value={"/ja/centers/userRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getUserRegist(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD){
+		// 센터 정보
+		CenterView dataCenterInfo = centerService.getCenterView(loginInfo.getJisaCD(), deptCD);
+		String chk = (dataCenterInfo == null)? "N" : "Y";
+		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerView");
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("userLevelList", commonService.getCodeDtls("0401", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("centerInfo", dataCenterInfo);
+		model.addAttribute("chk", chk);
+		model.addAttribute("deptCD", deptCD);		
+		
+		return "center/userRegist";
+	}
+	@RequestMapping(value={"/ja/centers/userSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String getUserSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
+		String deptCD, String userId, String dutyCD, String userLevel, String userFstName, String userLstName,
+		String email, String phone, String title, String department, String userPwd, String statusCD){
+		
+		String userType = "FA";
+		String newUserPwd = "";
+		if("".equals(userId)){
+			newUserPwd = passwordEncoder.encode(userPwd);
+		}else{
+			newUserPwd = userPwd;
+		}
+		String workId = CommonUtils.getWorkId(request);
+		String rerult = centerService.getUserSave(loginInfo.getJisaCD(),deptCD, userId, userType, userLevel, dutyCD, userFstName, userLstName, email,  phone,  title,  department, newUserPwd, statusCD, workId);		
+		String msgCode = "";
+		if("N1".equals(rerult)){
+			msgCode = "user.save.error.n1";
+		}else if("N2".equals(rerult)){
+			msgCode = "user.save.error.n2";
+		}else{
+			msgCode = "common.save.success";
+		}
+
+		return messageSource.getMessage(msgCode);
+	}
+	@RequestMapping(value={"/ja/centers/changeUserPwdSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String getChangeUserPwdSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
+		String deptCD, String userId){
+		log.debug(loginInfo.toString());
+		String newUserPwd = passwordEncoder.encode(userId);
+		String workId = CommonUtils.getWorkId(request);
+		centerService.setChangeUserPwdSave(userId, newUserPwd, workId);		
+		String msgCode = "common.save.success";
+		return messageSource.getMessage(msgCode);
+	}
+	@RequestMapping(value={"/ja/centers/userEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getUserEdit(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD, String userId){
+		
+		UserView dataUserInfo = centerService.getUserView(userId);
+		String chk = (dataUserInfo == null)? "N" : "Y";
+		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerView");
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("userLevelList", commonService.getCodeDtls("0401", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("userInfo", dataUserInfo);
+		model.addAttribute("deptCD", deptCD);
+		model.addAttribute("userId", userId);
+		model.addAttribute("chk", chk);
+		return "center/userEdit";
+	}	
 	
 	
 	/**

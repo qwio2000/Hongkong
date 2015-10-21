@@ -432,11 +432,5 @@ public class DiagnosisService {
 
 	
 	/** //개인별 처방기록부 **/
-	
-	
-	
-
-	
-	
 
 }

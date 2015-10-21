@@ -1,5 +1,6 @@
 package com.jeiglobal.hk.service.center;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.jeiglobal.hk.domain.center.CenterCommentCallList;
 import com.jeiglobal.hk.domain.center.CenterOpenSubjList;
 import com.jeiglobal.hk.domain.center.CenterSearchList;
 import com.jeiglobal.hk.domain.center.CenterView;
 import com.jeiglobal.hk.domain.center.MemFeeInfoList;
+import com.jeiglobal.hk.domain.center.RtyChargeGroupList;
 import com.jeiglobal.hk.domain.center.UserList;
 import com.jeiglobal.hk.domain.center.UserView;
 import com.jeiglobal.hk.repository.center.CenterRepository;
@@ -47,6 +50,7 @@ public class CenterService {
 	/**
 	 * Center 정보 
 	 */		
+	// 센터 검색 결과 리스트
 	public List<CenterSearchList> getCenterSearchList(String jisaCD, String deptName, String city, String stateCD, String statusCD, String sortKind, String sort, int pageNum, int pageSize) {		
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("jisaCD", jisaCD);
@@ -77,6 +81,14 @@ public class CenterService {
 		param.put("deptCD", deptCD);
 		return centerRepository.memFeeInfoList(param);				
 	}
+	// 로열티 그룹 정보 팝업 
+	public List<RtyChargeGroupList> getRtyChargeGroupInfoList(String jisaCD) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("jisaCD", jisaCD);
+		return centerRepository.rtyChargeGroupList(param);
+	}		
+	
+	
 	// 가맹점 운영시간 셋팅/변경 
 	public String getCenterHoursSave(String jisaCD, String deptCD, String oHoursStart, String oHoursEnd, String cHoursStart, String cHoursEnd, String workId) {		
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -103,6 +115,41 @@ public class CenterService {
 		param.put("openSubj", openSubj);
 		param.put("workId", workId);
 		return centerRepository.centerOpenSubjSave(param);				
+	}	
+	
+	
+	/**
+	 * 센터 상담 정보 
+	 */	
+	public int getCenterCommentCallsCount(String deptCD) {
+		return centerRepository.findCenterCommentCallsCount(deptCD);
+	}	
+	public List<CenterCommentCallList> getCenterCommentCallList(String deptCD, int startRow,
+			int rowBlockSize) throws ParseException {
+		Map<String, Object> param = new HashMap<>();
+		param.put("deptCD", deptCD);
+		param.put("startRow", startRow);
+		param.put("rowBlockSize", rowBlockSize);
+		List<CenterCommentCallList> list = centerRepository.findCenterCommentCalls(param);
+		if(list != null && !list.isEmpty()){
+			for (CenterCommentCallList centerCommentCallList : list) {
+				centerCommentCallList.setCallNotes(centerCommentCallList.getCallNotes().replaceAll("\r\n", "<br/>"));
+				centerCommentCallList.setCallDate(CommonUtils.changeDateFormat("yyyy-MM-dd", "MM/dd/yyyy", centerCommentCallList.getCallDate()));
+			}
+		}
+		return list;
+	}	
+	public void addCenterCommentCall(String jisaCD, String deptCD, String callNotes, String workId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("callDate", CommonUtils.getCurrentYMD());
+		param.put("callNotes", callNotes);
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		param.put("regID", workId);
+		centerRepository.insertCenterCommentCall(param);
+	}	
+	public void removeCenterCommentCall(int idx) {
+		centerRepository.deleteCenterCommentCall(idx);
 	}	
 		
 	/**

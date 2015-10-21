@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jeiglobal.hk.repository.member.MemberWeeklyScheduleRepository">
-	<select id="findMemberWeeklySchedule" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberWeeklyScheduleInfo">
-		SELECT dtlCD, dtlCDNM, dtlCDNMK, sortVal1 
-		FROM globalbiz.CodeDtl AS a 
-		INNER JOIN globalbiz.DeptMst AS b ON a.mstCD = '0206' AND a.dtlCD BETWEEN b.cHoursStart AND b.cHoursEnd
-		WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD}
-		ORDER BY dtlCD
+	<select id="findMemberWeeklySchedule" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberWeeklyScheduleInfo">
+		CALL globalbiz.SPMemWeeklyScheduleList(#{jisaCD},#{deptCD},#{subj})
 	</select>
-	<select id="findMemberByYoilAndVisitHours" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberInfoByYoilAndVisitHours">
-		SELECT a.memKey, a.mFstName, a.mLstName, b.subj, c.visitHours, c.yoil 
-		FROM globalbiz.MemMst AS a
-			INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey
-			INNER JOIN globalbiz.MemSubjStudy AS c ON b.memKey = c.memKey AND b.subj = c.subj
-		WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD} AND b.statusCD = '1' AND c.visitHours = #{visitHours} AND c.yoil = #{yoil}
-		<if test="subj != 'All'">
-			AND b.subj = #{subj}
-		</if>
+	<select id="findMemSubjStudyByMemKeyAndSubj" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemSubjStudy">
+		SELECT memKey, subj, studyNum, bookNum, yoil, yoilSeq, bookFlag, visitHours, empKey, deptCD, jisaCD, regDate, regID, updDate, updID
+		FROM globalbiz.MemSubjStudy 
+		WHERE memKey = #{memKey} AND subj = #{subj} AND yoilSeq = '1'
 	</select>
+	<update id="updateMemSubjMst" parameterType="hashMap">
+		UPDATE globalbiz.MemSubjMst 
+		<set>
+			befoYoil = yoil, yoil = #{yoil}, yoilChgYMD = #{currentYMD},
+			updDate=NOW(), updID=#{workId}
+		</set>
+		WHERE memKey = #{memKey} AND subj = #{subj}
+	</update>
+	<update id="updateMemSubjStudy" parameterType="hashMap">
+		UPDATE globalbiz.MemSubjStudy 
+		SET yoil = #{yoil}, visitHours = #{manageTime}, updDate=NOW(), updID=#{workId}
+		WHERE memKey = #{memKey} and subj = #{subj} and yoilSeq = '1'
+	</update>
 </mapper>

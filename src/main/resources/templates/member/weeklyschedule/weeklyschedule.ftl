@@ -47,42 +47,42 @@
 <script id="weeklyScheduleTemplate" type="text/x-handlebars-template">
 {{#each scheduleInfos}}
 	<tr class="line2">
-		<td class="no_line">{{dtlCDNM}}</td>
+		<td class="no_line">{{visitHoursName}}</td>
 
-		<td class="{{#xIf sunMembers.length ">" 0}}left valin_t{{else}}col_gray{{/xIf}}">
-		{{#each sunMembers}}
-			<a href="#" class="btn_schedule">{{mfstName}} {{mlstName}}({{subj}})</a>
-		{{/each}}
+		<td class="{{#xIf memWeeklyInfo1 "!=" ""}}left valin_t{{else}}col_gray{{/xIf}}">
+			{{#xIf memWeeklyInfo1 "!=" ""}}
+				{{splitSchedule memWeeklyInfo1}}
+			{{/xIf}}
 		</td>
-		<td class="{{#xIf monMembers.length ">" 0}}left valin_t{{else}}col_gray{{/xIf}}">
-		{{#each monMembers}}
-			<a href="#" class="btn_schedule">{{mfstName}} {{mlstName}}({{subj}})</a>
-		{{/each}}
+		<td class="{{#xIf memWeeklyInfo2 "!=" ""}}left valin_t{{else}}col_gray{{/xIf}}">
+			{{#xIf memWeeklyInfo2 "!=" ""}}
+				{{splitSchedule memWeeklyInfo2}}
+			{{/xIf}}
 		</td>
-		<td class="{{#xIf tueMembers.length ">" 0}}left valin_t{{else}}col_gray{{/xIf}}">
-		{{#each tueMembers}}
-			<a href="#" class="btn_schedule">{{mfstName}} {{mlstName}}({{subj}})</a>
-		{{/each}}
+		<td class="{{#xIf memWeeklyInfo3 "!=" ""}}left valin_t{{else}}col_gray{{/xIf}}">
+			{{#xIf memWeeklyInfo3 "!=" ""}}
+				{{splitSchedule memWeeklyInfo3}}
+			{{/xIf}}
 		</td>
-		<td class="{{#xIf wedMembers.length ">" 0}}left valin_t{{else}}col_gray{{/xIf}}">
-		{{#each wedMembers}}
-			<a href="#" class="btn_schedule">{{mfstName}} {{mlstName}}({{subj}})</a>
-		{{/each}}
+		<td class="{{#xIf memWeeklyInfo4 "!=" ""}}left valin_t{{else}}col_gray{{/xIf}}">
+			{{#xIf memWeeklyInfo4 "!=" ""}}
+				{{splitSchedule memWeeklyInfo4}}
+			{{/xIf}}
 		</td>
-		<td class="{{#xIf thuMembers.length ">" 0}}left valin_t{{else}}col_gray{{/xIf}}">
-		{{#each thuMembers}}
-			<a href="#" class="btn_schedule">{{mfstName}} {{mlstName}}({{subj}})</a>
-		{{/each}}
+		<td class="{{#xIf memWeeklyInfo5 "!=" ""}}left valin_t{{else}}col_gray{{/xIf}}">
+			{{#xIf memWeeklyInfo5 "!=" ""}}
+				{{splitSchedule memWeeklyInfo5}}
+			{{/xIf}}
 		</td>
-		<td class="{{#xIf friMembers.length ">" 0}}left valin_t{{else}}col_gray{{/xIf}}">
-		{{#each friMembers}}
-			<a href="#" class="btn_schedule">{{mfstName}} {{mlstName}}({{subj}})</a>
-		{{/each}}
+		<td class="{{#xIf memWeeklyInfo6 "!=" ""}}left valin_t{{else}}col_gray{{/xIf}}">
+			{{#xIf memWeeklyInfo6 "!=" ""}}
+				{{splitSchedule memWeeklyInfo6}}
+			{{/xIf}}
 		</td>
-		<td class="{{#xIf satMembers.length ">" 0}}left valin_t{{else}}col_gray{{/xIf}}">
-		{{#each satMembers}}
-			<a href="#" class="btn_schedule">{{mfstName}} {{mlstName}}({{subj}})</a>
-		{{/each}}
+		<td class="{{#xIf memWeeklyInfo7 "!=" ""}}left valin_t{{else}}col_gray{{/xIf}}">
+			{{#xIf memWeeklyInfo7 "!=" ""}}
+				{{splitSchedule memWeeklyInfo7}}
+			{{/xIf}}
 		</td>
 	</tr>
 {{/each}}
