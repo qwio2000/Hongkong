@@ -238,26 +238,16 @@ public class MemberDto {
 	
 	@Data
 	public static class MemberWeeklyScheduleInfo{
-		private String dtlCD;
-		private String dtlCDNM;
-		private String dtlCDNMK;
-		private int sortVal1;
-		private List<MemberInfoByYoilAndVisitHours> sunMembers;
-		private List<MemberInfoByYoilAndVisitHours> monMembers;
-		private List<MemberInfoByYoilAndVisitHours> tueMembers;
-		private List<MemberInfoByYoilAndVisitHours> wedMembers;
-		private List<MemberInfoByYoilAndVisitHours> thuMembers;
-		private List<MemberInfoByYoilAndVisitHours> friMembers;
-		private List<MemberInfoByYoilAndVisitHours> satMembers;
+		private String visitHours;
+		private String visitHoursName;
+		private String memWeeklyInfo1;
+		private String memWeeklyInfo2;
+		private String memWeeklyInfo3;
+		private String memWeeklyInfo4;
+		private String memWeeklyInfo5;
+		private String memWeeklyInfo6;
+		private String memWeeklyInfo7;
 		
 	}
-	@Data
-	public static class MemberInfoByYoilAndVisitHours{
-		private String memKey;
-		private String mFstName;
-		private String mLstName;
-		private String subj;
-		private String visitHours;
-		private String yoil;
-	}
 }
+	

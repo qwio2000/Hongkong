@@ -1,6 +1,6 @@
 $(function(){	
 	$.extend({
-		getWorkbookReport:function(){/*
+		getWorkbookReport:function(){
 			var pageNum = $("#pageNum").val();
 			var searchUrl = "/fa/members/reports/"+pageNum;
 			var memberStatus = $("#memberStatus").val();
@@ -89,7 +89,7 @@ $(function(){
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert(thrownError);
 				}
-			});*/
+			});
 		}
 	});
 	

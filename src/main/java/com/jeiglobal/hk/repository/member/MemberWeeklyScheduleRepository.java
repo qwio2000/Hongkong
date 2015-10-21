@@ -2,7 +2,6 @@ package com.jeiglobal.hk.repository.member;
 
 import java.util.*;
 
-import com.jeiglobal.hk.domain.member.MemberDto.MemberInfoByYoilAndVisitHours;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberWeeklyScheduleInfo;
 import com.jeiglobal.hk.repository.*;
 
@@ -19,9 +18,6 @@ import com.jeiglobal.hk.repository.*;
 public interface MemberWeeklyScheduleRepository {
 
 	public List<MemberWeeklyScheduleInfo> findMemberWeeklySchedule(
-			Map<String, Object> param);
-
-	public List<MemberInfoByYoilAndVisitHours> findMemberByYoilAndVisitHours(
 			Map<String, Object> param);
 
 }

@@ -117,7 +117,7 @@ function viewIppr(jisaCD, omrDate, memKey, subj){
 		if(subj == 'KM' || subj == 'EM'){
 			$.openPop('/fa/diagnosis/OmrPrintJD?jisa='+jisaCD+'&mujin=0&omrdate='+omrDate+'&memKey='+memKey+'&subj='+subj, 'FilePop', 'menubar=yes,toolbar=yes,status=no,resizable=yes,scrollbars=yes,width=730,height=700');
 		}else{
-			$.openPop('/fa/diagnosis/OmrPrint?jisa='+jisaCD+'&mujin=0&omrdate='+omrDate+'&memKey='+memKey+'&subj='+subj+'&lang='+lang+'&avg=Y=', 'FilePop', 'width=700,height=450,marginwidth=0,marginheight=0,toolbar=yes,location=no,directories=no,menubar=no,scrollbars=yes,resizable=yes');
+			$.openPop('/fa/diagnosis/OmrPrint?jisa='+jisaCD+'&mujin=0&omrdate='+omrDate+'&memKey='+memKey+'&subj='+subj+'&lang='+lang+'&avg=Y', 'FilePop', 'width=700,height=450,marginwidth=0,marginheight=0,toolbar=yes,location=no,directories=no,menubar=no,scrollbars=yes,resizable=yes');
 			
 		}
 	}else{
