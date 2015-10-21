@@ -36,7 +36,7 @@
 			<tbody>
 				<tr>
 					<td>1</td>
-					<td class="left pl10"><a href="#"><img src="../public/img/ico_name.png" alt="">Aileen Ahn</a></td>
+					<td class="left pl10"><a href="#"><img src="${imgPath}/ico_name.png" alt="">Aileen Ahn</a></td>
 					<td>1ST</td>
 					<td>ENGLISH</td>
 					<td class="left pl10">Kelly Aliperti <br />Slow to progress in Reading. At this time, reading at a level 6</td>
@@ -53,7 +53,7 @@
 				</tr>
 				<tr>
 					<td>2</td>
-					<td class="left pl10"><a href="#"><img src="../public/img/ico_name.png" alt="">Aileen Ahn</a></td>
+					<td class="left pl10"><a href="#"><img src="${imgPath}/ico_name.png" alt="">Aileen Ahn</a></td>
 					<td>1ST</td>
 					<td>ENGLISH</td>
 					<td class="left pl10">Kelly Aliperti <br />Slow to progress in Reading. At this time, reading at a level 6</td>
