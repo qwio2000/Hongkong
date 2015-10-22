@@ -4,12 +4,11 @@
 	<h2 class="conTit">Appointment</h2>
 	<div class="clearfix pb10 pt30">
 		<div class="float_l">
-			<div class="btnArea_txt p0">
-				<a href="/fa/diagnosis/appointmentNew" class="btn_doc m0">New Appointment</a>
-			</div>
+			<div class="btnArea_txt p0"><a href="/fa/diagnosis/appointment/new" class="btn_doc m0">New Appointment</a></div>
 		</div>
 	</div>
 	<div class="tbl01 mt0">
+		<input type="hidden" id="pageNum" value="1"/>
 		<table>
 			<colgroup>
 				<col width="30">
@@ -33,44 +32,38 @@
 					<th>Action</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<td>1</td>
-					<td class="left pl10"><a href="#"><img src="${imgPath}/ico_name.png" alt="">Aileen Ahn</a></td>
-					<td>1ST</td>
-					<td>ENGLISH</td>
-					<td class="left pl10">Kelly Aliperti <br />Slow to progress in Reading. At this time, reading at a level 6</td>
-					<td>908-902-8273</td>
-					<td>01/17/2015 11:00 AM</td>
-					<td>
-						<div class="btnArea_icon2">
-							<a href="#" class="btn_doc_add">입회입력</a>
-							<a href="#" class="btn_doc2">무료진단입력</a>
-							<a href="#" class="btn_info">내용수정</a>
-							<a href="#" class="btn_del">명단삭제</a>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td class="left pl10"><a href="#"><img src="${imgPath}/ico_name.png" alt="">Aileen Ahn</a></td>
-					<td>1ST</td>
-					<td>ENGLISH</td>
-					<td class="left pl10">Kelly Aliperti <br />Slow to progress in Reading. At this time, reading at a level 6</td>
-					<td>908-902-8273</td>
-					<td>01/17/2015 11:00 AM</td>
-					<td>
-						<div class="btnArea_icon2">
-							<a href="#" class="btn_doc_add">입회입력</a>
-							<a href="#" class="btn_doc2">무료진단입력</a>
-							<a href="#" class="btn_info">내용수정</a>
-							<a href="#" class="btn_del">명단삭제</a>
-						</div>
-					</td>
-				</tr>
+			<tbody id="mainContent">
 			</tbody>
 		</table>
 	</div>
+	<div class="paging">
+		<span id="pageNavi"></span>
+	</div>
 </div>
 <!--// Main Content -->
+<script id="memAppointmentTemplate" type="text/x-handlebars-template">
+{{#each appointments}}
+	<tr>
+		<td>{{inc @index}}</td>
+		<td class="left pl10"><a href="#"><img src="{{imgPath}}/ico_name.png" alt="">{{mfstName}} {{mlstName}}</a></td>
+		<td>{{gradeName}}</td>
+		<td>{{splitSubj subj}}</td>
+		<td class="left pl10">{{gfstName}} {{glstName}}<br />{{preferredNotes}}</td>
+		<td>{{gphone}}</td>
+		<td>{{convPreferredYMD}} {{timeName}}</td>
+		<td>
+			<div class="btnArea_icon2">
+				<a href="/fa/members/regist/new?type=&appIdx={{idx}}" class="btn_doc_add">입회입력</a>
+				<a href="#" class="btn_doc2">무료진단입력</a>
+				<a href="javascript:updateAppointmentPop('{{idx}}')" class="btn_info">내용수정</a>
+				<a href="javascript:deleteAppointment('{{idx}}');" class="btn_del">명단삭제</a>
+			</div>
+		</td>
+	</tr>
+{{else}}
+	<tr>
+		<td colspan="8">no search results</td>
+	</tr>
+{{/each}}
+</script>
 <#include "/include/footer.ftl">

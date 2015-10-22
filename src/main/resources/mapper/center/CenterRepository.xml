@@ -8,9 +8,6 @@
 	<select id="centerView" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.CenterView">
 		CALL globalbiz.SPCenterView(#{jisaCD},#{deptCD});
 	</select>
-	<select id="memFeeInfoList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.MemFeeInfoList">
-		CALL globalbiz.SPMemFeeInfoList(#{jisaCD},#{deptCD});
-	</select>	
 	<select id="centerHoursSave" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String">
 		CALL globalbiz.SPDeptHoursSave(#{jisaCD},#{deptCD},#{oHoursStart},#{oHoursEnd},#{cHoursStart},#{cHoursEnd},#{workId})
 	</select>
@@ -20,6 +17,40 @@
 	<select id="centerOpenSubjSave" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String">
 		CALL globalbiz.SPDeptOpenSubjSave(#{jisaCD},#{deptCD},#{openSubj},#{workId})
 	</select>	
+	<select id="memFeeInfoList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.MemFeeInfoList">
+		CALL globalbiz.SPMemFeeInfoList(#{jisaCD},#{deptCD});
+	</select>		
+	<select id="rtyChargeGroupList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.RtyChargeGroupList">
+		SELECT  jisaCD,rtyType,startCnt,endCnt,rtyRate,convOfRate,deptType,memType,feeType
+		,	CONCAT(REPLACE(rtyType,'G','GROUP'),' Center (',globalbiz.FuncCodeDtlNM(jisaCD,'0304',rtyType,'',''),')') AS rtyTypeName
+		FROM globalmagam.RtyChargeGroupInfo
+		WHERE jisaCD = #{jisaCD};
+	</select>
+	
+	
+	<!-- 센터 상담 이력 -->
+	<select id="findCenterCommentCallsCount" parameterType="java.lang.String" resultType="int">
+		SELECT COUNT(1)
+		FROM globalbiz.DeptCommentCall
+		WHERE deptCD = #{deptCD};
+	</select>
+	<select id="findCenterCommentCalls" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.CenterCommentCallList">
+		SELECT idx,callDate,callNotes,jisaCD,deptCD,regDate,regID
+		FROM globalbiz.DeptCommentCall
+		WHERE deptCD = #{deptCD}
+		ORDER BY idx DESC 
+		LIMIT #{startRow},#{rowBlockSize};
+	</select>
+	<delete id="deleteCenterCommentCall" parameterType="int">
+		DELETE FROM globalbiz.DeptCommentCall WHERE idx = #{idx};
+	</delete>	
+	<insert id="insertCenterCommentCall" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
+		INSERT INTO globalbiz.DeptCommentCall 
+			(callDate, callNotes, jisaCD, deptCD, regDate, regID)
+		VALUES (#{callDate}, #{callNotes}, #{jisaCD}, #{deptCD}, NOW(), #{regID});
+	</insert>
+	
+	
 	
 	<!-- 사용자 -->
 	<select id="userList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.UserList">
