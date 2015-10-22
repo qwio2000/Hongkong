@@ -244,11 +244,7 @@ $(function(){
 					}
 					
 					if($("#lastOK").val() == "Y" ){
-<<<<<<< HEAD
-						$.getOmrBan();				
-=======
 						$.getOmrBan();
->>>>>>> diagnosis
 					}else{
 						alert($("#lastOK").val());
 						return;
