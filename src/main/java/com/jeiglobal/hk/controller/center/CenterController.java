@@ -427,4 +427,13 @@ public class CenterController {
 		model.asMap().clear();//ModelAttribute parameter 제거
 		return "redirect:/fa";
 	}
+	
+	/**
+	 *@author Jieun
+	 *@see 가맹점 현황 분석 차트 예시 출력 위해 requestmapping 추가만 함...... 
+	 **/
+	@RequestMapping(value="/ja/centers/analysis",method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getAnalysis(Model model, @ModelAttribute LoginInfo loginInfo){
+		return "center/analysis";
+	}
 }
