@@ -4,4 +4,22 @@
 	<select id="findMemberWeeklySchedule" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberWeeklyScheduleInfo">
 		CALL globalbiz.SPMemWeeklyScheduleList(#{jisaCD},#{deptCD},#{subj})
 	</select>
+	<select id="findMemSubjStudyByMemKeyAndSubj" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemSubjStudy">
+		SELECT memKey, subj, studyNum, bookNum, yoil, yoilSeq, bookFlag, visitHours, empKey, deptCD, jisaCD, regDate, regID, updDate, updID
+		FROM globalbiz.MemSubjStudy 
+		WHERE memKey = #{memKey} AND subj = #{subj} AND yoilSeq = '1'
+	</select>
+	<update id="updateMemSubjMst" parameterType="hashMap">
+		UPDATE globalbiz.MemSubjMst 
+		<set>
+			befoYoil = yoil, yoil = #{yoil}, yoilChgYMD = #{currentYMD},
+			updDate=NOW(), updID=#{workId}
+		</set>
+		WHERE memKey = #{memKey} AND subj = #{subj}
+	</update>
+	<update id="updateMemSubjStudy" parameterType="hashMap">
+		UPDATE globalbiz.MemSubjStudy 
+		SET yoil = #{yoil}, visitHours = #{manageTime}, updDate=NOW(), updID=#{workId}
+		WHERE memKey = #{memKey} and subj = #{subj} and yoilSeq = '1'
+	</update>
 </mapper>
