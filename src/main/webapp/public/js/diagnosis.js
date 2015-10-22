@@ -154,7 +154,7 @@ $(function(){
 			var DeptName = $.trim($("#DeptName").val());
 			var WorkID = $.trim($("#WorkID").val());
 			var freejindan = $.trim($("#freejindan").val());
-			
+			 
 			
 			
 			var searchUrl = "/fa/diagnosis/ipprInputSave";
