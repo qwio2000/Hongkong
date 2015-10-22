@@ -356,6 +356,32 @@ $(document).ready(function() {
 				frm.target = "";
 				win.focus();
 			},
+			// 처방기록부 POST POPUP
+			openIpprPost:function(jisa,omrdate, memKey, mujin, subj, lang, avg, div){	
+				var html;
+					html = "<form name='IpprPagePopupfrom' method='post' >";
+					html += "<input type='text' name='jisa' id='jisa' value='"+jisa+"'>";
+					html += "<input type='text' name='omrdate' id='omrdate' value='"+omrdate+"'>";
+					html += "<input type='text' name='memKey' id='memKey' value='"+memKey+"'>";
+					html += "<input type='text' name='mujin' id='mujin' value='"+mujin+"'>";
+					html += "<input type='text' name='subj' id='subj' value='"+subj+"'>";
+					html += "<input type='text' name='lang' id='lang' value='"+lang+"'>";
+					html += "<input type='text' name='avg' id='avg' value='"+avg+"'>";
+					html += "</form>";
+			
+					$("body").append("<div id='"+div+"'></div>");
+					$("#"+div).html(html);
+		
+					if(subj == "KM" || subj == "EM"){
+						$.openPopPost("/fa/diagnosis/OmrPrintJD", "IpprPage", "width=1024,height=800,left=300,scrollbars=yes,resizable=yes", document.IpprPagePopupfrom);
+					}else{
+						$.openPopPost("/fa/diagnosis/OmrPrint", "IpprPage", "width=1024,height=800,left=300,scrollbars=yes,resizable=yes", document.IpprPagePopupfrom);						
+					}
+				
+					$("body #"+div+"").remove();
+				
+			},
+			
 			//IE여부
 			isIE:function() {
 				var agt = navigator.userAgent.toLowerCase();

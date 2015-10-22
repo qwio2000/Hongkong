@@ -76,7 +76,14 @@ public class DiagnosisService {
 		
 	}
 	
-	public String getDiagnosisOmrGicho(DiagnosisDto.DiagnosisOmrInsert omrInsert) throws ParseException{
+
+	public Map<String, String> addDiagnosisOmrGicho(DiagnosisDto.DiagnosisOmrInsert omrInsert) throws ParseException{
+		if (omrInsert.getMFstName().length() > 20 ){
+			omrInsert.setMFstName(omrInsert.getMFstName().substring(0,20));
+		}
+		if (omrInsert.getMLstName().length() > 20 ){
+			omrInsert.setMLstName(omrInsert.getMLstName().substring(0,20));
+		}
 		omrInsert.setOmrBirth(CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", omrInsert.getOmrBirth()));
 		return diagnosisRepository.findDiagnosisOmrGicho(omrInsert);
 		

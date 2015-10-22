@@ -292,14 +292,18 @@ public class DiagnosisController {
 	public Map<String, Object> diagnosisIpprOmrGichoJson(Model model,DiagnosisDto.DiagnosisOmrInsert omrInsert ) throws ParseException {
 
 		String alertMsg = "";
-		String omrGichoisOK = diagnosisService.getDiagnosisOmrGicho(omrInsert);
-		if ("N".equals(omrGichoisOK)) {
+
+		Map<String, String> returnMap = diagnosisService.addDiagnosisOmrGicho(omrInsert);
+		if ("N".equals(returnMap.get("OK"))) {
+
 			alertMsg = messageSourceAccesor.getMessage("Ippr.OmrGicho.Insert.Error");
 		}
 	
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("alertMsg", alertMsg);
-		map.put("omrGichoisOK", omrGichoisOK);
+		map.put("omrGichoisOK", returnMap.get("OK"));
+		map.put("omrGichoHkey", returnMap.get("hkey"));
+		map.put("omrGichoFreejindan", returnMap.get("Freejindan"));
 		
 		return map;
 	}
@@ -354,7 +358,7 @@ public class DiagnosisController {
 	
 	
 	// ippr 처방 기록부 수학
-	@RequestMapping(value={"/fa/diagnosis/OmrPrintJD"}, method={RequestMethod.GET,RequestMethod.HEAD})  
+	@RequestMapping(value={"/fa/diagnosis/OmrPrintJD"}, method={RequestMethod.POST,RequestMethod.HEAD})  
 	public String diagnosisIpprOmrPrintKM(Model model, String jisa, String omrdate, String memKey, String subj, String mujin)  {
 		log.debug("Getting OmrPrint List Page");
 		String lang = "";
@@ -393,11 +397,11 @@ public class DiagnosisController {
 		List<DiagnosisDto.DiagnosisOdab4> diagnosisOdab4 = diagnosisService.getDiagnosisOdab4(jisa, omrdate, memKey, subj, omrGrd, omrKind, mujin, lang);
 
 		/* 학습 수준 분석 기준 */
-		DiagnosisDto.DiagnosisSooJun diagnosisSooJun = diagnosisService.getDiagnosisSooJun(jisa, omrdate, memKey, subj, omrKind, omrGrd, omrHak, omrBirth, omrPath, lang);
+		DiagnosisDto.DiagnosisSooJun diagnosisSooJun = diagnosisService.getDiagnosisSooJun(jisa, omrdate, memKey, subj, omrKind, omrGrd, omrHak, omrBirth, mujin, lang);
 		
 		/* 처방프로그램 */
 		// 월 가져오기
-		DiagnosisDto.DiagnosisStartYYMM diagnosisStartYYMM = diagnosisService.getDiagnosisStartYYMM(jisa, omrdate, memKey, subj, omrPath, lang);
+		DiagnosisDto.DiagnosisStartYYMM diagnosisStartYYMM = diagnosisService.getDiagnosisStartYYMM(jisa, omrdate, memKey, subj, mujin, lang);
 		// 진도 가져오기	
 		List<DiagnosisDto.DiagnosisJindo> diagnosisJindo1 = diagnosisService.getDiagnosisJindo(jisa, omrdate, memKey, subj, "1", mujin);
 		List<DiagnosisDto.DiagnosisJindo> diagnosisJindo2 = diagnosisService.getDiagnosisJindo(jisa, omrdate, memKey, subj, "2", mujin);
@@ -446,7 +450,7 @@ public class DiagnosisController {
 	
 	
 	// ippr 처방 기록부 수학 외
-	@RequestMapping(value={"/fa/diagnosis/OmrPrint"}, method={RequestMethod.GET,RequestMethod.HEAD})  
+	@RequestMapping(value={"/fa/diagnosis/OmrPrint"}, method={RequestMethod.POST,RequestMethod.HEAD})  
 	public String diagnosisIpprOmrPrint(Model model, String jisa, String omrdate, String memKey, String subj, String lang, String avg, String mujin)  {
 		log.debug("Getting OmrPrint List Page");
 		
