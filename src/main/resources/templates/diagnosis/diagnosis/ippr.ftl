@@ -57,40 +57,27 @@
 										<input type="hidden" id="yoil" name="yoil" value="${ippr.yoil}">
 										<input type="hidden" id="studyNum" name="studyNum" value="${ippr.studyNum}">
 										<input type="hidden" id="bookNum" name="bookNum" value="${ippr.bookNum}">
-										<input type="hidden" id="freejindan" name="freejindan" value="${freejindan}">
 									</#if>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 						<ul class="input_list">
-							<#if freejindan == "">
 							<li>
 								<span class="tit">Test Type</span> 
 								<span class="radio_wrap"><input type="radio" name="testType" value="1" id="testchk01" checked /><label for="testchk01">Diagosis</label></span>
 								<span class="radio_wrap"><input type="radio" name="testType" value="3" id="testchk02" /><label for="testchk02">ACH</label></span>
 							</li>
-							<#else>
-								<input type="hidden" name="testType" value="">
-							</#if>
-							<#if subj == "CL" || subj == "EE" || subj == "KG" || subj == "KK">
 							<li>
 								<span class="tit">Read / WorkBook</span> 
 								<span class="radio_wrap"><input type="radio" name="readchk" value="1" id="readchk01" checked /><label for="readchk01">YES</label></span>
 								<span class="radio_wrap"><input type="radio" name="readchk" value="2" id="readchk02" /><label for="readchk02">NO</label></span>
 							</li>
-							<#else>
-								<input type="hidden" name="readchk" value="">
-							</#if>
-							<#if subj == "CL" || subj == "CP" || subj == "EE" || subj == "EP" || subj == "KK" || subj == "KP" || subj == "KS">
 							<li>
 								<span class="tit">Prescription by Learning Objective</span> 
 								<span class="radio_wrap"><input type="radio" name="nomr" value="1" id="nomrchk01" checked/><label for="nomrchk01">YES</label></span>
 								<span class="radio_wrap"><input type="radio" name="nomr" value="2" id="nomrchk02" /><label for="nomrchk02">NO</label></span>
 							</li>
-							<#else>
-								<input type="hidden" name="nomr" value="">
-							</#if>
 						</ul>
 						<div class="btnArea">
 							<a href="javascript:$('#ipprinput').submit();"><span>Next</span></a>

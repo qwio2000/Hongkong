@@ -6,7 +6,7 @@
 	</select>
 	
 	<select id="findDiagnosisIppr" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisInputippr">
-		CALL globaldig.SPDiagnosisInputIpprLst(#{memKey},#{subj},#{jisaCD},#{deptCD},#{freejindan})	;				
+		CALL globaldig.SPDiagnosisInputIpprLst(#{memKey},#{subj},#{JisaCD},#{freejindan})	;				
 	</select>
 		
 	<select id="findDiagnosisTotMunGet" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisTotMunGet">
@@ -19,15 +19,15 @@
 		
 	<select id="findDiagnosisOmrGicho" statementType="CALLABLE" parameterType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOmrInsert" resultType="java.lang.String">
 		CALL globaldig.SPOmrGichoInsert (#{omrDate},#{hkey},#{kwamok},#{rw},#{nOmr},#{mFstName},#{mLstName},#{skey},#{sName}
-		,#{omrGrd},#{omrHak},#{omrBirth},#{omrKind},#{omrDay1},#{omrDay2},#{omrStudyNum},#{omrBookNum},#{deptCD},#{jisaCD},#{deptName},#{workID},#{freejindan});
+		,#{omrGrd},#{omrHak},#{omrBirth},#{omrKind},#{omrDay1},#{omrDay2},#{omrStudyNum},#{omrBookNum},#{deptCD},#{jisaCD},#{deptName},#{workID});
 	</select>
-	<!-- 오답입력 -->	
+		
 	<select id="findDiagnosisOmrOdab" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
-		CALL globaldig.SPOmrOdabInsert (#{jisaCD},#{omrDate},#{hkey},#{kwamok},#{omrGrd},#{mun},#{chk},#{freejindan});
+		CALL globaldig.SPOmrOdabInsert (#{jisaCD},#{omrDate},#{hkey},#{kwamok},#{omrGrd},#{mun},#{chk});
 	</select>
-	<!-- 오답 입력 G -->
+	
 	<select id="findDiagnosisOmrOdabG" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
-		CALL globaldig.SPOmrOdabInsertG (#{jisaCD},#{omrDate},#{hkey},#{kwamok},#{omrGrd},#{mun},#{chk},#{OmrKind},#{freejindan});
+		CALL globaldig.SPOmrOdabInsertG (#{jisaCD},#{omrDate},#{hkey},#{kwamok},#{omrGrd},#{mun},#{chk},#{OmrKind});
 	</select>
 		
 	<select id="findDiagnosisOmrChkG" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOmrChkG">
@@ -35,7 +35,7 @@
 	</select>
 		
 	<select id="findDiagnosisOmrBan" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
-		CALL globaldig.SPOmrBan(#{jisaCD},#{omrDate},#{hkey},#{kwamok},#{rw},#{nOmr},#{omrGrd},#{omrHak},#{omrKind},#{omrDay1},#{omrBirth},#{omrSetCnt},#{omrWeekCnt},#{omrDay2},#{workID},#{freejindan});		
+		CALL globaldig.SPOmrBan(#{jisaCD},#{omrDate},#{hkey},#{kwamok},#{rw},#{nOmr},#{omrGrd},#{omrHak},#{omrKind},#{omrDay1},#{omrBirth},#{omrSetCnt},#{omrWeekCnt},#{omrDay2},#{workID});		
 	</select>
 	
 	<!--  개인별 처방기록부 -->

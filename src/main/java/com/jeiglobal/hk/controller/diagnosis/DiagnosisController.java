@@ -137,9 +137,8 @@ public class DiagnosisController {
 	public String diagnosisIppr(Model model, @ModelAttribute LoginInfo loginInfo, String memKey, String subj, String freejindan) {
 		log.debug("Getting ippr Popup Page");
 		String jisaCD = loginInfo.getJisaCD();
-		String deptCD = loginInfo.getDeptCD();
 		
-		DiagnosisDto.DiagnosisInputippr diagnosisInputippr = diagnosisService.getDiagnosisInputippr(jisaCD, deptCD, memKey, subj, freejindan);	 //회원정보
+		DiagnosisDto.DiagnosisInputippr diagnosisInputippr = diagnosisService.getDiagnosisInputippr(jisaCD, memKey, subj, freejindan);	 //회원정보
 		
 		List<GradeOfSubject> gradeOfSubject = commonService.getGradeOfSubject(jisaCD, subj, "Y", "Y");   //등급정보
 		
@@ -149,13 +148,9 @@ public class DiagnosisController {
 			return "alertAndRedirect";
 		}
 		
-		
 		model.addAttribute("memKey", memKey);
 		model.addAttribute("ippr", diagnosisInputippr);
 		model.addAttribute("level", gradeOfSubject);
-		model.addAttribute("freejindan", freejindan);
-		model.addAttribute("subj", subj);
-
 		
 		return "diagnosis/diagnosis/ippr";	
 	}
@@ -163,7 +158,7 @@ public class DiagnosisController {
 	// ippr 오답 입력
 	@RequestMapping(value={"/fa/diagnosis/ipprinput"}, method={RequestMethod.POST,RequestMethod.HEAD})  
 	public String diagnosisIpprinput(Model model, @ModelAttribute LoginInfo loginInfo,String memKey, String jisaCD, String deptCd, String memName, String gradeNM, String gradeCD,  String subjname 
-			, String leveldung, String inputdate, String mBirthDay, String testType, String readchk, String nomr, String yoil, String studyNum, String bookNum, String freejindan) {
+			, String leveldung, String inputdate, String mBirthDay, String testType, String readchk, String nomr, String yoil, String studyNum, String bookNum) {
 		log.debug("Getting ipprinput List Page");
 		//header에 포함할 스크립트 
 		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
@@ -213,8 +208,6 @@ public class DiagnosisController {
 		model.addAttribute("testType", testType);
 		model.addAttribute("readchk", readchk);
 		model.addAttribute("nomr", nomr);
-		model.addAttribute("freejindan", freejindan);
-		
 	
 		return "diagnosis/diagnosis/ipprinput";	
 	}
@@ -299,7 +292,7 @@ public class DiagnosisController {
 	public Map<String, Object> diagnosisIpprOmrGichoJson(Model model,DiagnosisDto.DiagnosisOmrInsert omrInsert ) throws ParseException {
 
 		String alertMsg = "";
-		String omrGichoisOK = diagnosisService.addDiagnosisOmrGicho(omrInsert);
+		String omrGichoisOK = diagnosisService.getDiagnosisOmrGicho(omrInsert);
 		if ("N".equals(omrGichoisOK)) {
 			alertMsg = messageSourceAccesor.getMessage("Ippr.OmrGicho.Insert.Error");
 		}
@@ -314,14 +307,14 @@ public class DiagnosisController {
 	// 오답 입력 저장
 	@RequestMapping(value={"/fa/diagnosis/ipprOdabSave"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	@ResponseBody
-	public Map<String, Object> diagnosisIpprOdabSaveJson(Model model, String jisaCD, String omrDate, String hkey, String kwamok, String omrGrd, String munchk, String omrKind, String freejindan) {
+	public Map<String, Object> diagnosisIpprOdabSaveJson(Model model, String jisaCD, String omrDate, String hkey, String kwamok, String omrGrd, String munchk, String omrKind) {
 		
 		String alertMsg = "";
 		String omrOdabOK = "";
 		
 		String[] munchkarrer = munchk.split("##");
 		
-		omrOdabOK = diagnosisService.addDiagnosisOmrOdab(jisaCD, omrDate, hkey, kwamok, omrGrd, munchkarrer, omrKind, freejindan);
+		omrOdabOK = diagnosisService.addDiagnosisOmrOdab(jisaCD, omrDate, hkey, kwamok, omrGrd, munchkarrer, omrKind);
 		
 	
 		
@@ -341,12 +334,12 @@ public class DiagnosisController {
 	@RequestMapping(value={"/fa/diagnosis/ipprOmrBan"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> diagnosisIpprOmrBanJson(Model model, String jisaCD, String omrDate, String hkey, String kwamok, String rw, String nOmr, String omrGrd
-			, String omrHak, String omrKind, String omrDay1, String omrBirth, String omrSetCnt, String omrWeekCnt, String omrDay2, String workID, String freejindan) {
+			, String omrHak, String omrKind, String omrDay1, String omrBirth, String omrSetCnt, String omrWeekCnt, String omrDay2, String workID) {
 		
 		String alertMsg = "";
 		String omrBanOK = "";
 		
-		omrBanOK = diagnosisService.addDiagnosisOmrBan(jisaCD, omrDate, hkey, kwamok, rw, nOmr, omrGrd, omrHak, omrKind, omrDay1, omrBirth, omrSetCnt, omrWeekCnt, omrDay2, workID, freejindan);
+		omrBanOK = diagnosisService.addDiagnosisOmrBan(jisaCD, omrDate, hkey, kwamok, rw, nOmr, omrGrd, omrHak, omrKind, omrDay1, omrBirth, omrSetCnt, omrWeekCnt, omrDay2, workID);
 		
 		if ("N".equals(omrBanOK)) {
 			alertMsg = messageSourceAccesor.getMessage("Ippr.Ban.Insert.Error");
