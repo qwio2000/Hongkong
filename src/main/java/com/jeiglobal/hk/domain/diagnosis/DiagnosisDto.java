@@ -19,7 +19,12 @@ public class DiagnosisDto {
 		private String ePhone;
 		private String statusNM;	
 		private String omrDate;
-		private String omrHak;			
+		private String omrHak;
+		private String omrDate10;
+		private String hkey;
+		private String kwamok;
+		private String mujin;
+		private String lang;
 	}
 	
 	@Data
