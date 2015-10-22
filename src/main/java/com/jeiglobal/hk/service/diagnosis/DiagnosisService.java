@@ -76,7 +76,7 @@ public class DiagnosisService {
 		
 	}
 	
-	public String addDiagnosisOmrGicho(DiagnosisDto.DiagnosisOmrInsert omrInsert) throws ParseException{
+	public Map<String, String> addDiagnosisOmrGicho(DiagnosisDto.DiagnosisOmrInsert omrInsert) throws ParseException{
 		if (omrInsert.getMFstName().length() > 20 ){
 			omrInsert.setMFstName(omrInsert.getMFstName().substring(0,20));
 		}
