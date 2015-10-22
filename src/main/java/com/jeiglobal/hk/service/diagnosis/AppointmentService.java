@@ -72,7 +72,7 @@ public class AppointmentService {
 	 * @return Appointment
 	 */
 	public Appointment getAppointmentByIdx(int idx) {
-		return appointmentRepository.findAppointmentByIdx(idx);
+		return appointmentRepository.findAppointmentEditByIdx(idx);
 	}
 
 	/**
@@ -88,6 +88,33 @@ public class AppointmentService {
 		param.put("appointment", appointment);
 		appointmentRepository.updateAppointmentByIdx(param);
 		
+	}
+
+	/**
+	 * @param name
+	 * @param jisaCD
+	 * @param deptCD
+	 * @return List<Appointment>
+	 */
+	public List<Appointment> getAppointmentsByName(String name, String jisaCD,
+			String deptCD) {
+		param.clear();
+		param.put("name", name);
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		return appointmentRepository.findAppointmentsByName(param);
+	}
+
+	/**
+	 * @param idx
+	 * @param type
+	 * @return Appointment
+	 */
+	public MemAppointment getAppointmentByIdx(int idx, String type) {
+		param.clear();
+		param.put("idx", idx);
+		param.put("type", type);
+		return appointmentRepository.findAppointmentByIdx(param);
 	}
 
 

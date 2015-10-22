@@ -4,7 +4,7 @@
 	<h2 class="conTit">Appointment</h2>
 	<div class="clearfix pb10 pt30">
 		<div class="float_l">
-			<div class="btnArea_txt p0"><a href="/fa/diagnosis/appointment/new" class="btn_doc m0">New Appointment</a></div>
+			<div class="btnArea_txt p0"><a href="/fa/diagnosis/appointment/search" class="btn_doc m0">New Appointment</a></div>
 		</div>
 	</div>
 	<div class="tbl01 mt0">

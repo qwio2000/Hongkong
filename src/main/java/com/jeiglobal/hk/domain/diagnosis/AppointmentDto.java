@@ -4,11 +4,11 @@ import java.util.*;
 
 import lombok.*;
 
-
 public class AppointmentDto {
 	@Data
 	public static class Appointment {
 		private int idx;
+		private String type;
 		private String apmRegistYMD;
 		private String mFstName;
 		private String mLstName;
@@ -40,9 +40,13 @@ public class AppointmentDto {
 		private String freeDigYMD;
 		private String deptCD;
 		private String jisaCD;
+		private String registWhy;
+		private String registWhyEtc;
+		private String registHow;
+		private String registHowEtc;
 		private Date regDate;
 		private String regID;
 		private Date updDate;
-		private String updID;            
+		private String updID;
 	}
 }

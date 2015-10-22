@@ -7,31 +7,31 @@
 		FROM globalbiz.MemAppointment 
 		<where>
 			jisaCD = #{jisaCD} AND deptCD = #{deptCD} 
-			AND registYMD = '' AND freeDigYMD = ''
+			AND registYMD = '' AND freeDigYMD = '' AND type = '01'
 		</where>
 	</select>
 	<!--  무료진단 예약자 List -->
 	<select id="findAppointments" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.diagnosis.AppointmentDto$Appointment">
-		SELECT idx, apmRegistYMD, mFstName, mLstName, mBirthDay, gradeCD, globalbiz.FuncCodeDtlNM(jisaCD, '0003', gradeCD, '', 'Y') AS gradeName,
+		SELECT idx, type, apmRegistYMD, mFstName, mLstName, mBirthDay, gradeCD, globalbiz.FuncCodeDtlNM(jisaCD, '0003', gradeCD, '', 'Y') AS gradeName,
 			schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, 
 			preferredYMD, DATE_FORMAT(preferredYMD, '%m/%d/%Y') AS convPreferredYMD, preferredTimes, 
 			globalbiz.FuncCodeDtlNM(jisaCD, '0206', preferredTimes, '', 'Y') AS timeName, preferredNotes, apmStatusCD, subj, 
-			memKey, registYMD, freeDigYMD, deptCD, jisaCD, regDate, regID, updDate, updID
+			memKey, registYMD, freeDigYMD, deptCD, jisaCD, registWhy, registWhyEtc, registHow, registHowEtc, regDate, regID, updDate, updID
 		FROM globalbiz.MemAppointment
 		<where>
 			jisaCD = #{jisaCD} AND deptCD = #{deptCD} 
-			AND registYMD = '' AND freeDigYMD = ''
+			AND registYMD = '' AND freeDigYMD = '' AND type = '01'
 		</where> 
 		ORDER BY idx DESC
 		LIMIT #{startRow}, #{endRow}
 	</select>
 	<!-- 정보 수정할 정보 GET -->
-	<select id="findAppointmentByIdx" parameterType="int" resultType="com.jeiglobal.hk.domain.diagnosis.AppointmentDto$Appointment">
-		SELECT idx, apmRegistYMD, mFstName, mLstName, mBirthDay, gradeCD, globalbiz.FuncCodeDtlNM(jisaCD, '0003', gradeCD, '', 'Y') AS gradeName,
+	<select id="findAppointmentEditByIdx" parameterType="int" resultType="com.jeiglobal.hk.domain.diagnosis.AppointmentDto$Appointment">
+		SELECT idx, type, apmRegistYMD, mFstName, mLstName, mBirthDay, gradeCD, globalbiz.FuncCodeDtlNM(jisaCD, '0003', gradeCD, '', 'Y') AS gradeName,
 			schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, 
 			preferredYMD, DATE_FORMAT(preferredYMD, '%m/%d/%Y') AS convPreferredYMD, preferredTimes, 
 			globalbiz.FuncCodeDtlNM(jisaCD, '0206', preferredTimes, '', 'Y') AS timeName, preferredNotes, apmStatusCD, subj, 
-			memKey, registYMD, freeDigYMD, deptCD, jisaCD, regDate, regID, updDate, updID
+			memKey, registYMD, freeDigYMD, deptCD, jisaCD, registWhy, registWhyEtc, registHow, registHowEtc, regDate, regID, updDate, updID
 		FROM globalbiz.MemAppointment
 		<where>
 			idx = #{idx}
@@ -51,4 +51,26 @@
 			idx = #{appointment.idx}
 		</where>
 	</update>
+	<select id="findAppointmentsByName" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.diagnosis.AppointmentDto$Appointment">
+		SELECT idx, type, apmRegistYMD, mFstName, mLstName, mBirthDay, gradeCD, globalbiz.FuncCodeDtlNM(jisaCD, '0003', gradeCD, '', 'Y') AS gradeName,
+			schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, 
+			preferredYMD, DATE_FORMAT(preferredYMD, '%m/%d/%Y') AS convPreferredYMD, preferredTimes, 
+			globalbiz.FuncCodeDtlNM(jisaCD, '0206', preferredTimes, '', 'Y') AS timeName, preferredNotes, apmStatusCD, subj, 
+			memKey, registYMD, freeDigYMD, deptCD, jisaCD, registWhy, registWhyEtc, registHow, registHowEtc, regDate, regID, updDate, updID
+		FROM globalbiz.MemAppointment
+		<where>
+			jisaCD = #{jisaCD} AND deptCD = #{deptCD} AND type = '01'
+			AND CONCAT(mFstName, mLstName) LIKE CONCAT('%', #{name}, '%') OR CONCAT(gFstName, gLstNAme) LIKE CONCAT('%', #{name}, '%')
+		</where>  
+	</select>
+	<select id="findAppointmentByIdx" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemAppointment">
+		SELECT idx, type, apmRegistYMD, preferredYMD, preferredTimes, preferredNotes, apmStatusCD, subj, memKey, registYMD, freeDigYMD, deptCD, jisaCD, registWhy, registWhyEtc, registHow, registHowEtc, regID, regDate, updID, updDate, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone
+			<if test="type == '03'">
+				mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone
+			</if>
+		FROM globalbiz.MemAppointment
+		<where>
+			idx = #{idx}
+		</where> 
+	</select>
 </mapper>

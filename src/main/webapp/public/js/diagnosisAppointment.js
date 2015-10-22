@@ -103,30 +103,68 @@ $(function(){
 		$("#hiddenPicker").datepicker("setDate", new Date(yy, mm-1, dd));
 		$("#hiddenPicker").datepicker("show");
 	});
-//	$("#name").focus(function(){
-//		$("#comment").show();
-//	});
-//	$("#name").on("keyup", function(){
-//		var name = $.trim($("#name").val());
-//		if(name.length >= 3){
-//			var url = "/fa/diagnosis/a";
-//			$.ajax({
-//				url: url,
-//				type:"GET",
-//				cache: false,
-//				data: {"name":name},
-//				dataType: "json",
-//				success: function(jsonData, textStatus, XMLHttpRequest) {
-//					
-//				},
-//				error:function (xhr, ajaxOptions, thrownError){	
-//					alert(thrownError);
-//				}
-//			});
-//		}else{
-//			$("#mainContent").empty();
-//		}
-//	});
+	$("#name").focus(function(){
+		$("#comment").show();
+	});
+	$("#name").on("keyup", function(){
+		var name = $.trim($("#name").val());
+		if(name.length >= 3){
+			var url = "/fa/diagnosis/appointment/search/"+name;
+			$.ajax({
+				url: url,
+				type:"GET",
+				cache: false,
+				dataType: "json",
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					var source = $("#memAppointmentTemplate").html();
+					var template = Handlebars.compile(source);
+					Handlebars.registerHelper("inc", function(value, options){
+						return value + 1;
+					});
+					Handlebars.registerHelper('xIf', function (lvalue, operator, rvalue, options) {
+					    var operators, result;
+					    if (arguments.length < 3) {
+					        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+					    }
+					    if (options === undefined) {
+					        options = rvalue;
+					        rvalue = operator;
+					        operator = "===";
+					    }
+					    operators = {
+					        '==': function (l, r) { return l == r; },
+					        '===': function (l, r) { return l === r; },
+					        '!=': function (l, r) { return l != r; },
+					        '!==': function (l, r) { return l !== r; },
+					        '<': function (l, r) { return l < r; },
+					        '>': function (l, r) { return l > r; },
+					        '<=': function (l, r) { return l <= r; },
+					        '>=': function (l, r) { return l >= r; },
+					        'typeof': function (l, r) { return typeof l == r; }
+					    };
+
+					    if (!operators[operator]) {
+					        throw new Error("'xIf' doesn't know the operator " + operator);
+					    }
+
+					    result = operators[operator](lvalue, rvalue);
+					    if (result) {
+					        return options.fn(this);
+					    } else {
+					        return options.inverse(this);
+					    }
+					});
+					$("#mainContent").empty();
+					$("#mainContent").append(template(jsonData));
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(thrownError);
+				}
+			});
+		}else{
+			$("#mainContent").empty();
+		}
+	});
 	
 });
 
