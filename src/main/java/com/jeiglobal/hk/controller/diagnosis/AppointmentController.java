@@ -63,7 +63,7 @@ public class AppointmentController {
 		
 		model.addAttribute("Serch", appointmentSerch);
 		
-		return "diagnosis/appointment/list";
+		return "diagnosis/appointment/list"; 
 	}
 	
 	// Appointment 회원 조회
