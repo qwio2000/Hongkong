@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
-import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisRangeHlLang;
 import com.jeiglobal.hk.repository.diagnosis.DiagnosisRepository;
 import com.jeiglobal.hk.utils.CommonUtils;
 
@@ -40,9 +39,10 @@ public class DiagnosisService {
 	}
 	
 	
-	public DiagnosisDto.DiagnosisInputippr getDiagnosisInputippr(String JisaCD, String memKey, String subj, String freejindan){
+	public DiagnosisDto.DiagnosisInputippr getDiagnosisInputippr(String JisaCD, String deptCD, String memKey, String subj, String freejindan){
 		Map<String, Object> map = new HashMap<>();
-		map.put("JisaCD", JisaCD);		
+		map.put("jisaCD", JisaCD);	
+		map.put("deptCD", deptCD);		
 		map.put("memKey", memKey);		
 		map.put("subj", subj);
 		map.put("freejindan", freejindan);
@@ -76,7 +76,14 @@ public class DiagnosisService {
 		
 	}
 	
-	public String getDiagnosisOmrGicho(DiagnosisDto.DiagnosisOmrInsert omrInsert) throws ParseException{
+	public String addDiagnosisOmrGicho(DiagnosisDto.DiagnosisOmrInsert omrInsert) throws ParseException{
+		if (omrInsert.getMFstName().length() > 20 ){
+			omrInsert.setMFstName(omrInsert.getMFstName().substring(0,20));
+		}
+		if (omrInsert.getMLstName().length() > 20 ){
+			omrInsert.setMLstName(omrInsert.getMLstName().substring(0,20));
+		}
+		
 		omrInsert.setOmrBirth(CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", omrInsert.getOmrBirth()));
 		return diagnosisRepository.findDiagnosisOmrGicho(omrInsert);
 		
@@ -96,7 +103,7 @@ public class DiagnosisService {
 	
 	public String addDiagnosisOmrOdab(String jisaCD, String omrDate,
 			String hkey, String kwamok, String omrGrd, String[] munchkarrer,
-			String omrKind) {
+			String omrKind, String freejindan) {
 		String mun = "";
 		String chk = "";
 		String omrOdabOK = "";
@@ -107,6 +114,7 @@ public class DiagnosisService {
 			map.put("hkey", hkey);
 			map.put("kwamok", kwamok);
 			map.put("omrGrd", omrGrd);
+			map.put("freejindan", freejindan);
 			
 		for (int i = 0; i < munchkarrer.length; i++) {
 			String[] splitArray = munchkarrer[i].split("\\|"); 
@@ -133,7 +141,7 @@ public class DiagnosisService {
 	public String addDiagnosisOmrBan(String jisaCD, String omrDate,
 			String hkey, String kwamok, String rw, String nOmr, String omrGrd,
 			String omrHak, String omrKind, String omrDay1, String omrBirth,
-			String omrSetCnt, String omrWeekCnt, String omrDay2, String workID) {
+			String omrSetCnt, String omrWeekCnt, String omrDay2, String workID, String freejindan) {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("jisaCD", jisaCD);		
@@ -151,6 +159,8 @@ public class DiagnosisService {
 		map.put("omrWeekCnt", omrWeekCnt);
 		map.put("omrDay2", omrDay2);
 		map.put("workID", workID);
+		map.put("freejindan", freejindan);
+		
 		
 		return diagnosisRepository.findDiagnosisOmrBan(map);
 	}

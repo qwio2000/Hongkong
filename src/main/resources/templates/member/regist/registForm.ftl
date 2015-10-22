@@ -211,7 +211,7 @@
 							</select>
 							<input type="text"  class="searchInput" name="fee" id="fee_${registSubject.subj }" style="width:53px;" readonly="readonly" disabled/>
 							<#if registSubject.subjDigYN == "Y">
-							<a href="javascript:$.openPop('/fa/diagnosis/ippr?memKey=${info.memKey }&subj=${registSubject.subj }&freejindan=', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');">DIAG</a>
+							<a href="javascript:$.openPop('/fa/diagnosis/ippr?memKey=${info.memKey }&subj=${registSubject.subj }&freejindan=I', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');">DIAG</a>
 							</#if>
 						</li>
 					</#if>

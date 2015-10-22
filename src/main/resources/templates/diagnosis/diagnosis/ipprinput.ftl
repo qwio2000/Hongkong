@@ -45,14 +45,18 @@
 					
 					
 					<ul class="input_list">
+						<#if readchk != "">
 						<li>
 							<span class="tit">Read / WorkBook: </span> 
 							<span><#if readchk == "1">YES<#else>NO</#if></span>
 						</li>
+						</#if>
+						<#if nomr != "">
 						<li>
 							<span class="tit">Prescription by Learning Objective : </span> 
 							<span><#if nomr == "1">YES<#else>NO</#if></span>
 						</li>
+						</#if>
 					</ul>
 					<!-- //처방결과 입력 화면 -->
 					
@@ -93,7 +97,8 @@
 				<input type="hidden" id="subjname" value="${subjname}">
 				<input type="hidden" id="Rw" value="${readchk}">
 				<input type="hidden" id="NOmr" value="${nomr}">
-				<input type="hidden" id="testType" value="${testType}">
+				<input type="hidden" id="testType" value="${testType}">				
+				<input type="hidden" id="freejindan" value="${freejindan}">
 				
 				<input type="hidden" id="OmrPath" value="">
 				<input type="hidden" id="OmrSetCnt" value="">
@@ -102,6 +107,7 @@
 				<input type="hidden" id="lastOK" value="Y">
 				
 				<div id="inputAnswer"></div>
+				
 				
 	</div>
 	
