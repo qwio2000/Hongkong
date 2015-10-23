@@ -75,7 +75,7 @@ $(function(){
 		
 		getInputChk:function(id,input,mun,chk){   //오답 체크 한글 제외
 			// 오답 체크정보 임시 temp
-			var temp = "<input type='text' id='"+mun+"' value='"+mun+"|"+chk+"' mun='"+mun+"' chk='"+chk+"' >"
+			var temp = "<input type='hidden' id='"+mun+"' value='"+mun+"|"+chk+"' mun='"+mun+"' chk='"+chk+"' >"
 			
 			// 문항 체크박스 하나만 선택 
 			$(".chk_s01 [id^="+id+"]").each(function (i, v) {	
@@ -98,7 +98,7 @@ $(function(){
 		
 		getInputChkG:function(id,mun,sset){   //한글 오답 체크			
 			var Odablisttemp = "<li id="+id+''+mun+"><span class='q_num'>"+mun+"</span><span class='icon'></span><span class='loss_set'>"+sset+"</span></li>"
-			var inputAnswertemp = "<input type='text' id='"+mun+"' value='"+mun+"' mun='"+mun+"' chk='' >"
+			var inputAnswertemp = "<input type='hidden' id='"+mun+"' value='"+mun+"' mun='"+mun+"' chk='' >"
 			
 			
 			
@@ -132,6 +132,8 @@ $(function(){
 		},	
 		
 		getIpprSave:function(){  //omrGicho 저장
+			$(".btnArea").css("display","none"); // 저장 막기
+			
 			var OmrDate = $("#omrdate").val();
 			var Hkey = $.trim($("#Hkey").val());
 			var Kwamok = $.trim($("#Kwamok").val());
@@ -153,13 +155,14 @@ $(function(){
 			var JisaCD = $.trim($("#jisaCD").val());
 			var DeptName = $.trim($("#DeptName").val());
 			var WorkID = $.trim($("#WorkID").val());
+			var freejindan = $.trim($("#freejindan").val());
 			
 			var searchUrl = "/fa/diagnosis/ipprInputSave";
 			
 			var paramData = {"omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "rw":Rw, "nOmr":NOmr, "mFstName":MFstName, "mLstName":MLstName
 					, "skey":Skey, "sName":SName, "omrGrd":OmrGrd, "omrHak":OmrHak, "omrBirth":OmrBirth, "OmrKind":OmrKind, "omrDay1":OmrDay1, "omrDay2":OmrDay2
-					, "omrStudyNum":OmrStudyNum, "omrBookNum":OmrBookNum, "deptCD":DeptCD, "jisaCD":JisaCD, "deptName":DeptName, "workID":WorkID};
-		
+					, "omrStudyNum":OmrStudyNum, "omrBookNum":OmrBookNum, "deptCD":DeptCD, "jisaCD":JisaCD, "deptName":DeptName, "workID":WorkID, "freejindan":freejindan};			
+			
 			$.ajax({
 				url:searchUrl,
 				type:"GET",
@@ -167,11 +170,22 @@ $(function(){
 				data: paramData,
 				dataType: "JSON",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
-					if (jsonData.omrGichoisOK == 'Y'){
-						$.getOmrOdab();
+					if (jsonData.omrGichoFreejindan == ""){
+						if (jsonData.omrGichoisOK == 'Y'){
+							$.getOmrOdab();
+						}else{
+							alert(jsonData.alertMsg);
+						}
 					}else{
-						alert(jsonData.alertMsg);
+						if (jsonData.omrGichoisOK == 'Y'){
+							$("#Hkey").val(jsonData.omrGichoHkey);							
+							$.getOmrOdab();
+						}else{
+							alert(jsonData.alertMsg);
+						}
+						
 					}
+					
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert(thrownError);
@@ -230,7 +244,7 @@ $(function(){
 					}
 					
 					if($("#lastOK").val() == "Y" ){
-						$.getOmrBan();				
+						$.getOmrBan();
 					}else{
 						alert($("#lastOK").val());
 						return;
@@ -273,6 +287,7 @@ $(function(){
 					data: paramData,
 					dataType: "JSON",			
 					success: function(jsonData, textStatus, XMLHttpRequest) {
+						alert(jsonData.omrBanOK)
 						if (jsonData.omrBanOK = "Y"){
 							alert(jsonData.alertMsg);
 						}else{

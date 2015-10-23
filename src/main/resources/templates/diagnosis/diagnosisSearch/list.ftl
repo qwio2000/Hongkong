@@ -58,10 +58,7 @@
 
 </div>
 
-
 <!--// Main Content -->
-
-
 <script id="listTemplate" type="text/x-handlebars-template">
 	{{#each page}}
 		<tr>
@@ -73,7 +70,9 @@
 			<td>{{ephone}}</td>
 			<td>{{statusNM}}</td>
 			<td>{{omrDate}}</td>
-			<td></td>
+			<td>				
+				<a href="javascript:$.openIpprPost('${jisaCD}','{{omrDate10}}', '{{hkey}}', '{{mujin}}', '{{kwamok}}', '{{lang}}', 'Y', 'IpprPageSub');" class="blue">IPPR</a>				
+			</td>
 		</tr>
 	{{else}}
 		<tr>
