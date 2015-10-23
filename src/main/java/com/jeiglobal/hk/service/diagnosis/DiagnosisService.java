@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto;
-import com.jeiglobal.hk.domain.diagnosis.DiagnosisDto.DiagnosisRangeHlLang;
 import com.jeiglobal.hk.repository.diagnosis.DiagnosisRepository;
 import com.jeiglobal.hk.utils.CommonUtils;
 
