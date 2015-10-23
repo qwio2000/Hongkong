@@ -37,10 +37,7 @@
 							<td class="left">${centerInfo.empName?default('')}</td>
 						</tr>
 						<tr>
-							<th class="left" rowspan="2">Address</th>
-							<td class="left">${centerInfo.zip?default('')}</td>
-						</tr>
-						<tr>
+							<th class="left">Address</th>
 							<td class="left">${centerInfo.addr?default('')}</td>
 						</tr>
 						<tr>
@@ -64,13 +61,17 @@
 							<td class="left">${centerInfo.openDate?default('')}</td>
 						</tr>
 						<tr>
+							<th>Status</th>
+							<td class="left">${centerInfo.statusName?default('')}</td>
+						</tr>						
+						<tr>
 							<th>Royalty Charge</th>
 							<td class="left">${centerInfo.rtyType?default('')} (${centerInfo.rtyTypeName?default('')})</td>
 						</tr>
 						<tr>
 							<th>Center Infomation <br />has been set</th>
-							<td class="left">Hours, tuition, subjects. <strong>YES</strong></td>
-						</tr>
+							<td class="left">Hours : <strong>${centerInfo.hoursFlag?default('')}</strong>, subjects : <strong>${centerInfo.openSubjFlag?default('')}</strong> , tuition : <strong>YES</strong></td>
+						</tr>						
 					</tbody>
 				</table>
 			</div>
@@ -126,7 +127,7 @@
 			</div>
 			</#list>
 			<div class="btnArea_txt">
-				<a href="javascript:$.openAddNewUser('${centerInfo.deptCD}');" class="btn_doc">add new user</a>
+				<a href="javascript:$.openAddNewUser('${centerInfo.deptCD}','${centerInfo.addUserFlag}');" class="btn_doc">add new user</a>
 			</div>
 		</div>
 	</div>

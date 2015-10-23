@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.jeiglobal.hk.domain.center.CenterCommentCallList;
 import com.jeiglobal.hk.domain.center.CenterOpenSubjList;
 import com.jeiglobal.hk.domain.center.CenterSearchList;
+import com.jeiglobal.hk.domain.center.CenterTypeList;
 import com.jeiglobal.hk.domain.center.CenterView;
 import com.jeiglobal.hk.domain.center.MemFeeInfoList;
 import com.jeiglobal.hk.domain.center.RtyChargeGroupList;
@@ -87,7 +88,12 @@ public class CenterService {
 		param.put("jisaCD", jisaCD);
 		return centerRepository.rtyChargeGroupList(param);
 	}		
-	
+	// 센터 사업형태 + 관리형태 + 회비 형태 종류
+	public List<CenterTypeList> getCenterTypeList(String jisaCD) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("jisaCD", jisaCD);
+		return centerRepository.centerTypeList(param);
+	}		
 	
 	// 가맹점 운영시간 셋팅/변경 
 	public String getCenterHoursSave(String jisaCD, String deptCD, String oHoursStart, String oHoursEnd, String cHoursStart, String cHoursEnd, String workId) {		
@@ -115,8 +121,34 @@ public class CenterService {
 		param.put("openSubj", openSubj);
 		param.put("workId", workId);
 		return centerRepository.centerOpenSubjSave(param);				
+	}	 	
+	public String getCenterSave(String jisaCD, String deptCD, String deptName, String deptType, String memType, String feeType, String empFstName, String empLstName,
+			String addr, String zip, String city, String stateCD, String email, String phone, String fax, String contractTerm, String contractDate, String openDate, 
+			String rtyType, String statusCD, String workId) {		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		param.put("deptName", deptName);
+		param.put("deptType", deptType);
+		param.put("memType", memType);
+		param.put("feeType", feeType);
+		param.put("empFstName", empFstName);
+		param.put("empLstName", empLstName);
+		param.put("addr", addr);
+		param.put("zip", zip);
+		param.put("city", city);		
+		param.put("stateCD", stateCD);	
+		param.put("email", email);
+		param.put("phone", phone);
+		param.put("fax", fax);
+		param.put("contractTerm", contractTerm);
+		param.put("contractDate", contractDate);		
+		param.put("openDate", openDate);	
+		param.put("rtyType", rtyType);
+		param.put("statusCD", statusCD);
+		param.put("workId", workId);
+		return centerRepository.centerSave(param);				
 	}	
-	
 	
 	/**
 	 * 센터 상담 정보 

@@ -21,11 +21,25 @@
 		CALL globalbiz.SPMemFeeInfoList(#{jisaCD},#{deptCD});
 	</select>		
 	<select id="rtyChargeGroupList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.RtyChargeGroupList">
-		SELECT  jisaCD,rtyType,startCnt,endCnt,rtyRate,convOfRate,deptType,memType,feeType
+		SELECT  jisaCD,rtyType,startCnt,endCnt,rtyRate,convOfRate
 		,	CONCAT(REPLACE(rtyType,'G','GROUP'),' Center (',globalbiz.FuncCodeDtlNM(jisaCD,'0304',rtyType,'',''),')') AS rtyTypeName
 		FROM globalmagam.RtyChargeGroupInfo
 		WHERE jisaCD = #{jisaCD};
 	</select>
+	<select id="centerTypeList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.CenterTypeList">
+		SELECT jisaCD, deptType, memType, feeType
+		, 	CONCAT(deptType, ',', memType, ',', feeType) AS centerType
+		, 	CONCAT(FuncCodeDtlNM(jisaCD,'0300',deptType,'','') , ' + ', FuncCodeDtlNM(jisaCD,'0301',memType,'',''), ' + ', FuncCodeDtlNM(jisaCD,'0302',feeType,'','')) AS centerTypeName
+		FROM globalbiz.MemFeeInfo
+		WHERE jisaCD = #{jisaCD} 
+		GROUP BY deptType, memType, feeType;	
+	</select>
+	<select id="centerSave" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String">
+		CALL globalbiz.SPCenterSave(#{jisaCD},#{deptCD},#{deptName},#{deptType}, #{memType}, #{feeType}, #{empFstName}, #{empLstName}
+		, #{addr}, #{zip}, #{city}, #{stateCD}, #{email}, #{phone}, #{fax}, #{contractTerm}, #{contractDate}, #{openDate}
+		, #{rtyType}, #{statusCD},#{workId})
+	</select>	
+	
 	
 	
 	<!-- 센터 상담 이력 -->
@@ -49,7 +63,6 @@
 			(callDate, callNotes, jisaCD, deptCD, regDate, regID)
 		VALUES (#{callDate}, #{callNotes}, #{jisaCD}, #{deptCD}, NOW(), #{regID});
 	</insert>
-	
 	
 	
 	<!-- 사용자 -->
