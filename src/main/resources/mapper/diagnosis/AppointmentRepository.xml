@@ -73,4 +73,20 @@
 			idx = #{idx}
 		</where> 
 	</select>
+	<select id="findMemAppointmentStatusAndMemKeyByIdx" parameterType="int" resultType="hashMap">
+		SELECT b.memKey, CASE MIN(c.statusCD) WHEN 1 THEN '01' ELSE '02' END AS apmStatusCD
+		FROM globalbiz.MemAppointment AS a 
+			INNER JOIN globalbiz.MemMst AS b ON a.mFstName = b.mFstName AND a.mLstName = b.mLstName AND a.mBirthDay = b.mBirthDay
+			INNER JOIN globalbiz.MemSubjMst AS c ON b.memKey = c.memKey
+		<where>
+			a.idx = #{idx}
+		</where>
+		GROUP BY a.memKey
+	</select>
+	<insert id="insertMemAppointment" parameterType="com.jeiglobal.hk.domain.member.MemAppointment" useGeneratedKeys="true" keyProperty="idx">
+		INSERT INTO globalbiz.MemAppointment
+			(type, apmRegistYMD, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, preferredYMD, preferredTimes, preferredNotes, apmStatusCD, subj, memKey, registYMD, freeDigYMD, deptCD, jisaCD, registWhy, registWhyEtc, registHow, registHowEtc, regID, regDate, updID, updDate)
+		VALUES
+			(#{type}, #{apmRegistYMD}, #{mFstName}, #{mLstName}, #{mBirthDay}, #{gradeCD}, #{schoolName}, #{mEmail}, #{eContact}, #{ePhone}, #{gFstName}, #{gLstName}, #{city}, #{stateCD}, #{zip}, #{addr}, #{gEmail}, #{gPhone}, #{gCellPhone}, #{preferredYMD}, #{preferredTimes}, #{preferredNotes}, #{apmStatusCD}, #{subj}, #{memKey}, #{registYMD}, #{freeDigYMD}, #{deptCD}, #{jisaCD}, #{registWhy}, #{registWhyEtc}, #{registHow}, #{registHowEtc}, #{regID}, #{regDate}, #{updID}, #{updDate})
+	</insert>
 </mapper>

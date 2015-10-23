@@ -31,4 +31,8 @@ public interface AppointmentRepository {
 
 	public MemAppointment findAppointmentByIdx(Map<String, Object> param);
 
+	public Map<String, String> findMemAppointmentStatusAndMemKeyByIdx(int idx);
+
+	public void insertMemAppointment(MemAppointment memAppointment);
+
 }

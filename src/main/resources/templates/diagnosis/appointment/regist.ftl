@@ -2,24 +2,26 @@
 <!-- Main Content -->
 <div class="content">
 	<div class="clearfix">
-		<form id="registForm" name="registForm" action="/fa/members" method="post">
+		<form id="registForm" name="registForm" action="/fa/diagnosis/appointment" method="post">
+		<input type="hidden" name="idx" id="idx" value="${info.idx?default(0) }">
+		<input type="hidden" name="type" id="type" value="${type}">
 		<div class="conLeft">
 			<h2 class="conTit">Parent(Guardian) Information</h2>
 			<ul class="memSearch">
 				<li>
-					<label for="gFstName">First Name <span class="must">*</span></label>
+					<label for="gFstName">First Name <#if type == "01"><span class="must">*</span></#if></label>
 					<input type="text"  class="searchInput" name="gFstName" id="gFstName" style="width:334px" value="${info.GFstName?default('') }" <#if type != '01'>readonly</#if> maxlength='20'/>
 				</li>
 				<li>
-					<label for="gLstName">Last Name <span class="must">*</span></label>
+					<label for="gLstName">Last Name <#if type == "01"><span class="must">*</span></#if></label>
 					<input type="text"  class="searchInput" name="gLstName" id="gLstName" style="width:334px" value="${info.GLstName?default('') }" <#if type != '01'>readonly</#if> maxlength='30'/>
 				</li>
 				<li>
-					<label for="addr">Address <span class="must">*</span></label>
+					<label for="addr">Address <#if type == "01"><span class="must">*</span></#if></label>
 					<input type="text"  class="searchInput" name="addr" id="addr" style="width:334px" value="${info.addr?default('') }" maxlength='100' <#if type != '01'>readonly</#if>/>
 				</li>
 				<li>
-					<label for="zip">Zipcode</label>
+					<label for="zip">Zipcode </label>
 					<input type="text"  class="searchInput" name="zip" id="zip" style="width:334px" value="${info.zip?default('') }" maxlength='6' <#if type != '01'>readonly</#if>/>
 				</li>
 				<li>
@@ -37,11 +39,11 @@
 					<input type="text" name="gEmail" id="gEmail" class="searchInput" style="width:334px" value="${info.GEmail?default('') }" maxlength='100' <#if type != '01'>readonly</#if>/>
 				</li>
 				<li>
-					<label for="gPhone">Phone <span class="must">*</span></label>
+					<label for="gPhone">Phone <#if type == "01"><span class="must">*</span></#if></label>
 					<input type="text" name="gPhone" id="gPhone" class="searchInput" style="width:334px" value="${info.GPhone?default('') }" maxlength='15' <#if type != '01'>readonly</#if>/>
 				</li>
 				<li>
-					<label for="gCellPhone">Cell Phone <span class="must">*</span></label>
+					<label for="gCellPhone">Cell Phone <#if type == "01"><span class="must">*</span></#if></label>
 					<input type="text" name="gCellPhone" id="gCellPhone" class="searchInput" style="width:334px" value="${info.GCellPhone?default('') }" maxlength='15' <#if type != '01'>readonly</#if>/>
 				</li>
 			</ul>
@@ -50,15 +52,15 @@
 			<h2 class="conTit">Student Information</h2>
 			<ul class="memSearch">
 				<li>
-					<label for="mFstName">First Name <span class="must">*</span></label>
+					<label for="mFstName">First Name <#if type != "03"><span class="must">*</span></#if></label>
 					<input type="text"  class="searchInput" style="width:334px" name="mFstName" id="mFstName" value="${info.MFstName?default('') }" <#if type == '03'>readonly</#if> maxlength='20'/>
 				</li>
 				<li>
-					<label for="mLstName">Last Name <span class="must">*</span></label>
+					<label for="mLstName">Last Name <#if type != "03"><span class="must">*</span></#if></label>
 					<input type="text"  class="searchInput" style="width:334px" name="mLstName" id="mLstName" value="${info.MLstName?default('') }" <#if type == '03'>readonly</#if> maxlength='30'/>
 				</li>
 				<li>
-					<label for="dobMonth">DOB <span class="must">*</span></label>
+					<label for="dobMonth">DOB <#if type != "03"><span class="must">*</span></#if></label>
 					<select name="dobMonth" id="dobMonth" style="width:98px;margin-right:3px" <#if type == '03'>onFocus='this.initialSelect = this.selectedIndex;' onChange='this.selectedIndex = this.initialSelect;'</#if>>
 						<#list months as month>
 							<option value="${month.monthNum }" <#if month.monthNum == currentMonth>selected</#if>>${month.monthStr }</option>
@@ -78,16 +80,16 @@
 					<a class="btn_calendar" id="dobDatePicker" style="cursor: pointer;">view calendar</a>
 				</li>
 				<li>
-					<label for="gradeCD">Grade <span class="must">*</span></label>
+					<label for="gradeCD">Grade <#if type != "03"><span class="must">*</span></#if></label>
 					<select name="gradeCD" id="gradeCD" <#if type == '03'>onFocus='this.initialSelect = this.selectedIndex;' onChange='this.selectedIndex = this.initialSelect;'</#if>>
 						<option value=""></option>
 					<#list grades as grade>
-						<option value="${grade.dtlCD }" <#if grade.dtlCD == info.gradeCD>selected</#if>>${grade.dtlCDNM }</option>
+						<option value="${grade.dtlCD }" <#if grade.dtlCD == info.gradeCD?default('')>selected</#if>>${grade.dtlCDNM }</option>
 					</#list>
 					</select>
 				</li>
 				<li>
-					<label for="schoolName">School <span class="must">*</span></label>
+					<label for="schoolName">School <#if type != "03"><span class="must">*</span></#if></label>
 					<input type="text" name="schoolName" id="schoolName" class="searchInput" style="width:334px" value="${info.schoolName?default('') }" maxlength='50' <#if type == '03'>readonly</#if>/>
 				</li>
 				<li>
@@ -103,24 +105,38 @@
 					<input type="text" name="ePhone" id="ePhone" class="searchInput" style="width:334px" value="${info.EPhone?default('') }" maxlength='15' <#if type == '03'>readonly</#if>/>
 				</li>
 				<li>
-					<label for="preferredYMD" class="tit">Preferred Time</label>
-					<input type="text" class="searchInput" style="width:170px" id="preferredYMD" name="preferredYMD">
-					<a href="#" class="btn_calendar">view calendar</a>
-					<select name="" id="" style="width:121px;margin-left:4px">
+					<label for="preferredYMD" class="tit">Preferred Time <span class="must">*</span></label>
+					<input type="text" class="searchInput" style="width:170px" id="preferredYMD" name="preferredYMD" readonly="readonly">
+					<input type="hidden" id="hiddenPrePicker"/>
+					<a class="btn_calendar" id="preferredYMDPicker" style="cursor: pointer;">view calendar</a>
+					<select name="preferredTimes" id="preferredTimes" style="width:121px;margin-left:4px">
 						<#list manageTimes as manageTime>
 							<option value="${manageTime.dtlCD }">${manageTime.dtlCDNM }</option>
 						</#list>
 					</select>
 				</li>
 				<li>
-					<label for="" class="tit">Notes</label>
-					<input type="text" class="searchInput" style="width:334px">
+					<label for="preferredNotes" class="tit">Notes <span class="must">*</span></label>
+					<input type="text" class="searchInput" style="width:334px" name="preferredNotes" id="preferredNotes">
 				</li>
 				<li>
-					<label for="" class="tit"><em>Subject Interested</em></label>
+					<label for="subj" class="tit"><em>Subject Interested <span class="must">*</span></em></label>
 					<div style="width:345px; float:right;">
 					<#list subjectOfDepts as subject>
-						<span class="chk_s01"><input type="checkbox" name="subj" value="${subject.subj }" id="chk${subject_index+1 }"><label style="width: 50px;" for="chk${subject_index+1 }">${subject.subj }</label></span>
+						<#if type == "03">
+							<#assign check = '0'>
+							<#list info.subj?split(',') as subj>
+								<#if subj == subject.subj>
+									<span class="chk_s01"><input type="checkbox" name="subj" value="${subject.subj }" id="chk${subject_index+1 }" disabled><label style="width: 50px;" for="chk${subject_index+1 }">${subject.subj }</label></span>
+									<#assign check = '1'>
+								</#if>
+							</#list>
+							<#if check != '1'>
+								<span class="chk_s01"><input type="checkbox" name="subj" value="${subject.subj }" id="chk${subject_index+1 }" ><label style="width: 50px;" for="chk${subject_index+1 }">${subject.subj }</label></span>
+							</#if>
+						<#else>
+							<span class="chk_s01"><input type="checkbox" name="subj" value="${subject.subj }" id="chk${subject_index+1 }" ><label style="width: 50px;" for="chk${subject_index+1 }">${subject.subj }</label></span>
+						</#if>
 					</#list>
 					</div>
 				</li>

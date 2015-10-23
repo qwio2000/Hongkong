@@ -19,6 +19,7 @@ import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.*;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.diagnosis.*;
+import com.jeiglobal.hk.service.member.*;
 import com.jeiglobal.hk.utils.*;
 
 /**
@@ -43,6 +44,9 @@ public class AppointmentController {
 	
 	@Autowired
 	private MessageSourceAccessor messageSourceAccesor;
+	
+	@Autowired
+	private MemberReportService memberReportService;
 		
 	//한 페이지에 출력할 레코드 개수
 	@Value("${page.size}")
@@ -143,8 +147,7 @@ public class AppointmentController {
 		List<CenterState> states = commonService.getCenterStates(loginInfo.getJisaCD());
 		//가맹점 시간 리스트
 		List<CodeDtl> manageTimes = commonService.getMemberManageTimes(loginInfo.getJisaCD(), loginInfo.getDeptCD());
-		//가맹점 취급 과목 리스트
-		List<SubjectOfDept> subjectOfDepts = commonService.getSubjectsOfDept(loginInfo.getJisaCD(),loginInfo.getDeptCD());
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
 		if("02".equals(type)){
@@ -164,6 +167,13 @@ public class AppointmentController {
 			}
 		}else{
 			appointment = new MemAppointment();
+		}
+		List<SubjectOfDept> subjectOfDepts = null;
+		if("03".equals(type) && appointment.getMemKey() != null && !appointment.getMemKey().isEmpty()){
+			//회원이 진행 중인 과목 리스트를 제외한 가맹점 취급 과목 리스트
+			subjectOfDepts = memberReportService.getMemberSubjects(appointment.getMemKey(), loginInfo);
+		}else{
+			subjectOfDepts = commonService.getSubjectsOfDept(loginInfo.getJisaCD(),loginInfo.getDeptCD());
 		}
 		model.addAttribute("info", appointment);
 		int currentYear = cal.get(Calendar.YEAR);
@@ -190,5 +200,16 @@ public class AppointmentController {
 		return returnPage;
 	}
 	
+	@RequestMapping(value={"/fa/diagnosis/appointment"}, method=RequestMethod.POST)
+	public String addMemAppointment(Model model, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request, MemAppointment memAppointment,
+			String type, int idx, String dobMonth, String dobDay, String dobYear) throws ParseException{
+		log.debug("before : {}", memAppointment.toString());
+		String workId = CommonUtils.getWorkId(request);
+		memAppointment = appointmentService.getMemAppointment(type, memAppointment, loginInfo, workId, dobYear, dobMonth, dobDay, idx);
+		appointmentService.addMemAppointment(memAppointment);
+		model.addAttribute("message", messageSourceAccesor.getMessage("diagnosis.appointment.info.insert"));
+		model.addAttribute("url", "/fa/diagnosis/appointment");
+		return "alertAndRedirect";
+	}
 
 }

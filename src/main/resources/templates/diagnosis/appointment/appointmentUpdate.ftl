@@ -14,7 +14,7 @@
 				<li>
 					<label for="preferredYMD" class="tit">Preferred Time</label>
 					<input type="text" class="searchInput" style="width:220px" name="preferredYMD" id="preferredYMD" value="${appointment.convPreferredYMD }" readonly="readonly">
-					<input type="hidden" id="hiddenPicker"/>
+					<input type="hidden" id="hiddenPrePicker"/>
 					<a class="btn_calendar" id="preferredYMDPicker" style="cursor: pointer;">view calendar</a>
 					<select name="preferredTimes" id="preferredTimes" style="width:121px;margin-left:4px">
 						<#list manageTimes as manageTime>
