@@ -206,6 +206,7 @@ public class AppointmentController {
 		log.debug("before : {}", memAppointment.toString());
 		String workId = CommonUtils.getWorkId(request);
 		memAppointment = appointmentService.getMemAppointment(type, memAppointment, loginInfo, workId, dobYear, dobMonth, dobDay, idx);
+		log.debug("after : {}", memAppointment.toString());
 		appointmentService.addMemAppointment(memAppointment);
 		model.addAttribute("message", messageSourceAccesor.getMessage("diagnosis.appointment.info.insert"));
 		model.addAttribute("url", "/fa/diagnosis/appointment");

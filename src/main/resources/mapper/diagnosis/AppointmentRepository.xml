@@ -87,6 +87,6 @@
 		INSERT INTO globalbiz.MemAppointment
 			(type, apmRegistYMD, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, preferredYMD, preferredTimes, preferredNotes, apmStatusCD, subj, memKey, registYMD, freeDigYMD, deptCD, jisaCD, registWhy, registWhyEtc, registHow, registHowEtc, regID, regDate, updID, updDate)
 		VALUES
-			(#{type}, #{apmRegistYMD}, #{mFstName}, #{mLstName}, #{mBirthDay}, #{gradeCD}, #{schoolName}, #{mEmail}, #{eContact}, #{ePhone}, #{gFstName}, #{gLstName}, #{city}, #{stateCD}, #{zip}, #{addr}, #{gEmail}, #{gPhone}, #{gCellPhone}, #{preferredYMD}, #{preferredTimes}, #{preferredNotes}, #{apmStatusCD}, #{subj}, #{memKey}, #{registYMD}, #{freeDigYMD}, #{deptCD}, #{jisaCD}, #{registWhy}, #{registWhyEtc}, #{registHow}, #{registHowEtc}, #{regID}, #{regDate}, #{updID}, #{updDate})
+			(#{type}, #{apmRegistYMD}, #{mFstName}, #{mLstName}, #{mBirthDay}, #{gradeCD}, #{schoolName}, #{mEmail}, #{eContact}, #{ePhone}, #{gFstName}, #{gLstName}, #{city}, #{stateCD}, #{zip}, #{addr}, #{gEmail}, #{gPhone}, #{gCellPhone}, #{preferredYMD}, #{preferredTimes}, #{preferredNotes}, #{apmStatusCD}, #{subj}, #{memKey}, #{registYMD}, #{freeDigYMD}, #{deptCD}, #{jisaCD}, #{registWhy}, IFNULL(#{registWhyEtc},''), #{registHow}, IFNULL(#{registHowEtc},''), #{regID}, #{regDate}, #{updID}, #{updDate})
 	</insert>
 </mapper>

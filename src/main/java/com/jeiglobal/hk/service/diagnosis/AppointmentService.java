@@ -132,7 +132,6 @@ public class AppointmentService {
 		Date currentDate = new Date();
 		memAppointment.setType(("02".equals(type)?type:"01"));
 		memAppointment.setApmRegistYMD(CommonUtils.getCurrentYMD());
-		memAppointment.setPreferredYMD(CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", memAppointment.getPreferredYMD()));
 		memAppointment.setMBirthDay(dobYear + "-" + dobMonth + "-" + dobDay);
 		memAppointment.setDeptCD(loginInfo.getDeptCD());
 		memAppointment.setJisaCD(loginInfo.getJisaCD());
@@ -143,23 +142,28 @@ public class AppointmentService {
 		memAppointment.setRegistYMD("");
 		memAppointment.setFreeDigYMD("");
 		
-		if("01".equals(type)){
+		if("01".equals(type) || "04".equals(type) || "02".equals(type)){
 			memAppointment.setApmStatusCD("02");
 			memAppointment.setMemKey("");
 		}else if("03".equals(type)){
 			Map<String, String> map = appointmentRepository.findMemAppointmentStatusAndMemKeyByIdx(idx);
 			memAppointment.setApmStatusCD(map != null && !map.isEmpty() ? map.get("apmStatusCD") : "02");
 			memAppointment.setMemKey(map != null && !map.isEmpty() ? map.get("memKey") : "");
-		}else if("04".equals(type)){
-			memAppointment.setApmStatusCD("02");
-			memAppointment.setMemKey("");
 		}
 		
 		if(!"02".equals(type)){
+			memAppointment.setPreferredYMD(CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", memAppointment.getPreferredYMD()));
 			memAppointment.setRegistWhy("");
 			memAppointment.setRegistWhyEtc("");
 			memAppointment.setRegistHow("");
 			memAppointment.setRegistHowEtc("");
+		}else{
+			memAppointment.setSchoolName("");
+			memAppointment.setEContact("");
+			memAppointment.setEPhone("");
+			memAppointment.setPreferredYMD("");
+			memAppointment.setPreferredTimes("");
+			memAppointment.setPreferredNotes("");
 		}
 		return memAppointment;
 	}

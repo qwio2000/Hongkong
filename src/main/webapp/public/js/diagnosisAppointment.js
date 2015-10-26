@@ -235,9 +235,27 @@ $(function(){
 	});
 	$("#registBtn").click(function(){
 		var type = $('#type').val();
-		submitValid(type);
+		if(!submitValid(type)){
+			return;
+		}
 		console.log($("#registForm").serialize());
 		$("#registForm").submit();
+	});
+	$('input[name=registWhy]').click(function(){
+		if(this.value == '99'){
+			$("#registWhyEtc").attr("disabled", false);
+		}else{
+			$("#registWhyEtc").val('');
+			$("#registWhyEtc").attr("disabled", true);
+		}
+	});
+	$('input[name=registHow]').click(function(){
+		if(this.value == '99'){
+			$("#registHowEtc").attr("disabled", false);
+		}else{
+			$("#registHowEtc").val('');
+			$("#registHowEtc").attr("disabled", true);
+		}
 	});
 });
 
@@ -289,32 +307,32 @@ function appointmentUpdateSubmit(){
 
 function submitValid(type){
 	
-	if(type == "01"){
+	if(type == "01" || type == "02"){
 		//학부모 이름
 		if(!$.required('gFstName','학부모 First Name')){
 			$("#gFstName").focus();
-			return;
+			return false;
 		}
 		if(!$.required('gLstName','학부모 Last Name')){
 			$("#gLstName").focus();
-			return;
+			return false;
 		}
 		//학부모 주소
 		if(!$.required('addr','주소')){
 			$("#addr").focus();
-			return;
+			return false;
 		}
 		//학부모 연락처
 		if($.trim($("#gPhone").val()) == '' && $.trim($("#gCellPhone").val()) == ''){
 			alert('학부모 연락처를 하나 이상 입력해 주십시오.');
 			$("#gPhone").focus();
-			return;
+			return false;
 		}
 		//학부모 이메일
 		if($.trim($("#gEmail").val()) != ''){
 			if(!$.emailCheck("gEmail")){
 				$("#gEmail").focus();
-				return;
+				return false;
 			}
 		}
 	}
@@ -322,80 +340,83 @@ function submitValid(type){
 		//회원 이름
 		if(!$.required('mFstName','회원 First Name')){
 			$("#mFstName").focus();
-			return;
+			return false;
 		}
 		if(!$.required('mLstName','회원 Last Name')){
 			$("#mLstName").focus();
-			return;
+			return false;
 		}
 		//회원 생년월일
 		if(!$.required('dobMonth','생년월일 중 월')){
 			$("#dobMonth").focus();
-			return;
+			return false;
 		}
 		if(!$.required('dobDay','생년월일 중 일')){
 			$("#dobDay").focus();
-			return;
+			return false;
 		}
 		if(!$.required('dobYear','생년월일 중 년')){
 			$("#dobYear").focus();
-			return;
+			return false;
 		}
 		//회원 학년
 		if(!$.required('gradeCD','학년')){
 			$("#gradeCD").focus();
-			return;
+			return false;
 		}
-		//회원 학교
-		if(!$.required('schoolName','학교 명')){
-			$("#schoolName").focus();
-			return;
+		if(type != "02"){
+			//회원 학교
+			if(!$.required('schoolName','학교 명')){
+				$("#schoolName").focus();
+				return false;
+			}
 		}
 		//회원 생년월일 년도
 		if($.trim($("#dobYear").val()) == ''){
 			alert('회원의 생일을 입력해 주세요.');
 			$("#dobYear").focus();
-			return;
+			return false;
 		}else if($.trim($("#dobYear").val()).length != 4){
 			alert('년도를 4자리로 입력해주세요 ex)2000');
 			$("#dobYear").focus();
-			return;
+			return false;
 		}
 		var today = new Date();
 		var date = new Date($.trim($("#dobYear").val()),$("#dobMonth").val()-1,$("#dobDay").val());
 		if(today < date){
 			alert('DOB가 오늘 보다 클 수는 없습니다.');
-			return;
+			return false;
 		}
 		//회원 이메일
 		if($.trim($("#mEmail").val()) != ''){
 			if(!$.emailCheck("mEmail")){
 				$("#mEmail").focus();
-				return;
+				return false;
 			}
 		}
 		
 	}
-	
-	//입회 상담 예약 날짜
-	if(!$.required('preferredYMD','입회상담 예약 날짜')){
-		$("#preferredYMD").focus();
-		return;
-	}
-	//입회상담 예약 시간
-	if(!$.required('preferredTimes','입회상담 예약 시간')){
-		$("#preferredTimes").focus();
-		return;
-	}
-	//입회상담 예약 내용
-	if(!$.required('preferredNotes','입회상담 예약 내용')){
-		$("#preferredNotes").focus();
-		return;
-	}
-	
-	if(!$("input:checkbox[name='subj']").is(":checked")){
-		alert('입회 상담을 원하는 과목을 선택해 주십시오');
-		return;
+	if(type != "02"){
+		//입회 상담 예약 날짜
+		if(!$.required('preferredYMD','입회상담 예약 날짜')){
+			$("#preferredYMD").focus();
+			return false;
+		}
+		//입회상담 예약 시간
+		if(!$.required('preferredTimes','입회상담 예약 시간')){
+			$("#preferredTimes").focus();
+			return false;
+		}
+		//입회상담 예약 내용
+		if(!$.required('preferredNotes','입회상담 예약 내용')){
+			$("#preferredNotes").focus();
+			return false;
+		}
+		
+		if(!$("input:checkbox[name='subj']").is(":checked")){
+			alert('입회 상담을 원하는 과목을 선택해 주십시오');
+			return false;
+		}
 	}
 	
 	return true;
