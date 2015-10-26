@@ -1,5 +1,6 @@
 package com.jeiglobal.hk.controller.diagnosis;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,15 +47,22 @@ public class FormativeevaluationController {
 	@RequestMapping(value={"/fa/diagnosis/formativeevaluationMpi"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String diagnosisMpi(Model model, @ModelAttribute LoginInfo loginInfo, String memKey, String subj, String yy, String mm, String mfstname, String mlstname) {
 		log.debug("Getting formativeevaluationMpi Page, UserType : {}");
+		
+		//header에 포함할 스크립트 
+		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("formativeevaluation");		
+		model.addAttribute("headerScript", headerScript);	
+		
+		
 		String jisaCD = loginInfo.getJisaCD();
-	
 		
 		List<FormativeevaluationDto.FormativeevaluationWolJinDo> formativeevaluationWolJinDo1 = formativeevaluation.getFormativeevaluationWolJinDo(jisaCD,memKey,subj,yy,mm,"1");
-		/*List<FormativeevaluationDto.FormativeevaluationWolJinDo> formativeevaluationWolJinDo2 = formativeevaluation.getFormativeevaluationWolJinDo(jisaCD,memKey,subj,yy,mm,"2");
+		List<FormativeevaluationDto.FormativeevaluationWolJinDo> formativeevaluationWolJinDo2 = formativeevaluation.getFormativeevaluationWolJinDo(jisaCD,memKey,subj,yy,mm,"2");
 		List<FormativeevaluationDto.FormativeevaluationWolJinDo> formativeevaluationWolJinDo3 = formativeevaluation.getFormativeevaluationWolJinDo(jisaCD,memKey,subj,yy,mm,"3");
 		List<FormativeevaluationDto.FormativeevaluationWolJinDo> formativeevaluationWolJinDo4 = formativeevaluation.getFormativeevaluationWolJinDo(jisaCD,memKey,subj,yy,mm,"4");
 		List<FormativeevaluationDto.FormativeevaluationWolJinDo> formativeevaluationWolJinDo5 = formativeevaluation.getFormativeevaluationWolJinDo(jisaCD,memKey,subj,yy,mm,"5");
-		*/
+		
 		model.addAttribute("memKey", memKey);
 		model.addAttribute("subj", subj);
 		model.addAttribute("yy", yy);
@@ -62,10 +70,10 @@ public class FormativeevaluationController {
 		model.addAttribute("mfstname", mfstname);
 		model.addAttribute("mlstname", mlstname);
 		model.addAttribute("wolJinDo1", formativeevaluationWolJinDo1);
-	/*	model.addAttribute("wolJinDo2", formativeevaluationWolJinDo2);
+		model.addAttribute("wolJinDo2", formativeevaluationWolJinDo2);
 		model.addAttribute("wolJinDo3", formativeevaluationWolJinDo3);
 		model.addAttribute("wolJinDo4", formativeevaluationWolJinDo4);
-		model.addAttribute("wolJinDo5", formativeevaluationWolJinDo5);*/
+		model.addAttribute("wolJinDo5", formativeevaluationWolJinDo5);
 		return "diagnosis/formativeevaluation/input";
 	}
 	
