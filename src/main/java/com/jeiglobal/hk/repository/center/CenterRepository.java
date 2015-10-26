@@ -6,6 +6,7 @@ import java.util.Map;
 import com.jeiglobal.hk.domain.center.CenterCommentCallList;
 import com.jeiglobal.hk.domain.center.CenterOpenSubjList;
 import com.jeiglobal.hk.domain.center.CenterSearchList;
+import com.jeiglobal.hk.domain.center.CenterTypeList;
 import com.jeiglobal.hk.domain.center.CenterView;
 import com.jeiglobal.hk.domain.center.MemFeeInfoList;
 import com.jeiglobal.hk.domain.center.RtyChargeGroupList;
@@ -28,6 +29,7 @@ public interface CenterRepository {
 		// 회비 정보 SP
 		public List<MemFeeInfoList> memFeeInfoList(Map<String, Object> param);
 		public List<RtyChargeGroupList> rtyChargeGroupList(Map<String, Object> param);
+		public List<CenterTypeList> centerTypeList(Map<String, Object> param);
 
 		
 		// 가맹점 운영시간 셋팅/변경
@@ -36,6 +38,8 @@ public interface CenterRepository {
 		// 상품 정보
 		public List<CenterOpenSubjList> centerOpenSubjList(Map<String, Object> param);
 		public String centerOpenSubjSave(Map<String, Object> param);
+		// 센터 등록
+		public String centerSave(Map<String, Object> param);
 
 		/**
 		 * Center CommentCall 정보

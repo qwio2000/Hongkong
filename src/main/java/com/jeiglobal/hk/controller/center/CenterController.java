@@ -30,6 +30,7 @@ import com.jeiglobal.hk.domain.auth.LoginInfo;
 import com.jeiglobal.hk.domain.center.CenterCommentCallList;
 import com.jeiglobal.hk.domain.center.CenterOpenSubjList;
 import com.jeiglobal.hk.domain.center.CenterSearchList;
+import com.jeiglobal.hk.domain.center.CenterTypeList;
 import com.jeiglobal.hk.domain.center.CenterView;
 import com.jeiglobal.hk.domain.center.MemFeeInfoList;
 import com.jeiglobal.hk.domain.center.RtyChargeGroupList;
@@ -97,7 +98,7 @@ public class CenterController {
 		@RequestParam(defaultValue="") String deptName, 
 		@RequestParam(defaultValue="") String city, 
 		@RequestParam(defaultValue="") String stateCD, 
-		@RequestParam(defaultValue="1") String statusCD){		
+		@RequestParam(defaultValue="") String statusCD){		
 		
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("centerSearch");
@@ -117,7 +118,7 @@ public class CenterController {
 		@RequestParam(defaultValue="") String deptName, 
 		@RequestParam(defaultValue="") String city, 
 		@RequestParam(defaultValue="") String stateCD, 
-		@RequestParam(defaultValue="1") String statusCD, 
+		@RequestParam(defaultValue="") String statusCD, 
 		@RequestParam(defaultValue="") String sortKind, 
 		@RequestParam(defaultValue="") String sort){
 		
@@ -240,7 +241,6 @@ public class CenterController {
 	// 로열티그룹 정보 팝업
 	@RequestMapping(value={"/ja/centers/royaltyGroupInfo"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCenterRoyaltyGroupInfo(Model model, @ModelAttribute LoginInfo loginInfo){
-
 		List<RtyChargeGroupList> dataRtyChargeGroupList = centerService.getRtyChargeGroupInfoList(loginInfo.getJisaCD());
 		log.debug("Getting centerView Page, dataRtyChargeGroupList : {}", dataRtyChargeGroupList);
 		
@@ -259,21 +259,53 @@ public class CenterController {
 	 */ 
 	@RequestMapping(value={"/ja/centers/centerRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCenterRegist(Model model, @ModelAttribute LoginInfo loginInfo){
-		
+		List<CenterTypeList> dataCenterTypeList = centerService.getCenterTypeList(loginInfo.getJisaCD());		
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("centerRegist");
 		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("rtyTypeList", commonService.getCodeDtls("0304", loginInfo.getJisaCD(), 1, "Y"));
 		model.addAttribute("centerStates", commonService.getCenterStates(loginInfo.getJisaCD()));
+		model.addAttribute("centerTypeList", dataCenterTypeList);		
+		
 		return "center/centerRegist";
 	}	
-	@RequestMapping(value={"/ja/centers/centerInfoEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getCenterInfoEdit(Model model, @ModelAttribute LoginInfo loginInfo){
+	@RequestMapping(value={"/ja/centers/centerSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String getCenterSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
+		String deptCD, String deptName, String deptType, String memType, String feeType, String empFstName, String empLstName,
+		String addr, String zip, String city, String stateCD, String email, String phone, String fax, 
+		String contractTerm, String contractDate, String openDate, String rtyType, String statusCD){
 		
+		String workId = CommonUtils.getWorkId(request);
+		String rerult = centerService.getCenterSave(loginInfo.getJisaCD(), deptCD, deptName, deptType, memType, feeType, empFstName, empLstName,addr, zip, city, stateCD, email, phone, fax, contractTerm, contractDate, openDate, rtyType, statusCD, workId);
+		String msgCode = "";
+		if("N1".equals(rerult)){
+			msgCode = "user.save.error.n1";
+		}else if("N2".equals(rerult)){
+			msgCode = "user.save.error.n2";
+		}else{
+			msgCode = "common.save.success";
+		}
+
+		return messageSource.getMessage(msgCode);
+	}	
+	@RequestMapping(value={"/ja/centers/centerInfoEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getCenterInfoEdit(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD){
+		List<CenterTypeList> dataCenterTypeList = centerService.getCenterTypeList(loginInfo.getJisaCD());
+		CenterView dataCenterInfo = centerService.getCenterView(loginInfo.getJisaCD(), deptCD);
+		String chk = (dataCenterInfo == null)? "N" : "Y";	
 		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("centerInfoEdit");
+		headerScript.add("centerRegist");
 		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("statusCDList", commonService.getCodeDtls("0307", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("rtyTypeList", commonService.getCodeDtls("0304", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("centerStates", commonService.getCenterStates(loginInfo.getJisaCD()));
+		model.addAttribute("centerTypeList", dataCenterTypeList);
+		model.addAttribute("centerInfo", dataCenterInfo);
+		model.addAttribute("chk", chk);
 		return "center/centerInfoEdit";
 	}
+	
 	
 		
 		

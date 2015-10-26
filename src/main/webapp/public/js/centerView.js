@@ -58,8 +58,11 @@ $(function(){
 		
 		
 		// User 등록
-		openAddNewUser:function(deptCD){
-			//var url = "/ja/centers/userRegist?deptCD="+deptCD+"&userType=FA";
+		openAddNewUser:function(deptCD, addUserFlag){
+			if(addUserFlag != "Y"){
+				alert("사용자 등록 권한이 없습니다.\n가맹점 오픈일 이후부터 사용자 등록이 가능합니다.");
+				return;
+			}
 			var url = "/ja/centers/userRegist?deptCD="+deptCD;
 			$.openPop(url, "userRegist","menubar=no,toolbar=no,status=no,resizable=yes,scrollbars=yes,width=600,height=700");
 		},

@@ -39,7 +39,7 @@ public class CenterView {
 	private String contractDate;
 	private String openDate;
 	private String closeDate;
-	private String contractTerm;
+	private int contractTerm;
 	private String oHoursStart;
 	private String oHoursEnd;
 	private String cHoursStart;
@@ -54,6 +54,12 @@ public class CenterView {
 	private String memTypeName;
 	private String feeTypeName;
 	private String rtyTypeName;
+	private String statusName;
+	
+	private String addUserFlag;  // 사용자 등록 가능 여부
+	private String openSubjFlag; // 상품 설정 여부
+	private String hoursFlag;	// 운영시간 설정 여부
+	
 	
 	
 }
