@@ -30,16 +30,22 @@
 						<span class="radio_wrap"><input type="radio" value="N" name="wolhak" id="visible2" ><label class="radio_label" for="visible2"> No</label></span>
 					</td>
 				</tr>
+				<input type="hidden" name="jisaCD" id="jisaCD" value="${jisaCD }">
+				<input type="hidden" name="deptCD" id="deptCD" value="${deptCD }">
+				<input type="hidden" name="memKey" id="memKey" value="${memKey }">
+				<input type="hidden" name="subj" id="subj" value="${subj }">
+				<input type="hidden" name="yy" id="yy" value="${yy }">
+				<input type="hidden" name="mm" id="mm" value="${mm }">				
 			</tbody>
 		</table>
 	</div>
 	<div class="tbl01">
 		<table>
 			<colgroup>
-				<col />
-				<col />
+				<col width="40"/>
+				<col width="40"/>
 				<#list 1.. 16 as juCntIndex>
-					<col width="60" />		
+					<col width="48" />		
 				</#list>
 				
 			</colgroup>
@@ -47,8 +53,9 @@
 				<tr class="line">
 					<th class="no_line">주차</th>
 					<th>진도</th>
-					<#list 1.. 18 as juCntIndex>
-					<th>${juCntIndex_index+1 }</th>					
+
+					<#list noArrer as noArrerIndex>
+					<th>${noArrerIndex}</th>					
 					</#list>
 				</tr>
 			</thead>
@@ -66,7 +73,7 @@
 								<td>
 									<select name="setsubq11${wolJinDo1Index_index }" id="setsubq11${wolJinDo1Index_index }" style="width:50px">
 									<#list 0.. wolJinDo1Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo1Index.wk }||${wolJinDo1Index.wkseq }||${wolJinDo1Index.setques }||${wolJinDo1Index.setsubq }||${setsubqIndex_index}">${setsubqIndex_index }</option>
+										<option value="${wolJinDo1Index.wk },${wolJinDo1Index.wkseq },${wolJinDo1Index.setques },${wolJinDo1Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
 									</#list>
 									</select>
 								</td>
@@ -95,7 +102,7 @@
 								<td>
 									<select name="setsubq12${wolJinDo1Index_index }" id="setsubq12${wolJinDo1Index_index }" style="width:50px">
 									<#list 0.. wolJinDo1Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo1Index.wk }||${wolJinDo1Index.wkseq }||${wolJinDo1Index.setques }||${wolJinDo1Index.setsubq }||${setsubqIndex_index}">${setsubqIndex_index }</option>
+										<option value="${wolJinDo1Index.wk },${wolJinDo1Index.wkseq },${wolJinDo1Index.setques },${wolJinDo1Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
 									</#list>
 									</select>
 								</td>
@@ -127,7 +134,7 @@
 								<td>
 									<select name="setsubq21${wolJinDo2Index_index }" id="setsubq21${wolJinDo2Index_index }" style="width:50px">
 									<#list 0.. wolJinDo2Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo2Index.wk }||${wolJinDo2Index.wkseq }||${wolJinDo2Index.setques }||${wolJinDo2Index.setsubq }||${setsubqIndex_index}">${setsubqIndex_index }</option>
+										<option value="${wolJinDo2Index.wk },${wolJinDo2Index.wkseq },${wolJinDo2Index.setques },${wolJinDo2Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
 									</#list>
 									</select>
 								</td>
@@ -156,7 +163,7 @@
 								<td>
 									<select name="setsubq22${wolJinDo2Index_index }" id="setsubq22${wolJinDo2Index_index }" style="width:50px">
 									<#list 0.. wolJinDo2Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo2Index.wk }||${wolJinDo2Index.wkseq }||${wolJinDo2Index.setques }||${wolJinDo2Index.setsubq }||${setsubqIndex_index}">${setsubqIndex_index }</option>
+										<option value="${wolJinDo2Index.wk },${wolJinDo2Index.wkseq },${wolJinDo2Index.setques },${wolJinDo2Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
 									</#list>
 									</select>
 								</td>
@@ -188,7 +195,7 @@
 								<td>
 									<select name="setsubq31${wolJinDo3Index_index }" id="setsubq31${wolJinDo3Index_index }" style="width:50px">
 									<#list 0.. wolJinDo3Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo3Index.wk }||${wolJinDo3Index.wkseq }||${wolJinDo3Index.setques }||${wolJinDo3Index.setsubq }||${setsubqIndex_index}">${setsubqIndex_index }</option>
+										<option value="${wolJinDo3Index.wk },${wolJinDo3Index.wkseq },${wolJinDo3Index.setques },${wolJinDo3Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
 									</#list>
 									</select>
 								</td>
@@ -217,7 +224,7 @@
 								<td>
 									<select name="setsubq32${wolJinDo3Index_index }" id="setsubq32${wolJinDo3Index_index }" style="width:50px">
 									<#list 0.. wolJinDo3Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo3Index.wk }||${wolJinDo3Index.wkseq }||${wolJinDo3Index.setques }||${wolJinDo3Index.setsubq }||${setsubqIndex_index}">${setsubqIndex_index }</option>
+										<option value="${wolJinDo3Index.wk },${wolJinDo3Index.wkseq },${wolJinDo3Index.setques },${wolJinDo3Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
 									</#list>
 									</select>
 								</td>
@@ -249,7 +256,7 @@
 								<td>
 									<select name="setsubq41${wolJinDo4Index_index }" id="setsubq41${wolJinDo4Index_index }" style="width:50px">
 									<#list 0.. wolJinDo4Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo4Index.wk }||${wolJinDo4Index.wkseq }||${wolJinDo4Index.setques }||${wolJinDo4Index.setsubq }||${setsubqIndex_index}">${setsubqIndex_index }</option>
+										<option value="${wolJinDo4Index.wk },${wolJinDo4Index.wkseq },${wolJinDo4Index.setques },${wolJinDo4Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
 									</#list>
 									</select>
 								</td>
@@ -278,7 +285,7 @@
 								<td>
 									<select name="setsubq42${wolJinDo4Index_index }" id="setsubq42${wolJinDo4Index_index }" style="width:50px">
 									<#list 0.. wolJinDo4Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo4Index.wk }||${wolJinDo4Index.wkseq }||${wolJinDo4Index.setques }||${wolJinDo4Index.setsubq }||${setsubqIndex_index}">${setsubqIndex_index }</option>
+										<option value="${wolJinDo4Index.wk },${wolJinDo4Index.wkseq },${wolJinDo4Index.setques },${wolJinDo4Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
 									</#list>
 									</select>
 								</td>
@@ -310,7 +317,7 @@
 								<td>
 									<select name="setsubq51${wolJinDo5Index_index }" id="setsubq51${wolJinDo5Index_index }" style="width:50px">
 									<#list 0.. wolJinDo5Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo5Index.wk }||${wolJinDo5Index.wkseq }||${wolJinDo5Index.setques }||${wolJinDo5Index.setsubq }||${setsubqIndex_index}">${setsubqIndex_index }</option>
+										<option value="${wolJinDo5Index.wk },${wolJinDo5Index.wkseq },${wolJinDo5Index.setques },${wolJinDo5Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
 									</#list>
 									</select>
 								</td>
@@ -339,7 +346,7 @@
 								<td>
 									<select name="setsubq52${wolJinDo5Index_index }" id="setsubq52${wolJinDo5Index_index }" style="width:50px">
 									<#list 0.. wolJinDo5Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo5Index.wk }||${wolJinDo5Index.wkseq }||${wolJinDo5Index.setques }||${wolJinDo5Index.setsubq }||${setsubqIndex_index}">${setsubqIndex_index }</option>
+										<option value="${wolJinDo5Index.wk },${wolJinDo5Index.wkseq },${wolJinDo5Index.setques },${wolJinDo5Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
 									</#list>
 									</select>
 								</td>

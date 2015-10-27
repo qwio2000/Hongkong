@@ -222,6 +222,25 @@ public class CommonUtils {
 	}
 	
 	/**
+	 * 문자열 오른쪽 자르는 함수
+	 * @param sText : Source 문자열
+	 * @param iTextLenth : 자르고자 하는 길이
+	 * @return String
+	 */
+	public static String LeftString(String sText, int iTextLenth){
+		String sConvertText;
+
+	    if (sText.length() < iTextLenth)
+	    {
+	        iTextLenth= sText.length();
+	    }
+
+	    sConvertText= sText.substring(0, iTextLenth);
+
+	    return sConvertText;
+	}
+	
+	/**
 	 * byte 단위로 substring
 	 * @param target
 	 * @param beginIndex 문자열 자를 시작 인덱스

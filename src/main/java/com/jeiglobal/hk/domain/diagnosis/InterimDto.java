@@ -2,9 +2,9 @@ package com.jeiglobal.hk.domain.diagnosis;
 
 import lombok.Data;
 
-public class FormativeevaluationDto {
+public class InterimDto {
 	@Data
-	public static class FormativeevaluationWolJinDo {
+	public static class InterimWolJinDo {
 
 		private String subj;
 		private String memkey;

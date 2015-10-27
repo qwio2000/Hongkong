@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,6 +140,7 @@ public class DiagnosisController {
 		log.debug("Getting ippr Popup Page");
 		String jisaCD = loginInfo.getJisaCD();
 		
+		
 		DiagnosisDto.DiagnosisInputippr diagnosisInputippr = diagnosisService.getDiagnosisInputippr(jisaCD, memKey, subj, freejindan);	 //회원정보
 		
 		List<GradeOfSubject> gradeOfSubject = commonService.getGradeOfSubject(jisaCD, subj, "Y", "Y");   //등급정보
@@ -157,7 +160,7 @@ public class DiagnosisController {
 	
 	// ippr 오답 입력
 	@RequestMapping(value={"/fa/diagnosis/ipprinput"}, method={RequestMethod.POST,RequestMethod.HEAD})  
-	public String diagnosisIpprinput(Model model, @ModelAttribute LoginInfo loginInfo,String memKey, String jisaCD, String deptCd, String memName, String gradeNM, String gradeCD,  String subjname 
+	public String diagnosisIpprinput(Model model, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request,String memKey, String jisaCD, String deptCd, String memName, String gradeNM, String gradeCD,  String subjname 
 			, String leveldung, String inputdate, String mBirthDay, String testType, String readchk, String nomr, String yoil, String studyNum, String bookNum) {
 		log.debug("Getting ipprinput List Page");
 		//header에 포함할 스크립트 
@@ -170,7 +173,9 @@ public class DiagnosisController {
 		DeptMst deptMst = commonService.getDeptMstByDeptCD(deptCd);
 		String empKey = deptMst.getEmpKey();  // 원장번호
 		String empName = deptMst.getEmpFstName()+" "+deptMst.getEmpLstName();  // 원장이름
-		String userId = loginInfo.getUserId();		//작업자
+		
+		String userId = CommonUtils.getWorkId(request); //작업자		
+		
 	
 
 		String yoil1 = "";
@@ -323,7 +328,7 @@ public class DiagnosisController {
 	
 		
 		
-		if ("N".equals(omrOdabOK)) {
+		if (!"Y".equals(omrOdabOK)) {
 			alertMsg = messageSourceAccesor.getMessage("Ippr.Odab.Insert.Error");
 		}
 	

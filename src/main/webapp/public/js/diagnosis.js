@@ -230,7 +230,7 @@ $(function(){
 			
 			var searchUrl = "/fa/diagnosis/ipprOdabSave";
 			var paramData = {"jisaCD":JisaCD, "omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "omrGrd":OmrGrd, "munchk":munarrer, "omrKind":OmrKind};		
-			console.log(munarrer);
+//			console.log(munarrer);
 			 $.ajax({
 				url:searchUrl,
 				type:"GET",
