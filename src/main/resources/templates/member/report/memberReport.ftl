@@ -116,7 +116,7 @@
 										<span class="info_line">Drop Date : ${subj.convertDropYMD?default('') }</span>
 										<!-- 퇴회 상태 IPPR -->
 										<#if subj.digYN == 'Y' && subj.omrDate != ''>
-											<span class="info_line"><a href="javascript:viewIppr('${subj.jisaCD }','${subj.omrDate }','${subj.memKey }','${subj.subj }');" class="blue">IPPR</a></span>
+											<span class="info_line"><a href="javascript:$.openIpprPost('${subj.jisaCD }','${subj.omrDate }','${subj.memKey }','0','${subj.subj }', '${subj.subj?substring(0,1) }', 'Y', 'ipprDiv');" class="blue">IPPR</a></span>
 										<#else>
 											<span class="info_line gray">IPPR</span>
 										</#if>
@@ -140,7 +140,7 @@
 										</#if>
 										<!-- IPPR -->
 										<#if subj.digYN == 'Y' && subj.omrDate != ''>
-											<span class="info_line"><a href="javascript:viewIppr('${subj.jisaCD }','${subj.omrDate }','${subj.memKey }','${subj.subj }');" class="blue">IPPR</a></span>
+											<span class="info_line"><a href="javascript:$.openIpprPost('${subj.jisaCD }','${subj.omrDate }','${subj.memKey }','0','${subj.subj }', '${subj.subj?substring(0,1) }', 'Y', 'ipprDiv');" class="blue">IPPR</a></span>
 										<#else>
 											<span class="info_line gray">IPPR</span>
 										</#if>
