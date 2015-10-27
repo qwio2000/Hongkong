@@ -10,10 +10,10 @@
 	</select>
 	<select id="findMemberRegistSearch" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberRegistSearchInfo">
 		SELECT a.memKey, CONCAT(IFNULL(mFstName,''),' ', IFNULL(mLstName,'')) AS memName, CONCAT(IFNULL(gFstName,''),' ', IFNULL(gLstName,'')) AS guardianName,  
-			addr AS address, city, gPhone AS phone, MIN(statusCD) AS statusCD, globalbiz.FuncCodeDtlNM(#{jisaCD},'0008', MIN(statusCD),'','') AS statusName
+			addr AS address, city, gPhone AS phone, MIN(statusCD) AS statusCD, globalbiz.FuncCodeDtlNM(b.jisaCD,'0008', MIN(statusCD),'','') AS statusName
 		FROM globalbiz.MemMst AS a
 		INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey
-		WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD} AND CONCAT(mFstName, mLstName) LIKE CONCAT('%', #{name}, '%') OR CONCAT(gFstName, gLstNAme) LIKE CONCAT('%', #{name}, '%')
+		WHERE b.jisaCD = #{jisaCD} AND b.deptCD = CASE WHEN statusCD = '1' THEN #{deptCD} WHEN statusCD = '2' THEN b.deptCD END AND CONCAT(mFstName, mLstName) LIKE CONCAT('%', #{name}, '%') OR CONCAT(gFstName, gLstNAme) LIKE CONCAT('%', #{name}, '%')
 		GROUP BY a.memKey
 	</select>
 	<select id="findMemMst" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemMst">

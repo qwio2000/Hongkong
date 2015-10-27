@@ -16,6 +16,7 @@ import lombok.*;
 @Data
 public class MemAppointment {
 	private int idx;
+	private String type;
 	private String apmRegistYMD;
 	private String mFstName;
 	private String mLstName;
@@ -44,8 +45,12 @@ public class MemAppointment {
 	private String freeDigYMD;
 	private String deptCD;
 	private String jisaCD;
-	private Date regDate;
+	private String registWhy;
+	private String registWhyEtc;
+	private String registHow;
+	private String registHowEtc;
 	private String regID;
-	private Date updDate;
+	private Date regDate;
 	private String updID;
+	private Date updDate;
 }

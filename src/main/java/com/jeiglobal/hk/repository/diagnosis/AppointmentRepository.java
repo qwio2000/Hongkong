@@ -23,8 +23,16 @@ public interface AppointmentRepository {
 
 	public List<MemAppointment> findAppointments(Map<String, Object> param);
 
-	public Appointment findAppointmentByIdx(int idx);
+	public Appointment findAppointmentEditByIdx(int idx);
 
 	public void updateAppointmentByIdx(Map<String, Object> param);
+
+	public List<Appointment> findAppointmentsByName(Map<String, Object> param);
+
+	public MemAppointment findAppointmentByIdx(Map<String, Object> param);
+
+	public Map<String, String> findMemAppointmentStatusAndMemKeyByIdx(int idx);
+
+	public void insertMemAppointment(MemAppointment memAppointment);
 
 }
