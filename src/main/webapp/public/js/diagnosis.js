@@ -156,6 +156,8 @@ $(function(){
 			var DeptName = $.trim($("#DeptName").val());
 			var WorkID = $.trim($("#WorkID").val());
 			var freejindan = $.trim($("#freejindan").val());
+			 
+			
 			
 			var searchUrl = "/fa/diagnosis/ipprInputSave";
 			
@@ -201,6 +203,7 @@ $(function(){
 			var Kwamok = $.trim($("#Kwamok").val());
 			var OmrGrd = $.trim($("#OmrGrd").val());  //DUNG
 			var OmrKind = $.trim($("#OmrKind").val());  
+			var freejindan = $.trim($("#freejindan").val());
 						
 			var ipuntOdab = $('#inputAnswer input');
 			
@@ -229,8 +232,8 @@ $(function(){
 			
 			
 			var searchUrl = "/fa/diagnosis/ipprOdabSave";
-			var paramData = {"jisaCD":JisaCD, "omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "omrGrd":OmrGrd, "munchk":munarrer, "omrKind":OmrKind};		
-//			console.log(munarrer);
+			var paramData = {"jisaCD":JisaCD, "omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "omrGrd":OmrGrd, "munchk":munarrer, "omrKind":OmrKind, "freejindan":freejindan};		
+			console.log(munarrer);
 			 $.ajax({
 				url:searchUrl,
 				type:"GET",
@@ -273,11 +276,12 @@ $(function(){
 			var OmrWeekCnt = $.trim($("#OmrWeekCnt").val());
 			var OmrDay2 = $.trim($("#OmrDay2").val());
 			var WorkID = $.trim($("#WorkID").val());
+			var freejindan = $.trim($("#freejindan").val());
 		
 				
 			var searchUrl = "/fa/diagnosis/ipprOmrBan";
 			var paramData = {"jisaCD":jisaCD, "omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "rw":Rw, "nOmr":NOmr, "omrGrd":OmrGrd, "omrHak":OmrHak
-			, "omrKind":OmrKind, "omrDay1":OmrDay1, "omrBirth":OmrBirth, "omrSetCnt":OmrSetCnt, "omrWeekCnt":OmrWeekCnt, "omrDay2":OmrDay2, "workID":WorkID};
+			, "omrKind":OmrKind, "omrDay1":OmrDay1, "omrBirth":OmrBirth, "omrSetCnt":OmrSetCnt, "omrWeekCnt":OmrWeekCnt, "omrDay2":OmrDay2, "workID":WorkID, "freejindan":freejindan};
 			
 				
 				 $.ajax({

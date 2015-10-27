@@ -78,6 +78,8 @@ public class DiagnosisDto {
 		private String jisaCD; 
 		private String deptName; 
 		private String workID;		
+		private String freejindan;
+		
 	}
 	
 	@Data
