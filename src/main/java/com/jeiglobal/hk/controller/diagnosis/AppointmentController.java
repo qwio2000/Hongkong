@@ -16,7 +16,7 @@ import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.diagnosis.AppointmentDto.Appointment;
 import com.jeiglobal.hk.domain.member.*;
-import com.jeiglobal.hk.domain.member.MemberDto.*;
+import com.jeiglobal.hk.domain.member.MemberDto.MonthInfo;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.diagnosis.*;
 import com.jeiglobal.hk.service.member.*;
@@ -206,11 +206,60 @@ public class AppointmentController {
 		log.debug("before : {}", memAppointment.toString());
 		String workId = CommonUtils.getWorkId(request);
 		memAppointment = appointmentService.getMemAppointment(type, memAppointment, loginInfo, workId, dobYear, dobMonth, dobDay, idx);
-		log.debug("after : {}", memAppointment.toString());
 		appointmentService.addMemAppointment(memAppointment);
+		log.debug("after : {}", memAppointment.toString());
+		if("02".equals(type)){
+			model = getModelInfoByFreeDiag(model, loginInfo, memAppointment);
+			return "diagnosis/appointment/freeDiag";
+		}
 		model.addAttribute("message", messageSourceAccesor.getMessage("diagnosis.appointment.info.insert"));
 		model.addAttribute("url", "/fa/diagnosis/appointment");
 		return "alertAndRedirect";
 	}
 
+	/**
+	 * @param model
+	 * @param loginInfo
+	 * @param memAppointment
+	 * @throws ParseException void
+	 */
+	private Model getModelInfoByFreeDiag(Model model, LoginInfo loginInfo,
+			MemAppointment memAppointment) throws ParseException {
+		//학년 리스트
+		List<CodeDtl> grades = commonService.getCodeDtls("0003", loginInfo.getJisaCD(), 1, "Y");
+		//State 리스트
+		List<CenterState> states = commonService.getCenterStates(loginInfo.getJisaCD());
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		//입회 경로 리스트
+		List<CodeDtl> registHows = commonService.getCodeDtls("0009", loginInfo.getJisaCD(), 1, "Y");
+		//입회 동기 리스트
+		List<CodeDtl> registWhys = commonService.getCodeDtls("0202", loginInfo.getJisaCD(), 1, "Y");
+		List<SubjectOfDept> subjectOfDepts = commonService.getSubjectsOfDept(loginInfo.getJisaCD(),loginInfo.getDeptCD());
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(sdf.parse(memAppointment.getMBirthDay()));
+		int currentYear = cal.get(Calendar.YEAR);
+		int currentMonth = cal.get(Calendar.MONTH)+1;
+		int currentDay = cal.get(Calendar.DATE);
+		//월 목록(short Type)
+		List<MonthInfo> months = CommonUtils.getMonths(2);
+		//현재 년 월의 최대 일자
+		int maxDays = CommonUtils.getMaxDays(currentYear, currentMonth);
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("diagnosisAppointment");
+		model.addAttribute("registHows", registHows);
+		model.addAttribute("registWhys", registWhys);
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("grades", grades);
+		model.addAttribute("states", states);
+		model.addAttribute("subjectOfDepts", subjectOfDepts);
+		model.addAttribute("currentYear", currentYear);
+		model.addAttribute("currentMonth", new SimpleDateFormat("MM").format(cal.getTime()));
+		model.addAttribute("currentDay", currentDay);
+		model.addAttribute("months", months);
+		model.addAttribute("maxDays", maxDays);
+		model.addAttribute("appointment", memAppointment);
+		return model;
+	}
+	
 }
