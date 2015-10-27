@@ -48,7 +48,7 @@ public class InterimController {
 	private MessageSourceAccessor messageSourceAccesor;
 	
 	// 형성평가 입력 화면
-	@RequestMapping(value={"/fa/diagnosis/InterimMpi"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/diagnosis/interimMpi"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String interimMpi(Model model, String jisaCD, String deptCD, String memKey, String subj, String yy, String mm, String mfstname, String mlstname) {
 		log.debug("Getting interimMpi Page, UserType : {}");
 		
@@ -109,22 +109,27 @@ public class InterimController {
 	@RequestMapping(value={"/fa/diagnosis/interimMpiJson"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> interimMpiJson(Model model, HttpServletRequest request, String jisaCD, String deptCD, String memKey, String subj, String yy, String mm, String data) {
-		String  alertErrorMsg = "";
-		String  alertsuccessMsg = "";
-		
+		String alertErrorMsg = "";
+		String alertsuccessMsg = "";
+		String MpiSaveOK = "";
 		String[] dataarrer = data.split("##");
 
 		String workId = CommonUtils.getWorkId(request);
 		
 		//기초 정보 저장
-		//String MpiSaveOK = interimService.addInterimMpiGichoSave(jisaCD, deptCD, memKey, subj, yy, mm, workId, dataarrer);
-		//입력 저장
-		String MpiSaveOK = interimService.addInterimMpiSave(jisaCD, deptCD, memKey, subj, yy, mm, workId, dataarrer);
-
+		String GichoSaveOK = interimService.addInterimMpiGichoSave(jisaCD, deptCD, memKey, subj, yy, mm, workId);
 		
 		alertErrorMsg = messageSourceAccesor.getMessage("Mpi.Input.Insert.Error");
 		alertsuccessMsg = messageSourceAccesor.getMessage("Mpi.Input.Insert.success");
 		
+		if (!"Y".equals(GichoSaveOK)) {
+			MpiSaveOK = "N";
+			alertErrorMsg = messageSourceAccesor.getMessage("Mpi.Input.Insert.Error");
+		}else{
+		
+		//입력 저장
+			MpiSaveOK = interimService.addInterimMpiSave(jisaCD, deptCD, memKey, subj, yy, mm, workId, dataarrer);			
+		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("alertErrorMsg", alertErrorMsg);
