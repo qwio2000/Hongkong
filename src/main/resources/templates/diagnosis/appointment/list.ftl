@@ -54,7 +54,7 @@
 		<td>
 			<div class="btnArea_icon2">
 				<a href="/fa/members/regist/new?type=&appIdx={{idx}}" class="btn_doc_add">입회입력</a>
-				<a href="#" class="btn_doc2">무료진단입력</a>
+				<a href="javascript:$.openPop('/fa/diagnosis/ippr?memKey={{idx}}&subj={{getSubj subj 0}}&freejindan=A', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="btn_doc2">무료진단입력</a>
 				<a href="javascript:updateAppointmentPop('{{idx}}')" class="btn_info">내용수정</a>
 				<a href="javascript:deleteAppointment('{{idx}}');" class="btn_del">명단삭제</a>
 			</div>

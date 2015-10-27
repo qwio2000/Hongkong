@@ -53,6 +53,18 @@ $(function(){
 							return new Handlebars.SafeString(str);
 						}
 					});
+					Handlebars.registerHelper('getSubj', function(str, idx) {
+						var rtnStr = "";
+						if(str.indexOf(",") > -1){
+							var splitStr = str.split(",");
+							if(splitStr.length -1 >= idx){
+								rtnStr += splitStr[idx];
+							}
+							return new Handlebars.SafeString(rtnStr);
+						}else{
+							return new Handlebars.SafeString(str);
+						}
+					});
 					Handlebars.registerHelper('xIf', function (lvalue, operator, rvalue, options) {
 					    var operators, result;
 					    if (arguments.length < 3) {
