@@ -32,7 +32,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>${memName}</td>
+									<td>${mfstname}&nbsp;${mlstname}</td>
 									<td>${gradeNM}</td>
 									<td>${subjname}</td>
 									<td>${leveldung}</td>
@@ -72,8 +72,8 @@
 				<input type="hidden" id="omrdate" value="${omrdate}">
 				<input type="hidden" id="Hkey" value="${memKey}">
 				<input type="hidden" id="Kwamok" value="${subjname}">
-				<input type="hidden" id="MFstName" value="${memName}">
-				<input type="hidden" id="MLstName" value="">
+				<input type="hidden" id="MFstName" value="${mfstname}">
+				<input type="hidden" id="MLstName" value="${mlstname }">
 				<input type="hidden" id="Skey" value="${empKey}">
 				<input type="hidden" id="SName" value="${empName}">
 				<input type="hidden" id="OmrGrd" value="${leveldung}">

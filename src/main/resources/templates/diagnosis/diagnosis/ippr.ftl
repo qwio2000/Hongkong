@@ -33,7 +33,7 @@
 								<tbody>
 									<tr>
 									<#if ippr??>
-										<td>${ippr.memName}</td>
+										<td>${ippr.mfstname}&nbsp;${ippr.mlstname}</td>
 										<td>${ippr.gradeNM}</td>
 										<td>${ippr.subjname}</td>
 										<td>
@@ -48,7 +48,8 @@
 										<input type="hidden" id="jisaCD" name="jisaCD" value="${ippr.jisaCD}">
 										<input type="hidden" id="deptCd" name="deptCd" value="${ippr.deptCd}">
 										<input type="hidden" id="memKey" name="memKey" value="${memKey}">
-										<input type="hidden" id="memName" name="memName" value="${ippr.memName}">
+										<input type="hidden" id="mfstname" name="mfstname" value="${ippr.mfstname}">
+										<input type="hidden" id="mlstname" name="mlstname" value="${ippr.mlstname}">
 										<input type="hidden" id="gradeNM" name="gradeNM" value="${ippr.gradeNM}">
 										<input type="hidden" id="subjname" name="subjname" value="${ippr.subjname}">
 										<input type="hidden" id="inputdate" name="inputdate" value="${ippr.inputdate}">

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.diagnosis.InterimDto;
+import com.jeiglobal.hk.domain.diagnosis.InterimDto.InterimSDWolhakLst;
 import com.jeiglobal.hk.repository.diagnosis.InterimRepository;
 
 /**
@@ -104,6 +105,19 @@ public class InterimService {
 		map.put("lang", lang);
 		
 		return interimRepository.findInterimSDGichoList(map);
+	}
+
+	public List<InterimSDWolhakLst> getInerimSDWolhakLst(String jisaCD, String yy, String mm, String memKey,
+			String subj, String lang) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("yy", yy);		
+		map.put("mm", mm);
+		map.put("memKey", memKey);
+		map.put("subj", subj);
+		map.put("lang", lang);
+		
+		return interimRepository.findInterimSDWolhakLst(map);
 	}
 
 
