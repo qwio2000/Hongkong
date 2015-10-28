@@ -29,7 +29,8 @@ public class DiagnosisDto {
 	
 	@Data
 	public static class DiagnosisInputippr{
-		private String memName;
+		private String mfstname;
+		private String mlstname;
 		private String gradeNM;
 		private String subjname;		
 		private String inputdate;
