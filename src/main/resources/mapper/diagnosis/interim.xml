@@ -7,7 +7,7 @@
 	</select>
 	<!-- 형성평가 기초정보저장 -->
 	<select id="findInterimMpiGichoSave" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
-		CALL globaldig.SPSDGichoInsert(#{jisaCD},#{deptCD},#{memKey},#{subj},#{yy},#{mm},#{workId});
+		CALL globaldig.SPSDGichoInsert(#{jisaCD},#{deptCD},#{memKey},#{subj},#{yy},#{mm},#{wolhak},#{workId});
 	</select>	
 	<!-- 형성평가 문항문제 저장 -->
 	<select id="findInterimMpiSave" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">

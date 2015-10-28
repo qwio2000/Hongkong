@@ -94,6 +94,7 @@
 				<input type="hidden" id="Rw" value="${readchk}">
 				<input type="hidden" id="NOmr" value="${nomr}">
 				<input type="hidden" id="testType" value="${testType}">
+				<input type="hidden" id="freejindan" value="${freejindan }">
 				
 				<input type="hidden" id="OmrPath" value="">
 				<input type="hidden" id="OmrSetCnt" value="">

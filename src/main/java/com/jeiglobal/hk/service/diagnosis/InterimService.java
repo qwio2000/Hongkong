@@ -79,7 +79,7 @@ public class InterimService {
 	}
 
 	public String addInterimMpiGichoSave(String jisaCD, String deptCD, String memKey, String subj, String yy, String mm,
-			String workId) {
+			String wolhak, String workId) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("jisaCD", jisaCD);		
 		map.put("deptCD", deptCD);		
@@ -87,6 +87,7 @@ public class InterimService {
 		map.put("subj", subj);
 		map.put("yy", yy);
 		map.put("mm", mm);
+		map.put("wolhak", wolhak);
 		map.put("workId", workId);
 		
 		return interimRepository.findInterimMpiGichoSave(map);

@@ -136,6 +136,7 @@ public class DiagnosisController {
 	@RequestMapping(value={"/fa/diagnosis/ippr"}, method={RequestMethod.GET,RequestMethod.HEAD}) 
 	public String diagnosisIppr(Model model, @ModelAttribute LoginInfo loginInfo, String memKey, String subj, String freejindan) {
 		log.debug("Getting ippr Popup Page");
+		String alertMsg = "";
 		String jisaCD = loginInfo.getJisaCD();
 		String deptCD = loginInfo.getDeptCD();
 		
@@ -143,10 +144,18 @@ public class DiagnosisController {
 		
 		List<GradeOfSubject> gradeOfSubject = commonService.getGradeOfSubject(jisaCD, subj, "Y", "Y");   //등급정보
 		
+		alertMsg = messageSourceAccesor.getMessage("Ippr.Input.Error");
+		
 		if (diagnosisInputippr == null) {
-			model.addAttribute("message", "No member");
+			model.addAttribute("message", alertMsg);
 			model.addAttribute("mode", "close");
 			return "alertAndRedirect";
+		}
+
+		if (gradeOfSubject.size() == 0){
+			model.addAttribute("message", alertMsg);
+			model.addAttribute("mode", "close");
+			return "alertAndRedirect";		
 		}
 		
 		
@@ -350,7 +359,9 @@ public class DiagnosisController {
 		
 		omrBanOK = diagnosisService.addDiagnosisOmrBan(jisaCD, omrDate, hkey, kwamok, rw, nOmr, omrGrd, omrHak, omrKind, omrDay1, omrBirth, omrSetCnt, omrWeekCnt, omrDay2, workID, freejindan);
 		
-		if ("N".equals(omrBanOK)) {
+		if (!"Y".equals(omrBanOK)) {
+			alertMsg = messageSourceAccesor.getMessage("Ippr.Ban.Insert.success");
+		}else{
 			alertMsg = messageSourceAccesor.getMessage("Ippr.Ban.Insert.Error");
 		}
 	

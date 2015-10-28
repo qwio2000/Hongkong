@@ -57,6 +57,7 @@
 										<input type="hidden" id="yoil" name="yoil" value="${ippr.yoil}">
 										<input type="hidden" id="studyNum" name="studyNum" value="${ippr.studyNum}">
 										<input type="hidden" id="bookNum" name="bookNum" value="${ippr.bookNum}">
+										<input type="hidden" id="freejindan" name="freejindan" value="${freejindan}">
 									</#if>
 									</tr>
 								</tbody>

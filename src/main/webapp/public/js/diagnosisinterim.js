@@ -9,6 +9,7 @@ $(function(){
 			var subj = $.trim($("#subj").val());
 			var yy = $.trim($("#yy").val());  //DUNG
 			var mm = $.trim($("#mm").val());  
+			var wolhak = $.trim($("input[name=wolhak]:checked").val());
 		
 			$("[id^=setsubq]").each(function (i, v) {	
 				$("#odabs").css("display","none");
@@ -17,12 +18,12 @@ $(function(){
 			
 			data = $("#odabs").html();
 			
-			$.getSDGichoSave(jisaCD,deptCD,memKey,subj,yy,mm,data);
+			$.getSDGichoSave(jisaCD,deptCD,memKey,subj,yy,mm,wolhak,data);
 			$("#odabs").html('');
 		},
-		getSDGichoSave:function(jisaCD,deptCD,memKey,subj,yy,mm,data){   //형성평가 저장
+		getSDGichoSave:function(jisaCD,deptCD,memKey,subj,yy,mm,wolhak,data){   //형성평가 저장
 			var searchUrl = "/fa/diagnosis/interimMpiJson";
-			var paramData = {"jisaCD":jisaCD, "deptCD":deptCD, "memKey":memKey, "subj":subj, "yy":yy, "mm":mm, "data":data};		
+			var paramData = {"jisaCD":jisaCD, "deptCD":deptCD, "memKey":memKey, "subj":subj, "yy":yy, "mm":mm, "wolhak":wolhak, "data":data};		
 			//console.log(data)
 			 $.ajax({
 				url:searchUrl,

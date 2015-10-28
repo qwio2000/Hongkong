@@ -156,8 +156,6 @@ $(function(){
 			var DeptName = $.trim($("#DeptName").val());
 			var WorkID = $.trim($("#WorkID").val());
 			var freejindan = $.trim($("#freejindan").val());
-			 
-			
 			
 			var searchUrl = "/fa/diagnosis/ipprInputSave";
 			
@@ -291,22 +289,17 @@ $(function(){
 					data: paramData,
 					dataType: "JSON",			
 					success: function(jsonData, textStatus, XMLHttpRequest) {
-						alert(jsonData.omrBanOK)
-						if (jsonData.omrBanOK = "Y"){
-							alert(jsonData.alertMsg);
-						}else{
-							alert(jsonData.alertMsg);							
-						}
+												
+						alert(jsonData.alertMsg);
 						
 						self.close();
 					},
 					error:function (xhr, ajaxOptions, thrownError){	
 						alert(thrownError);
 					}
-				});
-				
-				
+				}); 
 				//window.self.close();
+				 //self.close();
 			
 		},
 		

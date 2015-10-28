@@ -55,7 +55,7 @@ public class InterimController {
 		//header에 포함할 스크립트 
 		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
 		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("interim");		
+		headerScript.add("diagnosisinterim");		
 		model.addAttribute("headerScript", headerScript);	
 		
 		
@@ -108,7 +108,7 @@ public class InterimController {
 	// 형성평가 입력 저장	
 	@RequestMapping(value={"/fa/diagnosis/interimMpiJson"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	@ResponseBody
-	public Map<String, Object> interimMpiJson(Model model, HttpServletRequest request, String jisaCD, String deptCD, String memKey, String subj, String yy, String mm, String data) {
+	public Map<String, Object> interimMpiJson(Model model, HttpServletRequest request, String jisaCD, String deptCD, String memKey, String subj, String yy, String mm, String wolhak, String data) {
 		String alertErrorMsg = "";
 		String alertsuccessMsg = "";
 		String MpiSaveOK = "";
@@ -117,7 +117,7 @@ public class InterimController {
 		String workId = CommonUtils.getWorkId(request);
 		
 		//기초 정보 저장
-		String GichoSaveOK = interimService.addInterimMpiGichoSave(jisaCD, deptCD, memKey, subj, yy, mm, workId);
+		String GichoSaveOK = interimService.addInterimMpiGichoSave(jisaCD, deptCD, memKey, subj, yy, mm, wolhak, workId);
 		
 		alertErrorMsg = messageSourceAccesor.getMessage("Mpi.Input.Insert.Error");
 		alertsuccessMsg = messageSourceAccesor.getMessage("Mpi.Input.Insert.success");
@@ -139,6 +139,14 @@ public class InterimController {
 		return map;
 	}
 	
+
+	//형성평가 기록부 
+	@RequestMapping(value={"/fa/diagnosis/interimPrint"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String interimPrint(Model model, String yy, String mm, String memKey, String subj, String lang) {
+		log.debug("Getting interimPrint Page");
+		
+		return "diagnosis/interim/interimPrint";
+	}
 	
 
 

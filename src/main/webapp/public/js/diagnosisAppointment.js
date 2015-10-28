@@ -250,7 +250,7 @@ $(function(){
 		if(!submitValid(type)){
 			return;
 		}
-		console.log($("#registForm").serialize());
+		//console.log($("#registForm").serialize());
 		$("#registForm").submit();
 	});
 	$('input[name=registWhy]').click(function(){
