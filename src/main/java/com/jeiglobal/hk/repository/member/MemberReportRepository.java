@@ -4,6 +4,8 @@ import java.util.*;
 
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberIpprInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberReportFreeDiagInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberReportFreeDiagSubjInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjStudyInfo;
@@ -118,5 +120,14 @@ public interface MemberReportRepository {
 	public void updateMemSubjMstByRegistCancel(Map<String, Object> param);
 
 	public void updateMemSubjStudyByRegistCancel(Map<String, Object> param);
+
+	public MemberReportFreeDiagInfo findMemberReportFreeDiagInfoByHkey(
+			String hkey);
+
+	public List<MemberReportFreeDiagSubjInfo> findMemberReportFreeDiagSubjInfosByHkey(
+			String hkey);
+
+	public List<MemberReportFreeDiagSubjInfo> findMemberReportFreeDiagSubjInfosByMemKey(
+			String memKey);
 
 }

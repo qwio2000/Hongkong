@@ -1,7 +1,7 @@
 <#include "/include/header.ftl">
 <!-- Main Content -->
 <div class="content">
-	<h2 class="conTit">Announcement</h2>
+	<h2 class="conTit">Diagnosis</h2>
 	
 <h1 class="mgt-20"></h1>
 <p>
@@ -63,10 +63,12 @@
 	{{#each page}}
 		<tr>
 			<td>{{boardNo @index}}</td>
-			<td>{{mfirstName}}{{mlastName}}</td>
+			<td>
+				<a href="/fa/members/reports/{{hkey}}" class="blue">{{mfirstName}} {{mlastName}}</a>
+			</td>
 			<td>{{grade}}</td>
 			<td>{{subjname}}</td>
-			<td>{{gfstName}}{{glstName}}</td>
+			<td>{{gfstName}} {{glstName}}</td>
 			<td>{{ephone}}</td>
 			<td>{{statusNM}}</td>
 			<td>{{omrDate}}</td>

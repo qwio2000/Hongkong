@@ -11,6 +11,7 @@ import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberIpprInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberReportFreeDiagInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjStudyInfo;
@@ -577,6 +578,21 @@ public class MemberReportService {
 		param.put("hUpdCD", hUpdCD);
 		memberReportRepository.insertMemSubjStudyHisByRegistCancel(param);
 		memberReportRepository.updateMemSubjStudyByRegistCancel(param);
+	}
+
+	/**
+	 * @param hkey
+	 * @return MemberReportFreeDiagInfo
+	 */
+	public MemberReportFreeDiagInfo getMemberReportFreeDiagInfoByHkey(
+			String hkey) {
+		MemberReportFreeDiagInfo memberReportFreeDiagInfo = memberReportRepository.findMemberReportFreeDiagInfoByHkey(hkey);
+		if(memberReportFreeDiagInfo.getMemKey().isEmpty()){
+			memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByHkey(hkey));
+		}else{
+			memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByMemKey(memberReportFreeDiagInfo.getMemKey()));
+		}
+		return memberReportFreeDiagInfo;
 	}
 
 

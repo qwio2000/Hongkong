@@ -17,6 +17,7 @@ import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberIpprInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberReportFreeDiagSubjInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjStudyInfo;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
@@ -108,6 +109,22 @@ public class MemberReportController {
 		String view = ("FA".equalsIgnoreCase(loginInfo.getUserType())) ? "member/report/memberReport" 
 				: ("JA".equalsIgnoreCase(loginInfo.getUserType())) ? "member/search/memberReport" : ""; 
 		return view;
+	}
+	@RequestMapping(value={"/fa/members/reports/{hkey:^[A-Z]{1}[0-9]{7}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getMemberReportByFreeDiag(Model model,
+			@ModelAttribute LoginInfo loginInfo,
+			@PathVariable String hkey) {
+		log.debug("Getting Member Report By FreeDiag , hkey : {}", hkey);
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberReportDetail");
+		MemberDto.MemberReportFreeDiagInfo memberReportFreeDiagInfo = memberReportService.getMemberReportFreeDiagInfoByHkey(hkey);
+		log.debug("==============================================");
+		log.debug(memberReportFreeDiagInfo.toString());
+		for (MemberReportFreeDiagSubjInfo string : memberReportFreeDiagInfo.getMemberReportFreeDiagSubjInfos()) {
+			log.debug(string.toString());
+		}
+		model.addAttribute("headerScript", headerScript);
+		return "";
 	}
 	@RequestMapping(value={"/fa/members/reports/guardian"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getGuardianInfoPop(Model model,

@@ -148,6 +148,53 @@ public class MemberDto {
 	}
 	
 	@Data
+	public static class MemberReportFreeDiagInfo{
+		private String hkey;
+		private String mFstName;
+		private String mLstName;
+		private String skey;
+		private String sname;
+		private String omrHak;
+		private String omrHakName;
+		private String omrBirth;
+		private String schoolName;
+		private String mEmail;
+		private String eContact;
+		private String ePhone;
+		private String gFstName;
+		private String gLstName;
+		private String city;
+		private String stateCD;
+		private String stateName;
+		private String zip;
+		private String addr;
+		private String gEmail;
+		private String gPhone;
+		private String gCellPhone;
+		private String deptCD;
+		private String jisaCD;
+		private String deptName;
+		private String registWhy;
+		private String registWhyEtc;
+		private String registHow;
+		private String registHowEtc;
+		private String memKey;
+		private Date regDate;
+		private String regID;
+		private List<MemberReportFreeDiagSubjInfo> memberReportFreeDiagSubjInfos;
+		
+	}
+	
+	@Data
+	public static class MemberReportFreeDiagSubjInfo{
+		private String hkey;
+		private String kwamok;
+		private String omrDate;
+		private String jisaCD;
+		private String digYN;
+	}
+	
+	@Data
 	public static class MemberReportSubjStudyInfo{
 		private String memKey;
 		private String subj;
