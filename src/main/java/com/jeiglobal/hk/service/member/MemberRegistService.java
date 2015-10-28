@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberRegistFreeDiagInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberRegistSearchInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.RegistSubject;
 import com.jeiglobal.hk.repository.member.*;
@@ -395,6 +396,18 @@ public class MemberRegistService {
 		param.put("workId", workId);
 		param.put("memKey", memKey);
 		memberRegistRepository.updateMemAppointRegistYMD(param);
+	}
+	/**
+	 * @param freeDiagInfo
+	 * @param memKey void
+	 */
+	public void setFreeGichoByRegist(MemberRegistFreeDiagInfo freeDiagInfo,
+			String memKey) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("freeDiagInfo", freeDiagInfo);
+		param.put("memKey", memKey);
+		memberRegistRepository.updateFreeGichoByRegist(param);
+		
 	}
 	
 }

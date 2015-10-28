@@ -110,22 +110,20 @@ public class MemberReportController {
 				: ("JA".equalsIgnoreCase(loginInfo.getUserType())) ? "member/search/memberReport" : ""; 
 		return view;
 	}
+	
 	@RequestMapping(value={"/fa/members/reports/{hkey:^[A-Z]{1}[0-9]{7}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMemberReportByFreeDiag(Model model,
 			@ModelAttribute LoginInfo loginInfo,
-			@PathVariable String hkey) {
+			@PathVariable String hkey) throws ParseException {
 		log.debug("Getting Member Report By FreeDiag , hkey : {}", hkey);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
-		MemberDto.MemberReportFreeDiagInfo memberReportFreeDiagInfo = memberReportService.getMemberReportFreeDiagInfoByHkey(hkey);
-		log.debug("==============================================");
-		log.debug(memberReportFreeDiagInfo.toString());
-		for (MemberReportFreeDiagSubjInfo string : memberReportFreeDiagInfo.getMemberReportFreeDiagSubjInfos()) {
-			log.debug(string.toString());
-		}
+		List<MemberDto.MemberReportFreeDiagInfo> memberReportFreeDiagInfos = memberReportService.getMemberReportFreeDiagInfoByHkey(hkey);
+		model.addAttribute("memberReportFreeDiagInfos", memberReportFreeDiagInfos);
 		model.addAttribute("headerScript", headerScript);
-		return "";
+		return "member/report/memberReportFreeDiag";
 	}
+	
 	@RequestMapping(value={"/fa/members/reports/guardian"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getGuardianInfoPop(Model model,
 			@ModelAttribute LoginInfo loginInfo,

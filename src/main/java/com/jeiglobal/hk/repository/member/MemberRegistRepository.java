@@ -62,4 +62,6 @@ public interface MemberRegistRepository {
 
 	public void updateMemAppointRegistYMD(Map<String, Object> param);
 
+	public void updateFreeGichoByRegist(Map<String, Object> param);
+
 }

@@ -198,7 +198,8 @@ $(function(){
 });
 function checkedSubj(){
 	var appIdx = $("#appIdx").val();
-	if(appIdx != 0){
+	var freeSubj = $("#freeSubj").val();
+	if(appIdx != 0 || freeSubj != ''){
 		$("input[name='subj']:checked").each(function(){
 			var subj = $(this).val();
 			$("#firstManageDate_"+subj).attr("disabled",false);
@@ -210,7 +211,6 @@ function checkedSubj(){
 			$("#isResume_"+subj).attr("disabled",false);
 			feeCalc(subj);
 		});
-		$()
 	}
 }
 //회비 계산

@@ -179,6 +179,7 @@ public class MemberDto {
 		private String registHow;
 		private String registHowEtc;
 		private String memKey;
+		private int aidx;
 		private Date regDate;
 		private String regID;
 		private List<MemberReportFreeDiagSubjInfo> memberReportFreeDiagSubjInfos;
@@ -192,7 +193,18 @@ public class MemberDto {
 		private String omrDate;
 		private String jisaCD;
 		private String digYN;
+		private int aidx;
+		private String memKey;
 	}
+	
+	@Data
+	public static class MemberRegistFreeDiagInfo{
+		private String freeHkey;
+		private String freeSubj;
+		private String freeOmrDate;
+	}
+	
+	
 	
 	@Data
 	public static class MemberReportSubjStudyInfo{

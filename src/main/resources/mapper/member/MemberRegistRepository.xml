@@ -145,4 +145,9 @@
 		SET registYMD = #{currentYMD}, memKey = #{memKey}, updDate = NOW(), updID = #{workId}
 		WHERE idx = #{appIdx}
 	</update>
+	<update id="updateFreeGichoByRegist" parameterType="hashMap">
+		UPDATE globaldig.FreeGicho 
+		SET memKey = #{memKey}
+		WHERE hkey = #{freeDiagInfo.freeHkey} AND omrDate = #{freeDiagInfo.freeOmrDate} AND kwamok = #{freeDiagInfo.freeSubj}
+	</update>
 </mapper>

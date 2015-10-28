@@ -27,6 +27,7 @@ import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberRegistFreeDiagInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MonthInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.RegistSubject;
 import com.jeiglobal.hk.service.*;
@@ -85,9 +86,10 @@ public class MemberRegistController {
 			String type, // 1 : 최초 신입, 2: 타과목, 3: 형제 회원
 			String memKey,
 			Integer appIdx,
+			MemberRegistFreeDiagInfo freeDiagInfo,
 			@ModelAttribute LoginInfo loginInfo) throws ParseException{
 		log.debug("Getting MemberRegist Page");
-		log.debug("Type : {}, memKey : {}", type, memKey);
+		log.debug("Type : {}, memKey : {}, freeDiag : {}", type, memKey, freeDiagInfo);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberRegist");
 		log.debug("appIdx : {}", appIdx);
@@ -162,6 +164,7 @@ public class MemberRegistController {
 		model.addAttribute("appIdx", appIdx);
 		model.addAttribute("appSubjs", appSubjs);
 		model.addAttribute("memAppointment", memAppointment);
+		model.addAttribute("freeDiagInfo", freeDiagInfo);
 		return "member/regist/registForm";
 	}
 	
@@ -187,6 +190,7 @@ public class MemberRegistController {
 			String memKey, int appIdx,
 			String dobMonth, String dobDay, String dobYear,
 			@ModelAttribute LoginInfo loginInfo,
+			MemberRegistFreeDiagInfo freeDiagInfo, //무료진단 진도 연결 정보
 			HttpServletRequest request) throws ParseException{
 		String newMemKey = "";
 		Date currentDate = new Date();
@@ -215,9 +219,15 @@ public class MemberRegistController {
 				if("2".equals(type) && "2".equals(isResume[i])){//타과목 입회과목이 복회인 경우 : MemSubjMst, MemSubjStudy Update
 					memberRegistService.setMemSubjMst(memSubjMst);//His 쌓을 때 UpdCD 구분하기 위해 isResume[i] 사용
 					memberRegistService.setMemSubjStudy(memSubjStudy);
+					if(subj[i].equals(freeDiagInfo.getFreeSubj())){
+						log.debug("타과목 복회 무료진단 진도 연결 필요!! : {}", freeDiagInfo);
+					}
 				}else{//그 외 : Insert
 					memberRegistService.addNewMemSubjMst(memSubjMst);
 					memberRegistService.addNewMemSubjStudy(memSubjStudy);
+					if(subj[i].equals(freeDiagInfo.getFreeSubj())){
+						log.debug("신입, 타과목 신입 무료진단 진도 연결 필요!! : {}", freeDiagInfo);
+					}
 				}
 				memberRegistService.addNewMemSubjRegist(memSubjRegist);
 				memberRegistService.addNewMemSubjTuition(memSubjTuition);
@@ -235,6 +245,9 @@ public class MemberRegistController {
 		}
 		if(appIdx != 0){
 			memberRegistService.setMemAppointRegistYMD(appIdx, currentDate, workId, memMst.getMemKey());
+			if(freeDiagInfo != null && !"".equals(freeDiagInfo.getFreeSubj())){
+				memberRegistService.setFreeGichoByRegist(freeDiagInfo, memMst.getMemKey());
+			}
 		}
 		
 		model.addAttribute("message", "성공");

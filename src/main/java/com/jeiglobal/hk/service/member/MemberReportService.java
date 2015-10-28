@@ -583,16 +583,24 @@ public class MemberReportService {
 	/**
 	 * @param hkey
 	 * @return MemberReportFreeDiagInfo
+	 * @throws ParseException 
 	 */
-	public MemberReportFreeDiagInfo getMemberReportFreeDiagInfoByHkey(
-			String hkey) {
-		MemberReportFreeDiagInfo memberReportFreeDiagInfo = memberReportRepository.findMemberReportFreeDiagInfoByHkey(hkey);
-		if(memberReportFreeDiagInfo.getMemKey().isEmpty()){
-			memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByHkey(hkey));
-		}else{
-			memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByMemKey(memberReportFreeDiagInfo.getMemKey()));
+	public List<MemberReportFreeDiagInfo> getMemberReportFreeDiagInfoByHkey(
+			String hkey) throws ParseException {
+		List<MemberReportFreeDiagInfo> memberReportFreeDiagInfos = memberReportRepository.findMemberReportFreeDiagInfoByHkey(hkey);
+		for (MemberReportFreeDiagInfo memberReportFreeDiagInfo : memberReportFreeDiagInfos) {
+			if(memberReportFreeDiagInfo.getOmrBirth() != null && !memberReportFreeDiagInfo.getOmrBirth().isEmpty()){
+				memberReportFreeDiagInfo.setOmrBirth(CommonUtils.changeDateFormat("yyyy-MM-dd", "MM/dd/yyyy", memberReportFreeDiagInfo.getOmrBirth()));
+			}
+			if(memberReportFreeDiagInfo.getMemKey() == null || memberReportFreeDiagInfo.getMemKey().isEmpty()){
+				if(memberReportFreeDiagInfo.getAidx() != 0){
+					memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByHkey(memberReportFreeDiagInfo.getAidx()));
+				}
+			}else{
+				memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByMemKey(memberReportFreeDiagInfo.getMemKey()));
+			}
 		}
-		return memberReportFreeDiagInfo;
+		return memberReportFreeDiagInfos;
 	}
 
 

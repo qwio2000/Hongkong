@@ -19,6 +19,9 @@
 		<input type="hidden" name="type" value="${type }">
 		<input type="hidden" name="memKey" value="${memKey?default('') }">
 		<input type="hidden" id="appIdx" name="appIdx" value="${appIdx?default('0') }">
+		<input type="hidden" id="freeSubj" name="freeSubj" value="${freeDiagInfo.freeSubj?default('') }">
+		<input type="hidden" id="freeOmrDate" name="freeOmrDate" value="${freeDiagInfo.freeOmrDate?default('') }">
+		<input type="hidden" id="freeHkey" name="freeHkey" value="${freeDiagInfo.freeHkey?default('') }">
 		<div class="conLeft">
 			<h2 class="conTit">Parent(Guardian) Information</h2>
 			<ul class="memSearch">
@@ -194,6 +197,9 @@
 							<#if appSubjs??>
 							<span class="chk_s01"><input type="checkbox" name="subj" value="${registSubject.subj }" id="chk_${registSubject.subj }" 
 								<#list appSubjs as appSubj><#if appSubj == registSubject.subj>checked</#if> </#list> />
+							<#elseif freeDiagInfo.freeSubj?default('') != ''>
+							<span class="chk_s01"><input type="checkbox" name="subj" value="${registSubject.subj }" id="chk_${registSubject.subj }" 
+								<#if freeDiagInfo.freeSubj == registSubject.subj>checked</#if> />
 							<#else>
 							<span class="chk_s01 <#if registSubject.memKey?? && registSubject.statusCD == '2'>icon_resume</#if>"><input type="checkbox" name="subj" value="${registSubject.subj }" id="chk_${registSubject.subj }" />
 							</#if>

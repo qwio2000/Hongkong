@@ -121,11 +121,11 @@ public interface MemberReportRepository {
 
 	public void updateMemSubjStudyByRegistCancel(Map<String, Object> param);
 
-	public MemberReportFreeDiagInfo findMemberReportFreeDiagInfoByHkey(
+	public List<MemberReportFreeDiagInfo> findMemberReportFreeDiagInfoByHkey(
 			String hkey);
 
 	public List<MemberReportFreeDiagSubjInfo> findMemberReportFreeDiagSubjInfosByHkey(
-			String hkey);
+			int aidx);
 
 	public List<MemberReportFreeDiagSubjInfo> findMemberReportFreeDiagSubjInfosByMemKey(
 			String memKey);

@@ -346,19 +346,21 @@
 	<select id="findMemberReportFreeDiagInfoByHkey" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportFreeDiagInfo">
 		SELECT a.hkey, a.mFstName, a.mLstName, a.skey, a.sname, a.omrHak, globalbiz.FuncCodeDtlNM(a.jisaCD, '0003', a.omrHak, '', 'Y') AS omrHakName, omrBirth, 
 			a.schoolName, a.mEmail, a.eContact, a.ePhone, a.gFstName, a.gLstName, a.city, a.stateCD, b.stateName, a.zip, a.addr, a.gEmail, a.gPhone, a.gCellPhone, a.deptCD, a.jisaCD, a.deptName, 
-			a.registWhy, a.registWhyEtc, a.registHow, a.registHowEtc, a.memKey, a.regDate, a.regID
+			a.registWhy, a.registWhyEtc, a.registHow, a.registHowEtc, a.memKey, a.aidx, a.regDate, a.regID
 		FROM globaldig.FreeGicho AS a
-			INNER JOIN globalbiz.StateInfo AS b ON a.jisaCD = b.jisaCD AND a.stateCD = b.stateCD
-		WHERE hkey = #{hkey}
+			LEFT JOIN globalbiz.StateInfo AS b ON a.jisaCD = b.jisaCD AND a.stateCD = b.stateCD
+		WHERE a.gFstName = (SELECT gFstName FROM globaldig.FreeGicho WHERE hkey = #{hkey}) AND a.gLstName = (SELECT gLstName FROM globaldig.FreeGicho WHERE hkey = #{hkey})
+		GROUP BY a.mFstName, a.mLstName, a.omrBirth
+		ORDER BY hkey
 	</select>
-	<select id="findMemberReportFreeDiagSubjInfosByHkey" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportFreeDiagSubjInfo">
-		SELECT a.hkey, a.kwamok, a.omrDate, a.jisaCD, b.digYN
+	<select id="findMemberReportFreeDiagSubjInfosByHkey" parameterType="int" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportFreeDiagSubjInfo">
+		SELECT a.hkey, a.kwamok, a.omrDate, a.jisaCD, b.digYN, a.aidx, a.memKey
 		FROM globaldig.FreeGicho AS a 
 			LEFT JOIN globalbiz.DeptSubjInfo AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND a.kwamok = b.subj
-		WHERE a.hkey = #{hkey}
+		WHERE a.aidx = #{aidx}
 	</select>
 	<select id="findMemberReportFreeDiagSubjInfosByMemKey" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportFreeDiagSubjInfo">
-		SELECT a.hkey, a.kwamok, MAX(a.omrDate) AS omrDate, a.jisaCD, b.digYN
+		SELECT MAX(a.hkey) as hkey, a.kwamok, MAX(a.omrDate) AS omrDate, a.jisaCD, b.digYN, a.aidx, a.memKey
 		FROM globaldig.FreeGicho AS a 
 			INNER JOIN globalbiz.DeptSubjInfo AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND a.kwamok = b.subj
 			LEFT JOIN globalbiz.MemSubjMst AS c ON a.memKey = c.memKey AND a.kwamok = c.subj
