@@ -9,6 +9,7 @@
 	</div>
 	<div class="tbl01 mt0">
 		<input type="hidden" id="pageNum" value="1"/>
+		<input type="hidden" id="type" value="01"/>
 		<table>
 			<colgroup>
 				<col width="30">

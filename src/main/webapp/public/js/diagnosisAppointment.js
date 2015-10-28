@@ -92,7 +92,7 @@ $(function(){
 			});
 		}
 	});
-	if(window.location.pathname == '/fa/diagnosis/appointment'){
+	if(window.location.pathname == '/fa/diagnosis/appointment' && $('#type').val() == '01'){
 		$.getMemAppointments();
 	}
 	
@@ -253,6 +253,15 @@ $(function(){
 		console.log($("#registForm").serialize());
 		$("#registForm").submit();
 	});
+	
+	$("#freeDiagBtn").click(function(){
+		if(confirm('무료 진단을 하시겠습니까?')){
+			var idx = $("#idx").val();
+			var subj = $("#subj").val();
+			$.openPop('/fa/diagnosis/ippr?memKey='+idx+'&subj='+subj+'&freejindan=A', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
+		}
+	});
+	
 	$('input[name=registWhy]').click(function(){
 		if(this.value == '99'){
 			$("#registWhyEtc").attr("disabled", false);

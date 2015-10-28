@@ -3,6 +3,8 @@
 <div class="content">
 	<div class="clearfix">
 		<form id="registForm" name="registForm" action="/fa/diagnosis/appointment" method="post">
+		<input type="hidden" id="type" value="02"/>
+		<input type="hidden" id="idx" value="${appointment.idx?default(0) }"/>
 		<div class="conLeft">
 			<h2 class="conTit">Parent(Guardian) Information</h2>
 			<ul class="memSearch">
@@ -140,13 +142,14 @@
 					<label for="subj">Subject <span class="must">*</span></label>
 					<#list subjectOfDepts as subj>
 						<#if subj.subj == appointment.subj>
-						<input type="text"  class="searchInput" style="width:334px" name="dobDay" id="dobDay" value="${subj.subj }" maxlength='10' disabled="disabled"/>
+						<input type="text"  class="searchInput" style="width:334px" name="subj" id="subj" value="${subj.subj }" maxlength='10' disabled="disabled"/>
 						</#if>
 					</#list>
 				</li>
 			</ul>
 			<div class="btnArea">
-				<a id="registBtn" style="cursor: pointer;"><span>Free Diag</span></a>
+				<a id="freeDiagBtn" style="cursor: pointer;"><span>Free Diag</span></a>
+				<a href="/fa/diagnosis/appointment/new?type=02"><span>Cancel</span></a>
 			</div>
 		</div>
 		</form>
