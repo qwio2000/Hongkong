@@ -28,4 +28,5 @@ public interface InterimRepository {
 	
 	String findInterimMpiGichoSave(Map<String, Object> map);
 
+	InterimDto.InterimSDGichoList findInterimSDGichoList(Map<String, Object> map);
 }

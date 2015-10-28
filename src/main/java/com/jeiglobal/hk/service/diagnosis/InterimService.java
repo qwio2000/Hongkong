@@ -93,5 +93,18 @@ public class InterimService {
 		return interimRepository.findInterimMpiGichoSave(map);
 	}
 
+	public InterimDto.InterimSDGichoList getInerimSDGichoList(String jisaCD, String yy, String mm, String memKey, String subj,
+			String lang) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("yy", yy);		
+		map.put("mm", mm);
+		map.put("memKey", memKey);
+		map.put("subj", subj);
+		map.put("lang", lang);
+		
+		return interimRepository.findInterimSDGichoList(map);
+	}
+
 
 }
