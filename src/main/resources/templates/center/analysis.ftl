@@ -1,7 +1,8 @@
 <#include "/include/header.ftl">
 
 <!-- 적용시에는 아래 라이브러리를 header 에 넣을것~ 지금은 테스트~ -->
-<script type="text/javascript" src="${jsPath }/jui/jui.chart.min.js"></script>
+<link rel="stylesheet" type="text/css" href="${jsPath }/Nwagon/Nwagon.css" />
+<script type="text/javascript" src="${jsPath }/Nwagon/Nwagon.js"></script>
 
 <!-- Main Content -->
 <div class="content">
@@ -60,55 +61,52 @@
 	
 	<!-- 지역별 가맹점 수 현황 그래프 : str  -->
 	<h3 class="conTit" style="font-size:15px;">Centers by State</h3>
-	<div id="chart-content" style="height:400px; ">
-	
-	</div>
+		<div id="Nwagon"></div>
 	<!-- 지역별 가맹점 수 현황 그래프 : end  -->
+	
+	
+	<!-- 마감과목별 가맹점 수/분포 현황 : end  -->
+	
+	<!-- 상품별 과목 현황 Member에 있어야 하지만 일단 샘플이니까... : str  -->
+	<h3 class="conTit" style="font-size:15px;">Member by Subject</h3>
+		<div id="Nwagon2"></div>
+	<!-- 상품별 과목 현황 : end  -->
 	
 </div>
 <!--// Main Content -->
 
 <script type="text/javascript">
-
-	var chart = jui.include("chart.builder");
-	chart("#chart-content", {
-	    axis : {
-	        x : {
-	            type : "block",
-	            domain : [ "AB", "BC", "CD", "EF", "BC", "CD", "EF", "BC", "CD", "EF" ]
-	        },
-	        y : {
-	            type : "range",
-	            domain : "total"
-	        },
-	        c : {
-	            type : "grid3d"
-	        },
-	        data : [
-	            { total: 20 },
-	            { total: 15 },
-	            { total: 15 },
-	            { total: 15 },
-	            { total: 15 },
-	            { total: 5 },
-	            { total: 5 },
-	            { total: 5 },
-	            { total: 5 },
-	            { total: 18 }
-	        ],
-	        depth : 20,
-	        degree : 30
-	    },
-	    brush : {
-	        type : "column3d",
-	        outerPadding : 10,
-	        innerPadding : 5 ,
-	        colors : [("#486AAE")]
-	    },
-	    widget : [{
-	        type : "tooltip"
-	    }]
-	});
-		
+var options = {
+		'dataset':{
+			title: 'Member by Subject',
+			values:[35, 3 , 10, 0],
+			colorset: ['#004C63', '#008299', "#6CEEFF", '#B4FFFF'],
+			fields: ['MATH', 'KOREAN',  'PS MATH', 'READING'],
+		},
+		'donut_width' : 35,
+		'core_circle_radius':50,
+		'chartDiv': 'Nwagon2',
+		'chartType': 'donut',
+		'chartSize': {width:700, height:400}
+	};
+	Nwagon.chart(options);
+	
+	
+	var options = {
+		'legend': {
+			names: ['EunJeong','HanSol','InSook','Eom','Pearl','SeungMin','TJ','Taegyu','YongYong','YongYong','YongYong','YongYong']
+		},
+		'dataset': {
+			title: 'Centers by State',
+			values: [50,70,20,44,62,31,5,2,80,0,0,10],
+			colorset: ['#001A7F', '#5586EB', "#9DCEFF"]
+		},
+		'chartDiv': 'Nwagon',
+		'chartType': 'column',
+		'chartSize': { width: 900, height: 300 },
+		'maxValue': 100,
+		'increment': 20
+	};
+	Nwagon.chart(options);	
 </script>
 <#include "/include/footer.ftl">
