@@ -37,7 +37,7 @@
 		형성평가 입력
 	</a>
 	</br>
-	<a href="javascript:var a=window.open('/fa/diagnosis/interimPrint?yy=2015&mm=10&memKey=AA296624&subj=KM&lang=K', 'engpreview','menubar=no,toolbar=yes,status=no,resizable=yes,scrollbars=yes,width=710,height=480');">
+	<a href="javascript:var a=window.open('/fa/diagnosis/interimPrint?jisaCD=08yy=2015&mm=01&memKey=AA296624&subj=KM&lang=K', 'engpreview','menubar=no,toolbar=yes,status=no,resizable=yes,scrollbars=yes,width=710,height=480');">
 		형성평가 기록부
 	</a>
 	

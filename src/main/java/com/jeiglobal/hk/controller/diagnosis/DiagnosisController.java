@@ -171,7 +171,7 @@ public class DiagnosisController {
 	
 	// ippr 오답 입력
 	@RequestMapping(value={"/fa/diagnosis/ipprinput"}, method={RequestMethod.POST,RequestMethod.HEAD})  
-	public String diagnosisIpprinput(Model model, @ModelAttribute LoginInfo loginInfo,String memKey, String jisaCD, String deptCd, String memName, String gradeNM, String gradeCD,  String subjname 
+	public String diagnosisIpprinput(Model model, @ModelAttribute LoginInfo loginInfo,String memKey, String jisaCD, String deptCd, String mfstname, String mlstname, String gradeNM, String gradeCD,  String subjname 
 			, String leveldung, String inputdate, String mBirthDay, String testType, String readchk, String nomr, String yoil, String studyNum, String bookNum, String freejindan) {
 		log.debug("Getting ipprinput List Page");
 		//header에 포함할 스크립트 
@@ -203,7 +203,8 @@ public class DiagnosisController {
 		model.addAttribute("memKey", memKey);	//회원번호
 		model.addAttribute("empKey", empKey);    //원장번호
 		model.addAttribute("empName", empName);    //원장번호
-		model.addAttribute("memName", memName);
+		model.addAttribute("mfstname", mfstname);
+		model.addAttribute("mlstname", mlstname);
 		model.addAttribute("leveldung", leveldung);
 		model.addAttribute("gradeCD", gradeCD);
 		model.addAttribute("mBirthDay", mBirthDay);

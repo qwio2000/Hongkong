@@ -13,6 +13,19 @@
 	<select id="findInterimMpiSave" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
 		CALL globaldig.SPSDOdabInsert(#{jisaCD},#{deptCD},#{memKey},#{subj},#{yy},#{mm},#{wk},#{wkseq},#{setques},#{setsubq},#{odabcnt},#{workId});
 	</select>
+	
+	<!--  형성평가 상담기록부 -->
+		<!-- 리스트-->
+		<select id="findInterimSDGichoList" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.InterimDto$InterimSDGichoList">
+			CALL globaldig.SPSDGichoList (#{jisaCD},#{yy},#{mm},#{memKey},#{subj},#{lang});
+		</select>
+		<!-- 학습내용 및 성취율 -->
+		<select id="findInterimSDWolhakLst" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.InterimDto$InterimSDWolhakLst">
+			CALL globaldig.SPSDWolhakLst (#{jisaCD},#{yy},#{mm},#{memKey},#{subj},#{lang});
+		</select>
+
+
+
 
 
 </mapper>

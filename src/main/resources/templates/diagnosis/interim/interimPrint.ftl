@@ -26,7 +26,7 @@
 				<tr>
 					<td width="50"></td>
 					<td width="590" class="ver-m">
-						<b><font size=2><strong>(KM)</strong></font></b>
+						<b><font size=2><strong>(${sdgicho.kwamok })</strong></font></b>
 					</td>
 				</tr>
 			</table>
@@ -37,23 +37,23 @@
 					<td width="60" class="ver-m"></td>
 					<td width="40" class="ver-m"></td>
 					<td width="60" class="ver-m"><b>교육원 :</b></td>
-					<td width="120" class="ver-m">02788(최현아 Choi HA)</td>
+					<td width="120" class="ver-m">${sdgicho.skey }(${sdgicho.sname })</td>
 					<td width="60" class="ver-m"><b>회&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;원 :</b></td>
-					<td width="140" class="ver-m">최민서&nbsp;(AA231101)</td>
+					<td width="140" class="ver-m">${sdgicho.mfstname }&nbsp;${sdgicho.mlstname }&nbsp;(${sdgicho.hkey })</td>
 				</tr>
 				<tr>
 					<td class="ver-m"></td>
 					<td class="ver-m"><b>관리요일 :</b></td>
 					<td class="ver-m">&nbsp;</td>
 					<td class="ver-m"><b>학습기간 :</b></td>
-					<td class="ver-m">6</td>
+					<td class="ver-m">${sdgicho.hakgigan }</td>
 					<td class="ver-m"><b>학&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;년 :</b></td>
-					<td class="ver-m"></td>
+					<td class="ver-m">${sdgicho.gradenm }</td>
 				</tr>
 			</table>
 			<table>
 				<tr>
-					<td class="ver-m"><font size=2.5><b>4월 학습내용 및 성취율</b></font></td>
+					<td class="ver-m"><font size=2.5><b>${sdgicho.sdmm?number }월 학습내용 및 성취율</b></font></td>
 				</tr>
 			</table>
 			<!----------------------------------월학습내용---------------------------------->
@@ -67,119 +67,43 @@
 					<td width="50" align="center" bordercolorlight="LightCyan" height="20" class="ver-m">성취율</td>
 				</tr>
 				
-				<tr>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						04/1
-					</td>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						&nbsp;
-					</td>
-					<td bordercolorlight="LightCyan" class="ver-m">
-						&nbsp;&nbsp;
-					</td>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						
-							&nbsp;
-						
-					</td>					
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						
-							&nbsp;
-												
-					</td>					
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						
-						&nbsp;
-						
-					</td>
-				</tr>
-				
-				<tr>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						04/2
-					</td>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						E08 
-					</td>
-					<td bordercolorlight="LightCyan" class="ver-m">
-						&nbsp;합ㆍ피감수 11인 덧ㆍ뺄셈의 원리이해 숙달
-					</td>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						0
-					</td>					
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						10						
-					</td>					
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						100
-					</td>
-				</tr>
-				
-				<tr>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						04/3
-					</td>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						E09 
-					</td>
-					<td bordercolorlight="LightCyan" class="ver-m">
-						&nbsp;합ㆍ피감수 12인 덧ㆍ뺄셈의 원리이해 숙달
-					</td>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						0
-					</td>					
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						12						
-					</td>					
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						100
-					</td>
-				</tr>
-				
-				<tr>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						04/4
-					</td>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						E10 
-					</td>
-					<td bordercolorlight="LightCyan" class="ver-m">
-						&nbsp;합ㆍ피감수 12까지의 덧ㆍ뺄셈
-					</td>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						0
-					</td>					
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						18						
-					</td>					
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						100
-					</td>
-				</tr>
-				
-				<tr>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						04/5
-					</td>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						E11 
-					</td>
-					<td bordercolorlight="LightCyan" class="ver-m">
-						&nbsp;합ㆍ피감수 13인 덧ㆍ뺄셈의 원리이해 숙달
-					</td>
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						0
-					</td>					
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						10						
-					</td>					
-					<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
-						100
-					</td>
-				</tr>
-				
+				<#assign mm = ""><#assign sdset = ""><#assign yetext = ""><#assign errtot = ""><#assign itemtot = ""><#assign pcnt = "">
+				<#list 0.. 4 as forIndex>
+					<tr>
+						<#list sdwolhaklst as sdwolhaklstIndxe>		
+							<#if forIndex_index?number+1 = sdwolhaklstIndxe.sdwk?number>
+								<#assign sdset = sdset+' '+sdwolhaklstIndxe.sdset>
+								<#assign yetext = yetext+' '+sdwolhaklstIndxe.yetext>
+								<#assign errtot = errtot+' '+sdwolhaklstIndxe.errtot>
+								<#assign itemtot = itemtot+' '+sdwolhaklstIndxe.itemtot>
+								<#assign pcnt = pcnt+' '+sdwolhaklstIndxe.pcnt>
+							</#if>	
+							<#assign mm = sdwolhaklstIndxe.sdmm>	
+						</#list>
+						<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
+							${mm}/${forIndex_index?number+1 }
+						</td>
+						<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
+							${sdset }<#assign sdset = "">
+						</td>
+						<td bordercolorlight="LightCyan" class="ver-m">
+							${yetext }<#assign yetext = "">
+						</td>
+						<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
+							${errtot }<#assign errtot = "">
+						</td>					
+						<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
+							${itemtot }<#assign itemtot = "">			
+						</td>					
+						<td align="center" bordercolorlight="LightCyan" height="25" class="ver-m">
+							${pcnt }<#assign pcnt = "">							
+						</td>	
+					</tr>
+				</#list>
+					
 			</table>
 			<!-------------------------------형성평가 오답내용 분석---------------------------------->
+			
 
 
 			<table border="0" cellspacing="0" cellpadding="0" width="640">

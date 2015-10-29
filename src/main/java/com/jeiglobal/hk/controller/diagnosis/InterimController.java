@@ -142,8 +142,21 @@ public class InterimController {
 
 	//형성평가 기록부 
 	@RequestMapping(value={"/fa/diagnosis/interimPrint"}, method={RequestMethod.GET,RequestMethod.HEAD})
-	public String interimPrint(Model model, String yy, String mm, String memKey, String subj, String lang) {
+	public String interimPrint(Model model, String jisaCD, String deptCD, String memKey, String subj, String yy, String mm, String lang) {
 		log.debug("Getting interimPrint Page");
+		
+		//회원 기초정보
+		InterimDto.InterimSDGichoList interimSDGichoList =interimService.getInerimSDGichoList(jisaCD,yy,mm,memKey,subj,lang); 
+		
+		//학습내용 및 성취율
+		List<InterimDto.InterimSDWolhakLst> interimSDWolhakLst =interimService.getInerimSDWolhakLst(jisaCD,yy,mm,memKey,subj,lang);
+	
+		
+		System.out.println("========================");
+		System.out.println(interimSDGichoList);
+		
+		model.addAttribute("sdgicho", interimSDGichoList);
+		model.addAttribute("sdwolhaklst", interimSDWolhakLst);
 		
 		return "diagnosis/interim/interimPrint";
 	}
