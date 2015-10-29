@@ -131,7 +131,7 @@ public class MemberRegistController {
 			cal.setTime(sdf.parse(memMst.getMBirthDay()));
 			registSubjects = memberRegistService.getRegistSubjects(memKey, loginInfo);
 		}else if("3".equals(type)){//형제 회원
-			guardianInfo = memberRegistService.getGuardianInfo(memKey);
+			guardianInfo = memberRegistService.getGuardianInfoByMemberReport(memKey);
 		}else if("1".equals(type) && memAppointment != null){
 			cal.setTime(sdf.parse(memAppointment.getMBirthDay()));
 		}

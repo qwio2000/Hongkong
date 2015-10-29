@@ -17,7 +17,6 @@ import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberIpprInfo;
-import com.jeiglobal.hk.domain.member.MemberDto.MemberReportFreeDiagSubjInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjStudyInfo;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
@@ -119,33 +118,43 @@ public class MemberReportController {
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
 		List<MemberDto.MemberReportFreeDiagInfo> memberReportFreeDiagInfos = memberReportService.getMemberReportFreeDiagInfoByHkey(hkey);
+		String hKeys = memberReportService.getHKeys(memberReportFreeDiagInfos);
 		model.addAttribute("memberReportFreeDiagInfos", memberReportFreeDiagInfos);
 		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("hKeys", hKeys);
 		return "member/report/memberReportFreeDiag";
 	}
 	
 	@RequestMapping(value={"/fa/members/reports/guardian"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getGuardianInfoPop(Model model,
 			@ModelAttribute LoginInfo loginInfo,
-			String memKey, String memKeys) {
+			String memKey, String memKeys, 
+			String type // 01 : 기존 유지/퇴회회원  02: 무료 진단
+			) {
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
-		GuardianInfo guardianInfos = memberRegistService.getGuardianInfo(memKey);
+		GuardianInfo guardianInfos = null;
+		if("01".equals(type)){
+			guardianInfos = memberRegistService.getGuardianInfoByMemberReport(memKey);
+		}else if("02".equals(type)){
+			guardianInfos = memberRegistService.getGuardianInfoByFreeDiagReport(memKey);
+		}
 		//State 정보
 		List<CenterState> states = commonService.getCenterStates(loginInfo.getJisaCD());
 		model.addAttribute("memKey", memKey);
 		model.addAttribute("states", states);
 		model.addAttribute("memKeys", memKeys);
+		model.addAttribute("type", type);
 		model.addAttribute("guardianInfos", guardianInfos);
 		model.addAttribute("headerScript", headerScript);
 		return "member/report/guardianInfo";
 	}
 	@RequestMapping(value={"/fa/members/reports/guardian"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
-	public String setGuardianInfoPop(GuardianInfo guardianInfo, String memKeys, HttpServletRequest request) {
+	public String setGuardianInfoPop(GuardianInfo guardianInfo, String memKeys, String type, HttpServletRequest request) {
 		String workId = CommonUtils.getWorkId(request);
 		//MemMst의 부모 정보 Update
-		memberReportService.setGuardianInfo(guardianInfo, memKeys, workId);
+		memberReportService.setGuardianInfo(guardianInfo, memKeys, workId, type);
 		return msa.getMessage("member.report.guardianInfo.update.success");
 	}
 	

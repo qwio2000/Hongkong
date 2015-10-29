@@ -134,7 +134,7 @@ public class MemberRegistService {
 	 * @param memKey
 	 * @return GuardianInfo
 	 */
-	public GuardianInfo getGuardianInfo(String memKey) {
+	public GuardianInfo getGuardianInfoByMemberReport(String memKey) {
 		return memberRegistRepository.findGuardianInfo(memKey);
 	}
 	/**
@@ -408,6 +408,13 @@ public class MemberRegistService {
 		param.put("memKey", memKey);
 		memberRegistRepository.updateFreeGichoByRegist(param);
 		
+	}
+	/**
+	 * @param memKey
+	 * @return GuardianInfo
+	 */
+	public GuardianInfo getGuardianInfoByFreeDiagReport(String memKey) {
+		return memberRegistRepository.findGuardianInfoByFreeDiagReport(memKey);
 	}
 	
 }

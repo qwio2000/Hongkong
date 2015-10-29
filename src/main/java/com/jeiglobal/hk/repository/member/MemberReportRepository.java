@@ -130,4 +130,8 @@ public interface MemberReportRepository {
 	public List<MemberReportFreeDiagSubjInfo> findMemberReportFreeDiagSubjInfosByMemKey(
 			String memKey);
 
+	public void updateGuardianInfoFreeGicho(Map<String, Object> param);
+
+	public void updateGuardianInfoMemAppointment(Map<String, Object> param);
+
 }

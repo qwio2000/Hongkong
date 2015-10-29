@@ -80,8 +80,12 @@ $(function(){
 	}
 	
 });
-function guardianInfoPop(){
-	$.openPop('/fa/members/reports/guardian?memKey='+$('#memKey').val()+'&memKeys='+$('#memKeys').val(), 'memberReportPop', 'width=630,height=480,scrollbars=yes,resizable=no');
+function guardianInfoPop(type){
+	if(type == "01"){
+		$.openPop('/fa/members/reports/guardian?memKey='+$('#memKey').val()+'&memKeys='+$('#memKeys').val()+'&type='+type, 'memberReportPop', 'width=630,height=480,scrollbars=yes,resizable=no');
+	}else if(type == "02"){
+		$.openPop('/fa/members/reports/guardian?memKey='+$('#hkey').val()+'&memKeys='+$('#hkeys').val()+'&type='+type, 'memberReportPop', 'width=630,height=480,scrollbars=yes,resizable=no');
+	}
 }
 function addCommentCall(memKey, memName){
 	$.openPop('/fa/members/reports/commentcall?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=625,height=800,scrollbars=yes,resizable=no');

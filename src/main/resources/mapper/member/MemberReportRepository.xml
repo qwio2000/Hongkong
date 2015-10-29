@@ -32,7 +32,8 @@
 		a.registFnlYMD, CASE a.registFnlYMD WHEN '' THEN a.registFstYMD ELSE a.registFnlYMD END AS recentRegistFnlYMD, 
 		DATE_FORMAT(CASE a.registFnlYMD WHEN '' THEN a.registFstYMD ELSE a.registFnlYMD END, '%m/%d/%Y') AS convertRegistYMD, 
 		a.dropFnlYMD, IFNULL(DATE_FORMAT(a.dropFnlYMD, '%m/%d/%Y'), '') AS convertDropYMD, b.visitHours, 
-		globalbiz.FuncCodeDtlNM(a.jisaCD, '0206' , b.visitHours, '', 'Y') AS visitHourName, c.digYN, a.jisaCD, IFNULL(d.omrDate, '') AS omrDate
+		globalbiz.FuncCodeDtlNM(a.jisaCD, '0206' , b.visitHours, '', 'Y') AS visitHourName, c.digYN, a.jisaCD, IFNULL(d.omrDate, '') AS omrDate,
+		IFNULL(e.sdyymm, '') AS sdyymm
 	FROM globalbiz.MemSubjMst AS a 
 	INNER JOIN globalbiz.MemSubjStudy AS b ON a.memKey = b.memKey AND a.subj = b.subj
 	INNER JOIN globalbiz.DeptSubjInfo AS c ON a.jisaCD = c.jisaCD AND a.deptCD = c.deptCD AND a.subj = c.subj
@@ -42,6 +43,12 @@
 		GROUP BY hkey, kwamok
 		ORDER BY omrDate DESC
 	) AS d ON a.memKey = d.hkey AND a.subj = d.kwamok
+	LEFT JOIN (
+		SELECT hkey, kwamok, MAX(CONCAT(sdyy, sdmm)) AS sdyymm
+		FROM globaldig.SDGicho AS bb
+		GROUP BY hkey, kwamok
+		ORDER BY sdyy DESC, sdmm DESC
+	) AS e ON a.memKey = e.hkey AND a.subj = e.kwamok
 	WHERE a.memKey = #{memKey} AND a.jisaCD = #{jisaCD} 
 	<if test="deptCD != '00000'">
 		AND b.deptCD = #{deptCD}
@@ -367,4 +374,34 @@
 		WHERE a.memKey = #{memKey} AND c.statusCD IS NULL
 		GROUP BY a.memKey, a.kwamok
 	</select>
+	<update id="updateGuardianInfoFreeGicho" parameterType="hashMap">
+	UPDATE globaldig.FreeGicho 
+	SET gFstName = #{guardianInfo.gFstName}, gLstName = #{guardianInfo.gLstName}, city = #{guardianInfo.city}, stateCD = #{guardianInfo.stateCD},
+		zip = #{guardianInfo.zip}, addr = #{guardianInfo.addr}, gEmail = #{guardianInfo.gEmail}, gPhone = #{guardianInfo.gPhone},
+		gCellPhone = #{guardianInfo.gCellPhone}
+		<where>
+			hkey IN 
+			 <foreach item="item" index="index" collection="memKeys"
+			     open="(" separator="," close=")">
+			       #{item}
+			 </foreach>
+		</where>
+	</update>
+	<update id="updateGuardianInfoMemAppointment" parameterType="hashMap">
+	UPDATE globalbiz.MemAppointment 
+	SET gFstName = #{guardianInfo.gFstName}, gLstName = #{guardianInfo.gLstName}, city = #{guardianInfo.city}, stateCD = #{guardianInfo.stateCD},
+		zip = #{guardianInfo.zip}, addr = #{guardianInfo.addr}, gEmail = #{guardianInfo.gEmail}, gPhone = #{guardianInfo.gPhone},
+		gCellPhone = #{guardianInfo.gCellPhone}, updDate=NOW(), updID=#{workId}
+		<where>
+			idx = (
+				SELECT aidx 
+				FROM globaldig.FreeGicho 
+				WHERE hkey IN 
+				 <foreach item="item" index="index" collection="memKeys"
+				     open="(" separator="," close=")">
+				       #{item}
+				 </foreach>
+			)
+		</where>
+	</update>
 </mapper>

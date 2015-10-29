@@ -34,6 +34,8 @@
 	</#if>
 	<script type="text/javascript">
 		var imgPath = '${imgPath}';
+		var jisaCD = '${loginInfo.jisaCD}';
+		var deptCD = '${loginInfo.deptCD}';
 	</script>
 </head>
 <body>

@@ -101,17 +101,17 @@
 			<td class="left pl5">
 				<a href="#" class="subject_graph">{{subj}}</a>
 			</td>
-			<td><a href="#">{{set1}}</a></td>
-			<td><a href="#">{{set2}}</a></td>
-			<td><a href="#">{{set3}}</a></td>
-			<td><a href="#">{{set4}}</a></td>
-			<td><a href="#">{{set5}}</a></td>
+			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy1}}','{{mm1}}')">{{set1}}</a></td>
+			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy2}}','{{mm2}}')">{{set2}}</a></td>
+			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy3}}','{{mm3}}')">{{set3}}</a></td>
+			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy4}}','{{mm4}}')">{{set4}}</a></td>
+			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy5}}','{{mm5}}')">{{set5}}</a></td>
 			{{#xIf ../../../week "==" 10}}
-				<td><a href="#">{{set6}}</a></td>
-				<td><a href="#">{{set7}}</a></td>
-				<td><a href="#">{{set8}}</a></td>
-				<td><a href="#">{{set9}}</a></td>
-				<td><a href="#">{{set10}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy6}}','{{mm6}}')">{{set6}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy7}}','{{mm7}}')">{{set7}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy8}}','{{mm8}}')">{{set8}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy9}}','{{mm9}}')">{{set9}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy10}}','{{mm10}}')">{{set10}}</a></td>
 			{{else}}
 				<td></td>
 			{{/xIf}}
@@ -122,17 +122,17 @@
 				<td class="left pl5">
 					<a href="#" class="subject_graph">{{subj}}</a>
 				</td>
-				<td><a href="#">{{set1}}</a></td>
-				<td><a href="#">{{set2}}</a></td>
-				<td><a href="#">{{set3}}</a></td>
-				<td><a href="#">{{set4}}</a></td>
-				<td><a href="#">{{set5}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy1}}','{{mm1}}')">{{set1}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy2}}','{{mm2}}')">{{set2}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy3}}','{{mm3}}')">{{set3}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy4}}','{{mm4}}')">{{set4}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy5}}','{{mm5}}')">{{set5}}</a></td>
 				{{#xIf  ../../../week "==" 10}}
-					<td><a href="#">{{set6}}</a></td>
-					<td><a href="#">{{set7}}</a></td>
-					<td><a href="#">{{set8}}</a></td>
-					<td><a href="#">{{set9}}</a></td>
-					<td><a href="#">{{set10}}</a></td>
+					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy6}}','{{mm6}}')">{{set6}}</a></td>
+					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy7}}','{{mm7}}')">{{set7}}</a></td>
+					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy8}}','{{mm8}}')">{{set8}}</a></td>
+					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy9}}','{{mm9}}')">{{set9}}</a></td>
+					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy10}}','{{mm10}}')">{{set10}}</a></td>
 				{{else}}
 					<td></td>
 				{{/xIf}}

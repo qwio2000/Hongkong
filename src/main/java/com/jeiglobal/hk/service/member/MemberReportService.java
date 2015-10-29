@@ -152,16 +152,22 @@ public class MemberReportService {
 	 * @param guardianInfo
 	 * @param memKeys
 	 * @param workId 
+	 * @param type 
 	 * @param loginInfo 
 	 * @return String
 	 */
-	public void setGuardianInfo(GuardianInfo guardianInfo, String memKeys, String workId) {
+	public void setGuardianInfo(GuardianInfo guardianInfo, String memKeys, String workId, String type) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("guardianInfo", guardianInfo);
 		param.put("memKeys", memKeys.split("\\|"));
 		param.put("workId", workId);
-		memberReportRepository.insertMemMstHisForGuadianInfo(param);
-		memberReportRepository.updateGuardianInfo(param);
+		if("01".equals(type)){
+			memberReportRepository.insertMemMstHisForGuadianInfo(param);
+			memberReportRepository.updateGuardianInfo(param);
+		}else if("02".equals(type)){
+			memberReportRepository.updateGuardianInfoFreeGicho(param);
+			memberReportRepository.updateGuardianInfoMemAppointment(param);
+		}
 	}
 
 	/**
@@ -602,6 +608,20 @@ public class MemberReportService {
 		}
 		return memberReportFreeDiagInfos;
 	}
-
+	
+	/**
+	 * 부모 정보 업데이트 시 적용할 회원 번호 리스트 생성
+	 * @param memberReportInfos
+	 * @return String
+	 */
+	public String getHKeys(List<MemberReportFreeDiagInfo> memberReportFreeDiagInfos) {
+		String hKeys = "";
+		for (MemberReportFreeDiagInfo memberReportFreeDiagInfo : memberReportFreeDiagInfos) {
+			hKeys += ("".equals(hKeys))?"" : "|";
+			hKeys += memberReportFreeDiagInfo.getHkey();
+		}
+		System.out.println(hKeys);
+		return hKeys;
+	}
 
 }
