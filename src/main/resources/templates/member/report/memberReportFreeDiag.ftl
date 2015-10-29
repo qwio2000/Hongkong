@@ -42,6 +42,8 @@
 					</div>
 					<div class="btnArea_icon clearfix">
 						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
+						<a href="javascript:guardianInfoPop();" class="btn_info tooltip" title="<@spring.message 'member.report.tooltip.guardianupdate'/>"></a>
+						<!--  <a href="#" class="btn_doc tooltip"  title="<@spring.message 'member.report.tooltip.siblingfreediag'/>"></a>-->
 						<span class="tooltip_Area"></span>
 					</div>
 				</div>
@@ -131,6 +133,11 @@
 					</div>
 					<div class="btnArea_icon clearfix">
 						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
+						<!--  <a href="javascript:addCommentCall('${info.memKey }','${info.MFstName} ${info.MLstName }');" class="btn_talk tooltip" title="<@spring.message 'member.report.tooltip.commentcall'/>"></a>
+						<a href="javascript:setMemberInfo('${info.memKey }')" class="btn_info tooltip" title="<@spring.message 'member.report.tooltip.memberinfoupdate'/>"></a>
+						<a href="javascript:setMemSubjStudyInfo('${info.memKey }')" class="btn_date tooltip" title="<@spring.message 'member.report.tooltip.manageUpdate'/>"></a>
+						<a href="/fa/members/regist/new?type=2&memKey=${info.memKey?default('') }" class="btn_doc_add tooltip" title="<@spring.message 'member.report.tooltip.othersubjectregist'/>"></a>
+						<a href="javascript:getIpprs('${info.memKey }','${info.MFstName} ${info.MLstName }')" class="btn_all f_right tooltip" title="<@spring.message 'member.report.tooltip.ippr'/>"></a>-->
 						<span class="tooltip_Area"></span>
 					</div>
 					</#list>
