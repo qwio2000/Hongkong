@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.diagnosis.InterimDto;
+import com.jeiglobal.hk.domain.diagnosis.InterimDto.InterimSDErrAnalysis;
+import com.jeiglobal.hk.domain.diagnosis.InterimDto.InterimSDJindoExpectLst;
 import com.jeiglobal.hk.domain.diagnosis.InterimDto.InterimSDWolhakLst;
+import com.jeiglobal.hk.domain.diagnosis.InterimDto.InterimSDWorkBasicLst;
 import com.jeiglobal.hk.repository.diagnosis.InterimRepository;
 
 /**
@@ -118,6 +121,42 @@ public class InterimService {
 		map.put("lang", lang);
 		
 		return interimRepository.findInterimSDWolhakLst(map);
+	}
+
+	public List<InterimSDErrAnalysis> getInerimSDErrAnalysis(String jisaCD, String yy, String mm, String memKey,
+			String subj, String lang) {		
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("yy", yy);		
+		map.put("mm", mm);
+		map.put("memKey", memKey);
+		map.put("subj", subj);
+		map.put("lang", lang);
+		
+		return interimRepository.findInterimSDErrAnalysis(map);
+	}
+
+	public List<InterimSDJindoExpectLst> getInerimSDJindoExpectLst(String jisaCD, String yy, String mm, String memKey,
+			String subj, String lang) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("yy", yy);		
+		map.put("mm", mm);
+		map.put("memKey", memKey);
+		map.put("subj", subj);
+		map.put("lang", lang);
+		
+		return interimRepository.findInterimSDJindoExpectLst(map);
+	}
+
+	public InterimSDWorkBasicLst getInerimSDWorkBasicLst(String jisaCD, String grade, String birthday, String mm) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("jisaCD", jisaCD);		
+		map.put("grade", grade);		
+		map.put("birthday", birthday);
+		map.put("mm", mm);
+		
+		return interimRepository.findInterimSDWorkBasicLst(map);
 	}
 
 

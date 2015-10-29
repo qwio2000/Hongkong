@@ -1,6 +1,8 @@
 package com.jeiglobal.hk.controller.diagnosis;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,7 @@ import com.jeiglobal.hk.utils.CommonUtils;
 import com.jeiglobal.hk.utils.MessageSourceAccessor;
 
 import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * 
@@ -150,15 +153,63 @@ public class InterimController {
 		
 		//학습내용 및 성취율
 		List<InterimDto.InterimSDWolhakLst> interimSDWolhakLst =interimService.getInerimSDWolhakLst(jisaCD,yy,mm,memKey,subj,lang);
-	
 		
-		System.out.println("========================");
-		System.out.println(interimSDGichoList);
+		//형성평가 오답내용 분석
+		List<InterimDto.InterimSDErrAnalysis> interimSDErrAnalysis =interimService.getInerimSDErrAnalysis(jisaCD,yy,mm,memKey,subj,lang);
 		
+		//진도현황 (금월/예상)
+		List<InterimDto.InterimSDJindoExpectLst> interimSDJindoExpectLst =interimService.getInerimSDJindoExpectLst(jisaCD,yy,mm,memKey,subj,lang);
+		
+		String grade = interimSDGichoList.getOmrhak();
+		String birthday = interimSDGichoList.getOmrbirth();
+		//월의 학습환경
+		InterimDto.InterimSDWorkBasicLst interimSDWorkBasicLst =interimService.getInerimSDWorkBasicLst(jisaCD,grade,birthday,mm);
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		Calendar cal = Calendar.getInstance();
+		cal.set(Integer.parseInt(yy), Integer.parseInt(mm) -1 , 1);
+		cal.add(Calendar.MONTH, 1);
+		String convYYMM = sdf.format(cal.getTime());
+		model.addAttribute("convYYMM1", convYYMM);
+		cal.add(Calendar.MONTH, 1);
+		convYYMM = sdf.format(cal.getTime());
+		model.addAttribute("convYYMM2", convYYMM);
+		cal.add(Calendar.MONTH, 1);
+		convYYMM = sdf.format(cal.getTime());
+		model.addAttribute("convYYMM3", convYYMM);
+		
+		String setdata1 = interimSDWorkBasicLst.getSetdata1();
+		String setdata2 = interimSDWorkBasicLst.getSetdata2();
+		String setdata3 = interimSDWorkBasicLst.getSetdata3();
+		String setdata4 = interimSDWorkBasicLst.getSetdata4();
+		String setdata5 = interimSDWorkBasicLst.getSetdata5();
+		
+		String setdata = setdata1 + setdata2 +setdata3 + setdata4 + setdata5;		
+
+		
+		
+		model.addAttribute("subj", subj);
 		model.addAttribute("sdgicho", interimSDGichoList);
-		model.addAttribute("sdwolhaklst", interimSDWolhakLst);
+		model.addAttribute("sdwolhak", interimSDWolhakLst);
+		model.addAttribute("sderr", interimSDErrAnalysis);
+		model.addAttribute("jindo", interimSDJindoExpectLst);
+		model.addAttribute("setdata", setdata);
+
 		
-		return "diagnosis/interim/interimPrint";
+		if ("C".equals(lang)){
+			return "diagnosis/interim/interimPrintCha";
+		}else if ("E".equals(lang)) {
+			return "diagnosis/interim/interimPrintEng";
+		}else if ("K".equals(lang)) {
+			return "diagnosis/interim/interimPrintkor";
+		}else{		
+			String alertMsg = messageSourceAccesor.getMessage("Ippr.interim.MprList");
+			model.addAttribute("message", alertMsg);
+			model.addAttribute("mode", "close");
+			return "alertAndRedirect";
+		}
+		
 	}
 	
 

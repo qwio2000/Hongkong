@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.jeiglobal.hk.domain.diagnosis.InterimDto;
-import com.jeiglobal.hk.domain.diagnosis.InterimDto.InterimSDGichoList;
 import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
 
 /**
@@ -23,15 +22,26 @@ import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
 @PrimaryRepositoryAnnoInterface
 public interface InterimRepository {
 
+	Map<String, Object> findInterimSDJindoExpectLst = null;
+
 	List<InterimDto.InterimWolJinDo> findInterimWolJinDo(Map<String, Object> map);
 	
 	String findInterimMpiSave(Map<String, Object> map);
 	
 	String findInterimMpiGichoSave(Map<String, Object> map);
 
-	InterimSDGichoList findInterimSDGichoList(Map<String, Object> map);
+	InterimDto.InterimSDGichoList findInterimSDGichoList(Map<String, Object> map);
 
 	List<InterimDto.InterimSDWolhakLst> findInterimSDWolhakLst(Map<String, Object> map);
+	
+	List<InterimDto.InterimSDErrAnalysis> findInterimSDErrAnalysis(Map<String, Object> map);
+	
+	List<InterimDto.InterimSDJindoExpectLst> findInterimSDJindoExpectLst(Map<String, Object> map);
+	
+	InterimDto.InterimSDWorkBasicLst findInterimSDWorkBasicLst(Map<String, Object> map);
+	
+	
+
 
 	
 }
