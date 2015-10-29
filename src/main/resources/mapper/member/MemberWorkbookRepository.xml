@@ -50,8 +50,8 @@
 					SUBSTRING(#{weekMap.set8}, 1, 4) AS yy8, SUBSTRING(#{weekMap.set8}, 5, 2) AS mm8,
 					globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set9}, '1') AS set9, globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set9}, '2') AS setWbOutYMD9,
 					SUBSTRING(#{weekMap.set9}, 1, 4) AS yy9, SUBSTRING(#{weekMap.set9}, 5, 2) AS mm9,
-					globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set10}, '1') AS set10, globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set10}, '2') AS setWbOutYMD10
-					SUBSTRING(#{weekMap.set10}, 1, 4) AS yy10, SUBSTRING(#{weekMap.set10}, 5, 2) AS mm10,
+					globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set10}, '1') AS set10, globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set10}, '2') AS setWbOutYMD10,
+					SUBSTRING(#{weekMap.set10}, 1, 4) AS yy10, SUBSTRING(#{weekMap.set10}, 5, 2) AS mm10
 				</when>
 				<otherwise>
 					'' AS set6, '' AS setWbOutYMD6, '' AS yy6, '' AS mm6,
