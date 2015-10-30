@@ -158,7 +158,7 @@ public class MemberReportController {
 		return msa.getMessage("member.report.guardianInfo.update.success");
 	}
 	
-	@RequestMapping(value={"/fa/members/reports/commentcall/{pageNum:[0-9]{1,4}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members/reports/commentcall/{pageNum:[0-9]{1,4}}","/ja/members/search/commentcall/{pageNum:[0-9]{1,4}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> getCommentCalls(Model model,
 			String memKey, @PathVariable int pageNum) throws ParseException {
@@ -172,7 +172,7 @@ public class MemberReportController {
 		return map;
 	}
 	
-	@RequestMapping(value={"/fa/members/reports/commentcall"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@RequestMapping(value={"/fa/members/reports/commentcall", "/ja/members/search/commentcall"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String addCommentCallPop(String memKey, String memName, String callNotes, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) {
 		String workId = CommonUtils.getWorkId(request);
@@ -181,14 +181,14 @@ public class MemberReportController {
 		return msa.getMessage("member.report.commentcall.insert.success");
 	}
 	
-	@RequestMapping(value={"/fa/members/reports/commentcall/delete"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@RequestMapping(value={"/fa/members/reports/commentcall/delete", "/ja/members/search/commentcall/delete"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String removeCommentCall(int idx) {
 		memberReportService.removeCommentCall(idx);
 		return msa.getMessage("member.report.commentcall.delete.success");
 	}
 	
-	@RequestMapping(value={"/fa/members/reports/commentcall"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members/reports/commentcall", "/ja/members/search/commentcall"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCommentCallPop(Model model,
 			String memKey, String memName) {
 		List<String> headerScript = new ArrayList<String>();

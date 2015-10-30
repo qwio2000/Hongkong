@@ -1,10 +1,8 @@
 var url = '';
 $(function(){
-	var currentPath = window.location.pathname;
-	
-	if($.contains(currentPath, '/fa')){
+	if($.contains(window.location.pathname, '/fa')){
 		url = '/fa/members/reports/';
-	}else if($.contains(currentPath, '/ja')){
+	}else if($.contains(window.location.pathname, '/ja')){
 		url = '/ja/members/search/';
 	}
 	
@@ -75,7 +73,7 @@ $(function(){
 		$('#pageNum').val(pageNum);
 		getCommentCalls();
 	});	
-	if(currentPath == '/fa/members/reports/commentcall'){
+	if(window.location.pathname == '/fa/members/reports/commentcall' || window.location.pathname == '/ja/members/search/commentcall'){
 		getCommentCalls();
 	}
 	
@@ -178,9 +176,15 @@ function guardianInfoSubmit(){
 }
 function commentCallSubmit(){
 	if(confirm('상담 이력을 입력하시겠습니까?')){
+		var url;
+		if(userType.toLowerCase() == 'fa'){
+			url = "/"+userType.toLowerCase()+"/members/reports/commentcall";
+		}else if(userType.toLowerCase() == 'ja'){
+			url = "/"+userType.toLowerCase()+"/members/search/commentcall";
+		}
 		var param = $("#commentCallForm").serialize();
 		$.ajax({
-			url:"/fa/members/reports/commentcall",
+			url:url,
 			type:"POST",
 			cache: true,
 			data: param,
@@ -323,7 +327,6 @@ function dropCancelMember(memKey, subj, dropDate){
 			dataType: "text",
 			success: function(result, textStatus, XMLHttpRequest) {
 				alert(result);
-				self.close();
 				location.reload();
 			},
 			error:function (xhr, ajaxOptions, thrownError){	
@@ -335,9 +338,14 @@ function dropCancelMember(memKey, subj, dropDate){
 function getCommentCalls(){
 	var pageNum = $("#pageNum").val();
 	var memKey = $("#memKey").val();
+	if(userType.toLowerCase() == 'fa'){
+		url = "/"+userType.toLowerCase()+"/members/reports/commentcall/"+pageNum;
+	}else if(userType.toLowerCase() == 'ja'){
+		url = "/"+userType.toLowerCase()+"/members/search/commentcall/"+pageNum;
+	}
 	var param = {"memKey":memKey};
 	$.ajax({
-		url:"/fa/members/reports/commentcall/"+pageNum,
+		url: url,
 		type:"GET",
 		cache: true,
 		data: param,
@@ -352,6 +360,8 @@ function getCommentCalls(){
 				if(pageInfo.totalPageCnt > 1){
 					$("#pageNavi").html($.pageUtil(pageInfo.pageNum,pageInfo.totalPageCnt, 
 							pageInfo.pageBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));	
+				}else{
+					$("#pageNavi").empty();
 				}
 				var source = $("#commentCallTemplate").html();
 				var template = Handlebars.compile(source);
@@ -365,9 +375,14 @@ function getCommentCalls(){
 }
 function deleteCommentCall(idx){
 	if(confirm('메모를 삭제 하시겠습니까?')){
+		if(userType.toLowerCase() == 'fa'){
+			url = "/"+userType.toLowerCase()+"/members/reports/commentcall/delete";
+		}else if(userType.toLowerCase() == 'ja'){
+			url = "/"+userType.toLowerCase()+"/members/search/commentcall/delete";
+		}
 		var param = {"idx":idx};
 		$.ajax({
-			url:"/fa/members/reports/commentcall/delete",
+			url: url,
 			type:"POST",
 			cache: true,
 			data: param,

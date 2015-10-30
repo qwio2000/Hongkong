@@ -94,8 +94,8 @@
 	</select>
 	<insert id="insertMemAppointment" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
 	INSERT INTO globalbiz.MemAppointment 
-		(apmRegistYMD, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, preferredYMD, preferredTimes, preferredNotes, apmStatusCD, subj, memKey, registYMD, freeDigYMD, deptCD, jisaCD, regDate, regID, updDate, updID)
-	SELECT #{currentYMD}, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, #{preferredYMD}, #{preferredTimes}, #{preferredNotes}, '01', #{subj}, memKey, '', '', #{loginInfo.deptCD}, #{loginInfo.jisaCD}, NOW(), #{workId}, NOW(), #{workId}
+		(type, apmRegistYMD, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, preferredYMD, preferredTimes, preferredNotes, apmStatusCD, subj, memKey, registYMD, freeDigYMD, deptCD, jisaCD, regDate, regID, updDate, updID)
+	SELECT #{type}, #{currentYMD}, mFstName, mLstName, mBirthDay, gradeCD, schoolName, mEmail, eContact, ePhone, gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone, #{preferredYMD}, #{preferredTimes}, #{preferredNotes}, '01', #{subj}, memKey, '', '', #{loginInfo.deptCD}, #{loginInfo.jisaCD}, NOW(), #{workId}, NOW(), #{workId}
 	FROM globalbiz.MemMst
 	WHERE memKey = #{memKey}
 	</insert>

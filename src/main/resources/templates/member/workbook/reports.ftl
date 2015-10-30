@@ -99,19 +99,19 @@
 		{{#xIf @index "==" 0}}
 			<td>{{yoilName}} {{visitHoursName}}</td>
 			<td class="left pl5">
-				<a href="#" class="subject_graph">{{subj}}</a>
+				<a href="#" class="subject_graph" title="진도조정">{{subj}}</a>
 			</td>
-			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy1}}','{{mm1}}')">{{set1}}</a></td>
-			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy2}}','{{mm2}}')">{{set2}}</a></td>
-			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy3}}','{{mm3}}')">{{set3}}</a></td>
-			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy4}}','{{mm4}}')">{{set4}}</a></td>
-			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy5}}','{{mm5}}')">{{set5}}</a></td>
+			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy1}}','{{mm1}}')" title="형성평가">{{set1}}</a></td>
+			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy2}}','{{mm2}}')" title="형성평가">{{set2}}</a></td>
+			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy3}}','{{mm3}}')" title="형성평가">{{set3}}</a></td>
+			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy4}}','{{mm4}}')" title="형성평가">{{set4}}</a></td>
+			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy5}}','{{mm5}}')" title="형성평가">{{set5}}</a></td>
 			{{#xIf ../../../week "==" 10}}
-				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy6}}','{{mm6}}')">{{set6}}</a></td>
-				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy7}}','{{mm7}}')">{{set7}}</a></td>
-				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy8}}','{{mm8}}')">{{set8}}</a></td>
-				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy9}}','{{mm9}}')">{{set9}}</a></td>
-				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy10}}','{{mm10}}')">{{set10}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy6}}','{{mm6}}')" title="형성평가">{{set6}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy7}}','{{mm7}}')" title="형성평가">{{set7}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy8}}','{{mm8}}')" title="형성평가">{{set8}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy9}}','{{mm9}}')" title="형성평가">{{set9}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy10}}','{{mm10}}')" title="형성평가">{{set10}}</a></td>
 			{{else}}
 				<td></td>
 			{{/xIf}}
@@ -120,19 +120,19 @@
 			<tr class="line2">
 				<td>{{yoilName}} {{visitHoursName}}</td>
 				<td class="left pl5">
-					<a href="#" class="subject_graph">{{subj}}</a>
+					<a href="#" class="subject_graph" title="진도조정">{{subj}}</a>
 				</td>
-				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy1}}','{{mm1}}')">{{set1}}</a></td>
-				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy2}}','{{mm2}}')">{{set2}}</a></td>
-				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy3}}','{{mm3}}')">{{set3}}</a></td>
-				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy4}}','{{mm4}}')">{{set4}}</a></td>
-				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy5}}','{{mm5}}')">{{set5}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy1}}','{{mm1}}')" title="형성평가">{{set1}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy2}}','{{mm2}}')" title="형성평가">{{set2}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy3}}','{{mm3}}')" title="형성평가">{{set3}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy4}}','{{mm4}}')" title="형성평가">{{set4}}</a></td>
+				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy5}}','{{mm5}}')" title="형성평가">{{set5}}</a></td>
 				{{#xIf  ../../../week "==" 10}}
-					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy6}}','{{mm6}}')">{{set6}}</a></td>
-					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy7}}','{{mm7}}')">{{set7}}</a></td>
-					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy8}}','{{mm8}}')">{{set8}}</a></td>
-					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy9}}','{{mm9}}')">{{set9}}</a></td>
-					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy10}}','{{mm10}}')">{{set10}}</a></td>
+					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy6}}','{{mm6}}')" title="형성평가">{{set6}}</a></td>
+					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy7}}','{{mm7}}')" title="형성평가">{{set7}}</a></td>
+					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy8}}','{{mm8}}')" title="형성평가">{{set8}}</a></td>
+					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy9}}','{{mm9}}')" title="형성평가">{{set9}}</a></td>
+					<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy10}}','{{mm10}}')" title="형성평가">{{set10}}</a></td>
 				{{else}}
 					<td></td>
 				{{/xIf}}

@@ -36,6 +36,7 @@
 		var imgPath = '${imgPath}';
 		var jisaCD = '${loginInfo.jisaCD}';
 		var deptCD = '${loginInfo.deptCD}';
+		var userType = '${loginInfo.userType}';
 	</script>
 </head>
 <body>

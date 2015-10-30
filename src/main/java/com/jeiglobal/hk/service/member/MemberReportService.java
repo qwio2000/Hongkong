@@ -227,6 +227,7 @@ public class MemberReportService {
 			String subj, LoginInfo loginInfo, String workId) throws ParseException {
 		String currentYMD = CommonUtils.getCurrentYMD();
 		Map<String, Object> param = new HashMap<>();
+		param.put("type", "01");
 		param.put("currentYMD", currentYMD);
 		param.put("memKey", memKey);
 		param.put("memName", memName);
