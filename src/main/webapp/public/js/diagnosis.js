@@ -295,9 +295,9 @@ $(function(){
 												
 						alert(jsonData.alertMsg);
 						
-						$.openIpprPost(jisaCD,OmrDate, Hkey, mujin, Kwamok, Kwamok.substring(0,1), 'Y', 'IpprPageSub');
-						
 						self.close();
+						
+						$.openIpprPost(jisaCD,OmrDate, Hkey, mujin, Kwamok, Kwamok.substring(0,1), 'Y', 'IpprPageSub');
 						
 					},
 					error:function (xhr, ajaxOptions, thrownError){	
