@@ -248,7 +248,6 @@ public class MemberReportService {
 	 */
 	public void setMemberInfo(MemMst memMst, LoginInfo loginInfo, String workId) throws ParseException {
 		Map<String, Object> param = new HashMap<>();
-		memMst.setMBirthDay(CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", memMst.getMBirthDay()));
 		param.put("memMst", memMst);
 		param.put("loginInfo", loginInfo);
 		param.put("workId", workId);
@@ -258,7 +257,6 @@ public class MemberReportService {
 		memberReportRepository.updateMemMst(param);
 		//MemSubjMst memName Update
 		memberReportRepository.updateMemSubjMstForMemName(param);
-		//TODO 다른 테이블들 memName 변경 여부?
 		
 	}
 
@@ -598,13 +596,18 @@ public class MemberReportService {
 			if(memberReportFreeDiagInfo.getOmrBirth() != null && !memberReportFreeDiagInfo.getOmrBirth().isEmpty()){
 				memberReportFreeDiagInfo.setOmrBirth(CommonUtils.changeDateFormat("yyyy-MM-dd", "MM/dd/yyyy", memberReportFreeDiagInfo.getOmrBirth()));
 			}
-			if(memberReportFreeDiagInfo.getMemKey() == null || memberReportFreeDiagInfo.getMemKey().isEmpty()){
-				if(memberReportFreeDiagInfo.getAidx() != 0){
-					memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByHkey(memberReportFreeDiagInfo.getAidx()));
-				}
-			}else{
+			if(memberReportFreeDiagInfo.getAidx() != 0){ //기존 회원이 아니면
+				memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByAidx(memberReportFreeDiagInfo.getAidx()));
+			}else{ // 기존 회원이면
 				memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByMemKey(memberReportFreeDiagInfo.getMemKey()));
 			}
+//			if(memberReportFreeDiagInfo.getMemKey() == null || memberReportFreeDiagInfo.getMemKey().isEmpty()){
+//				if(memberReportFreeDiagInfo.getAidx() != 0){
+//					memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByHkey(memberReportFreeDiagInfo.getAidx()));
+//				}
+//			}else{
+//				memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByMemKey(memberReportFreeDiagInfo.getMemKey()));
+//			}
 		}
 		return memberReportFreeDiagInfos;
 	}
@@ -620,8 +623,51 @@ public class MemberReportService {
 			hKeys += ("".equals(hKeys))?"" : "|";
 			hKeys += memberReportFreeDiagInfo.getHkey();
 		}
-		System.out.println(hKeys);
 		return hKeys;
+	}
+
+	/**
+	 * @param memMst
+	 * @param loginInfo
+	 * @param workId void
+	 * @throws ParseException 
+	 */
+	public void setMemberInfoByFreeGicho(MemMst memMst, LoginInfo loginInfo,
+			String workId) throws ParseException {
+		Map<String, Object> param = new HashMap<>();
+		memMst.setMBirthDay(CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", memMst.getMBirthDay()));
+		param.put("memMst", memMst);
+		param.put("loginInfo", loginInfo);
+		param.put("workId", workId);
+		param.put("columnName", "M".equals(memMst.getMemKey().substring(0, 1)) ? "aidx" : "memKey");
+		//FreeGicho Update
+		memberReportRepository.updateFreeGicho(param);
+		if("M".equals(memMst.getMemKey().substring(0, 1))){
+			//Appointment Update
+			memberReportRepository.updateMemAppointment(param);
+		}
+		
+	}
+
+	/**
+	 * @param key
+	 * @return List<SubjectOfDept>
+	 */
+	public List<String> getFreeDiagOtherSubj(String key) {
+		if(key.length() == 8){
+			return memberReportRepository.findFreeDiagOtherSubjByMemKey(key);
+		}else{
+			return memberReportRepository.findFreeDiagOtherSubjByIdx(key);
+		}
+	}
+
+	/**
+	 * @param key
+	 * @return List<String>
+	 */
+	public List<String> getSubjsInMemAppointment(String key) {
+		String subjs = memberReportRepository.findSubjsInMemAppointment(key);
+		return Arrays.asList(subjs.split(","));
 	}
 
 }

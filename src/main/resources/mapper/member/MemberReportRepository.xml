@@ -351,27 +351,27 @@
 		AND b.memKey = #{memberRegist.memKey} AND b.subj = #{memberRegist.subj} AND b.hUpdCD = '13' AND DATE_FORMAT(b.hRegDate,'%Y-%m-%d') = #{memberRegist.registYMD}
 	</update>
 	<select id="findMemberReportFreeDiagInfoByHkey" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportFreeDiagInfo">
-		SELECT a.hkey, a.mFstName, a.mLstName, a.skey, a.sname, a.omrHak, globalbiz.FuncCodeDtlNM(a.jisaCD, '0003', a.omrHak, '', 'Y') AS omrHakName, omrBirth, 
+		SELECT MIN(a.hkey) AS hkey, a.mFstName, a.mLstName, a.skey, a.sname, a.omrHak, globalbiz.FuncCodeDtlNM(a.jisaCD, '0003', a.omrHak, '', 'Y') AS omrHakName, omrBirth, 
 			a.schoolName, a.mEmail, a.eContact, a.ePhone, a.gFstName, a.gLstName, a.city, a.stateCD, b.stateName, a.zip, a.addr, a.gEmail, a.gPhone, a.gCellPhone, a.deptCD, a.jisaCD, a.deptName, 
 			a.registWhy, a.registWhyEtc, a.registHow, a.registHowEtc, a.memKey, a.aidx, a.regDate, a.regID
 		FROM globaldig.FreeGicho AS a
 			LEFT JOIN globalbiz.StateInfo AS b ON a.jisaCD = b.jisaCD AND a.stateCD = b.stateCD
 		WHERE a.gFstName = (SELECT gFstName FROM globaldig.FreeGicho WHERE hkey = #{hkey}) AND a.gLstName = (SELECT gLstName FROM globaldig.FreeGicho WHERE hkey = #{hkey})
 		GROUP BY a.mFstName, a.mLstName, a.omrBirth
-		ORDER BY hkey
+		ORDER BY a.hkey
 	</select>
-	<select id="findMemberReportFreeDiagSubjInfosByHkey" parameterType="int" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportFreeDiagSubjInfo">
-		SELECT a.hkey, a.kwamok, a.omrDate, a.jisaCD, b.digYN, a.aidx, a.memKey
+	<select id="findMemberReportFreeDiagSubjInfosByAidx" parameterType="int" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportFreeDiagSubjInfo">
+		SELECT a.hkey, a.kwamok, MAX(a.omrDate) AS omrDate, a.jisaCD, b.digYN, a.aidx, a.memKey
 		FROM globaldig.FreeGicho AS a 
 			LEFT JOIN globalbiz.DeptSubjInfo AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND a.kwamok = b.subj
-		WHERE a.aidx = #{aidx}
+		WHERE a.aidx = #{aidx} OR a.memKey = CASE WHEN a.memKey != '' THEN (SELECT MAX(memKey) AS memKey FROM globaldig.FreeGicho WHERE aidx = #{aidx} GROUP BY aidx) ELSE '0' END
+		GROUP BY kwamok
 	</select>
 	<select id="findMemberReportFreeDiagSubjInfosByMemKey" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportFreeDiagSubjInfo">
 		SELECT MAX(a.hkey) as hkey, a.kwamok, MAX(a.omrDate) AS omrDate, a.jisaCD, b.digYN, a.aidx, a.memKey
 		FROM globaldig.FreeGicho AS a 
 			INNER JOIN globalbiz.DeptSubjInfo AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND a.kwamok = b.subj
-			LEFT JOIN globalbiz.MemSubjMst AS c ON a.memKey = c.memKey AND a.kwamok = c.subj
-		WHERE a.memKey = #{memKey} AND c.statusCD IS NULL
+		WHERE a.memKey = #{memKey}
 		GROUP BY a.memKey, a.kwamok
 	</select>
 	<update id="updateGuardianInfoFreeGicho" parameterType="hashMap">
@@ -404,4 +404,54 @@
 			)
 		</where>
 	</update>
+	<update id="updateFreeGicho" parameterType="hashMap">
+	UPDATE globaldig.FreeGicho 
+	SET mFstName = #{memMst.mFstName}, mLstName = #{memMst.mLstName}, omrBirth = #{memMst.mBirthDay}, omrHak = #{memMst.gradeCD},
+		schoolName = #{memMst.schoolName}, mEmail = #{memMst.mEmail}, eContact = #{memMst.eContact}, ePhone = #{memMst.ePhone}
+	<where>
+		<if test="columnName.equals('memKey')">
+			${columnName} = #{memMst.memKey}
+		</if>
+		<if test="columnName.equals('aidx')">
+			${columnName} IN (
+					SELECT * FROM (
+						SELECT aidx FROM globaldig.FreeGicho WHERE hkey = #{memMst.memKey}   
+					) AS a
+			)
+		</if>
+	</where>
+	</update>
+	<update id="updateMemAppointment" parameterType="hashMap">
+	UPDATE globalbiz.MemAppointment 
+	SET mFstName = #{memMst.mFstName}, mLstName = #{memMst.mLstName}, mBirthDay = #{memMst.mBirthDay}, gradeCD = #{memMst.gradeCD},
+		schoolName = #{memMst.schoolName}, mEmail = #{memMst.mEmail}, eContact = #{memMst.eContact}, ePhone = #{memMst.ePhone},
+		updID = #{workId}, updDate = NOW()
+	<where>
+			idx IN (
+					SELECT * FROM (
+						SELECT aidx FROM globaldig.FreeGicho WHERE hkey = #{memMst.memKey}   
+					) AS a
+			)
+	</where>
+	</update>
+	<select id="findFreeDiagOtherSubjByMemKey" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT a.subj
+		FROM globalbiz.DeptSubjInfo AS a
+			LEFT JOIN globalbiz.MemSubjMst AS b ON a.subj = b.subj AND b.statusCD = '1' AND b.memKey = #{key}
+			LEFT JOIN globaldig.FreeGicho AS c ON a.subj = c.kwamok AND c.memKey = #{key}
+		WHERE a.jisaCD = '08' AND a.deptCD = '00022' AND a.digYN = 'Y' AND b.memKey IS NULL AND c.hkey IS NULL
+		ORDER BY sortCD
+	</select>
+	<select id="findFreeDiagOtherSubjByIdx" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT a.subj
+		FROM globalbiz.DeptSubjInfo AS a
+			LEFT JOIN globaldig.FreeGicho AS c ON a.subj = c.kwamok AND c.aidx = #{key}
+		WHERE a.jisaCD = '08' AND a.deptCD = '00022' AND a.digYN = 'Y' AND c.hkey IS NULL
+		ORDER BY sortCD
+	</select>
+	<select id="findSubjsInMemAppointment" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT subj
+		FROM globalbiz.MemAppointment
+		WHERE idx = #{key}
+	</select>
 </mapper>

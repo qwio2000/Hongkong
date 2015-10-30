@@ -152,11 +152,24 @@
 	<update id="updateFreeGichoByRegist" parameterType="hashMap">
 		UPDATE globaldig.FreeGicho 
 		SET memKey = #{memKey}
-		WHERE hkey = #{freeDiagInfo.freeHkey} AND omrDate = #{freeDiagInfo.freeOmrDate} AND kwamok = #{freeDiagInfo.freeSubj}
+		WHERE aidx = (
+						  SELECT * FROM (
+							  SELECT aidx 
+							  FROM globaldig.FreeGicho 
+				              WHERE hkey = #{freeDiagInfo.freeHkey} AND 
+				                    omrDate = #{freeDiagInfo.freeOmrDate} AND 
+				                    kwamok = #{freeDiagInfo.freeSubj}
+						  )as a
+		             )
 	</update>
 	<select id="findGuardianInfoByFreeDiagReport" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$GuardianInfo">
 		SELECT gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone
 		FROM globaldig.FreeGicho 
+		WHERE hkey = #{memKey}
+	</select>
+	<select id="findFreeGicho" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemMst">
+		SELECT hkey AS memKey, mFstName, mLstName, omrHak AS gradeCD, omrBirth AS mBirthDay, schoolName, mEmail, eContact, ePhone
+		FROM globaldig.FreeGicho
 		WHERE hkey = #{memKey}
 	</select>
 </mapper>

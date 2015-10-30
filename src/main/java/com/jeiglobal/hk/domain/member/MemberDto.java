@@ -250,7 +250,7 @@ public class MemberDto {
 	public static class MemberWorkbookInfo{
 		private String memKey;
 		private String mFstName;
-		private String mLstname;
+		private String mLstName;
 		private String gradeCD;
 		private String gradeName;
 		private List<MemberWorkbookSubjInfo> workbookSubjInfos;

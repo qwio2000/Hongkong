@@ -232,7 +232,13 @@ public class MemberReportController {
 			@ModelAttribute LoginInfo loginInfo) throws ParseException {
 		//학년 정보
 		List<CodeDtl> grades = commonService.getCodeDtls("0003", loginInfo.getJisaCD(), 1, "Y");
-		MemMst memMst = memberRegistService.getMemMst(memKey);
+		MemMst memMst = null;
+		if(!"M".equals(memKey.substring(0,1))){//회원
+			memMst = memberRegistService.getMemMst(memKey);
+		}else{//무료진단
+			memMst = memberRegistService.getFreeGicho(memKey);
+		}
+		log.debug("memMst : {}", memMst);
 		//MM/dd/yyyy 형태로 변경
 		memMst.setMBirthDay(CommonUtils.changeDateFormat("yyyy-MM-dd", "MM/dd/yyyy", memMst.getMBirthDay()));
 		List<String> headerScript = new ArrayList<String>();
@@ -249,8 +255,11 @@ public class MemberReportController {
 	public String addMemberInfoPop(MemMst memMst, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) throws ParseException {
 		//TODO StatusCD 업데이트 하는 부분 논의 후 추가
 		String workId = CommonUtils.getWorkId(request);
-		memMst.setRemarks(CommonUtils.subStrByte(memMst.getRemarks(), 0, 500, 3));
-		memberReportService.setMemberInfo(memMst, loginInfo, workId);
+		memberReportService.setMemberInfoByFreeGicho(memMst, loginInfo, workId);
+		if(!"M".equals(memMst.getMemKey().substring(0, 1))){
+			memMst.setRemarks(CommonUtils.subStrByte(memMst.getRemarks(), 0, 500, 3));
+			memberReportService.setMemberInfo(memMst, loginInfo, workId);
+		}
 		return msa.getMessage("member.report.memberInfo.update.success");
 	}
 	@RequestMapping(value={"/fa/members/reports/memsubjstudyinfo"},method = {RequestMethod.GET, RequestMethod.HEAD})
@@ -388,4 +397,25 @@ public class MemberReportController {
 		returnMap.put("count", memberReportService.getMemSubjRegistOtherSubj(memberRegist));
 		return returnMap;
 	}
+	
+	@RequestMapping(value={"/fa/members/reports/freeDiagOtherSubj"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getFreeDiagOtherSubj(Model model,
+			String key, String type, // 1 : freeDiag Report, 2: Appointment List
+			@ModelAttribute LoginInfo loginInfo) {
+		log.debug("type : {}",type);
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberReportDetail");
+		List<String> freeDiagOtherSubjs = null;
+		if("1".equals(type)){
+			freeDiagOtherSubjs = memberReportService.getFreeDiagOtherSubj(key);
+		}else{
+			freeDiagOtherSubjs = memberReportService.getSubjsInMemAppointment(key);
+		}
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("freeDiagOtherSubjs", freeDiagOtherSubjs);
+		model.addAttribute("key", key);
+		return "member/report/freeDiagOtherSubj";
+	}
+	
+	
 }

@@ -137,14 +137,14 @@
 						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
 						<#if info.memKey != ''>
 							<#assign key = info.memKey>
+							<#assign idx = info.memKey>
 						<#else>
 							<#assign key = info.hkey>
+							<#assign idx = info.aidx>
 						</#if>
 						<a href="javascript:addCommentCall('${key }','${info.MFstName} ${info.MLstName }');" class="btn_talk tooltip" title="<@spring.message 'member.report.tooltip.commentcall'/>"></a>
-						<!--<a href="javascript:setMemberInfo('${info.memKey }')" class="btn_info tooltip" title="<@spring.message 'member.report.tooltip.memberinfoupdate'/>"></a>
-						<a href="javascript:setMemSubjStudyInfo('${info.memKey }')" class="btn_date tooltip" title="<@spring.message 'member.report.tooltip.manageUpdate'/>"></a>
-						<a href="/fa/members/regist/new?type=2&memKey=${info.memKey?default('') }" class="btn_doc_add tooltip" title="<@spring.message 'member.report.tooltip.othersubjectregist'/>"></a>
-						<a href="javascript:getIpprs('${info.memKey }','${info.MFstName} ${info.MLstName }')" class="btn_all f_right tooltip" title="<@spring.message 'member.report.tooltip.ippr'/>"></a>-->
+						<a href="javascript:setMemberInfo('${key }')" class="btn_info tooltip" title="<@spring.message 'member.report.tooltip.memberinfoupdate'/>"></a>
+						<a href="javascript:addFreeDiagOtherSubj('${idx}', '1')" class="btn_date tooltip" title="<@spring.message 'member.report.tooltip.freeDiagOtherSubj'/>"></a>
 						<span class="tooltip_Area"></span>
 					</div>
 					</#list>

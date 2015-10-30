@@ -99,7 +99,7 @@ public class MemberRegistService {
 		int endDate = end.getMaximum(Calendar.DAY_OF_MONTH);
 		end.setTime(sdf.parse(manageDate));
 		int manageDay = end.get(Calendar.DATE);
-		int week = (int) Math.ceil(((double)(endDate - manageDay)/7));
+		int week = (manageDay == endDate)? 1 : (int) Math.ceil(((double)(endDate - manageDay)/7));
 		week = (week > 4)? 4 : week; // 4주 이상 모두 4로 변경
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("deptCD", deptCD);
@@ -415,6 +415,13 @@ public class MemberRegistService {
 	 */
 	public GuardianInfo getGuardianInfoByFreeDiagReport(String memKey) {
 		return memberRegistRepository.findGuardianInfoByFreeDiagReport(memKey);
+	}
+	/**
+	 * @param memKey
+	 * @return MemMst
+	 */
+	public MemMst getFreeGicho(String memKey) {
+		return memberRegistRepository.findFreeGicho(memKey);
 	}
 	
 }
