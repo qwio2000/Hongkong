@@ -136,13 +136,25 @@ public class DiagnosisController {
 	@RequestMapping(value={"/fa/diagnosis/ippr"}, method={RequestMethod.GET,RequestMethod.HEAD}) 
 	public String diagnosisIppr(Model model, @ModelAttribute LoginInfo loginInfo, String memKey, String subj, String freejindan) {
 		log.debug("Getting ippr Popup Page");
+		
+		//header에 포함할 스크립트 
+		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("diagnosis");		
+		model.addAttribute("headerScript", headerScript);	
+		
 		String alertMsg = "";
 		String jisaCD = loginInfo.getJisaCD();
 		String deptCD = loginInfo.getDeptCD();
+		String digYN = "";
+		
+		if ("A".equals(freejindan) || "I".equals(freejindan)) {			// 무료진단 X 등급 제외
+			digYN = "Y";
+		}
 		
 		DiagnosisDto.DiagnosisInputippr diagnosisInputippr = diagnosisService.getDiagnosisInputippr(jisaCD, deptCD, memKey, subj, freejindan);	 //회원정보
 		
-		List<GradeOfSubject> gradeOfSubject = commonService.getGradeOfSubject(jisaCD, subj, "Y", "Y");   //등급정보
+		List<GradeOfSubject> gradeOfSubject = commonService.getGradeOfSubject(jisaCD, subj, "Y", digYN);   //등급정보
 		
 		alertMsg = messageSourceAccesor.getMessage("Ippr.Input.Error");
 		
@@ -359,13 +371,17 @@ public class DiagnosisController {
 		String omrBanOK = "";
 		
 		omrBanOK = diagnosisService.addDiagnosisOmrBan(jisaCD, omrDate, hkey, kwamok, rw, nOmr, omrGrd, omrHak, omrKind, omrDay1, omrBirth, omrSetCnt, omrWeekCnt, omrDay2, workID, freejindan);
-		
-		if (!"Y".equals(omrBanOK)) {
+		System.out.println("=================omrBanOK=================");		
+
+		if ("Y".equals(omrBanOK)) {
 			alertMsg = messageSourceAccesor.getMessage("Ippr.Ban.Insert.success");
 		}else{
 			alertMsg = messageSourceAccesor.getMessage("Ippr.Ban.Insert.Error");
 		}
-	
+
+		System.out.println("=================alertMsg=================");		
+
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("alertMsg", alertMsg);
 		map.put("omrBanOK", omrBanOK);
