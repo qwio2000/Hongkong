@@ -74,7 +74,6 @@ public class CenterService {
 		
 		return centerRepository.centerView(param);				
 	}	
-
 	// 회비 정보 팝업
 	public List<MemFeeInfoList> getMemFeeInfoList(String jisaCD, String deptCD) {		
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -88,13 +87,12 @@ public class CenterService {
 		param.put("jisaCD", jisaCD);
 		return centerRepository.rtyChargeGroupList(param);
 	}		
-	// 센터 사업형태 + 관리형태 + 회비 형태 종류
+	// 센터 사업 구조 :사업형태 + 관리형태 + 회비 형태 종류
 	public List<CenterTypeList> getCenterTypeList(String jisaCD) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("jisaCD", jisaCD);
 		return centerRepository.centerTypeList(param);
-	}		
-	
+	}	
 	// 가맹점 운영시간 셋팅/변경 
 	public String getCenterHoursSave(String jisaCD, String deptCD, String oHoursStart, String oHoursEnd, String cHoursStart, String cHoursEnd, String workId) {		
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -121,7 +119,8 @@ public class CenterService {
 		param.put("openSubj", openSubj);
 		param.put("workId", workId);
 		return centerRepository.centerOpenSubjSave(param);				
-	}	 	
+	}	 
+	// 센터 신규 생성 및 정보 변경
 	public String getCenterSave(String jisaCD, String deptCD, String deptName, String deptType, String memType, String feeType, String empFstName, String empLstName,
 			String addr, String zip, String city, String stateCD, String email, String phone, String fax, String contractTerm, String contractDate, String openDate, 
 			String rtyType, String statusCD, String workId) {		

@@ -3,7 +3,8 @@
  */
 package com.jeiglobal.hk.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.jeiglobal.hk.domain.auth.LoginInfo;
 import com.jeiglobal.hk.service.MainService;
 import com.jeiglobal.hk.utils.MessageSourceAccessor;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 클래스명 : MainController.java
@@ -36,17 +39,20 @@ public class MainController {
 	@Autowired
 	private MainService mainService;
 	
-	@RequestMapping(value={"/ja"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@RequestMapping(value={"/fa","/ja"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getMain(Model model, @ModelAttribute LoginInfo loginInfo) {
 		
+		System.out.println("userType=" + loginInfo.getUserType());
 /*		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("main");
 		model.addAttribute("headerScript", headerScript);*/
 		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("main");
+		model.addAttribute("headerScript", headerScript);		
+		
 		return "main";
 	}
-	
-	
 	
 	
 }

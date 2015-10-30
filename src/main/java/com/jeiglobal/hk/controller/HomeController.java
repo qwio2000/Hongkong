@@ -40,12 +40,12 @@ public class HomeController {
 	private String globalbmsUrl;
 
     
-	@RequestMapping(value={"/fa","/fa/members","/fa/inventory","/fa/accounting","/fa/community","/fa/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members","/fa/inventory","/fa/accounting","/fa/community"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getLayoutPage() {
 		log.debug("Getting Layout Page");
 		return "layout";
 	}
-	@RequestMapping(value={"/ja/members","/ja/inventory","/ja/accounting","/ja/community","/ja/leads","/ja/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@RequestMapping(value={"/ja/members","/ja/inventory","/ja/accounting","/ja/community","/ja/leads"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getJALayoutPage() {
 		log.debug("Getting JA Layout Page");
 		return "layout";

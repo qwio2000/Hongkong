@@ -111,9 +111,9 @@ $(document).ready(function() {
 			check_all:function(element1,element2) {
 	
 				if ($("#"+element1+":checked").length > 0) {
-					$("input[name="+element2+"]").attr("checked", true);
+					$("input[name="+element2+"]").prop("checked", true);
 				}else {
-					$("input[name="+element2+"]").attr("checked", false);
+					$("input[name="+element2+"]").prop("checked", false);
 				}
 			},
 			//리스트에서 선택한 데이타 처리전 체크
