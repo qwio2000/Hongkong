@@ -17,6 +17,7 @@ import lombok.Getter;
 @Getter
 public class UserView {
 	private String userId;
+	private String userPasswd;
 	private String userFstName;
 	private String userLstName;
 	private String userType;

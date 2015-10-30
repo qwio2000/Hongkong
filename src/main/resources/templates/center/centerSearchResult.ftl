@@ -10,9 +10,14 @@
 	<input type="hidden" id="statusCD" value="${statusCD?default('')}">	
 	<input type="hidden" id="sortKind" value="">
 	<input type="hidden" id="sort" value="">
-		
-	<h3 align="right"><a title="Add New Center" class="btn_doc tooltip" href="javascript:$.goCenterRegist();"><strong>Add New </strong></a></h3>		
-	<div class="tbl01">
+			
+	<div class="clearfix pb10 pt30">
+		<div class="float_l">
+			<div class="btnArea_txt p0"><a href="javascript:;" onClick="$.goCenterRegist();" class="btn_doc m0">Add New</a></div>
+		</div>
+	</div>	
+	
+	<div class="tbl01 m0">
 		<table>
 			<colgroup>
 				<col width="40">

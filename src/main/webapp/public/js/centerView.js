@@ -124,8 +124,7 @@ $(function(){
 	});
 
 	// 운영시간 셋팅/변경	
-	$("#saveCenterHours").on("click", function() {
-		
+	$("#saveCenterHours").on("click", function() {		
 		if(!($.required("oHoursStart","Operating Hours"))){return;}							
 		if(!($.required("oHoursEnd","Operating Hours"))){return;}
 		if(!($.required("cHoursStart","Class Hours"))){return;}
@@ -134,9 +133,14 @@ $(function(){
 			alert("Confirm Hours!!");
 			return;
 		}
-		var param = $("#centerHoursForm").serialize();
+		if(window.location.pathname.indexOf('/fa/mypage/')<0){
+			var url = "/ja/centers/centerHoursSaveJson";
+		}else{
+			var url = "/fa/mypage/centerHoursSaveJson";
+		}
+		var param = $("#centerHoursForm").serialize();		
 		$.ajax({
-			url:"/ja/centers/centerHoursSaveJson",
+			url:url,
 			type:"POST",
 			cache: false,
 			async: true,

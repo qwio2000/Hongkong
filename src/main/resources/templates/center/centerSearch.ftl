@@ -35,8 +35,8 @@
 		</li>
 	</ul>
 	<div class="btnArea">
-		<a id="searchInit" href="#"><span>Reset</span></a>
-		<a id="searchSubmit" href="#"><span>Search Learning Centers</span></a>		
+		<a id="searchInit" href="javascript:;"><span>Reset</span></a>
+		<a id="searchSubmit" href="javascript:;"><span>Search Learning Centers</span></a>		
 	</div>
 	</form>
 </div>

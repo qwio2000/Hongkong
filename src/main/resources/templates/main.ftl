@@ -4,77 +4,8 @@
 <div class="content">
 	<div class="clearfix">
 		<!-- current_month -->
-		<div class="current_month">
-			<h2 class="conTit">Current Month</h2>
-			<div class="tbl01" style="width:456px">
-				<table>
-					<colgroup>
-						<col>
-						<col style="width:84px">
-						<col style="width:84px">
-						<col style="width:84px">
-						<col style="width:84px">
-					</colgroup>
-					<thead>
-						<tr>
-							<th class="left">Subject</th>
-							<th>Begin</th>
-							<th>Register</th>
-							<th>Drop</th>
-							<th>Current</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="left">MATH</td>
-							<td>23</td>
-							<td>0</td>
-							<td>1</td>
-							<td>22</td>
-						</tr>
-						<tr>
-							<td class="left">ENGLISH</td>
-							<td>23</td>
-							<td>0</td>
-							<td>1</td>
-							<td>22</td>
-						</tr>
-						<tr>
-							<td class="left">READING</td>
-							<td>23</td>
-							<td>0</td>
-							<td>1</td>
-							<td>22</td>
-						</tr>
-						<tr>
-							<td class="left">PS MATH</td>
-							<td>23</td>
-							<td>0</td>
-							<td>1</td>
-							<td>22</td>
-						</tr>
-						<tr>
-							<td class="left">BRAIN SAFARI</td>
-							<td>23</td>
-							<td>0</td>
-							<td>1</td>
-							<td>22</td>
-						</tr>
-						<tr class="total">
-							<td class="left">TOTAL</td>
-							<td>42</td>
-							<td>1</td>
-							<td>1</td>
-							<td>42</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<!-- //current_month -->
-		<!-- Last 6 Months -->
 		<div class="last_month">
-			<h2 class="conTit">Last 6 Months</h2>
+			<h2 class="conTit"><#if loginInfo.userType == "JA" >By Subject<#else>Current Month</#if></h2>
 			<div class="tbl01" style="width:456px">
 				<table>
 					<colgroup>
@@ -96,6 +27,210 @@
 					<tbody>
 						<tr>
 							<td colspan="5" class="p0">
+								<ul class="month_list">
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+																																				<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+																		
+								</ul>
+							</td>
+						</tr>
+						<tr class="total">
+							<td class="left">TOTAL</td>
+							<td>42</td>
+							<td>1</td>
+							<td>1</td>
+							<td>42</td>
+						</tr>						
+					</tbody>
+				</table>
+			</div>
+		</div>		
+		<!-- //current_month -->
+		<#if loginInfo.userType == "JA" >
+		<!-- By Center -->
+		<div class="last_month">
+			<h2 class="conTit">By Center</h2>
+			<div class="tbl01" style="width:456px">
+				<table>
+					<colgroup>
+						<col style="width:27px">
+						<col style="width:100px">
+						<col style="width:80px">
+						<col style="width:80px">
+						<col style="width:90px">
+						<col style="width:80px">
+					</colgroup>
+					<thead>
+						<tr>
+							<th class="left">State</th>
+							<th class="left">Center</th>
+							<th>Begin</th>
+							<th>Register</th>
+							<th>Drop</th>
+							<th style="padding-right:20px">Current</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="6" class="p0">
+								<ul class="month_list">
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+																																				<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+									<li>
+										<span class="col subject">MATH</span>
+										<span class="col">23</span>
+										<span class="col">0</span>
+										<span class="col">1</span>
+										<span class="col">22</span>
+									</li>
+																		
+								</ul>
+							</td>
+						</tr>
+						<tr class="total">
+							<td class="left">TOTAL</td>
+							<td>42</td>
+							<td>42</td>
+							<td>1</td>
+							<td>1</td>
+							<td>42</td>
+						</tr>						
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- //By Center -->
+		</#if>
+		<#if loginInfo.userType == "FA" >
+		<!-- 가맹점 Last 6 Months -->
+		<div class="last_month">
+			<h2 class="conTit">Last 6 Months</h2>
+			<div class="tbl01" style="width:456px">
+				<table>
+					<colgroup>
+						<col style="width:127px">
+						<col style="width:80px">
+						<col style="width:80px">
+						<col style="width:90px">
+						<col style="width:80px">
+						<col style="width:80px">
+						<col style="width:80px">
+					</colgroup>
+					<thead>
+						<tr>
+							<th class="left">Subject</th>
+							<th>Apr</th>
+							<th>May</th>
+							<th>Jun</th>
+							<th>Jul</th>
+							<th>Aug</th>
+							<th style="padding-right:20px">Sep</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="7" class="p0">
 								<ul class="month_list">
 									<li>
 										<span class="col subject">MATH</span>
@@ -149,11 +284,23 @@
 								</ul>
 							</td>
 						</tr>
+						<tr class="total">
+							<td class="left">TOTAL</td>
+							<td>42</td>
+							<td>1</td>
+							<td>1</td>
+							<td>42</td>
+							<td>42</td>
+							<td>42</td>
+						</tr>									
 					</tbody>
 				</table>
 			</div>
 		</div>
 		<!-- //Last 6 Months -->
+		</#if>
+
+				
 	</div>
 	<!-- Amnouncement -->
 	<div class="amnounce">
