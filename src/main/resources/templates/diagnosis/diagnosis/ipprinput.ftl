@@ -3,7 +3,7 @@
 	<div class="popup">
 		<div class="popup_top">
 			<h1>Input I.P.P.R</h1> 
-			<a href="#" class="btn_popup_close">close</a>
+			<a href="javascript:self.close();" class="btn_popup_close">close</a>
 		</div>
 		
 		
