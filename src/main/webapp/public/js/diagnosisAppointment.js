@@ -442,3 +442,7 @@ function submitValid(type){
 	
 	return true;
 }
+function addFreeDiagOtherSubj(key, type){
+	$.openPop('/fa/members/reports/freeDiagOtherSubj?key='+key+'&type='+type, 'memberReportPop', 'width=625,height=400,scrollbars=yes,resizable=no');
+}
+

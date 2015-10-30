@@ -117,3 +117,7 @@ $(function(){
 		$.getMemberSearch();
 	});	
 });
+
+function addCommentCall(memKey, memName){
+	$.openPop('/ja/members/search/commentcall?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=625,height=800,scrollbars=yes,resizable=no');
+}

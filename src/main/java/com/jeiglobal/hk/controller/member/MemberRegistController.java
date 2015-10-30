@@ -58,6 +58,9 @@ public class MemberRegistController {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private MessageSourceAccessor msa;
+	
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(value={"/fa/members/regist"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMemberRegistSearchPage(Model model,
@@ -131,7 +134,7 @@ public class MemberRegistController {
 			cal.setTime(sdf.parse(memMst.getMBirthDay()));
 			registSubjects = memberRegistService.getRegistSubjects(memKey, loginInfo);
 		}else if("3".equals(type)){//형제 회원
-			guardianInfo = memberRegistService.getGuardianInfo(memKey);
+			guardianInfo = memberRegistService.getGuardianInfoByMemberReport(memKey);
 		}else if("1".equals(type) && memAppointment != null){
 			cal.setTime(sdf.parse(memAppointment.getMBirthDay()));
 		}
@@ -250,7 +253,7 @@ public class MemberRegistController {
 			}
 		}
 		
-		model.addAttribute("message", "성공");
+		model.addAttribute("message", msa.getMessage("member.regist.success"));
 		model.addAttribute("url", "/fa/members/regist");
 		return "alertAndRedirect";
 	}

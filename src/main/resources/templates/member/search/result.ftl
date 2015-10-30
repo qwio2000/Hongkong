@@ -61,7 +61,7 @@
 			<td>{{inc @index}}</td>
 			<td>{{stateName}}</td>
 			<td>{{deptName}}</td>
-			<td class="left"><img src="{{imgPath}}/ico_name.png" alt="" /><a class="blue" href="/ja/members/search/{{memKey}}">{{mfstName}}{{mlstName}}</a></td>
+			<td class="left"><a href="javascript:addCommentCall('{{memKey}}','{{mfstName}} {{mlstName}}')"><img src="{{imgPath}}/ico_name.png" alt="" /></a><a class="blue" href="/ja/members/search/{{memKey}}">{{mfstName}} {{mlstName}}</a></td>
 			<td>{{gradeName}}</td>
 			<td>{{splitSubj memSubjStr}}</td>
 			<td class="left">{{guardianName}}</td>

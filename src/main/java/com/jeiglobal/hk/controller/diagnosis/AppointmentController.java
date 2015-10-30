@@ -16,6 +16,7 @@ import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.diagnosis.AppointmentDto.Appointment;
 import com.jeiglobal.hk.domain.member.*;
+import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MonthInfo;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.diagnosis.*;
@@ -47,6 +48,9 @@ public class AppointmentController {
 	
 	@Autowired
 	private MemberReportService memberReportService;
+
+	@Autowired
+	private MemberRegistService memberRegistService;
 		
 	//한 페이지에 출력할 레코드 개수
 	@Value("${page.size}")
@@ -137,7 +141,7 @@ public class AppointmentController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping(value={"/fa/diagnosis/appointment/new"}, method={RequestMethod.GET,RequestMethod.HEAD})
-	public String getAppointmentRegistPage(Model model, @ModelAttribute LoginInfo loginInfo, String type,
+	public String getAppointmentRegistPage(Model model, @ModelAttribute LoginInfo loginInfo, String type, String hkey,
 			@RequestParam(defaultValue="0") int idx) throws ParseException {
 		log.debug("Getting Appointment Regist Page, type : {}, idx : {}", type, idx);
 		String returnPage = "diagnosis/appointment/regist";
@@ -151,6 +155,18 @@ public class AppointmentController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
 		if("02".equals(type)){
+			GuardianInfo guardianInfo = null;
+			if(hkey != null && !hkey.isEmpty()){
+				if("M".equals(hkey.substring(0,1))){
+					guardianInfo = memberRegistService.getGuardianInfoByFreeDiagReport(hkey);
+				}else{
+					guardianInfo = memberRegistService.getGuardianInfoByMemberReport(hkey);
+				}
+			}else{
+				guardianInfo = new GuardianInfo();
+			}
+			model.addAttribute("guardianInfo", guardianInfo);
+			model.addAttribute("hkey", hkey);
 			//입회 경로 리스트
 			List<CodeDtl> registHows = commonService.getCodeDtls("0009", loginInfo.getJisaCD(), 1, "Y");
 			//입회 동기 리스트

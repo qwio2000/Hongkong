@@ -10,41 +10,41 @@
 			<ul class="memSearch">
 				<li>
 					<label for="gFstName">First Name <span class="must">*</span></label>
-					<input type="text"  class="searchInput" name="gFstName" id="gFstName" style="width:334px" value="" maxlength='20'/>
+					<input type="text"  class="searchInput" name="gFstName" id="gFstName" style="width:334px" value="${guardianInfo.GFstName?default('') }" maxlength='20' <#if hkey?exists>readonly</#if>/>
 				</li>
 				<li>
 					<label for="gLstName">Last Name <span class="must">*</span></label>
-					<input type="text"  class="searchInput" name="gLstName" id="gLstName" style="width:334px" value="" maxlength='30'/>
+					<input type="text"  class="searchInput" name="gLstName" id="gLstName" style="width:334px" value="${guardianInfo.GLstName?default('') }" maxlength='30' <#if hkey?exists>readonly</#if>/>
 				</li>
 				<li>
 					<label for="addr">Address <span class="must">*</span></label>
-					<input type="text"  class="searchInput" name="addr" id="addr" style="width:334px" value="" maxlength='100'/>
+					<input type="text"  class="searchInput" name="addr" id="addr" style="width:334px" value="${guardianInfo.addr?default('') }" maxlength='100' <#if hkey?exists>readonly</#if>/>
 				</li>
 				<li>
 					<label for="zip">Zipcode </label>
-					<input type="text"  class="searchInput" name="zip" id="zip" style="width:334px" value="" maxlength='6' />
+					<input type="text"  class="searchInput" name="zip" id="zip" style="width:334px" value="${guardianInfo.zip?default('') }" maxlength='6' <#if hkey?exists>readonly</#if>/>
 				</li>
 				<li>
 					<label for="city">City / State</label>
-					<input type="text"  class="searchInput" name="city" id="city" style="width:168px" value="" maxlength='50' />
-					<select name="stateCD" id="stateCD" style="width:162px">
+					<input type="text"  class="searchInput" name="city" id="city" style="width:168px" value="${guardianInfo.city?default('') }" maxlength='50' <#if hkey?exists>readonly</#if>/>
+					<select name="stateCD" id="stateCD" style="width:162px" <#if hkey?exists>onFocus='this.initialSelect = this.selectedIndex;' onChange='this.selectedIndex = this.initialSelect;'</#if>>
 						<option value="">STATE</option>
 						<#list states as state>
-							<option value="${state.stateCD }">${state.stateName }</option>
+							<option value="${state.stateCD }" <#if guardianInfo.stateCD?default('') == state.stateCD> selected </#if>>${state.stateName }</option>
 						</#list>
 					</select>
 				</li>
 				<li>
 					<label for="gEmail">Email</label>
-					<input type="text" name="gEmail" id="gEmail" class="searchInput" style="width:334px" value="" maxlength='100'/>
+					<input type="text" name="gEmail" id="gEmail" class="searchInput" style="width:334px" value="${guardianInfo.GEmail?default('') }" maxlength='100' <#if hkey?exists>readonly</#if>/>
 				</li>
 				<li>
 					<label for="gPhone">Phone <span class="must">*</span></label>
-					<input type="text" name="gPhone" id="gPhone" class="searchInput" style="width:334px" value="" maxlength='15'/>
+					<input type="text" name="gPhone" id="gPhone" class="searchInput" style="width:334px" value="${guardianInfo.GPhone?default('') }" maxlength='15' <#if hkey?exists>readonly</#if>/>
 				</li>
 				<li>
 					<label for="gCellPhone">Cell Phone <span class="must">*</span></label>
-					<input type="text" name="gCellPhone" id="gCellPhone" class="searchInput" style="width:334px" value="" maxlength='15' />
+					<input type="text" name="gCellPhone" id="gCellPhone" class="searchInput" style="width:334px" value="${guardianInfo.GCellPhone?default('') }" maxlength='15' <#if hkey?exists>readonly</#if>/>
 				</li>
 			</ul>
 			<div class="question_list">

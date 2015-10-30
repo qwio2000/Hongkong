@@ -17,7 +17,6 @@ import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
 import com.jeiglobal.hk.domain.member.MemberDto.GuardianInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberIpprInfo;
-import com.jeiglobal.hk.domain.member.MemberDto.MemberReportFreeDiagSubjInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberReportSubjStudyInfo;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
@@ -119,37 +118,47 @@ public class MemberReportController {
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
 		List<MemberDto.MemberReportFreeDiagInfo> memberReportFreeDiagInfos = memberReportService.getMemberReportFreeDiagInfoByHkey(hkey);
+		String hKeys = memberReportService.getHKeys(memberReportFreeDiagInfos);
 		model.addAttribute("memberReportFreeDiagInfos", memberReportFreeDiagInfos);
 		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("hKeys", hKeys);
 		return "member/report/memberReportFreeDiag";
 	}
 	
 	@RequestMapping(value={"/fa/members/reports/guardian"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getGuardianInfoPop(Model model,
 			@ModelAttribute LoginInfo loginInfo,
-			String memKey, String memKeys) {
+			String memKey, String memKeys, 
+			String type // 01 : 기존 유지/퇴회회원  02: 무료 진단
+			) {
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
-		GuardianInfo guardianInfos = memberRegistService.getGuardianInfo(memKey);
+		GuardianInfo guardianInfos = null;
+		if("01".equals(type)){
+			guardianInfos = memberRegistService.getGuardianInfoByMemberReport(memKey);
+		}else if("02".equals(type)){
+			guardianInfos = memberRegistService.getGuardianInfoByFreeDiagReport(memKey);
+		}
 		//State 정보
 		List<CenterState> states = commonService.getCenterStates(loginInfo.getJisaCD());
 		model.addAttribute("memKey", memKey);
 		model.addAttribute("states", states);
 		model.addAttribute("memKeys", memKeys);
+		model.addAttribute("type", type);
 		model.addAttribute("guardianInfos", guardianInfos);
 		model.addAttribute("headerScript", headerScript);
 		return "member/report/guardianInfo";
 	}
 	@RequestMapping(value={"/fa/members/reports/guardian"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
-	public String setGuardianInfoPop(GuardianInfo guardianInfo, String memKeys, HttpServletRequest request) {
+	public String setGuardianInfoPop(GuardianInfo guardianInfo, String memKeys, String type, HttpServletRequest request) {
 		String workId = CommonUtils.getWorkId(request);
 		//MemMst의 부모 정보 Update
-		memberReportService.setGuardianInfo(guardianInfo, memKeys, workId);
+		memberReportService.setGuardianInfo(guardianInfo, memKeys, workId, type);
 		return msa.getMessage("member.report.guardianInfo.update.success");
 	}
 	
-	@RequestMapping(value={"/fa/members/reports/commentcall/{pageNum:[0-9]{1,4}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members/reports/commentcall/{pageNum:[0-9]{1,4}}","/ja/members/search/commentcall/{pageNum:[0-9]{1,4}}"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> getCommentCalls(Model model,
 			String memKey, @PathVariable int pageNum) throws ParseException {
@@ -163,7 +172,7 @@ public class MemberReportController {
 		return map;
 	}
 	
-	@RequestMapping(value={"/fa/members/reports/commentcall"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@RequestMapping(value={"/fa/members/reports/commentcall", "/ja/members/search/commentcall"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String addCommentCallPop(String memKey, String memName, String callNotes, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) {
 		String workId = CommonUtils.getWorkId(request);
@@ -172,14 +181,14 @@ public class MemberReportController {
 		return msa.getMessage("member.report.commentcall.insert.success");
 	}
 	
-	@RequestMapping(value={"/fa/members/reports/commentcall/delete"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@RequestMapping(value={"/fa/members/reports/commentcall/delete", "/ja/members/search/commentcall/delete"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String removeCommentCall(int idx) {
 		memberReportService.removeCommentCall(idx);
 		return msa.getMessage("member.report.commentcall.delete.success");
 	}
 	
-	@RequestMapping(value={"/fa/members/reports/commentcall"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members/reports/commentcall", "/ja/members/search/commentcall"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCommentCallPop(Model model,
 			String memKey, String memName) {
 		List<String> headerScript = new ArrayList<String>();
@@ -223,7 +232,13 @@ public class MemberReportController {
 			@ModelAttribute LoginInfo loginInfo) throws ParseException {
 		//학년 정보
 		List<CodeDtl> grades = commonService.getCodeDtls("0003", loginInfo.getJisaCD(), 1, "Y");
-		MemMst memMst = memberRegistService.getMemMst(memKey);
+		MemMst memMst = null;
+		if(!"M".equals(memKey.substring(0,1))){//회원
+			memMst = memberRegistService.getMemMst(memKey);
+		}else{//무료진단
+			memMst = memberRegistService.getFreeGicho(memKey);
+		}
+		log.debug("memMst : {}", memMst);
 		//MM/dd/yyyy 형태로 변경
 		memMst.setMBirthDay(CommonUtils.changeDateFormat("yyyy-MM-dd", "MM/dd/yyyy", memMst.getMBirthDay()));
 		List<String> headerScript = new ArrayList<String>();
@@ -240,8 +255,11 @@ public class MemberReportController {
 	public String addMemberInfoPop(MemMst memMst, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) throws ParseException {
 		//TODO StatusCD 업데이트 하는 부분 논의 후 추가
 		String workId = CommonUtils.getWorkId(request);
-		memMst.setRemarks(CommonUtils.subStrByte(memMst.getRemarks(), 0, 500, 3));
-		memberReportService.setMemberInfo(memMst, loginInfo, workId);
+		memberReportService.setMemberInfoByFreeGicho(memMst, loginInfo, workId);
+		if(!"M".equals(memMst.getMemKey().substring(0, 1))){
+			memMst.setRemarks(CommonUtils.subStrByte(memMst.getRemarks(), 0, 500, 3));
+			memberReportService.setMemberInfo(memMst, loginInfo, workId);
+		}
 		return msa.getMessage("member.report.memberInfo.update.success");
 	}
 	@RequestMapping(value={"/fa/members/reports/memsubjstudyinfo"},method = {RequestMethod.GET, RequestMethod.HEAD})
@@ -379,4 +397,25 @@ public class MemberReportController {
 		returnMap.put("count", memberReportService.getMemSubjRegistOtherSubj(memberRegist));
 		return returnMap;
 	}
+	
+	@RequestMapping(value={"/fa/members/reports/freeDiagOtherSubj"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getFreeDiagOtherSubj(Model model,
+			String key, String type, // 1 : freeDiag Report, 2: Appointment List
+			@ModelAttribute LoginInfo loginInfo) {
+		log.debug("type : {}",type);
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberReportDetail");
+		List<String> freeDiagOtherSubjs = null;
+		if("1".equals(type)){
+			freeDiagOtherSubjs = memberReportService.getFreeDiagOtherSubj(key);
+		}else{
+			freeDiagOtherSubjs = memberReportService.getSubjsInMemAppointment(key);
+		}
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("freeDiagOtherSubjs", freeDiagOtherSubjs);
+		model.addAttribute("key", key);
+		return "member/report/freeDiagOtherSubj";
+	}
+	
+	
 }

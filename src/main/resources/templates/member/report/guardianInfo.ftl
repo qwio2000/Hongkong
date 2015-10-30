@@ -5,6 +5,7 @@
 		<div class="popup_content">
 			<form id="guardianForm" action="/fa/members/reports/guardian" method="post">
 			<input type="hidden" name="memKeys" value="${memKeys?default('') }"/>
+			<input type="hidden" name="type" value="${type?default('') }"/>
 			<div class="pop_gm">
 					<ul class="list02">
 					<li>

@@ -4,6 +4,8 @@
 	<div class="clearfix">
 				<div class="conLeft">
 					<h2 class="conTit">Parent(Guardian) Information</h2>
+					<input type="hidden" id="hkey" value="${memberReportFreeDiagInfos[0].hkey?default('') }"/>
+					<input type="hidden" id="hkeys" value="${hKeys?default('') }"/>
 					<div class="tbl01">
 						<table>
 							<colgroup>
@@ -42,6 +44,8 @@
 					</div>
 					<div class="btnArea_icon clearfix">
 						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
+						<a href="javascript:guardianInfoPop('02');" class="btn_info tooltip" title="<@spring.message 'member.report.tooltip.guardianupdate'/>"></a>
+						 <a href="/fa/diagnosis/appointment/new?type=02&hkey=${memberReportFreeDiagInfos[0].hkey?default('') }" class="btn_doc tooltip"  title="<@spring.message 'member.report.tooltip.siblingfreediag'/>"></a>
 						<span class="tooltip_Area"></span>
 					</div>
 				</div>
@@ -131,6 +135,16 @@
 					</div>
 					<div class="btnArea_icon clearfix">
 						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
+						<#if info.memKey != ''>
+							<#assign key = info.memKey>
+							<#assign idx = info.memKey>
+						<#else>
+							<#assign key = info.hkey>
+							<#assign idx = info.aidx>
+						</#if>
+						<a href="javascript:addCommentCall('${key }','${info.MFstName} ${info.MLstName }');" class="btn_talk tooltip" title="<@spring.message 'member.report.tooltip.commentcall'/>"></a>
+						<a href="javascript:setMemberInfo('${key }')" class="btn_info tooltip" title="<@spring.message 'member.report.tooltip.memberinfoupdate'/>"></a>
+						<a href="javascript:addFreeDiagOtherSubj('${idx}', '1')" class="btn_date tooltip" title="<@spring.message 'member.report.tooltip.freeDiagOtherSubj'/>"></a>
 						<span class="tooltip_Area"></span>
 					</div>
 					</#list>

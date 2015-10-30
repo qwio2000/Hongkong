@@ -15,6 +15,7 @@ $(function(){
 				data: paramData,
 				dataType: "json",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
+					console.log(jsonData);
 					var pageInfo = jsonData.pageInfo;
 					var totalRowCnt = pageInfo.totalRowCnt;
 					var pageNum = pageInfo.pageNum;
@@ -80,3 +81,7 @@ $(function(){
 		$.getWorkbookReport();
 	});	
 });
+
+function addMPR(subj, memKey, mFstName, mLstName, yy, mm){
+	location.href = "/fa/diagnosis/interimMpi?jisaCD="+jisaCD+"&deptCD="+deptCD+"&subj="+subj+"&memKey="+memKey+"&mfstname="+mFstName+"&mlstname="+mLstName+"&yy="+yy+"&mm="+mm;
+}

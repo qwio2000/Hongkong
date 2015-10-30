@@ -124,10 +124,24 @@ public interface MemberReportRepository {
 	public List<MemberReportFreeDiagInfo> findMemberReportFreeDiagInfoByHkey(
 			String hkey);
 
-	public List<MemberReportFreeDiagSubjInfo> findMemberReportFreeDiagSubjInfosByHkey(
+	public List<MemberReportFreeDiagSubjInfo> findMemberReportFreeDiagSubjInfosByAidx(
 			int aidx);
 
 	public List<MemberReportFreeDiagSubjInfo> findMemberReportFreeDiagSubjInfosByMemKey(
 			String memKey);
+
+	public void updateGuardianInfoFreeGicho(Map<String, Object> param);
+
+	public void updateGuardianInfoMemAppointment(Map<String, Object> param);
+
+	public void updateFreeGicho(Map<String, Object> param);
+
+	public void updateMemAppointment(Map<String, Object> param);
+
+	public List<String> findFreeDiagOtherSubjByMemKey(String key);
+
+	public List<String> findFreeDiagOtherSubjByIdx(String key);
+
+	public String findSubjsInMemAppointment(String key);
 
 }

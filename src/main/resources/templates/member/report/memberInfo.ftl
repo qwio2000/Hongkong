@@ -45,14 +45,7 @@
 						<label for="ePhone" class="tit">Emrg Phone</label>
 						<input type="text" id="ePhone" name="ePhone" class="searchInput" style="width:384px" value="${memMst.EPhone }" maxlength="15">
 					</li>
-<!-- 추후 생각 -->
-<!-- 					<li> -->
-<!-- 						<label for="statusCD" class="tit">Status</label> -->
-<!-- 						<select name="statusCD" id="statusCD" style="width:396px"> -->
-<!-- 							<option value="1">Active</option> -->
-<!-- 							<option value="2">Dropped</option> -->
-<!-- 						</select> -->
-<!-- 					</li> -->
+					<#if memKey?substring(0,1) != 'M'>
 					<li>
 						<label for="remarks" class="tit">Remarks</label>
 						<div class="textarea_wrap">
@@ -61,6 +54,7 @@
 							<div class="max_char_txt">You have 500 chracters left</div>
 						</div>
 					</li>
+					</#if>
 				</ul>
 				<div class="btnArea">
 					<a href="javascript:memberInfoSubmit();"><span>Update Student Information</span></a>

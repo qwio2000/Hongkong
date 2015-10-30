@@ -44,9 +44,9 @@
 					<input type="hidden" id="memKeys" value="${memKeys?default('') }"/>
 					<div class="btnArea_icon clearfix">
 						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
-						<a href="javascript:guardianInfoPop();" class="btn_info tooltip" title="<@spring.message 'member.report.tooltip.guardianupdate'/>"></a>
+						<a href="javascript:guardianInfoPop('01');" class="btn_info tooltip" title="<@spring.message 'member.report.tooltip.guardianupdate'/>"></a>
 						<a href="/fa/members/regist/new?type=3&memKey=${memKey }" class="btn_member tooltip"  title="<@spring.message 'member.report.tooltip.siblingregist'/>"></a>
-						<a href="#" class="btn_doc tooltip"  title="<@spring.message 'member.report.tooltip.siblingfreediag'/>"></a>
+						<a href="/fa/diagnosis/appointment/new?type=02&hkey=${memKey }" class="btn_doc tooltip"  title="<@spring.message 'member.report.tooltip.siblingfreediag'/>"></a>
 						<span class="tooltip_Area"></span>
 					</div>
 				</div>
@@ -145,8 +145,8 @@
 											<span class="info_line gray">IPPR</span>
 										</#if>
 										<!-- MPR -->
-										<#if subj.digYN == 'Y'>
-											<span class="info_line"><a href="#" class="blue">MPR</a></span>
+										<#if subj.digYN == 'Y' && subj.sdyymm != ''>
+											<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/interimPrint?memKey=${subj.memKey }&subj=${subj.subj }&lang=${subj.subj?substring(0,1) }&jisaCD=${subj.jisaCD }&yy=${subj.sdyymm?substring(0,4) }&mm=${subj.sdyymm?substring(4,6) }', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">MPR</a></span>
 										<#else>
 											<span class="info_line gray">MPR</span>
 										</#if>

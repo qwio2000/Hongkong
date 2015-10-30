@@ -136,8 +136,8 @@
 											<span class="info_line gray">IPPR</span>
 										</#if>
 										<!-- MPR -->
-										<#if subj.digYN == 'Y'>
-											<span class="info_line"><a href="#" class="blue">MPR</a></span>
+										<#if subj.digYN == 'Y' && subj.sdyymm != ''>
+											<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/interimPrint?memKey=${subj.memKey }&subj=${subj.subj }&lang=${subj.subj?substring(0,1) }&jisaCD=${subj.jisaCD }&yy=${subj.sdyymm?substring(0,4) }&mm=${subj.sdyymm?substring(4,6) }', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">MPR</a></span>
 										<#else>
 											<span class="info_line gray">MPR</span>
 										</#if>

@@ -172,3 +172,19 @@ function commentCallSubmit(){
 		});
 	}
 }
+
+function addFreeDiagOtherSubj(key, type){
+	$.openPop('/fa/members/reports/freeDiagOtherSubj?key='+key+'&type='+type, 'memberReportPop', 'width=625,height=400,scrollbars=yes,resizable=no');
+}
+function freeDiagOtherSubj(){
+	var freeJindan = '';
+	var key = $('#key').val();
+	var subj = $('#subj').val();
+	if(key.length == '8'){
+		freeJindan = 'I';
+	}else{
+		freeJindan = 'A';
+	}
+	self.close();
+	$.openPop('/fa/diagnosis/ippr?memKey='+key+'&subj='+subj+'&freejindan='+freeJindan, 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
+}
