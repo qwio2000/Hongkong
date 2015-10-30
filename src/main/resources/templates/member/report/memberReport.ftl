@@ -46,7 +46,7 @@
 						<!-- class= tooltip 추가, title=아이콘설명 추가 하면 동작 -->
 						<a href="javascript:guardianInfoPop('01');" class="btn_info tooltip" title="<@spring.message 'member.report.tooltip.guardianupdate'/>"></a>
 						<a href="/fa/members/regist/new?type=3&memKey=${memKey }" class="btn_member tooltip"  title="<@spring.message 'member.report.tooltip.siblingregist'/>"></a>
-						<a href="#" class="btn_doc tooltip"  title="<@spring.message 'member.report.tooltip.siblingfreediag'/>"></a>
+						<a href="/fa/diagnosis/appointment/new?type=02&hkey=${memKey }" class="btn_doc tooltip"  title="<@spring.message 'member.report.tooltip.siblingfreediag'/>"></a>
 						<span class="tooltip_Area"></span>
 					</div>
 				</div>

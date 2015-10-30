@@ -157,7 +157,11 @@ public class AppointmentController {
 		if("02".equals(type)){
 			GuardianInfo guardianInfo = null;
 			if(hkey != null && !hkey.isEmpty()){
-				guardianInfo = memberRegistService.getGuardianInfoByFreeDiagReport(hkey);
+				if("M".equals(hkey.substring(0,1))){
+					guardianInfo = memberRegistService.getGuardianInfoByFreeDiagReport(hkey);
+				}else{
+					guardianInfo = memberRegistService.getGuardianInfoByMemberReport(hkey);
+				}
 			}else{
 				guardianInfo = new GuardianInfo();
 			}
