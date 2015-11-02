@@ -433,6 +433,17 @@ public class DiagnosisService {
 		}
 
 
+		public DiagnosisDto.DiagnosisOmrMemChk getDiagnosisOmrMemChk(String jisaCD, String memKey, String subj, String freejindan) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisaCD", jisaCD);		
+			map.put("memKey", memKey);		
+			map.put("subj", subj);
+			map.put("freejindan", freejindan);
+			
+			return diagnosisRepository.findDiagnosisOmrMemChk(map);	
+		}
+
+
 
 		
 

@@ -129,8 +129,11 @@
 		<select id="findDiagnosisNextLang" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisNextLang">
 			CALL globaldig.SPOmrPrintNext(#{jisa},#{omrdate},#{memKey},#{subj},#{lang},#{mujin});
 		</select>
-		
-			
 
 	<!--// 개인별 처방기록부 -->
+	
+		<!-- 예상진도 수학 외-->
+		<select id="findDiagnosisOmrMemChk" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOmrMemChk">
+			CALL globaldig.SPOmrMemChk (#{jisaCD},#{memKey},#{subj},#{freejindan});
+		</select>
 </mapper>

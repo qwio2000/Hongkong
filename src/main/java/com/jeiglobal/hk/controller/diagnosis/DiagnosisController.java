@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +24,8 @@ import com.jeiglobal.hk.service.diagnosis.DiagnosisService;
 import com.jeiglobal.hk.utils.CommonUtils;
 import com.jeiglobal.hk.utils.MessageSourceAccessor;
 import com.jeiglobal.hk.utils.PageUtil;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -152,9 +152,19 @@ public class DiagnosisController {
 			digYN = "Y";
 		}
 		
+		digYN = "Y";
+		
 		DiagnosisDto.DiagnosisInputippr diagnosisInputippr = diagnosisService.getDiagnosisInputippr(jisaCD, deptCD, memKey, subj, freejindan);	 //회원정보
 		
 		List<GradeOfSubject> gradeOfSubject = commonService.getGradeOfSubject(jisaCD, subj, "Y", digYN);   //등급정보
+		
+		DiagnosisDto.DiagnosisOmrMemChk diagnosisOmrMemChk = diagnosisService.getDiagnosisOmrMemChk(jisaCD, memKey, subj, freejindan);	 //처방가능여부체크
+		
+		if (("N").equals(diagnosisOmrMemChk.getMsgchk())){
+			model.addAttribute("message", diagnosisOmrMemChk.getBulsayu());
+			model.addAttribute("mode", "close");
+			return "alertAndRedirect";			
+		}
 		
 		alertMsg = messageSourceAccesor.getMessage("Ippr.Input.Error");
 		
