@@ -77,7 +77,7 @@ public interface MemberReportRepository {
 
 	public void deleteMemAppointment(int idx);
 
-	public List<MemberIpprInfo> findMemberIpprs(String memKey);
+	public List<MemberIpprInfo> findMemberIpprs(Map<String, Object> param);
 
 	public MemSubjStudy findMemSubjStudyByMemKeyAndSubj(
 			Map<String, Object> param);

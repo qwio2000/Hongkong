@@ -403,10 +403,14 @@ public class MemberReportService {
 
 	/**
 	 * @param memKey
+	 * @param loginInfo 
 	 * @return List<Map<String,Object>>
 	 */
-	public List<MemberIpprInfo> getMemberIpprs(String memKey) {
-		return memberReportRepository.findMemberIpprs(memKey);
+	public List<MemberIpprInfo> getMemberIpprs(String memKey, LoginInfo loginInfo) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("loginInfo", loginInfo);
+		return memberReportRepository.findMemberIpprs(param);
 	}
 
 	/**

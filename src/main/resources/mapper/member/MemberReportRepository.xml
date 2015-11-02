@@ -229,7 +229,7 @@
 	FROM globalbiz.MemAppointment 
 	WHERE idx = #{idx}
 	</delete>
-	<select id="findMemberIpprs" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberIpprInfo">
+	<select id="findMemberIpprs" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberIpprInfo">
 		SELECT a.memKey, a.subj, IFNULL(b.omrDate,'') AS omrDate, IFNULL(b.jisaCD,'') AS jisaCD, c.digYN
 		FROM globalbiz.MemSubjMst AS a
 		LEFT JOIN (
@@ -238,7 +238,7 @@
 			GROUP BY hkey, kwamok
 		) AS b ON a.memKey = b.hkey AND a.subj = b.kwamok
 		INNER JOIN globalbiz.DeptSubjInfo AS c ON a.jisaCD = c.jisaCD AND a.deptCD = c.deptCD AND a.subj = c.subj
-		WHERE a.memKey = #{memKey}
+		WHERE a.memKey = #{memKey} AND a.jisaCD = #{loginInfo.jisaCD} AND a.deptCD = #{loginInfo.deptCD}
 	</select>
 	<select id="findMemCommentCallsCount" parameterType="java.lang.String" resultType="int">
 	SELECT COUNT(1)

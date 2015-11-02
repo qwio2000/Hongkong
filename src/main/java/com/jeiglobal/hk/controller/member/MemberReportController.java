@@ -345,7 +345,7 @@ public class MemberReportController {
 			String memKey, String memName,
 			@ModelAttribute LoginInfo loginInfo) {
 		
-		List<MemberIpprInfo> ipprs = memberReportService.getMemberIpprs(memKey);
+		List<MemberIpprInfo> ipprs = memberReportService.getMemberIpprs(memKey, loginInfo);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
 		model.addAttribute("memKey", memKey);
