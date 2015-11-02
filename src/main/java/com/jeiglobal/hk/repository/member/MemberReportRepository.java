@@ -144,4 +144,6 @@ public interface MemberReportRepository {
 
 	public String findSubjsInMemAppointment(String key);
 
+	public List<String> findSubjsExceptDigN(Map<String, Object> param);
+
 }
