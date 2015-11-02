@@ -423,5 +423,20 @@ public class MemberRegistService {
 	public MemMst getFreeGicho(String memKey) {
 		return memberRegistRepository.findFreeGicho(memKey);
 	}
+	/**
+	 * 입회시 무료진단 연결
+	 * @param freeDiagInfo
+	 * @param loginInfo
+	 * @param memKey 
+	 * @return 
+	 */
+	public String addMemProgressByFreeDiag(MemberRegistFreeDiagInfo freeDiagInfo,
+			LoginInfo loginInfo, String memKey) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("freeDiagInfo", freeDiagInfo);
+		param.put("loginInfo", loginInfo);
+		param.put("memKey", memKey);
+		return memberRegistRepository.insertMemProgressByFreeDiag(param);
+	}
 	
 }

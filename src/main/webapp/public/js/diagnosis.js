@@ -219,6 +219,8 @@ $(function(){
 					munNo = "00"+mun;	
 				}else if (mun.length == "2" ){
 					munNo = "0"+mun;
+				}else{
+					munNo = mun;
 				}
 				
 				

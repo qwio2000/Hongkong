@@ -68,4 +68,6 @@ public interface MemberRegistRepository {
 
 	public MemMst findFreeGicho(String memKey);
 
+	public String insertMemProgressByFreeDiag(Map<String, Object> param);
+
 }
