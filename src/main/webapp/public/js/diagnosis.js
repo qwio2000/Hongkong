@@ -219,6 +219,8 @@ $(function(){
 					munNo = "00"+mun;	
 				}else if (mun.length == "2" ){
 					munNo = "0"+mun;
+				}else{
+					munNo = mun;
 				}
 				
 				
@@ -275,7 +277,10 @@ $(function(){
 			var OmrDay2 = $.trim($("#OmrDay2").val());
 			var WorkID = $.trim($("#WorkID").val());
 			var freejindan = $.trim($("#freejindan").val());
-		
+			var mujin = "0";
+			if(freejindan != ""){
+				mujin = "1";
+			}
 				
 			var searchUrl = "/fa/diagnosis/ipprOmrBan";
 			var paramData = {"jisaCD":jisaCD, "omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "rw":Rw, "nOmr":NOmr, "omrGrd":OmrGrd, "omrHak":OmrHak
@@ -293,6 +298,9 @@ $(function(){
 						alert(jsonData.alertMsg);
 						
 						self.close();
+						
+						$.openIpprPost(jisaCD,OmrDate, Hkey, mujin, Kwamok, Kwamok.substring(0,1), 'Y', 'IpprPageSub');
+						
 					},
 					error:function (xhr, ajaxOptions, thrownError){	
 						alert(thrownError);
@@ -300,7 +308,7 @@ $(function(){
 				}); 
 				//window.self.close();
 				 //self.close();
-			
+				
 		},
 		
 		getReload:function(){  //페이지 새로고침

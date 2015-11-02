@@ -297,7 +297,6 @@ function dropMemberSubmit(){
 			return;
 		}
 		var param = $("#dropMemberForm").serialize();
-		console.log(param);
 		$.ajax({
 			url:url+"drop",
 			type:"POST",
@@ -318,7 +317,6 @@ function dropMemberSubmit(){
 function dropCancelMember(memKey, subj, dropDate){
 	if(confirm(memKey+' 회원의 '+subj+' 과목을 퇴회 취소 하시겠습니까?')){
 		var param = {"memKey":memKey, "subj":subj, "dropDate":dropDate};
-		console.log(param);
 		$.ajax({
 			url:url+"dropcancel",
 			type:"POST",
@@ -408,7 +406,6 @@ function registCancel(memKey, subj){
 			data: param,
 			dataType: "json",
 			success: function(jsonData, textStatus, XMLHttpRequest) {
-				console.log(jsonData);
 				if(jsonData.result == 'true'){
 					alert('진행 중인 다른 과목이 존재합니다. \n다른 과목을 입회 취소한 후 진행해 주십시오.');
 				}else{

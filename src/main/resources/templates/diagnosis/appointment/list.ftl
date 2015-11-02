@@ -46,7 +46,7 @@
 {{#each appointments}}
 	<tr>
 		<td>{{inc @index}}</td>
-		<td class="left pl10"><a href="#"><img src="{{imgPath}}/ico_name.png" alt="">{{mfstName}} {{mlstName}}</a></td>
+		<td class="center pl10">{{mfstName}} {{mlstName}}</td>
 		<td>{{gradeName}}</td>
 		<td>{{splitSubj subj}}</td>
 		<td class="left pl10">{{gfstName}} {{glstName}}<br />{{preferredNotes}}</td>
@@ -54,10 +54,10 @@
 		<td>{{convPreferredYMD}} {{timeName}}</td>
 		<td>
 			<div class="btnArea_icon2">
-				<a href="/fa/members/regist/new?type=&appIdx={{idx}}" class="btn_doc_add">입회입력</a>
-				<a href="javascript:addFreeDiagOtherSubj('{{idx}}', '2')" class="btn_doc2">무료진단입력</a>
-				<a href="javascript:updateAppointmentPop('{{idx}}')" class="btn_info">내용수정</a>
-				<a href="javascript:deleteAppointment('{{idx}}');" class="btn_del">명단삭제</a>
+				<a href="/fa/members/regist/new?type=&appIdx={{idx}}" class="btn_doc_add " title="입회입력"></a>
+				<a href="javascript:addFreeDiagOtherSubj('{{idx}}', '2')" class="btn_doc2 " title="무료진단입력"></a>
+				<a href="javascript:updateAppointmentPop('{{idx}}')" class="btn_info " title="내용수정">내용수정</a>
+				<a href="javascript:deleteAppointment('{{idx}}');" class="btn_del " title="명단삭제">명단삭제</a>				
 			</div>
 		</td>
 	</tr>

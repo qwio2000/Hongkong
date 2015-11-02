@@ -172,4 +172,7 @@
 		FROM globaldig.FreeGicho
 		WHERE hkey = #{memKey}
 	</select>
+	<select id="insertMemProgressByFreeDiag" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String">
+		CALL globaldig.SPRegFreeSetJindo(#{loginInfo.jisaCD},#{freeDiagInfo.freeOmrDate},#{freeDiagInfo.freeHkey},#{memKey},#{freeDiagInfo.freeSubj})
+	</select>
 </mapper>

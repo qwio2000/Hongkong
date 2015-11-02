@@ -222,18 +222,18 @@ public class MemberRegistController {
 				if("2".equals(type) && "2".equals(isResume[i])){//타과목 입회과목이 복회인 경우 : MemSubjMst, MemSubjStudy Update
 					memberRegistService.setMemSubjMst(memSubjMst);//His 쌓을 때 UpdCD 구분하기 위해 isResume[i] 사용
 					memberRegistService.setMemSubjStudy(memSubjStudy);
-					if(subj[i].equals(freeDiagInfo.getFreeSubj())){
-						log.debug("타과목 복회 무료진단 진도 연결 필요!! : {}", freeDiagInfo);
-					}
 				}else{//그 외 : Insert
 					memberRegistService.addNewMemSubjMst(memSubjMst);
 					memberRegistService.addNewMemSubjStudy(memSubjStudy);
-					if(subj[i].equals(freeDiagInfo.getFreeSubj())){
-						log.debug("신입, 타과목 신입 무료진단 진도 연결 필요!! : {}", freeDiagInfo);
-					}
 				}
 				memberRegistService.addNewMemSubjRegist(memSubjRegist);
 				memberRegistService.addNewMemSubjTuition(memSubjTuition);
+				if(subj[i].equals(freeDiagInfo.getFreeSubj())){
+					String isOk = memberRegistService.addMemProgressByFreeDiag(freeDiagInfo, loginInfo, memMst.getMemKey());
+					if(!"Y".equals(isOk)){
+						log.error("무료진단 진도 연결 중 오류 발생  memKey : {}, subj : {}, omrDate : {}", memMst.getMemKey(), freeDiagInfo.getFreeSubj(), freeDiagInfo.getFreeOmrDate());
+					}
+				}
 			}
 		}
 		
@@ -254,7 +254,7 @@ public class MemberRegistController {
 		}
 		
 		model.addAttribute("message", msa.getMessage("member.regist.success"));
-		model.addAttribute("url", "/fa/members/regist");
+		model.addAttribute("url", "/fa/members/reports/"+memMst.getMemKey());
 		return "alertAndRedirect";
 	}
 }

@@ -116,7 +116,6 @@ $(function(){
 				cache: false,
 				dataType: "text",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
-					console.log(jsonData);
 					$("#dobDay option").each(function(){
 						$(this).remove();
 					});
@@ -171,6 +170,7 @@ $(function(){
 		if(!isValid){
 			return;
 		}
+		$(".btnArea").hide();
 		$("#registForm").submit();
 	});
 	
