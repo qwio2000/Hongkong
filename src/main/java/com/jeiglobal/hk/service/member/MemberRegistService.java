@@ -54,6 +54,7 @@ public class MemberRegistService {
 	public List<String> getFirstManageDates(String jisaCD) throws ParseException{
 		//현재 날짜 가져옴
 		Calendar cal = Calendar.getInstance();
+		/*cal.set(2015, 9, 23);*/
 		SimpleDateFormat yyyymmFormatter = new SimpleDateFormat("yyyy-MM");
 		//현재 달의 마감날짜 가져옴
 		String closingDate = commonService.getClosingDate(jisaCD, yyyymmFormatter.format(cal.getTime()));

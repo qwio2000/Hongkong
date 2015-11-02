@@ -55,7 +55,7 @@
 					</tr>
 					<tr class="total">
 						<td>TOTAL</td>
-						<td>5</td>
+						<td id="totals">0</td>
 					</tr>
 				</tbody>
 			</table>

@@ -105,9 +105,12 @@ $(function(){
 			if($("#"+id).is(":checked") == true ){
 				$("#Odablist").append(Odablisttemp)
 				$("#inputAnswer").append(inputAnswertemp)
+				$("#totals").text(Number($("#totals").text()) + 1);
+				
 			}else{
 				$("#"+id+''+mun+" ").remove();
 				$("#inputAnswer #"+mun+" ").remove();
+				$("#totals").text(Number($("#totals").text()) - 1);
 			}
 			
 			$.getOrderByChk();
