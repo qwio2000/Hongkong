@@ -403,10 +403,14 @@ public class MemberReportService {
 
 	/**
 	 * @param memKey
+	 * @param loginInfo 
 	 * @return List<Map<String,Object>>
 	 */
-	public List<MemberIpprInfo> getMemberIpprs(String memKey) {
-		return memberReportRepository.findMemberIpprs(memKey);
+	public List<MemberIpprInfo> getMemberIpprs(String memKey, LoginInfo loginInfo) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("loginInfo", loginInfo);
+		return memberReportRepository.findMemberIpprs(param);
 	}
 
 	/**
@@ -602,13 +606,6 @@ public class MemberReportService {
 			}else{ // 기존 회원이면
 				memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByMemKey(memberReportFreeDiagInfo.getMemKey()));
 			}
-//			if(memberReportFreeDiagInfo.getMemKey() == null || memberReportFreeDiagInfo.getMemKey().isEmpty()){
-//				if(memberReportFreeDiagInfo.getAidx() != 0){
-//					memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByHkey(memberReportFreeDiagInfo.getAidx()));
-//				}
-//			}else{
-//				memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByMemKey(memberReportFreeDiagInfo.getMemKey()));
-//			}
 		}
 		return memberReportFreeDiagInfos;
 	}
@@ -664,11 +661,16 @@ public class MemberReportService {
 
 	/**
 	 * @param key
+	 * @param loginInfo 
 	 * @return List<String>
 	 */
-	public List<String> getSubjsInMemAppointment(String key) {
+	public List<String> getSubjsInMemAppointment(String key, LoginInfo loginInfo) {
+		Map<String, Object> param = new HashMap<>();
 		String subjs = memberReportRepository.findSubjsInMemAppointment(key);
-		return Arrays.asList(subjs.split(","));
+		param.put("subj", subjs.split(","));
+		param.put("jisaCD", loginInfo.getJisaCD());
+		param.put("deptCD", loginInfo.getDeptCD());
+		return memberReportRepository.findSubjsExceptDigN(param);
 	}
 
 }

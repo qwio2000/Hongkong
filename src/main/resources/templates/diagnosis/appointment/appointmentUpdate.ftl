@@ -1,7 +1,7 @@
 <#include "/include/popupheader.ftl">
 <!-- Main Content -->
 <div class="popup">
-	<div class="popup_top"><h1>Update Appointment</h1> <a href="#" class="btn_popup_close">close</a></div>
+	<div class="popup_top"><h1>Update Appointment</h1> <a href="javascript:self.close();" class="btn_popup_close">close</a></div>
 	<div class="popup_content">
 		<div class="pop_gm">
 		<form id="appointmentForm">

@@ -58,19 +58,24 @@ $(function(){
 		
 		
 		// User 등록
-		openAddNewUser:function(deptCD, addUserFlag){
+		openAddNewUser:function(deptCD, addUserFlag, jobFlag){
 			if(addUserFlag != "Y"){
 				alert("사용자 등록 권한이 없습니다.\n가맹점 오픈일 이후부터 사용자 등록이 가능합니다.");
 				return;
 			}
-			var url = "/ja/centers/userRegist?deptCD="+deptCD;
+			var url = "/ja/centers/userRegist?deptCD="+deptCD+"&jobFlag="+jobFlag;
 			$.openPop(url, "userRegist","menubar=no,toolbar=no,status=no,resizable=yes,scrollbars=yes,width=600,height=700");
 		},
-		// User 정보 변경
-		openEditUser:function(deptCD,userId){
-			var url = "/ja/centers/userEdit?deptCD="+deptCD+"&userId="+userId;
+		// User 정보 변경(관리자)
+		openEditUser:function(deptCD,userId,jobFlag){
+			var url = "/ja/centers/userEdit?deptCD="+deptCD+"&userId="+userId+"&jobFlag="+jobFlag;
 			$.openPop(url, "userEdit","menubar=no,toolbar=no,status=no,resizable=yes,scrollbars=yes,width=600,height=700");
 		},	
+		// User 정보 변경(자신)
+		openMyEditUser:function(deptCD,userId){
+			var url = "/ja/mypage/userEdit?deptCD="+deptCD+"&userId="+userId;		
+			$.openPop(url, "userEdit","menubar=no,toolbar=no,status=no,resizable=yes,scrollbars=yes,width=620,height=700");
+		},			
 		userPwdClear:function(userId){
 			if(confirm("비밀번호를 초기화 하시겠습니까?\n\n초기화 하시면 비밀번호는 User ID 로 초기화 됩니다.")) {
 				var param = $("#userForm").serialize();

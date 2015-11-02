@@ -229,7 +229,7 @@
 	FROM globalbiz.MemAppointment 
 	WHERE idx = #{idx}
 	</delete>
-	<select id="findMemberIpprs" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberIpprInfo">
+	<select id="findMemberIpprs" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberIpprInfo">
 		SELECT a.memKey, a.subj, IFNULL(b.omrDate,'') AS omrDate, IFNULL(b.jisaCD,'') AS jisaCD, c.digYN
 		FROM globalbiz.MemSubjMst AS a
 		LEFT JOIN (
@@ -238,7 +238,7 @@
 			GROUP BY hkey, kwamok
 		) AS b ON a.memKey = b.hkey AND a.subj = b.kwamok
 		INNER JOIN globalbiz.DeptSubjInfo AS c ON a.jisaCD = c.jisaCD AND a.deptCD = c.deptCD AND a.subj = c.subj
-		WHERE a.memKey = #{memKey}
+		WHERE a.memKey = #{memKey} AND a.jisaCD = #{loginInfo.jisaCD} AND a.deptCD = #{loginInfo.deptCD}
 	</select>
 	<select id="findMemCommentCallsCount" parameterType="java.lang.String" resultType="int">
 	SELECT COUNT(1)
@@ -361,7 +361,7 @@
 		ORDER BY a.hkey
 	</select>
 	<select id="findMemberReportFreeDiagSubjInfosByAidx" parameterType="int" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportFreeDiagSubjInfo">
-		SELECT a.hkey, a.kwamok, MAX(a.omrDate) AS omrDate, a.jisaCD, b.digYN, a.aidx, a.memKey
+		SELECT MAX(a.hkey) AS hkey, a.kwamok, MAX(a.omrDate) AS omrDate, a.jisaCD, b.digYN, a.aidx, a.memKey
 		FROM globaldig.FreeGicho AS a 
 			LEFT JOIN globalbiz.DeptSubjInfo AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND a.kwamok = b.subj
 		WHERE a.aidx = #{aidx} OR a.memKey = CASE WHEN a.memKey != '' THEN (SELECT MAX(memKey) AS memKey FROM globaldig.FreeGicho WHERE aidx = #{aidx} GROUP BY aidx) ELSE '0' END
@@ -453,5 +453,15 @@
 		SELECT subj
 		FROM globalbiz.MemAppointment
 		WHERE idx = #{key}
+	</select>
+	<select id="findSubjsExceptDigN" parameterType="hashMap" resultType="java.lang.String">
+		SELECT subj 
+		FROM globalbiz.DeptSubjInfo 
+		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} AND digYN = 'Y' AND 
+			subj IN
+			 <foreach item="item" index="index" collection="subj" open="(" separator="," close=")">
+			       #{item}
+			 </foreach>
+		ORDER BY sortCD
 	</select>
 </mapper>

@@ -21,41 +21,26 @@
 					</colgroup>
 					<tbody>
 						<tr>
-							<th class="left">Name</th>
-							<td class="left">${centerInfo.deptName?default('')}</td>
-						</tr>
-						<tr>
-							<th class="left">Director</th>
-							<td class="left">${centerInfo.empName?default('')}</td>
-						</tr>
-						<tr>
-							<th class="left">Address</th>
-							<td class="left">${centerInfo.addr?default('')}</td>
-						</tr>
+							<th>User</th>
+							<td class="left"><div class="clearfix"><span class="area_left">${userInfo.userId}</span> <span class="area_right"><a href="javascript:$.openMyEditUser('${userInfo.deptCD}','${userInfo.userId}');" class="btn_icon btn_info"></a></span></div></td>
+						</tr>						
 						<tr>
 							<th>Email Address</th>
-							<td class="left">${centerInfo.email?default('')}</td>
+							<td class="left">${userInfo.email?default('')}</td>
 						</tr>
 						<tr>
 							<th>Phone Number</th>
-							<td class="left">${centerInfo.phone?default('')}</td>
+							<td class="left">${userInfo.phone?default('')}</td>
 						</tr>
 						<tr>
-							<th>Fax Number</th>
-							<td class="left">${centerInfo.fax?default('')}</td>
-						</tr>
-						<tr>
-							<th>Contact Date</th>
-							<td class="left">${centerInfo.contractDate?default('')}</td>
-						</tr>
-						<tr>
-							<th>Open Date</th>
-							<td class="left">${centerInfo.openDate?default('')}</td>
-						</tr>						
+							<th>Username</th>
+							<td class="left">${userInfo.userName}</td>
+						</tr>												
 					</tbody>
 				</table>
 			</div>
 		</div>
+		<#if userInfo.dutyCD == "J0">
 		<div class="conRight">
 			<h2 class="conTit">Users</h2>
 			<#list userList as list>
@@ -68,7 +53,7 @@
 					<tbody>
 						<tr>
 							<th class="left">User</th>
-							<td class="left"><div class="clearfix"><span class="area_left">${list.userId}</span> <span class="area_right"><a href="javascript:$.openEditUser('${list.deptCD}','${list.userId}');" class="btn_icon btn_info"></a></span></div></td>
+							<td class="left"><div class="clearfix"><span class="area_left">${list.userId}</span> <span class="area_right"><a href="javascript:$.openEditUser('${list.deptCD}','${list.userId}','myPage');" class="btn_icon btn_info"></a></span></div></td>
 						</tr>
 						<tr>
 							<th class="left">User Level</th>
@@ -91,9 +76,10 @@
 			</div>
 			</#list>
 			<div class="btnArea_txt">
-				<a href="javascript:$.openAddNewUser('${centerInfo.deptCD}','${centerInfo.addUserFlag}');" class="btn_doc">add new user</a>
+				<a href="javascript:$.openAddNewUser('${centerInfo.deptCD}','${centerInfo.addUserFlag}','myPage');" class="btn_doc">add new user</a>
 			</div>
 		</div>
+		</#if>
 	</div>
 </div>
 		

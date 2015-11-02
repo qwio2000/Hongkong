@@ -93,7 +93,7 @@
 							<td class="left">
 								<div class="clearfix">
 									<span class="area_left">${userInfo.userId?default('')}</span>
-									<span class="area_right"><a href="javascript:$.openEditUser('${userInfo.deptCD?default('')}','${userInfo.userId?default('')}');" class="btn_icon btn_info"></a></span>
+									<span class="area_right"><a href="javascript:$.openMyEditUser('${userInfo.deptCD?default('')}','${userInfo.userId?default('')}');" class="btn_icon btn_info"></a></span>
 								</div>
 							</td>
 						</tr>

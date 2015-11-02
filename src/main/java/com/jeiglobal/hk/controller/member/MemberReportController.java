@@ -345,7 +345,7 @@ public class MemberReportController {
 			String memKey, String memName,
 			@ModelAttribute LoginInfo loginInfo) {
 		
-		List<MemberIpprInfo> ipprs = memberReportService.getMemberIpprs(memKey);
+		List<MemberIpprInfo> ipprs = memberReportService.getMemberIpprs(memKey, loginInfo);
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
 		model.addAttribute("memKey", memKey);
@@ -409,7 +409,7 @@ public class MemberReportController {
 		if("1".equals(type)){
 			freeDiagOtherSubjs = memberReportService.getFreeDiagOtherSubj(key);
 		}else{
-			freeDiagOtherSubjs = memberReportService.getSubjsInMemAppointment(key);
+			freeDiagOtherSubjs = memberReportService.getSubjsInMemAppointment(key, loginInfo);
 		}
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("freeDiagOtherSubjs", freeDiagOtherSubjs);

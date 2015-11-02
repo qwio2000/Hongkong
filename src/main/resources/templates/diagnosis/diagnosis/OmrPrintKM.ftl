@@ -116,7 +116,7 @@
 		<td width="87" height="22" align="center" bgcolor="c7c8ca" class="style4">1.회원번호</td>
 		<td width="87" align="center" bgcolor="#FFFFFF" class="style7">${omrgicho.hkey}</td>
 		<td width="87" align="center" bgcolor="c7c8ca" class="style4">4.생년월일</td>
-		<td width="87" align="center" bgcolor="#FFFFFF" class="style7">2${omrgicho.omrBirth}</td>
+		<td width="87" align="center" bgcolor="#FFFFFF" class="style7">${omrgicho.omrBirth}</td>
 		<td width="87" align="center" bgcolor="c7c8ca" class="style4">7.평가종류</td>
 		<td width="87" align="center" bgcolor="#FFFFFF" class="style7">${omrgicho.omrKindNM}</td>
 		<td width="87" align="center" bgcolor="c7c8ca" class="style4">10.관리요일</td>
@@ -884,7 +884,7 @@
 </table>
 <table width="696" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor='#000000'>
 	<#assign jinMM = ""><#assign jinStr = ""><#assign idisplayCnt = 0>
-	<#if next??>
+	<#if next?has_content>
 		<#list next as nextIndex>
 			<#if (jinMM != nextIndex.rmm) && (jinMM != "")>
 				<#assign idisplayCnt = idisplayCnt?number + 1>

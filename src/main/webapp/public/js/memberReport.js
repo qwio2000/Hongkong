@@ -150,7 +150,7 @@ function deleteAppointment(idx){
 	}
 }
 function addCommentCall(memKey, memName){
-	$.openPop('/fa/members/reports/commentcall?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=625,height=400,scrollbars=no,resizable=no');
+	$.openPop('/fa/members/reports/commentcall?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=625,height=800,scrollbars=yes,resizable=no');
 }
 function commentCallSubmit(){
 	if(confirm('상담 이력을 입력하시겠습니까?')){

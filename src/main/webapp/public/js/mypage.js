@@ -1,7 +1,7 @@
 $(function(){	
 	$.extend({
 		// User 정보 변경
-		openEditUser:function(deptCD,userId){
+		openMyEditUser:function(deptCD,userId){
 			var url = "/fa/mypage/userEdit?deptCD="+deptCD+"&userId="+userId;
 			$.openPop(url, "userEdit","menubar=no,toolbar=no,status=no,resizable=yes,scrollbars=yes,width=620,height=700");
 		},	
@@ -60,7 +60,7 @@ $(function(){
 	});	
 
 	//User 수정
-	$("#saveUserInfo").on("click", function() {
+	$("#saveMypageUserInfo").on("click", function() {
 		if(!($.required("dutyCD","User Duty"))){return;}		
 		if(!($.required("userLevel","User Privilege"))){return;}
 		if(!($.required("userFstName","User's First Name"))){return;}
@@ -90,10 +90,14 @@ $(function(){
 		}else{ 
 			$("#pwdChgFlag").val("");
 		}
-		
+		if(window.location.pathname.indexOf('/fa/mypage/')<0){
+			var url = "/ja/mypage/userSaveJson";
+		}else{
+			var url = "/fa/mypage/userSaveJson";
+		}		
 		var param = $("#userForm").serialize();
 		$.ajax({
-			url:"/fa/mypage/userSaveJson",
+			url:url,
 			type:"POST",
 			cache: false,
 			async: true,

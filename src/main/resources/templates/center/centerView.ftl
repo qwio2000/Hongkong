@@ -104,7 +104,7 @@
 					<tbody>
 						<tr>
 							<th class="left">User</th>
-							<td class="left"><div class="clearfix"><span class="area_left">${list.userId}</span> <span class="area_right"><a href="javascript:$.openEditUser('${list.deptCD}','${list.userId}');" class="btn_icon btn_info"></a></span></div></td>
+							<td class="left"><div class="clearfix"><span class="area_left">${list.userId}</span> <span class="area_right"><a href="javascript:$.openEditUser('${list.deptCD}','${list.userId}','centerView');" class="btn_icon btn_info"></a></span></div></td>
 						</tr>
 						<tr>
 							<th class="left">User Level</th>
@@ -127,7 +127,7 @@
 			</div>
 			</#list>
 			<div class="btnArea_txt">
-				<a href="javascript:$.openAddNewUser('${centerInfo.deptCD}','${centerInfo.addUserFlag}');" class="btn_doc">add new user</a>
+				<a href="javascript:$.openAddNewUser('${centerInfo.deptCD}','${centerInfo.addUserFlag}','centerView');" class="btn_doc">add new user</a>
 			</div>
 		</div>
 	</div>

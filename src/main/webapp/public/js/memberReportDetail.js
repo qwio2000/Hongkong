@@ -98,7 +98,7 @@ function setMemSubjStudyInfo(memKey){
 	$.openPop('/fa/members/reports/memsubjstudyinfo?memKey='+memKey, 'memberReportPop', 'width=625,height=400,scrollbars=yes,resizable=no');
 }
 function dropMember(memKey, subj, memName, registDate, isCancle, today){
-	if(isCancle){
+	if(isCancle == 'true'){
 		if(registDate == today){
 			alert('당일 입회 회원입니다. 입회 취소를 해 주십시오.');
 			return;

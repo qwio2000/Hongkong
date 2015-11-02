@@ -14,7 +14,8 @@
 	<div class="popup_content">
 		<div class="pop_jisa">
 			<form action="" name="userForm" id="userForm">
-			<input type="hidden" name="deptCD" id="deptCD"  value="${deptCD?default('')}"/>		
+			<input type="hidden" name="deptCD" id="deptCD"  value="${deptCD?default('')}"/>	
+			<input type="hidden" name="userType" id="userType"  value="${userInfo.userType?default('')}"/>
 			<ul class="list02">
 				<li>
 					<label for="" class="tit">Center Name</label>
@@ -24,6 +25,9 @@
 					<label for="" class="tit">User ID</label>
 					<input type="text" name="userId" id="userId" value="${userInfo.userId?default('') }" class="searchInput" style="width:384px"  readOnly maxlength='20' >
 				</li>				
+				<#if jobFlag=="myPage">
+					<input type="hidden" name="dutyCD" id="dutyCD" value="${userInfo.dutyCD?default('') }"/>				
+				<#else> 
 				<li>
 					<label for="" class="tit">User Duty <span class="must">*</span></label>
 					<select name="dutyCD" id="dutyCD" style="width:187px;margin-right:3px">
@@ -32,6 +36,7 @@
 						<option value="F1" <#if userInfo.dutyCD == "F1">selected</#if> >Center Staff</option>		
 					</select>
 				</li>
+				</#if>				
 				<li>
 					<label for="" class="tit">User Privilege <span class="must">*</span></label>
 					<select name="userLevel" id="userLevel" style="width:187px;margin-right:3px">
