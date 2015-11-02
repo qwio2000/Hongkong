@@ -306,7 +306,15 @@ public class CenterController {
 	 * 등록/수정/비번초기화
 	 */
 	@RequestMapping(value={"/ja/centers/userRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getUserRegist(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD){
+	public String getUserRegist(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD, String jobFlag){
+		
+		String userType="";
+		if("centerView".equals(jobFlag)){
+			userType = "FA";	
+		}else{
+			userType = "JA";
+		}
+		
 		// 센터 정보
 		CenterView dataCenterInfo = centerService.getCenterView(loginInfo.getJisaCD(), deptCD);
 		String chk = (dataCenterInfo == null)? "N" : "Y";
@@ -315,19 +323,19 @@ public class CenterController {
 		headerScript.add("centerView");
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("userLevelList", commonService.getCodeDtls("0401", loginInfo.getJisaCD(), 1, "Y"));
-		model.addAttribute("centerInfo", dataCenterInfo);
+		model.addAttribute("centerInfo", dataCenterInfo);		
 		model.addAttribute("chk", chk);
 		model.addAttribute("deptCD", deptCD);		
-		
+		model.addAttribute("userType", userType);
+		model.addAttribute("jobFlag", jobFlag);
 		return "center/userRegist";
 	}
 	@RequestMapping(value={"/ja/centers/userSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String getUserSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
 		String deptCD, String userId, String dutyCD, String userLevel, String userFstName, String userLstName,
-		String email, String phone, String title, String department, String userPwd, String statusCD){
-		
-		String userType = "FA";
+		String email, String phone, String title, String department, String userPwd, String statusCD, String userType){
+
 		String newUserPwd = "";
 		if("".equals(userId)){
 			newUserPwd = passwordEncoder.encode(userPwd);
@@ -359,7 +367,7 @@ public class CenterController {
 		return messageSource.getMessage(msgCode);
 	}
 	@RequestMapping(value={"/ja/centers/userEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getUserEdit(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD, String userId){
+	public String getUserEdit(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD, String userId, String jobFlag){
 		
 		UserView dataUserInfo = centerService.getUserView(userId);
 		String chk = (dataUserInfo == null)? "N" : "Y";
@@ -371,6 +379,7 @@ public class CenterController {
 		model.addAttribute("userInfo", dataUserInfo);
 		model.addAttribute("deptCD", deptCD);
 		model.addAttribute("userId", userId);
+		model.addAttribute("jobFlag", jobFlag);
 		model.addAttribute("chk", chk);
 		return "center/userEdit";
 	}	

@@ -92,7 +92,7 @@ public class MyPageController {
 		return "mypage/centerInfoEdit";
 	}
 	
-	@RequestMapping(value={"/fa/mypage/userEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/ja/mypage/userEdit","/fa/mypage/userEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getUserEdit(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD, String userId){
 		
 		UserView dataUserInfo = centerService.getUserView(userId);
@@ -108,13 +108,12 @@ public class MyPageController {
 		model.addAttribute("chk", chk);
 		return "mypage/userEdit";
 	}	
-	@RequestMapping(value={"/fa/mypage/userSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@RequestMapping(value={"/ja/mypage/userSaveJson","/fa/mypage/userSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String getUserSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
 		String deptCD, String userId, String dutyCD, String userLevel, String userFstName, String userLstName,
-		String email, String phone, String title, String department, String userPwd, String statusCD, String oldUserPwd, String pwdChgFlag){
+		String email, String phone, String title, String department, String userPwd, String statusCD, String oldUserPwd, String pwdChgFlag, String userType){
 		
-		String userType = "FA";
 		String newUserPwd = "";
 		if("Y".equals(pwdChgFlag)){
 			newUserPwd = passwordEncoder.encode(userPwd);
@@ -140,18 +139,16 @@ public class MyPageController {
 	 */	
 	@RequestMapping(value={"/ja/mypage"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getMyPageOfJA(Model model, @ModelAttribute LoginInfo loginInfo) {
-		
-		// 지사 정보
-		CenterView dataCenterInfo = centerService.getCenterView(loginInfo.getJisaCD(), loginInfo.getDeptCD());
-		// User 정보 
+		// User 정보		
+		CenterView dataCenterInfo = centerService.getCenterView(loginInfo.getJisaCD(), loginInfo.getDeptCD()); 
+		UserView dataUserInfo = centerService.getUserView(loginInfo.getUserId());
 		List<UserList> dataUserList = centerService.getUserList(loginInfo.getJisaCD(),  loginInfo.getDeptCD());
-		//UserView dataUserList = centerService.getUserView(loginInfo.getUserId());
-		
 		String chk = (dataCenterInfo == null)? "N" : "Y";
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("centerView");
 		model.addAttribute("headerScript", headerScript);		
 		model.addAttribute("centerInfo", dataCenterInfo);
+		model.addAttribute("userInfo", dataUserInfo);
 		model.addAttribute("userList", dataUserList);
 		model.addAttribute("chk", chk);		
 		

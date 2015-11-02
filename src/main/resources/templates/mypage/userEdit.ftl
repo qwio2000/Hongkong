@@ -15,7 +15,8 @@
 		<div class="pop_jisa">
 			<form action="" name="userForm" id="userForm">
 			<input type="hidden" name="deptCD" id="deptCD"  value="${deptCD?default('')}"/>		
-			<input type="hidden" name="dutyCD" id="dutyCD"  value="${userInfo.dutyCD?default('')}"/>			
+			<input type="hidden" name="dutyCD" id="dutyCD"  value="${userInfo.dutyCD?default('')}"/>		
+			<input type="hidden" name="userType" id="userType"  value="${userInfo.userType?default('')}"/>	
 			<input type="hidden" name="userLevel" id="userLevel"  value="${userInfo.userLevel?default('')}"/>
 			<input type="hidden" name="statusCD" id="statusCD"  value="${userInfo.statusCD?default('')}"/>
 			<input type="hidden" name="oldUserPwd" id="oldUserPwd"  value="${userInfo.userPasswd?default('') }"/>
@@ -65,7 +66,7 @@
 				</li>
 			</ul>
 			<div class="btnArea">
-				<a href="javascript:;" id="saveUserInfo" ><span>Save User Information</span></a>
+				<a href="javascript:;" id="saveMypageUserInfo" ><span>Save User Information</span></a>
 			</div>
 			</form>
 		</div>
