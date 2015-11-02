@@ -1,4 +1,4 @@
-<#include "/include/header.ftl">
+<#include "/include/popupheader.ftl">
 <!-- Main Content -->
 <div class="content">
 	<h2 class="conTit">Workbook Report</h2>
@@ -66,17 +66,19 @@
 					<td class="no_line" rowspan="2">${mm }/1</td>
 					<#if wolJinDo1??>
 						<#assign wolJinDo1Cnt = 0>
-						<#list wolJinDo1 as wolJinDo1Index>							
-							<#if wolJinDo1Index.wkseq?number = 1>
-								<#assign wolJinDo1Cnt = wolJinDo1Cnt+1>
-								<#if wolJinDo1Index.setques == "01"><td>${wolJinDo1Index.wbset }</td><#assign wolJinDo1Cnt = wolJinDo1Cnt+1></#if>
-								<td>
-									<select name="setsubq11${wolJinDo1Index_index }" id="setsubq11${wolJinDo1Index_index }" style="width:50px">
-									<#list 0.. wolJinDo1Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo1Index.wk },${wolJinDo1Index.wkseq },${wolJinDo1Index.setques },${wolJinDo1Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
-									</#list>
-									</select>
-								</td>
+						<#list wolJinDo1 as wolJinDo1Index>		
+							<#if wolJinDo1Index.setques != "00">					
+								<#if wolJinDo1Index.wkseq?number = 1>
+									<#assign wolJinDo1Cnt = wolJinDo1Cnt+1>
+									<#if wolJinDo1Index.setques == "01"><td>${wolJinDo1Index.wbset }</td><#assign wolJinDo1Cnt = wolJinDo1Cnt+1></#if>
+									<td>
+										<select name="setsubq11${wolJinDo1Index_index }" id="setsubq11${wolJinDo1Index_index }" style="width:50px">
+										<#list 0.. wolJinDo1Index.setsubq?number as setsubqIndex>
+											<option value="${wolJinDo1Index.wk },${wolJinDo1Index.wkseq },${wolJinDo1Index.setques },${wolJinDo1Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
+										</#list>
+										</select>
+									</td>
+								</#if>
 							</#if>
 						</#list>
 							<#if wolJinDo1Cnt < 19>	
@@ -95,17 +97,19 @@
 				<tr class="line2">
 					<#if wolJinDo1??>
 						<#assign wolJinDo1Cnt = 0>
-						<#list wolJinDo1 as wolJinDo1Index>							
-							<#if wolJinDo1Index.wkseq?number = 2>
-								<#assign wolJinDo1Cnt = wolJinDo1Cnt+1>
-								<#if wolJinDo1Index.setques == "01"><td>${wolJinDo1Index.wbset }</td><#assign wolJinDo1Cnt = wolJinDo1Cnt+1></#if>
-								<td>
-									<select name="setsubq12${wolJinDo1Index_index }" id="setsubq12${wolJinDo1Index_index }" style="width:50px">
-									<#list 0.. wolJinDo1Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo1Index.wk },${wolJinDo1Index.wkseq },${wolJinDo1Index.setques },${wolJinDo1Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
-									</#list>
-									</select>
-								</td>
+						<#list wolJinDo1 as wolJinDo1Index>		
+							<#if wolJinDo1Index.setques != "00">						
+								<#if wolJinDo1Index.wkseq?number = 2>
+									<#assign wolJinDo1Cnt = wolJinDo1Cnt+1>
+									<#if wolJinDo1Index.setques == "01"><td>${wolJinDo1Index.wbset }</td><#assign wolJinDo1Cnt = wolJinDo1Cnt+1></#if>
+									<td>
+										<select name="setsubq12${wolJinDo1Index_index }" id="setsubq12${wolJinDo1Index_index }" style="width:50px">
+										<#list 0.. wolJinDo1Index.setsubq?number as setsubqIndex>
+											<option value="${wolJinDo1Index.wk },${wolJinDo1Index.wkseq },${wolJinDo1Index.setques },${wolJinDo1Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
+										</#list>
+										</select>
+									</td>
+								</#if>
 							</#if>
 						</#list>
 							<#if wolJinDo1Cnt < 19>	
@@ -127,17 +131,19 @@
 					<td class="no_line" rowspan="2">${mm }/2</td>
 					<#if wolJinDo2??>
 						<#assign wolJinDo2Cnt = 0>
-						<#list wolJinDo2 as wolJinDo2Index>							
-							<#if wolJinDo2Index.wkseq?number = 1>
-								<#assign wolJinDo2Cnt = wolJinDo2Cnt+1>
-								<#if wolJinDo2Index.setques == "01"><td>${wolJinDo2Index.wbset }</td><#assign wolJinDo2Cnt = wolJinDo2Cnt+1></#if>
-								<td>
-									<select name="setsubq21${wolJinDo2Index_index }" id="setsubq21${wolJinDo2Index_index }" style="width:50px">
-									<#list 0.. wolJinDo2Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo2Index.wk },${wolJinDo2Index.wkseq },${wolJinDo2Index.setques },${wolJinDo2Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
-									</#list>
-									</select>
-								</td>
+						<#list wolJinDo2 as wolJinDo2Index>	
+							<#if wolJinDo2Index.setques != "00">						
+								<#if wolJinDo2Index.wkseq?number = 1>
+									<#assign wolJinDo2Cnt = wolJinDo2Cnt+1>
+									<#if wolJinDo2Index.setques == "01"><td>${wolJinDo2Index.wbset }</td><#assign wolJinDo2Cnt = wolJinDo2Cnt+1></#if>
+									<td>
+										<select name="setsubq21${wolJinDo2Index_index }" id="setsubq21${wolJinDo2Index_index }" style="width:50px">
+										<#list 0.. wolJinDo2Index.setsubq?number as setsubqIndex>
+											<option value="${wolJinDo2Index.wk },${wolJinDo2Index.wkseq },${wolJinDo2Index.setques },${wolJinDo2Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
+										</#list>
+										</select>
+									</td>
+								</#if>
 							</#if>
 						</#list>
 							<#if wolJinDo2Cnt < 19>	
@@ -156,17 +162,19 @@
 				<tr class="line2">
 					<#if wolJinDo2??>
 						<#assign wolJinDo2Cnt = 0>
-						<#list wolJinDo2 as wolJinDo2Index>							
-							<#if wolJinDo2Index.wkseq?number = 2>
-								<#assign wolJinDo2Cnt = wolJinDo2Cnt+1>
-								<#if wolJinDo2Index.setques == "01"><td>${wolJinDo2Index.wbset }</td><#assign wolJinDo2Cnt = wolJinDo2Cnt+1></#if>
-								<td>
-									<select name="setsubq22${wolJinDo2Index_index }" id="setsubq22${wolJinDo2Index_index }" style="width:50px">
-									<#list 0.. wolJinDo2Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo2Index.wk },${wolJinDo2Index.wkseq },${wolJinDo2Index.setques },${wolJinDo2Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
-									</#list>
-									</select>
-								</td>
+						<#list wolJinDo2 as wolJinDo2Index>		
+							<#if wolJinDo2Index.setques != "00">					
+								<#if wolJinDo2Index.wkseq?number = 2>
+									<#assign wolJinDo2Cnt = wolJinDo2Cnt+1>
+									<#if wolJinDo2Index.setques == "01"><td>${wolJinDo2Index.wbset }</td><#assign wolJinDo2Cnt = wolJinDo2Cnt+1></#if>
+									<td>
+										<select name="setsubq22${wolJinDo2Index_index }" id="setsubq22${wolJinDo2Index_index }" style="width:50px">
+										<#list 0.. wolJinDo2Index.setsubq?number as setsubqIndex>
+											<option value="${wolJinDo2Index.wk },${wolJinDo2Index.wkseq },${wolJinDo2Index.setques },${wolJinDo2Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
+										</#list>
+										</select>
+									</td>
+								</#if>
 							</#if>
 						</#list>
 							<#if wolJinDo2Cnt < 19>	
@@ -188,17 +196,19 @@
 					<td class="no_line" rowspan="2">${mm }/3</td>
 					<#if wolJinDo3??>
 						<#assign wolJinDo3Cnt = 0>
-						<#list wolJinDo3 as wolJinDo3Index>							
-							<#if wolJinDo3Index.wkseq?number = 1>
-								<#assign wolJinDo3Cnt = wolJinDo3Cnt+1>
-								<#if wolJinDo3Index.setques == "01"><td>${wolJinDo3Index.wbset }</td><#assign wolJinDo3Cnt = wolJinDo3Cnt+1></#if>
-								<td>
-									<select name="setsubq31${wolJinDo3Index_index }" id="setsubq31${wolJinDo3Index_index }" style="width:50px">
-									<#list 0.. wolJinDo3Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo3Index.wk },${wolJinDo3Index.wkseq },${wolJinDo3Index.setques },${wolJinDo3Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
-									</#list>
-									</select>
-								</td>
+						<#list wolJinDo3 as wolJinDo3Index>		
+							<#if wolJinDo3Index.setques != "00">					
+								<#if wolJinDo3Index.wkseq?number = 1>
+									<#assign wolJinDo3Cnt = wolJinDo3Cnt+1>
+									<#if wolJinDo3Index.setques == "01"><td>${wolJinDo3Index.wbset }</td><#assign wolJinDo3Cnt = wolJinDo3Cnt+1></#if>
+									<td>
+										<select name="setsubq31${wolJinDo3Index_index }" id="setsubq31${wolJinDo3Index_index }" style="width:50px">
+										<#list 0.. wolJinDo3Index.setsubq?number as setsubqIndex>
+											<option value="${wolJinDo3Index.wk },${wolJinDo3Index.wkseq },${wolJinDo3Index.setques },${wolJinDo3Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
+										</#list>
+										</select>
+									</td>
+								</#if>
 							</#if>
 						</#list>
 							<#if wolJinDo3Cnt < 19>	
@@ -217,17 +227,19 @@
 				<tr class="line2">
 					<#if wolJinDo3??>
 						<#assign wolJinDo3Cnt = 0>
-						<#list wolJinDo3 as wolJinDo3Index>							
-							<#if wolJinDo3Index.wkseq?number = 2>
-								<#assign wolJinDo3Cnt = wolJinDo3Cnt+1>
-								<#if wolJinDo3Index.setques == "01"><td>${wolJinDo3Index.wbset }</td><#assign wolJinDo3Cnt = wolJinDo3Cnt+1></#if>
-								<td>
-									<select name="setsubq32${wolJinDo3Index_index }" id="setsubq32${wolJinDo3Index_index }" style="width:50px">
-									<#list 0.. wolJinDo3Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo3Index.wk },${wolJinDo3Index.wkseq },${wolJinDo3Index.setques },${wolJinDo3Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
-									</#list>
-									</select>
-								</td>
+						<#list wolJinDo3 as wolJinDo3Index>	
+							<#if wolJinDo3Index.setques != "00">						
+								<#if wolJinDo3Index.wkseq?number = 2>
+									<#assign wolJinDo3Cnt = wolJinDo3Cnt+1>
+									<#if wolJinDo3Index.setques == "01"><td>${wolJinDo3Index.wbset }</td><#assign wolJinDo3Cnt = wolJinDo3Cnt+1></#if>
+									<td>
+										<select name="setsubq32${wolJinDo3Index_index }" id="setsubq32${wolJinDo3Index_index }" style="width:50px">
+										<#list 0.. wolJinDo3Index.setsubq?number as setsubqIndex>
+											<option value="${wolJinDo3Index.wk },${wolJinDo3Index.wkseq },${wolJinDo3Index.setques },${wolJinDo3Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
+										</#list>
+										</select>
+									</td>
+								</#if>
 							</#if>
 						</#list>
 							<#if wolJinDo3Cnt < 19>	
@@ -246,20 +258,22 @@
 					
 				<!-- 4주차 -->
 				<tr class="line2">
-					<td class="no_line" rowspan="2">${mm }/3</td>
+					<td class="no_line" rowspan="2">${mm }/4</td>
 					<#if wolJinDo4??>
 						<#assign wolJinDo4Cnt = 0>
-						<#list wolJinDo4 as wolJinDo4Index>							
-							<#if wolJinDo4Index.wkseq?number = 1>
-								<#assign wolJinDo4Cnt = wolJinDo4Cnt+1>
-								<#if wolJinDo4Index.setques == "01"><td>${wolJinDo4Index.wbset }</td><#assign wolJinDo4Cnt = wolJinDo4Cnt+1></#if>
-								<td>
-									<select name="setsubq41${wolJinDo4Index_index }" id="setsubq41${wolJinDo4Index_index }" style="width:50px">
-									<#list 0.. wolJinDo4Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo4Index.wk },${wolJinDo4Index.wkseq },${wolJinDo4Index.setques },${wolJinDo4Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
-									</#list>
-									</select>
-								</td>
+						<#list wolJinDo4 as wolJinDo4Index>			
+							<#if wolJinDo4Index.setques != "00">					
+								<#if wolJinDo4Index.wkseq?number = 1>
+									<#assign wolJinDo4Cnt = wolJinDo4Cnt+1>
+									<#if wolJinDo4Index.setques == "01"><td>${wolJinDo4Index.wbset }</td><#assign wolJinDo4Cnt = wolJinDo4Cnt+1></#if>
+									<td>
+										<select name="setsubq41${wolJinDo4Index_index }" id="setsubq41${wolJinDo4Index_index }" style="width:50px">
+										<#list 0.. wolJinDo4Index.setsubq?number as setsubqIndex>
+											<option value="${wolJinDo4Index.wk },${wolJinDo4Index.wkseq },${wolJinDo4Index.setques },${wolJinDo4Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
+										</#list>
+										</select>
+									</td>
+								</#if>
 							</#if>
 						</#list>
 							<#if wolJinDo4Cnt < 19>	
@@ -278,17 +292,19 @@
 				<tr class="line2">
 					<#if wolJinDo4??>
 						<#assign wolJinDo4Cnt = 0>
-						<#list wolJinDo4 as wolJinDo4Index>							
-							<#if wolJinDo4Index.wkseq?number = 2>
-								<#assign wolJinDo4Cnt = wolJinDo4Cnt+1>
-								<#if wolJinDo4Index.setques == "01"><td>${wolJinDo4Index.wbset }</td><#assign wolJinDo4Cnt = wolJinDo4Cnt+1></#if>
-								<td>
-									<select name="setsubq42${wolJinDo4Index_index }" id="setsubq42${wolJinDo4Index_index }" style="width:50px">
-									<#list 0.. wolJinDo4Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo4Index.wk },${wolJinDo4Index.wkseq },${wolJinDo4Index.setques },${wolJinDo4Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
-									</#list>
-									</select>
-								</td>
+						<#list wolJinDo4 as wolJinDo4Index>		
+							<#if wolJinDo4Index.setques != "00">						
+								<#if wolJinDo4Index.wkseq?number = 2>
+									<#assign wolJinDo4Cnt = wolJinDo4Cnt+1>
+									<#if wolJinDo4Index.setques == "01"><td>${wolJinDo4Index.wbset }</td><#assign wolJinDo4Cnt = wolJinDo4Cnt+1></#if>
+									<td>
+										<select name="setsubq42${wolJinDo4Index_index }" id="setsubq42${wolJinDo4Index_index }" style="width:50px">
+										<#list 0.. wolJinDo4Index.setsubq?number as setsubqIndex>
+											<option value="${wolJinDo4Index.wk },${wolJinDo4Index.wkseq },${wolJinDo4Index.setques },${wolJinDo4Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
+										</#list>
+										</select>
+									</td>
+								</#if>
 							</#if>
 						</#list>
 							<#if wolJinDo4Cnt < 19>	
@@ -307,20 +323,22 @@
 				
 				<!-- 5주차 -->
 				<tr class="line2">
-					<td class="no_line" rowspan="2">${mm }/3</td>
+					<td class="no_line" rowspan="2">${mm }/5</td>
 					<#if wolJinDo5??>
 						<#assign wolJinDo5Cnt = 0>
-						<#list wolJinDo5 as wolJinDo5Index>							
-							<#if wolJinDo5Index.wkseq?number = 1>
-								<#assign wolJinDo5Cnt = wolJinDo5Cnt+1>
-								<#if wolJinDo5Index.setques == "01"><td>${wolJinDo5Index.wbset }</td><#assign wolJinDo5Cnt = wolJinDo5Cnt+1></#if>
-								<td>
-									<select name="setsubq51${wolJinDo5Index_index }" id="setsubq51${wolJinDo5Index_index }" style="width:50px">
-									<#list 0.. wolJinDo5Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo5Index.wk },${wolJinDo5Index.wkseq },${wolJinDo5Index.setques },${wolJinDo5Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
-									</#list>
-									</select>
-								</td>
+						<#list wolJinDo5 as wolJinDo5Index>		
+							<#if wolJinDo5Index.setques != "00">						
+								<#if wolJinDo5Index.wkseq?number = 1>
+									<#assign wolJinDo5Cnt = wolJinDo5Cnt+1>
+									<#if wolJinDo5Index.setques == "01"><td>${wolJinDo5Index.wbset }</td><#assign wolJinDo5Cnt = wolJinDo5Cnt+1></#if>
+									<td>
+										<select name="setsubq51${wolJinDo5Index_index }" id="setsubq51${wolJinDo5Index_index }" style="width:50px">
+										<#list 0.. wolJinDo5Index.setsubq?number as setsubqIndex>
+											<option value="${wolJinDo5Index.wk },${wolJinDo5Index.wkseq },${wolJinDo5Index.setques },${wolJinDo5Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
+										</#list>
+										</select>
+									</td>
+								</#if>
 							</#if>
 						</#list>
 							<#if wolJinDo5Cnt < 19>	
@@ -339,17 +357,19 @@
 				<tr class="line2">
 					<#if wolJinDo5??>
 						<#assign wolJinDo5Cnt = 0>
-						<#list wolJinDo5 as wolJinDo5Index>							
-							<#if wolJinDo5Index.wkseq?number = 2>
-								<#assign wolJinDo5Cnt = wolJinDo5Cnt+1>
-								<#if wolJinDo5Index.setques == "01"><td>${wolJinDo5Index.wbset }</td><#assign wolJinDo5Cnt = wolJinDo5Cnt+1></#if>
-								<td>
-									<select name="setsubq52${wolJinDo5Index_index }" id="setsubq52${wolJinDo5Index_index }" style="width:50px">
-									<#list 0.. wolJinDo5Index.setsubq?number as setsubqIndex>
-										<option value="${wolJinDo5Index.wk },${wolJinDo5Index.wkseq },${wolJinDo5Index.setques },${wolJinDo5Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
-									</#list>
-									</select>
-								</td>
+						<#list wolJinDo5 as wolJinDo5Index>		
+							<#if wolJinDo5Index.setques != "00">					
+								<#if wolJinDo5Index.wkseq?number = 2>
+									<#assign wolJinDo5Cnt = wolJinDo5Cnt+1>
+									<#if wolJinDo5Index.setques == "01"><td>${wolJinDo5Index.wbset }</td><#assign wolJinDo5Cnt = wolJinDo5Cnt+1></#if>
+									<td>
+										<select name="setsubq52${wolJinDo5Index_index }" id="setsubq52${wolJinDo5Index_index }" style="width:50px">
+										<#list 0.. wolJinDo5Index.setsubq?number as setsubqIndex>
+											<option value="${wolJinDo5Index.wk },${wolJinDo5Index.wkseq },${wolJinDo5Index.setques },${wolJinDo5Index.setsubq },${setsubqIndex_index}">${setsubqIndex_index }</option>
+										</#list>
+										</select>
+									</td>
+								</#if>
 							</#if>
 						</#list>
 							<#if wolJinDo5Cnt < 19>	
@@ -380,4 +400,4 @@
 
 
 <!--// Main Content -->
-<#include "/include/footer.ftl">
+<#include "/include/popupfooter.ftl">

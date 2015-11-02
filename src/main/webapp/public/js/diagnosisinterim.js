@@ -39,6 +39,12 @@ $(function(){
 						alert(jsonData.alertsuccessMsg);						
 					}	
 					self.close();
+					
+					$.openPop("/fa/diagnosis/interimPrint?jisaCD="+jisaCD+"&yy="+yy+"&mm="+mm+"&memKey="+memKey+"&subj="+subj+"&lang="+subj.substring(0,1)+" ","sdreport","width=1024,height=800,left=300,scrollbars=yes,resizable=yes")
+					
+					
+					
+					
 				
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
