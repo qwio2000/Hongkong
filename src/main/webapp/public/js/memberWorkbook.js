@@ -15,7 +15,6 @@ $(function(){
 				data: paramData,
 				dataType: "json",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
-					console.log(jsonData);
 					var pageInfo = jsonData.pageInfo;
 					var totalRowCnt = pageInfo.totalRowCnt;
 					var pageNum = pageInfo.pageNum;

@@ -9,7 +9,6 @@ $(function(){
 				cache: false,
 				dataType: "json",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
-					console.log(jsonData);
 					var source = $("#weeklyScheduleTemplate").html();
 					var template = Handlebars.compile(source);
 					Handlebars.registerHelper("inc", function(value, options){
