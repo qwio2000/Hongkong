@@ -254,7 +254,7 @@ public class MemberRegistController {
 		}
 		
 		model.addAttribute("message", msa.getMessage("member.regist.success"));
-		model.addAttribute("url", "/fa/members/regist");
+		model.addAttribute("url", "/fa/members/reports/"+memMst.getMemKey());
 		return "alertAndRedirect";
 	}
 }

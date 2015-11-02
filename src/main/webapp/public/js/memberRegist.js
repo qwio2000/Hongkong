@@ -170,6 +170,7 @@ $(function(){
 		if(!isValid){
 			return;
 		}
+		$(".btnArea").hide();
 		$("#registForm").submit();
 	});
 	
