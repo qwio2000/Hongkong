@@ -39,7 +39,7 @@ multipart:
     
 uploadpath:
         announcements: /home/devhk/upload/announcements
-        
+        promotionitem : /home/devhk/webapps/src/main/webapp/public/promotion/
 spring:
     resources:
         cache-period:31556926
