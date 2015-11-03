@@ -58,6 +58,9 @@ public class MemberRegistController {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private MessageSourceAccessor msa;
+	
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(value={"/fa/members/regist"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMemberRegistSearchPage(Model model,
@@ -131,7 +134,7 @@ public class MemberRegistController {
 			cal.setTime(sdf.parse(memMst.getMBirthDay()));
 			registSubjects = memberRegistService.getRegistSubjects(memKey, loginInfo);
 		}else if("3".equals(type)){//형제 회원
-			guardianInfo = memberRegistService.getGuardianInfo(memKey);
+			guardianInfo = memberRegistService.getGuardianInfoByMemberReport(memKey);
 		}else if("1".equals(type) && memAppointment != null){
 			cal.setTime(sdf.parse(memAppointment.getMBirthDay()));
 		}
@@ -219,18 +222,18 @@ public class MemberRegistController {
 				if("2".equals(type) && "2".equals(isResume[i])){//타과목 입회과목이 복회인 경우 : MemSubjMst, MemSubjStudy Update
 					memberRegistService.setMemSubjMst(memSubjMst);//His 쌓을 때 UpdCD 구분하기 위해 isResume[i] 사용
 					memberRegistService.setMemSubjStudy(memSubjStudy);
-					if(subj[i].equals(freeDiagInfo.getFreeSubj())){
-						log.debug("타과목 복회 무료진단 진도 연결 필요!! : {}", freeDiagInfo);
-					}
 				}else{//그 외 : Insert
 					memberRegistService.addNewMemSubjMst(memSubjMst);
 					memberRegistService.addNewMemSubjStudy(memSubjStudy);
-					if(subj[i].equals(freeDiagInfo.getFreeSubj())){
-						log.debug("신입, 타과목 신입 무료진단 진도 연결 필요!! : {}", freeDiagInfo);
-					}
 				}
 				memberRegistService.addNewMemSubjRegist(memSubjRegist);
 				memberRegistService.addNewMemSubjTuition(memSubjTuition);
+				if(subj[i].equals(freeDiagInfo.getFreeSubj())){
+					String isOk = memberRegistService.addMemProgressByFreeDiag(freeDiagInfo, loginInfo, memMst.getMemKey());
+					if(!"Y".equals(isOk)){
+						log.error("무료진단 진도 연결 중 오류 발생  memKey : {}, subj : {}, omrDate : {}", memMst.getMemKey(), freeDiagInfo.getFreeSubj(), freeDiagInfo.getFreeOmrDate());
+					}
+				}
 			}
 		}
 		
@@ -250,8 +253,8 @@ public class MemberRegistController {
 			}
 		}
 		
-		model.addAttribute("message", "성공");
-		model.addAttribute("url", "/fa/members/regist");
+		model.addAttribute("message", msa.getMessage("member.regist.success"));
+		model.addAttribute("url", "/fa/members/reports/"+memMst.getMemKey());
 		return "alertAndRedirect";
 	}
 }

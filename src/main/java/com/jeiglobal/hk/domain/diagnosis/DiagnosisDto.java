@@ -357,6 +357,14 @@ public class DiagnosisDto {
 	}
 	
 	
+	@Data //진도처방 체크
+	public static class DiagnosisOmrMemChk{
+		private String bulsayu;
+		private String msgchk;
+		private String omrkind;
+		private String ingset;
+	}
+	
 	
 	
 	

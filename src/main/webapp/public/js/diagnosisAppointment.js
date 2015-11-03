@@ -9,7 +9,6 @@ $(function(){
 				cache: false,
 				dataType: "json",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
-					console.log(jsonData);
 					var pageInfo = jsonData.pageInfo;
 					var totalRowCnt = pageInfo.totalRowCnt;
 					var pageNum = pageInfo.pageNum;
@@ -219,7 +218,6 @@ $(function(){
 				cache: false,
 				dataType: "text",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
-					console.log(jsonData);
 					$("#dobDay option").each(function(){
 						$(this).remove();
 					});
@@ -250,7 +248,6 @@ $(function(){
 		if(!submitValid(type)){
 			return;
 		}
-		//console.log($("#registForm").serialize());
 		$("#registForm").submit();
 	});
 	
@@ -307,7 +304,6 @@ function appointmentUpdateSubmit(){
 	if(confirm('입회상담 약속을 수정하시겠습니까?')){
 		var idx = $("#idx").val();
 		var param = $("#appointmentForm").serialize();
-		console.log(param);
 		$.ajax({
 			url:"/fa/diagnosis/appointment/"+idx,
 			type:"POST",
@@ -442,3 +438,7 @@ function submitValid(type){
 	
 	return true;
 }
+function addFreeDiagOtherSubj(key, type){
+	$.openPop('/fa/members/reports/freeDiagOtherSubj?key='+key+'&type='+type, 'memberReportPop', 'width=625,height=400,scrollbars=yes,resizable=no');
+}
+

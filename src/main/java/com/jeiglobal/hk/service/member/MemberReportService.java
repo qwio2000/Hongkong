@@ -152,16 +152,22 @@ public class MemberReportService {
 	 * @param guardianInfo
 	 * @param memKeys
 	 * @param workId 
+	 * @param type 
 	 * @param loginInfo 
 	 * @return String
 	 */
-	public void setGuardianInfo(GuardianInfo guardianInfo, String memKeys, String workId) {
+	public void setGuardianInfo(GuardianInfo guardianInfo, String memKeys, String workId, String type) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("guardianInfo", guardianInfo);
 		param.put("memKeys", memKeys.split("\\|"));
 		param.put("workId", workId);
-		memberReportRepository.insertMemMstHisForGuadianInfo(param);
-		memberReportRepository.updateGuardianInfo(param);
+		if("01".equals(type)){
+			memberReportRepository.insertMemMstHisForGuadianInfo(param);
+			memberReportRepository.updateGuardianInfo(param);
+		}else if("02".equals(type)){
+			memberReportRepository.updateGuardianInfoFreeGicho(param);
+			memberReportRepository.updateGuardianInfoMemAppointment(param);
+		}
 	}
 
 	/**
@@ -221,6 +227,7 @@ public class MemberReportService {
 			String subj, LoginInfo loginInfo, String workId) throws ParseException {
 		String currentYMD = CommonUtils.getCurrentYMD();
 		Map<String, Object> param = new HashMap<>();
+		param.put("type", "01");
 		param.put("currentYMD", currentYMD);
 		param.put("memKey", memKey);
 		param.put("memName", memName);
@@ -242,7 +249,6 @@ public class MemberReportService {
 	 */
 	public void setMemberInfo(MemMst memMst, LoginInfo loginInfo, String workId) throws ParseException {
 		Map<String, Object> param = new HashMap<>();
-		memMst.setMBirthDay(CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", memMst.getMBirthDay()));
 		param.put("memMst", memMst);
 		param.put("loginInfo", loginInfo);
 		param.put("workId", workId);
@@ -252,7 +258,6 @@ public class MemberReportService {
 		memberReportRepository.updateMemMst(param);
 		//MemSubjMst memName Update
 		memberReportRepository.updateMemSubjMstForMemName(param);
-		//TODO 다른 테이블들 memName 변경 여부?
 		
 	}
 
@@ -398,10 +403,14 @@ public class MemberReportService {
 
 	/**
 	 * @param memKey
+	 * @param loginInfo 
 	 * @return List<Map<String,Object>>
 	 */
-	public List<MemberIpprInfo> getMemberIpprs(String memKey) {
-		return memberReportRepository.findMemberIpprs(memKey);
+	public List<MemberIpprInfo> getMemberIpprs(String memKey, LoginInfo loginInfo) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("memKey", memKey);
+		param.put("loginInfo", loginInfo);
+		return memberReportRepository.findMemberIpprs(param);
 	}
 
 	/**
@@ -592,16 +601,76 @@ public class MemberReportService {
 			if(memberReportFreeDiagInfo.getOmrBirth() != null && !memberReportFreeDiagInfo.getOmrBirth().isEmpty()){
 				memberReportFreeDiagInfo.setOmrBirth(CommonUtils.changeDateFormat("yyyy-MM-dd", "MM/dd/yyyy", memberReportFreeDiagInfo.getOmrBirth()));
 			}
-			if(memberReportFreeDiagInfo.getMemKey() == null || memberReportFreeDiagInfo.getMemKey().isEmpty()){
-				if(memberReportFreeDiagInfo.getAidx() != 0){
-					memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByHkey(memberReportFreeDiagInfo.getAidx()));
-				}
-			}else{
+			if(memberReportFreeDiagInfo.getAidx() != 0){ //기존 회원이 아니면
+				memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByAidx(memberReportFreeDiagInfo.getAidx()));
+			}else{ // 기존 회원이면
 				memberReportFreeDiagInfo.setMemberReportFreeDiagSubjInfos(memberReportRepository.findMemberReportFreeDiagSubjInfosByMemKey(memberReportFreeDiagInfo.getMemKey()));
 			}
 		}
 		return memberReportFreeDiagInfos;
 	}
+	
+	/**
+	 * 부모 정보 업데이트 시 적용할 회원 번호 리스트 생성
+	 * @param memberReportInfos
+	 * @return String
+	 */
+	public String getHKeys(List<MemberReportFreeDiagInfo> memberReportFreeDiagInfos) {
+		String hKeys = "";
+		for (MemberReportFreeDiagInfo memberReportFreeDiagInfo : memberReportFreeDiagInfos) {
+			hKeys += ("".equals(hKeys))?"" : "|";
+			hKeys += memberReportFreeDiagInfo.getHkey();
+		}
+		return hKeys;
+	}
 
+	/**
+	 * @param memMst
+	 * @param loginInfo
+	 * @param workId void
+	 * @throws ParseException 
+	 */
+	public void setMemberInfoByFreeGicho(MemMst memMst, LoginInfo loginInfo,
+			String workId) throws ParseException {
+		Map<String, Object> param = new HashMap<>();
+		memMst.setMBirthDay(CommonUtils.changeDateFormat("MM/dd/yyyy", "yyyy-MM-dd", memMst.getMBirthDay()));
+		param.put("memMst", memMst);
+		param.put("loginInfo", loginInfo);
+		param.put("workId", workId);
+		param.put("columnName", "M".equals(memMst.getMemKey().substring(0, 1)) ? "aidx" : "memKey");
+		//FreeGicho Update
+		memberReportRepository.updateFreeGicho(param);
+		if("M".equals(memMst.getMemKey().substring(0, 1))){
+			//Appointment Update
+			memberReportRepository.updateMemAppointment(param);
+		}
+		
+	}
+
+	/**
+	 * @param key
+	 * @return List<SubjectOfDept>
+	 */
+	public List<String> getFreeDiagOtherSubj(String key) {
+		if(key.length() == 8){
+			return memberReportRepository.findFreeDiagOtherSubjByMemKey(key);
+		}else{
+			return memberReportRepository.findFreeDiagOtherSubjByIdx(key);
+		}
+	}
+
+	/**
+	 * @param key
+	 * @param loginInfo 
+	 * @return List<String>
+	 */
+	public List<String> getSubjsInMemAppointment(String key, LoginInfo loginInfo) {
+		Map<String, Object> param = new HashMap<>();
+		String subjs = memberReportRepository.findSubjsInMemAppointment(key);
+		param.put("subj", subjs.split(","));
+		param.put("jisaCD", loginInfo.getJisaCD());
+		param.put("deptCD", loginInfo.getDeptCD());
+		return memberReportRepository.findSubjsExceptDigN(param);
+	}
 
 }

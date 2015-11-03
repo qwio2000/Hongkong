@@ -79,8 +79,10 @@ public class CenterController {
 	
 
 
-	
-	// 센터검색
+	/**
+	 * 센터 검색
+	 * 검색/결과리스트
+	 */
 	@RequestMapping(value={"/ja/centers/centerSearch"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCenterSearch(Model model, @ModelAttribute LoginInfo loginInfo){
 		
@@ -91,8 +93,6 @@ public class CenterController {
 		model.addAttribute("centerStates", commonService.getCenterStates(loginInfo.getJisaCD()));
 		return "center/centerSearch";
 	}
-	
-	// 센터 검색 결과
 	@RequestMapping(value={"/ja/centers/centerSearchResults"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCenterSearchResult(Model model, @ModelAttribute LoginInfo loginInfo,
 		@RequestParam(defaultValue="") String deptName, 
@@ -108,9 +108,7 @@ public class CenterController {
 		model.addAttribute("stateCD", stateCD);
 		model.addAttribute("statusCD", statusCD);
 		return "center/centerSearchResult";
-	}	
-	
-	// 센터 검색 결과 리스트 JSON
+	}
 	@RequestMapping(value={"/ja/centers/centerSearchResultJson"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> getCenterSearchResultJson(@ModelAttribute LoginInfo loginInfo,
@@ -133,6 +131,11 @@ public class CenterController {
 		return map;
 	}	
 		
+	/**
+	 * 
+	 * 센터 뷰 
+	 * 뷰/정보셋팅/정보수정등 
+	 */
 	// 센터 뷰
 	@RequestMapping(value={"/ja/centers/centerView"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCenterView(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD){
@@ -155,7 +158,7 @@ public class CenterController {
 
 	
 	// 가맹점 운영시간 셋팅
-	@RequestMapping(value={"/ja/centers/centerSetHours"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/ja/centers/centerSetHours","/fa/mypage/centerSetHours"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getCenterBusinessClassroomHours(Model model, @ModelAttribute LoginInfo loginInfo,
 			String deptCD, String oHoursStart, String oHoursEnd, String cHoursStart, String cHoursEnd){
 		
@@ -170,7 +173,7 @@ public class CenterController {
 		model.addAttribute("cHoursEnd", cHoursEnd);
 		return "center/centerSetHours";
 	}
-	@RequestMapping(value={"/ja/centers/centerHoursSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@RequestMapping(value={"/ja/centers/centerHoursSaveJson","/fa/mypage/centerHoursSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String getCenterHoursSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
 		String deptCD, String oHoursStart, String oHoursEnd, String cHoursStart, String cHoursEnd){
@@ -251,64 +254,7 @@ public class CenterController {
 		return "center/royaltyGroupInfo";
 	}	
 
-	/**
-	 * 
-	 * 센터 등록
-	 * 등록/수정
-	 * 
-	 */ 
-	@RequestMapping(value={"/ja/centers/centerRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getCenterRegist(Model model, @ModelAttribute LoginInfo loginInfo){
-		List<CenterTypeList> dataCenterTypeList = centerService.getCenterTypeList(loginInfo.getJisaCD());		
-		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("centerRegist");
-		model.addAttribute("headerScript", headerScript);
-		model.addAttribute("rtyTypeList", commonService.getCodeDtls("0304", loginInfo.getJisaCD(), 1, "Y"));
-		model.addAttribute("centerStates", commonService.getCenterStates(loginInfo.getJisaCD()));
-		model.addAttribute("centerTypeList", dataCenterTypeList);		
-		
-		return "center/centerRegist";
-	}	
-	@RequestMapping(value={"/ja/centers/centerSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
-	@ResponseBody
-	public String getCenterSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
-		String deptCD, String deptName, String deptType, String memType, String feeType, String empFstName, String empLstName,
-		String addr, String zip, String city, String stateCD, String email, String phone, String fax, 
-		String contractTerm, String contractDate, String openDate, String rtyType, String statusCD){
-		
-		String workId = CommonUtils.getWorkId(request);
-		String rerult = centerService.getCenterSave(loginInfo.getJisaCD(), deptCD, deptName, deptType, memType, feeType, empFstName, empLstName,addr, zip, city, stateCD, email, phone, fax, contractTerm, contractDate, openDate, rtyType, statusCD, workId);
-		String msgCode = "";
-		if("N1".equals(rerult)){
-			msgCode = "user.save.error.n1";
-		}else if("N2".equals(rerult)){
-			msgCode = "user.save.error.n2";
-		}else{
-			msgCode = "common.save.success";
-		}
 
-		return messageSource.getMessage(msgCode);
-	}	
-	@RequestMapping(value={"/ja/centers/centerInfoEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getCenterInfoEdit(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD){
-		List<CenterTypeList> dataCenterTypeList = centerService.getCenterTypeList(loginInfo.getJisaCD());
-		CenterView dataCenterInfo = centerService.getCenterView(loginInfo.getJisaCD(), deptCD);
-		String chk = (dataCenterInfo == null)? "N" : "Y";	
-		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("centerRegist");
-		model.addAttribute("headerScript", headerScript);
-		model.addAttribute("statusCDList", commonService.getCodeDtls("0307", loginInfo.getJisaCD(), 1, "Y"));
-		model.addAttribute("rtyTypeList", commonService.getCodeDtls("0304", loginInfo.getJisaCD(), 1, "Y"));
-		model.addAttribute("centerStates", commonService.getCenterStates(loginInfo.getJisaCD()));
-		model.addAttribute("centerTypeList", dataCenterTypeList);
-		model.addAttribute("centerInfo", dataCenterInfo);
-		model.addAttribute("chk", chk);
-		return "center/centerInfoEdit";
-	}
-	
-	
-		
-		
 	/**
 	 * 센터 상담 팝업
 	 * 상담내용 등록/삭제/리스트
@@ -360,7 +306,15 @@ public class CenterController {
 	 * 등록/수정/비번초기화
 	 */
 	@RequestMapping(value={"/ja/centers/userRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getUserRegist(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD){
+	public String getUserRegist(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD, String jobFlag){
+		
+		String userType="";
+		if("centerView".equals(jobFlag)){
+			userType = "FA";	
+		}else{
+			userType = "JA";
+		}
+		
 		// 센터 정보
 		CenterView dataCenterInfo = centerService.getCenterView(loginInfo.getJisaCD(), deptCD);
 		String chk = (dataCenterInfo == null)? "N" : "Y";
@@ -369,19 +323,19 @@ public class CenterController {
 		headerScript.add("centerView");
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("userLevelList", commonService.getCodeDtls("0401", loginInfo.getJisaCD(), 1, "Y"));
-		model.addAttribute("centerInfo", dataCenterInfo);
+		model.addAttribute("centerInfo", dataCenterInfo);		
 		model.addAttribute("chk", chk);
 		model.addAttribute("deptCD", deptCD);		
-		
+		model.addAttribute("userType", userType);
+		model.addAttribute("jobFlag", jobFlag);
 		return "center/userRegist";
 	}
 	@RequestMapping(value={"/ja/centers/userSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String getUserSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
 		String deptCD, String userId, String dutyCD, String userLevel, String userFstName, String userLstName,
-		String email, String phone, String title, String department, String userPwd, String statusCD){
-		
-		String userType = "FA";
+		String email, String phone, String title, String department, String userPwd, String statusCD, String userType){
+
 		String newUserPwd = "";
 		if("".equals(userId)){
 			newUserPwd = passwordEncoder.encode(userPwd);
@@ -389,11 +343,11 @@ public class CenterController {
 			newUserPwd = userPwd;
 		}
 		String workId = CommonUtils.getWorkId(request);
-		String rerult = centerService.getUserSave(loginInfo.getJisaCD(),deptCD, userId, userType, userLevel, dutyCD, userFstName, userLstName, email,  phone,  title,  department, newUserPwd, statusCD, workId);		
+		String result = centerService.getUserSave(loginInfo.getJisaCD(),deptCD, userId, userType, userLevel, dutyCD, userFstName, userLstName, email,  phone,  title,  department, newUserPwd, statusCD, workId);		
 		String msgCode = "";
-		if("N1".equals(rerult)){
+		if("N1".equals(result)){
 			msgCode = "user.save.error.n1";
-		}else if("N2".equals(rerult)){
+		}else if("N2".equals(result)){
 			msgCode = "user.save.error.n2";
 		}else{
 			msgCode = "common.save.success";
@@ -413,7 +367,7 @@ public class CenterController {
 		return messageSource.getMessage(msgCode);
 	}
 	@RequestMapping(value={"/ja/centers/userEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getUserEdit(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD, String userId){
+	public String getUserEdit(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD, String userId, String jobFlag){
 		
 		UserView dataUserInfo = centerService.getUserView(userId);
 		String chk = (dataUserInfo == null)? "N" : "Y";
@@ -425,10 +379,68 @@ public class CenterController {
 		model.addAttribute("userInfo", dataUserInfo);
 		model.addAttribute("deptCD", deptCD);
 		model.addAttribute("userId", userId);
+		model.addAttribute("jobFlag", jobFlag);
 		model.addAttribute("chk", chk);
 		return "center/userEdit";
 	}	
 	
+	/**
+	 * 
+	 * 센터 등록/수정
+	 * 
+	 */ 
+	@RequestMapping(value={"/ja/centers/centerRegist"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getCenterRegist(Model model, @ModelAttribute LoginInfo loginInfo){
+		List<CenterTypeList> dataCenterTypeList = centerService.getCenterTypeList(loginInfo.getJisaCD());		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerRegist");
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("rtyTypeList", commonService.getCodeDtls("0304", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("centerStates", commonService.getCenterStates(loginInfo.getJisaCD()));
+		model.addAttribute("centerTypeList", dataCenterTypeList);		
+		
+		return "center/centerRegist";
+	}	
+	@RequestMapping(value={"/ja/centers/centerSaveJson","/fa/mypage/centerSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String getCenterSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
+		String deptCD, String deptName, String deptType, String memType, String feeType, String empFstName, String empLstName,
+		String addr, String zip, String city, String stateCD, String email, String phone, String fax, 
+		String contractTerm, String contractDate, String openDate, String rtyType, String statusCD){
+		
+		String workId = CommonUtils.getWorkId(request);
+		String rerult = centerService.getCenterSave(loginInfo.getJisaCD(), deptCD, deptName, deptType, memType, feeType, empFstName, empLstName,addr, zip, city, stateCD, email, phone, fax, contractTerm, contractDate, openDate, rtyType, statusCD, workId);
+		String msgCode = "";
+		if("N1".equals(rerult)){
+			msgCode = "user.save.error.n1";
+		}else if("N2".equals(rerult)){
+			msgCode = "user.save.error.n2";
+		}else{
+			msgCode = "common.save.success";
+		}
+
+		return messageSource.getMessage(msgCode);
+	}	
+	@RequestMapping(value={"/ja/centers/centerInfoEdit"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getCenterInfoEdit(Model model, @ModelAttribute LoginInfo loginInfo, String deptCD){
+		List<CenterTypeList> dataCenterTypeList = centerService.getCenterTypeList(loginInfo.getJisaCD());
+		CenterView dataCenterInfo = centerService.getCenterView(loginInfo.getJisaCD(), deptCD);
+		String chk = (dataCenterInfo == null)? "N" : "Y";	
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("centerRegist");
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("statusCDList", commonService.getCodeDtls("0307", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("rtyTypeList", commonService.getCodeDtls("0304", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("centerStates", commonService.getCenterStates(loginInfo.getJisaCD()));
+		model.addAttribute("centerTypeList", dataCenterTypeList);
+		model.addAttribute("centerInfo", dataCenterInfo);
+		model.addAttribute("chk", chk);
+		return "center/centerInfoEdit";
+	}
+	
+	
+		
+			
 	
 	/**
 	 * 지사에서 가맹점으로 로그인 할 경우 로그인 처리

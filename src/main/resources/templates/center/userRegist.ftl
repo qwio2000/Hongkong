@@ -8,6 +8,9 @@
 			<input type="hidden" name="deptCD" id="deptCD"  value="${deptCD?default('')}"/>		
 			<input type="hidden" name="userId" id="userId" value="${userId?default('')}"/>
 			<input type="hidden" name="statusCD" id="statusCD" value="${statusCD?default('')}"/>
+			<input type="hidden" name="userType" id="userType" value="${userType?default('')}"/>
+			<input type="hidden" name="jobFlag" id="jobFlag" value="${jobFlag?default('')}"/>
+			
 			<ul class="list02">
 				<li>
 					<label for="" class="tit">Center Name</label>
@@ -16,7 +19,10 @@
 				<li>
 					<label for="" class="tit">User ID</label>
 					<strong>자동생성</strong>
-				</li>				
+				</li>
+				<#if jobFlag == "myPage">
+				<input type="hidden" name="dutyCD" id="dutyCD" value="J1"/>
+				<#else>				
 				<li>
 					<label for="" class="tit">User Duty <span class="must">*</span></label>
 					<select name="dutyCD" id="dutyCD" style="width:187px;margin-right:3px">
@@ -25,6 +31,7 @@
 						<option value="F1">Center Staff</option>		
 					</select>
 				</li>
+				</#if>				
 				<li>
 					<label for="" class="tit">User Privilege <span class="must">*</span></label>
 					<select name="userLevel" id="userLevel" style="width:187px;margin-right:3px">

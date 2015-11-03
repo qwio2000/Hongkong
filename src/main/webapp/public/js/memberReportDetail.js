@@ -1,10 +1,8 @@
 var url = '';
 $(function(){
-	var currentPath = window.location.pathname;
-	
-	if($.contains(currentPath, '/fa')){
+	if($.contains(window.location.pathname, '/fa')){
 		url = '/fa/members/reports/';
-	}else if($.contains(currentPath, '/ja')){
+	}else if($.contains(window.location.pathname, '/ja')){
 		url = '/ja/members/search/';
 	}
 	
@@ -75,13 +73,17 @@ $(function(){
 		$('#pageNum').val(pageNum);
 		getCommentCalls();
 	});	
-	if(currentPath == '/fa/members/reports/commentcall'){
+	if(window.location.pathname == '/fa/members/reports/commentcall' || window.location.pathname == '/ja/members/search/commentcall'){
 		getCommentCalls();
 	}
 	
 });
-function guardianInfoPop(){
-	$.openPop('/fa/members/reports/guardian?memKey='+$('#memKey').val()+'&memKeys='+$('#memKeys').val(), 'memberReportPop', 'width=630,height=480,scrollbars=yes,resizable=no');
+function guardianInfoPop(type){
+	if(type == "01"){
+		$.openPop('/fa/members/reports/guardian?memKey='+$('#memKey').val()+'&memKeys='+$('#memKeys').val()+'&type='+type, 'memberReportPop', 'width=630,height=480,scrollbars=yes,resizable=no');
+	}else if(type == "02"){
+		$.openPop('/fa/members/reports/guardian?memKey='+$('#hkey').val()+'&memKeys='+$('#hkeys').val()+'&type='+type, 'memberReportPop', 'width=630,height=480,scrollbars=yes,resizable=no');
+	}
 }
 function addCommentCall(memKey, memName){
 	$.openPop('/fa/members/reports/commentcall?memKey='+memKey+"&memName="+memName, 'memberReportPop', 'width=625,height=800,scrollbars=yes,resizable=no');
@@ -96,7 +98,7 @@ function setMemSubjStudyInfo(memKey){
 	$.openPop('/fa/members/reports/memsubjstudyinfo?memKey='+memKey, 'memberReportPop', 'width=625,height=400,scrollbars=yes,resizable=no');
 }
 function dropMember(memKey, subj, memName, registDate, isCancle, today){
-	if(isCancle){
+	if(isCancle == 'true'){
 		if(registDate == today){
 			alert('당일 입회 회원입니다. 입회 취소를 해 주십시오.');
 			return;
@@ -174,9 +176,15 @@ function guardianInfoSubmit(){
 }
 function commentCallSubmit(){
 	if(confirm('상담 이력을 입력하시겠습니까?')){
+		var url;
+		if(userType.toLowerCase() == 'fa'){
+			url = "/"+userType.toLowerCase()+"/members/reports/commentcall";
+		}else if(userType.toLowerCase() == 'ja'){
+			url = "/"+userType.toLowerCase()+"/members/search/commentcall";
+		}
 		var param = $("#commentCallForm").serialize();
 		$.ajax({
-			url:"/fa/members/reports/commentcall",
+			url:url,
 			type:"POST",
 			cache: true,
 			data: param,
@@ -289,7 +297,6 @@ function dropMemberSubmit(){
 			return;
 		}
 		var param = $("#dropMemberForm").serialize();
-		console.log(param);
 		$.ajax({
 			url:url+"drop",
 			type:"POST",
@@ -310,7 +317,6 @@ function dropMemberSubmit(){
 function dropCancelMember(memKey, subj, dropDate){
 	if(confirm(memKey+' 회원의 '+subj+' 과목을 퇴회 취소 하시겠습니까?')){
 		var param = {"memKey":memKey, "subj":subj, "dropDate":dropDate};
-		console.log(param);
 		$.ajax({
 			url:url+"dropcancel",
 			type:"POST",
@@ -319,7 +325,6 @@ function dropCancelMember(memKey, subj, dropDate){
 			dataType: "text",
 			success: function(result, textStatus, XMLHttpRequest) {
 				alert(result);
-				self.close();
 				location.reload();
 			},
 			error:function (xhr, ajaxOptions, thrownError){	
@@ -331,9 +336,14 @@ function dropCancelMember(memKey, subj, dropDate){
 function getCommentCalls(){
 	var pageNum = $("#pageNum").val();
 	var memKey = $("#memKey").val();
+	if(userType.toLowerCase() == 'fa'){
+		url = "/"+userType.toLowerCase()+"/members/reports/commentcall/"+pageNum;
+	}else if(userType.toLowerCase() == 'ja'){
+		url = "/"+userType.toLowerCase()+"/members/search/commentcall/"+pageNum;
+	}
 	var param = {"memKey":memKey};
 	$.ajax({
-		url:"/fa/members/reports/commentcall/"+pageNum,
+		url: url,
 		type:"GET",
 		cache: true,
 		data: param,
@@ -348,6 +358,8 @@ function getCommentCalls(){
 				if(pageInfo.totalPageCnt > 1){
 					$("#pageNavi").html($.pageUtil(pageInfo.pageNum,pageInfo.totalPageCnt, 
 							pageInfo.pageBlockSize,pageInfo.startPageNum,pageInfo.endPageNum));	
+				}else{
+					$("#pageNavi").empty();
 				}
 				var source = $("#commentCallTemplate").html();
 				var template = Handlebars.compile(source);
@@ -361,9 +373,14 @@ function getCommentCalls(){
 }
 function deleteCommentCall(idx){
 	if(confirm('메모를 삭제 하시겠습니까?')){
+		if(userType.toLowerCase() == 'fa'){
+			url = "/"+userType.toLowerCase()+"/members/reports/commentcall/delete";
+		}else if(userType.toLowerCase() == 'ja'){
+			url = "/"+userType.toLowerCase()+"/members/search/commentcall/delete";
+		}
 		var param = {"idx":idx};
 		$.ajax({
-			url:"/fa/members/reports/commentcall/delete",
+			url: url,
 			type:"POST",
 			cache: true,
 			data: param,
@@ -389,7 +406,6 @@ function registCancel(memKey, subj){
 			data: param,
 			dataType: "json",
 			success: function(jsonData, textStatus, XMLHttpRequest) {
-				console.log(jsonData);
 				if(jsonData.result == 'true'){
 					alert('진행 중인 다른 과목이 존재합니다. \n다른 과목을 입회 취소한 후 진행해 주십시오.');
 				}else{
@@ -406,4 +422,20 @@ function registCancel(memKey, subj){
 			}
 		});
 	}
+}
+
+function addFreeDiagOtherSubj(key, type){
+	$.openPop('/fa/members/reports/freeDiagOtherSubj?key='+key+'&type='+type, 'memberReportPop', 'width=625,height=400,scrollbars=yes,resizable=no');
+}
+function freeDiagOtherSubj(){
+	var freeJindan = '';
+	var key = $('#key').val();
+	var subj = $('#subj').val();
+	if(key.length == '8'){
+		freeJindan = 'I';
+	}else{
+		freeJindan = 'A';
+	}
+	self.close();
+	$.openPop('/fa/diagnosis/ippr?memKey='+key+'&subj='+subj+'&freejindan='+freeJindan, 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
 }

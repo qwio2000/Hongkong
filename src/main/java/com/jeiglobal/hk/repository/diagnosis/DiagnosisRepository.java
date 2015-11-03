@@ -67,5 +67,7 @@ public interface DiagnosisRepository {
 	List<DiagnosisDto.DiagnosisNextLang> findDiagnosisNextLang(Map<String, Object> map);
 	
 	DiagnosisDto.DiagnosisRangeHlLang findDiagnosisRangeHlLang(Map<String, Object> map);
+	
+	DiagnosisDto.DiagnosisOmrMemChk findDiagnosisOmrMemChk(Map<String, Object> map);
 
 }

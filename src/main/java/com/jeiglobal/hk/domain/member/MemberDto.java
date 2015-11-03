@@ -145,6 +145,7 @@ public class MemberDto {
 		private String isCancle;
 		private String jisaCD;
 		private String omrDate;
+		private String sdyymm;
 	}
 	
 	@Data
@@ -249,7 +250,7 @@ public class MemberDto {
 	public static class MemberWorkbookInfo{
 		private String memKey;
 		private String mFstName;
-		private String mLstname;
+		private String mLstName;
 		private String gradeCD;
 		private String gradeName;
 		private List<MemberWorkbookSubjInfo> workbookSubjInfos;
@@ -275,24 +276,44 @@ public class MemberDto {
 		private String visitHoursName;
 		private String set1;
 		private String setWbOutYMD1;
+		private String yy1;
+		private String mm1;
 		private String set2;
 		private String setWbOutYMD2;
+		private String yy2;
+		private String mm2;
 		private String set3;
 		private String setWbOutYMD3;
+		private String yy3;
+		private String mm3;
 		private String set4;
 		private String setWbOutYMD4;
+		private String yy4;
+		private String mm4;
 		private String set5;
 		private String setWbOutYMD5;
+		private String yy5;
+		private String mm5;
 		private String set6;
 		private String setWbOutYMD6;
+		private String yy6;
+		private String mm6;
 		private String set7;
 		private String setWbOutYMD7;
+		private String yy7;
+		private String mm7;
 		private String set8;
 		private String setWbOutYMD8;
+		private String yy8;
+		private String mm8;
 		private String set9;
 		private String setWbOutYMD9;
+		private String yy9;
+		private String mm9;
 		private String set10;
 		private String setWbOutYMD10;
+		private String yy10;
+		private String mm10;
 	}
 	
 	@Data

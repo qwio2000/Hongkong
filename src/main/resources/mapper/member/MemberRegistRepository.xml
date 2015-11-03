@@ -58,7 +58,11 @@
 		SELECT CASE WHEN c.freeType IS NOT NULL THEN 0 ELSE registFee END AS registFee, b.monthFee, b.sectionFee, b.feeUnit, IFNULL(c.freeType, '') AS freeType
 		FROM globalbiz.DeptMst AS a 
 		INNER JOIN globalbiz.MemFeeInfo AS b ON a.deptType = b.deptType AND a.memType = b.memType AND a.feeType = b.feeType
-		LEFT JOIN globalbiz.MemFeeFreeTerm AS c ON a.jisaCD = c.jisaCD AND a.deptCD = c.deptCD AND NOW() BETWEEN c.startYMD AND c.endYMD
+		LEFT JOIN (
+			SELECT a.freeType, a.jisaCD, b.deptCD, a.startYMD, a.endYMD
+			FROM MemFeeFreeTermGroup a 
+				INNER JOIN MemFeeFreeTerm b ON(a.idx=b.mftIdx)
+		) AS c ON a.jisaCD = c.jisaCD AND a.deptCD = c.deptCD AND NOW() BETWEEN c.startYMD AND c.endYMD
 		WHERE a.deptCD = #{deptCD} AND b.weekNum = #{weekNum} 
 	</select>
 	<insert id="insertNewMemSubjMst" parameterType="com.jeiglobal.hk.domain.member.MemSubjMst" >
@@ -148,6 +152,27 @@
 	<update id="updateFreeGichoByRegist" parameterType="hashMap">
 		UPDATE globaldig.FreeGicho 
 		SET memKey = #{memKey}
-		WHERE hkey = #{freeDiagInfo.freeHkey} AND omrDate = #{freeDiagInfo.freeOmrDate} AND kwamok = #{freeDiagInfo.freeSubj}
+		WHERE aidx = (
+						  SELECT * FROM (
+							  SELECT aidx 
+							  FROM globaldig.FreeGicho 
+				              WHERE hkey = #{freeDiagInfo.freeHkey} AND 
+				                    omrDate = #{freeDiagInfo.freeOmrDate} AND 
+				                    kwamok = #{freeDiagInfo.freeSubj}
+						  )as a
+		             )
 	</update>
+	<select id="findGuardianInfoByFreeDiagReport" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$GuardianInfo">
+		SELECT gFstName, gLstName, city, stateCD, zip, addr, gEmail, gPhone, gCellPhone
+		FROM globaldig.FreeGicho 
+		WHERE hkey = #{memKey}
+	</select>
+	<select id="findFreeGicho" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemMst">
+		SELECT hkey AS memKey, mFstName, mLstName, omrHak AS gradeCD, omrBirth AS mBirthDay, schoolName, mEmail, eContact, ePhone
+		FROM globaldig.FreeGicho
+		WHERE hkey = #{memKey}
+	</select>
+	<select id="insertMemProgressByFreeDiag" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String">
+		CALL globaldig.SPRegFreeSetJindo(#{loginInfo.jisaCD},#{freeDiagInfo.freeOmrDate},#{freeDiagInfo.freeHkey},#{memKey},#{freeDiagInfo.freeSubj})
+	</select>
 </mapper>

@@ -87,7 +87,7 @@ public class CommonUtils {
 	}
 
 	public static List<String> weekCalendar(String day) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yy");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		Calendar cal = Calendar.getInstance();
 		if(!"".equals(day)){
 			cal.setTime(sdf.parse(day));
@@ -197,7 +197,7 @@ public class CommonUtils {
 		int endDate = end.getMaximum(Calendar.DAY_OF_MONTH);
 		end.setTime(sdf.parse(firstManageDate));
 		int manageDay = end.get(Calendar.DATE);
-		int week = (int) Math.ceil(((double)(endDate - manageDay)/7));
+		int week = (manageDay == endDate)? 1 : (int) Math.ceil(((double)(endDate - manageDay)/7));
 		week = (week > 4)? 4 : week; // 4주 이상 모두 4로 변경
 		return week;
 	}	

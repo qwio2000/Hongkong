@@ -54,6 +54,7 @@ public class MemberRegistService {
 	public List<String> getFirstManageDates(String jisaCD) throws ParseException{
 		//현재 날짜 가져옴
 		Calendar cal = Calendar.getInstance();
+		/*cal.set(2015, 9, 23);*/
 		SimpleDateFormat yyyymmFormatter = new SimpleDateFormat("yyyy-MM");
 		//현재 달의 마감날짜 가져옴
 		String closingDate = commonService.getClosingDate(jisaCD, yyyymmFormatter.format(cal.getTime()));
@@ -99,7 +100,7 @@ public class MemberRegistService {
 		int endDate = end.getMaximum(Calendar.DAY_OF_MONTH);
 		end.setTime(sdf.parse(manageDate));
 		int manageDay = end.get(Calendar.DATE);
-		int week = (int) Math.ceil(((double)(endDate - manageDay)/7));
+		int week = (manageDay == endDate)? 1 : (int) Math.ceil(((double)(endDate - manageDay)/7));
 		week = (week > 4)? 4 : week; // 4주 이상 모두 4로 변경
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("deptCD", deptCD);
@@ -134,7 +135,7 @@ public class MemberRegistService {
 	 * @param memKey
 	 * @return GuardianInfo
 	 */
-	public GuardianInfo getGuardianInfo(String memKey) {
+	public GuardianInfo getGuardianInfoByMemberReport(String memKey) {
 		return memberRegistRepository.findGuardianInfo(memKey);
 	}
 	/**
@@ -408,6 +409,35 @@ public class MemberRegistService {
 		param.put("memKey", memKey);
 		memberRegistRepository.updateFreeGichoByRegist(param);
 		
+	}
+	/**
+	 * @param memKey
+	 * @return GuardianInfo
+	 */
+	public GuardianInfo getGuardianInfoByFreeDiagReport(String memKey) {
+		return memberRegistRepository.findGuardianInfoByFreeDiagReport(memKey);
+	}
+	/**
+	 * @param memKey
+	 * @return MemMst
+	 */
+	public MemMst getFreeGicho(String memKey) {
+		return memberRegistRepository.findFreeGicho(memKey);
+	}
+	/**
+	 * 입회시 무료진단 연결
+	 * @param freeDiagInfo
+	 * @param loginInfo
+	 * @param memKey 
+	 * @return 
+	 */
+	public String addMemProgressByFreeDiag(MemberRegistFreeDiagInfo freeDiagInfo,
+			LoginInfo loginInfo, String memKey) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("freeDiagInfo", freeDiagInfo);
+		param.put("loginInfo", loginInfo);
+		param.put("memKey", memKey);
+		return memberRegistRepository.insertMemProgressByFreeDiag(param);
 	}
 	
 }

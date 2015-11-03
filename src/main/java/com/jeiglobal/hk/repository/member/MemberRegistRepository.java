@@ -64,4 +64,10 @@ public interface MemberRegistRepository {
 
 	public void updateFreeGichoByRegist(Map<String, Object> param);
 
+	public GuardianInfo findGuardianInfoByFreeDiagReport(String memKey);
+
+	public MemMst findFreeGicho(String memKey);
+
+	public String insertMemProgressByFreeDiag(Map<String, Object> param);
+
 }

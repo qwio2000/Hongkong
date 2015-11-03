@@ -80,3 +80,7 @@ $(function(){
 		$.getWorkbookReport();
 	});	
 });
+
+function addMPR(subj, memKey, mFstName, mLstName, yy, mm){
+	$.openPop("/fa/diagnosis/interimMpi?jisaCD="+jisaCD+"&deptCD="+deptCD+"&subj="+subj+"&memKey="+memKey+"&mfstname="+mFstName+"&mlstname="+mLstName+"&yy="+yy+"&mm="+mm, "MPRInput", "width=1024,height=800,left=300,scrollbars=yes,resizable=yes");
+}

@@ -31,5 +31,11 @@
 		<script type="text/javascript" src="${jsPath }/${script}.js"></script>
 	</#list>
 	</#if>
+	<script type="text/javascript">
+		var imgPath = '${imgPath}';
+		var jisaCD = '${loginInfo.jisaCD}';
+		var deptCD = '${loginInfo.deptCD}';
+		var userType = '${loginInfo.userType}';
+	</script>
 </head>
 <body>

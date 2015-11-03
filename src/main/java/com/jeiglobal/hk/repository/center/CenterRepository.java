@@ -20,27 +20,24 @@ public interface CenterRepository {
 		/**
 		 * Center 정보
 		 */	
-		// 센터 검색 리스트 SP
+		// 센터 검색 리스트
 		public List<CenterSearchList> centerSearchList(Map<String, Object> param);
-		
-		// 센터 뷰 SP 
+		// 센터 뷰 
 		public CenterView centerView(Map<String, Object> param);
-		
-		// 회비 정보 SP
+		// 회비 정보
 		public List<MemFeeInfoList> memFeeInfoList(Map<String, Object> param);
+		// 로열티 그룹 정보
 		public List<RtyChargeGroupList> rtyChargeGroupList(Map<String, Object> param);
+		// 센터 사업 구조 정보
 		public List<CenterTypeList> centerTypeList(Map<String, Object> param);
-
-		
 		// 가맹점 운영시간 셋팅/변경
 		public String centerHoursSave(Map<String, Object> param);
-		
 		// 상품 정보
 		public List<CenterOpenSubjList> centerOpenSubjList(Map<String, Object> param);
 		public String centerOpenSubjSave(Map<String, Object> param);
-		// 센터 등록
+		//센터 신규생성 및 정보변경 저장
 		public String centerSave(Map<String, Object> param);
-
+				
 		/**
 		 * Center CommentCall 정보
 		 */		
@@ -57,7 +54,7 @@ public interface CenterRepository {
 		public void changeUserPwdSave(Map<String, Object> param);
 		public UserView userView(String userId);
 		
-		
+
 		
 
 		

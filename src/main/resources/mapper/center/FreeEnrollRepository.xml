@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.center.FreeEnrollRepository">
+	<!-- 입회비 면제 기간 관리 -->
+	<select id="findCenterOfStateList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.CenterOfStateList">
+		SELECT dp.jisaCD,dp.deptCD, dp.deptName, IFNULL(b.deptCD,'') AS compareDeptCD
+		FROM DeptMst dp
+		LEFT OUTER JOIN MemFeeFreeTerm b ON(dp.deptCD=b.deptCD AND b.mftIdx=#{idx})
+		WHERE dp.jisaCD=#{jisaCD} AND dp.stateCD=#{stateCD};		
+	</select>
+	<select id="findFreeEnrollmentView" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.MemFeeFreeTermList">
+		<![CDATA[
+		SELECT idx,DATE_FORMAT(startYMD,'%m/%d/%Y') AS startYMD, DATE_FORMAT(endYMD,'%m/%d/%Y') AS endYMD,freeTitle,freeType
+		,	jisaCD,stateCD,stateName,regDate,regID,updDate,updID	
+		,	CASE WHEN  CURDATE() < startYMD THEN 'Y'  ELSE 'N' END AS delFlag	
+		FROM globalbiz.MemFeeFreeTermGroup 
+		WHERE idx = #{idx};
+		]]>		
+	</select>
+	<select id="findFreeEnrollmentTermCount" parameterType="java.lang.String" resultType="int">
+		SELECT COUNT(1)
+		FROM globalbiz.MemFeeFreeTermGroup
+		WHERE jisaCD = #{jisaCD};
+	</select>
+	<select id="findFreeEnrollmentTermList" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.MemFeeFreeTermList">
+		<![CDATA[
+		SELECT idx,DATE_FORMAT(startYMD,'%m/%d/%Y') AS startYMD, DATE_FORMAT(endYMD,'%m/%d/%Y') AS endYMD,freeTitle,freeType
+		,	jisaCD,stateCD,stateName,regDate,regID,updDate,updID
+		, 	DATE_FORMAT(regDate,'%m/%d/%Y') AS regDateConv
+		, 	FuncCodeDtlNM(jisaCD,'0204',freeType,'','') AS freeTypeName		
+		,	CASE WHEN  CURDATE() < startYMD THEN 'Y'  ELSE 'N' END AS delFlag
+		FROM globalbiz.MemFeeFreeTermGroup 
+		WHERE jisaCD = #{jisaCD}
+		ORDER BY idx DESC 
+		LIMIT #{startRow},#{rowBlockSize};
+		]]>
+	</select>
+	<select id="freeEnrollmentTermSave" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String">
+		CALL globalbiz.SPMemFeeFreeTermSave(#{idx},#{jisaCD},#{startYMD},#{endYMD},#{freeTitle},#{freeType},#{chk},#{stateCD},#{regID});
+	</select>
+	<delete id="deleteFreeEnrollmentTermGroup" parameterType="int">
+		DELETE FROM globalbiz.MemFeeFreeTermGroup WHERE idx = #{idx};
+	</delete>	
+	<delete id="deleteFreeEnrollmentTerm" parameterType="int">
+		DELETE FROM globalbiz.MemFeeFreeTerm WHERE mftIdx = #{idx};
+	</delete>	
+	
+</mapper>

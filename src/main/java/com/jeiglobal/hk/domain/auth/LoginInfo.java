@@ -27,6 +27,7 @@ public class LoginInfo {
 	private String empKey;
 	private String userType;
 	private String userLevel;
+	private String dutyCD;
 	@Setter
 	private String encodeCookie;
 	private String stateCD;

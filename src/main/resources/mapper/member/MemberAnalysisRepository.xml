@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.member.MemberAnalysisRepository">
+	<select id="findMemberAnalysisByGradeCount" parameterType="com.jeiglobal.hk.domain.auth.LoginInfo" resultType="int">
+		SELECT COUNT(*)
+		FROM
+			(
+			SELECT a.memKey, a.gradeCD, COUNT(1)
+			FROM globalbiz.MemMst AS a
+				INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey AND b.statusCD = '1'
+			WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD}
+			GROUP BY a.memKey
+			) AS a
+	</select>
+	<select id="findMemberAnalysisByGrade" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$MemberAnalysisByGrade">
+		SELECT dtlCD, dtlCDNM, COUNT(b.memKey) AS countOfGrades, FORMAT(COUNT(b.memKey) / #{totCount} * 100, 2) AS ratio
+		FROM globalbiz.CodeDtl AS a
+			LEFT JOIN (
+				SELECT a.memKey, a.gradeCD
+				FROM globalbiz.MemMst AS a
+					INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey AND b.statusCD = '1'
+				WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD}
+				GROUP BY a.memKey
+				) AS b ON a.dtlCD = b.gradeCD
+		WHERE a.jisaCD = #{jisaCD} AND a.mstCD = '0003'
+		GROUP BY a.dtlCD
+		ORDER BY a.sortVal1 ASC
+	</select>
+	
+</mapper>

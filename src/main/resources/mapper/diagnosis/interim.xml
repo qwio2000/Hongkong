@@ -23,9 +23,19 @@
 		<select id="findInterimSDWolhakLst" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.InterimDto$InterimSDWolhakLst">
 			CALL globaldig.SPSDWolhakLst (#{jisaCD},#{yy},#{mm},#{memKey},#{subj},#{lang});
 		</select>
-
-
-
+		<!-- 학습내용 및 성취율 -->
+		<select id="findInterimSDErrAnalysis" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.InterimDto$InterimSDErrAnalysis">
+			CALL globaldig.SPSDErrAnalysis (#{jisaCD},#{yy},#{mm},#{memKey},#{subj},#{lang});
+		</select>
+		<!-- 진도현황 (금월/예상) -->
+		<select id="findInterimSDJindoExpectLst" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.InterimDto$InterimSDJindoExpectLst">
+			CALL globaldig.SPSDJindoExpectLst (#{jisaCD},#{yy},#{mm},#{memKey},#{subj},#{lang});
+		</select>
+		
+		<!-- 진도현황 (금월/예상) -->
+		<select id="findInterimSDWorkBasicLst" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.InterimDto$InterimSDWorkBasicLst">
+			CALL globaldig.SPSDWorkBasicLst (#{jisaCD},#{grade},#{birthday},#{mm});
+		</select>
 
 
 </mapper>
