@@ -186,6 +186,9 @@ public class DiagnosisController {
 		model.addAttribute("level", gradeOfSubject);
 		model.addAttribute("freejindan", freejindan);
 		model.addAttribute("subj", subj);
+		
+		model.addAttribute("testType", diagnosisOmrMemChk.getOmrkind());
+		model.addAttribute("leveldung", diagnosisOmrMemChk.getSetdung());
 
 		
 		return "diagnosis/diagnosis/ippr";	
@@ -381,7 +384,7 @@ public class DiagnosisController {
 		String omrBanOK = "";
 		
 		omrBanOK = diagnosisService.addDiagnosisOmrBan(jisaCD, omrDate, hkey, kwamok, rw, nOmr, omrGrd, omrHak, omrKind, omrDay1, omrBirth, omrSetCnt, omrWeekCnt, omrDay2, workID, freejindan);
-		System.out.println("=================omrBanOK=================");		
+		//System.out.println("=================omrBanOK=================");		
 
 		if ("Y".equals(omrBanOK)) {
 			alertMsg = messageSourceAccesor.getMessage("Ippr.Ban.Insert.success");
@@ -389,7 +392,7 @@ public class DiagnosisController {
 			alertMsg = messageSourceAccesor.getMessage("Ippr.Ban.Insert.Error");
 		}
 
-		System.out.println("=================alertMsg=================");		
+		//System.out.println("=================alertMsg=================");		
 
 
 		Map<String, Object> map = new HashMap<String, Object>();
