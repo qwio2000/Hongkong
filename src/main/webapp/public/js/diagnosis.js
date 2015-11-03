@@ -1,5 +1,10 @@
 $(function(){
 	$.extend({
+		getipprinput:function(){  
+			$("input[name=testType]").attr("disabled",false);
+			$("select[name=leveldung]").attr("disabled",false);
+			$('#ipprinput').submit();
+		},
 		getBoardList:function(){   //처방 조회 리스트
 			var pageNum = $("#pageNum").val();
 			var searchUrl = "/fa/diagnosis/diagnosisSearch/searchJson";

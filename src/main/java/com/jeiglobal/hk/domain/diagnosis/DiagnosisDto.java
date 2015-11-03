@@ -363,6 +363,7 @@ public class DiagnosisDto {
 		private String msgchk;
 		private String omrkind;
 		private String ingset;
+		private String setdung;
 	}
 	
 	

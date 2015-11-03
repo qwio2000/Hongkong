@@ -28,7 +28,7 @@
 			<td><br></td>
 		</tr>
 		<tr>
-			<td width="450"><font size=3><b>KG(KG)</b></font></td>
+			<td width="450"><font size=3><b>${kwamok }</b></font></td>
 			<td width="190" ALIGN="right">교육원 : ????????</td>
 		</tr>
 		<tr>

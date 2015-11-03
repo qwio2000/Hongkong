@@ -37,9 +37,14 @@
 										<td>${ippr.gradeNM}</td>
 										<td>${ippr.subjname}</td>
 										<td>
-											<select name="leveldung" id="leveldung">
+											<select name="leveldung" id="leveldung" <#if leveldung != ""> disabled="disabled" </#if> >
 											<#list level as levelfor>
-												<option value="${levelfor.gradeCD}">${levelfor.gradeCD}</option>
+												<#if leveldung == levelfor.gradeCD >
+													<option value="${levelfor.gradeCD}" selected="selected" >${levelfor.gradeCD}</option>
+												<#else>
+													<option value="${levelfor.gradeCD}">${levelfor.gradeCD}</option>
+												</#if>
+												
 											</#list> 
 										</select>
 										</td>
@@ -67,8 +72,9 @@
 						<ul class="input_list">
 							<li>
 								<span class="tit">Test Type</span> 
-								<span class="radio_wrap"><input type="radio" name="testType" value="1" id="testchk01" checked /><label for="testchk01">Diagosis</label></span>
-								<span class="radio_wrap"><input type="radio" name="testType" value="3" id="testchk02" /><label for="testchk02">ACH</label></span>
+								
+								<span class="radio_wrap"><input type="radio" name="testType" value="${testType }" id="testchk01"  <#if testType != "3"> checked </#if> disabled="disabled" /><label for="testchk01">Diagosis</label></span>
+								<span class="radio_wrap"><input type="radio" name="testType" value="${testType }" id="testchk02"  <#if testType == "3"> checked </#if> disabled="disabled" /><label for="testchk02">ACH</label></span>
 							</li>
 							<li>
 								<span class="tit">Read / WorkBook</span> 
@@ -82,7 +88,7 @@
 							</li>
 						</ul>
 						<div class="btnArea">
-							<a href="javascript:$('#ipprinput').submit();"><span>Next</span></a>
+							<a href="javascript:$.getipprinput();"><span>Next</span></a>
 							<a href=""><span>Cancel</span></a>
 						</div>
 					</div>
