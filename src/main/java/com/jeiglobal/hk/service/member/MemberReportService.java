@@ -673,4 +673,24 @@ public class MemberReportService {
 		return memberReportRepository.findSubjsExceptDigN(param);
 	}
 
+	/**
+	 * 관리요일 변경 시 진도 업데이트
+	 * @param jisaCD
+	 * @param memKey
+	 * @param subj
+	 * @param yoil
+	 * @param workId
+	 */
+	public void setMemSubjProgressMst(String jisaCD, String memKey, String subj,
+			String yoil, String workId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("subj", subj);
+		param.put("jisaCD", jisaCD);
+		param.put("memKey", memKey);
+		param.put("yoil", yoil);
+		param.put("workId", workId);
+		memberReportRepository.updateMemSubjProgressMst(param);
+		
+	}
+
 }

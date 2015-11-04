@@ -73,4 +73,16 @@ public class MemberStatusController {
 		return map;
 	}
 	
+	@RequestMapping(value={"/ja/members/status"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getJAMemberStatus(Model model, @ModelAttribute LoginInfo loginInfo) throws ParseException{
+		log.debug("Getting JA Member Status Page, Regist & Drop");
+		List<String> headerScript = new ArrayList<>();
+		headerScript.add("memberStatus");
+		List<String> searchYYMM = CommonUtils.getMonthsByOneYearBefore();
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("searchYYMM", searchYYMM);
+		model.addAttribute("currentMonthName", CommonUtils.changeDateFormat("MM / yyyy", "MMMM", searchYYMM.get(0)));
+		return "member/status/registDrop";
+	}
+	
 }

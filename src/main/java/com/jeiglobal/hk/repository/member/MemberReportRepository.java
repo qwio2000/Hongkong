@@ -146,4 +146,6 @@ public interface MemberReportRepository {
 
 	public List<String> findSubjsExceptDigN(Map<String, Object> param);
 
+	public void updateMemSubjProgressMst(Map<String, Object> param);
+
 }

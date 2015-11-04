@@ -289,8 +289,10 @@ public class MemberReportController {
 			String memKey, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) {
 		String workId = CommonUtils.getWorkId(request);
 		for (int i = 0; i < subj.length; i++) {
-			//TODO 관리 요일 변경 시 진도 업데이트
+			//MemSubjMst & MemSubjStudy Update
 			memberReportService.setMemSubjStudyInfo(subj[i], studyNum[i], yoil[i], manageTimes[i], workId, memKey);
+			//MemSubjProgress Update
+			memberReportService.setMemSubjProgressMst(loginInfo.getJisaCD(), memKey, subj[i], yoil[i], workId);
 		}
 		return msa.getMessage("member.report.memberInfo.update.success");
 	}

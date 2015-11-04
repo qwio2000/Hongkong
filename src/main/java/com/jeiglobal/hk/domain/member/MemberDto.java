@@ -338,5 +338,15 @@ public class MemberDto {
 		private String subj;
 		private String memName;
 	}
+	
+//	@Data
+//	public static class MemberRegistDropStatus{
+//		
+//		private String date;
+//		private String convDate;
+//		private String type;
+//		private String subj;
+//		private String memName;
+//	}
 }
 	
