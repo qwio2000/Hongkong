@@ -367,6 +367,12 @@ public class DiagnosisDto {
 	}
 	
 	
+	@Data // 무진단
+	public static class DiagnosisMujinJindoSet{		
+		private String alertcd;
+		private String successyn;
+	}
+	
 	
 	
 	
