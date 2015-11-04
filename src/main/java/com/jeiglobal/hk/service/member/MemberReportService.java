@@ -549,14 +549,12 @@ public class MemberReportService {
 	 * @param workId void
 	 */
 	public void removeMemSubjProgressByMemKeyAndSubj(
-			MemSubjRegist memberRegist, String workId, String hUpdCD) {
+			MemSubjRegist memberRegist, String workId, String type) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("memberRegist", memberRegist);
 		param.put("workId", workId);
-		param.put("hUpdCD", hUpdCD);
+		param.put("type", "02".equals(type) ? "B" : "I");
 		memberReportRepository.insertMemSubjProgressHisByRegistCancel(param);
-		memberReportRepository.deleteMemSubjProgressByRegistCancel(param);
-		
 	}
 
 	/**
@@ -596,6 +594,8 @@ public class MemberReportService {
 	 */
 	public List<MemberReportFreeDiagInfo> getMemberReportFreeDiagInfoByHkey(
 			String hkey) throws ParseException {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -2);
 		List<MemberReportFreeDiagInfo> memberReportFreeDiagInfos = memberReportRepository.findMemberReportFreeDiagInfoByHkey(hkey);
 		for (MemberReportFreeDiagInfo memberReportFreeDiagInfo : memberReportFreeDiagInfos) {
 			if(memberReportFreeDiagInfo.getOmrBirth() != null && !memberReportFreeDiagInfo.getOmrBirth().isEmpty()){
@@ -671,6 +671,26 @@ public class MemberReportService {
 		param.put("jisaCD", loginInfo.getJisaCD());
 		param.put("deptCD", loginInfo.getDeptCD());
 		return memberReportRepository.findSubjsExceptDigN(param);
+	}
+
+	/**
+	 * 관리요일 변경 시 진도 업데이트
+	 * @param jisaCD
+	 * @param memKey
+	 * @param subj
+	 * @param yoil
+	 * @param workId
+	 */
+	public void setMemSubjProgressMst(String jisaCD, String memKey, String subj,
+			String yoil, String workId) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("subj", subj);
+		param.put("jisaCD", jisaCD);
+		param.put("memKey", memKey);
+		param.put("yoil", yoil);
+		param.put("workId", workId);
+		memberReportRepository.updateMemSubjProgressMst(param);
+		
 	}
 
 }

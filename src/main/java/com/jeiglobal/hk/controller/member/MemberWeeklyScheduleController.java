@@ -42,6 +42,9 @@ public class MemberWeeklyScheduleController {
 	@Autowired
 	private MessageSourceAccessor msa;
 	
+	@Autowired
+	private MemberReportService memberReportService;
+	
 	@RequestMapping(value={"/fa/members/weeklyschedule", "/ja/members/weeklyschedule"}, method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getWeeklySchedulePage(Model model, @ModelAttribute LoginInfo loginInfo){
 		log.debug("member Weekly Schedule Page ");
@@ -103,6 +106,7 @@ public class MemberWeeklyScheduleController {
 		String workId = CommonUtils.getWorkId(request);
 		memberWeeklyScheduleService.setMemSubjMstByMemKeyAndSubj(memKey, subj, workId, yoil);
 		memberWeeklyScheduleService.setMemSubjStudyByMemKeyAndSubj(memKey, subj, workId, yoil, manageTime);
+		memberReportService.setMemSubjProgressMst(loginInfo.getJisaCD(), memKey, subj, yoil, workId);
 		return msa.getMessage("member.weeklyschedule.update.success");
 	}
 	

@@ -104,21 +104,25 @@
 								<tr class="subject">
 									<td colspan="2" class="left">
 									<a href="#" class="btn_graph">${subj.kwamok?default('') }</a>
-									<#if subj.memKey != ''>
-									<span class="info_line"><span class="info_line_first">[ <a href="/fa/members/regist/new?type=2&memKey=${subj.memKey }&freeSubj=${subj.kwamok}&freeOmrDate=${subj.omrDate}&freeHkey=${subj.hkey}" class="blue">REGISTER</a> ]</span></span>
+									<#if subj.isConnect == 'true'> <!-- 무료진단 진도 연결 가능 여부(2개월) -->
+										<#if subj.memKey != ''>
+										<span class="info_line"><span class="info_line_first">[ <a href="/fa/members/regist/new?type=2&memKey=${subj.memKey }&freeSubj=${subj.kwamok}&freeOmrDate=${subj.omrDate}&freeHkey=${subj.hkey}" class="blue">REGISTER</a> ]</span></span>
+										<#else>
+										<span class="info_line"><span class="info_line_first">[ <a href="/fa/members/regist/new?type=&appIdx=${subj.aidx }&freeSubj=${subj.kwamok}&freeOmrDate=${subj.omrDate}&freeHkey=${subj.hkey}" class="blue">REGISTER</a> ]</span></span>
+										</#if>
 									<#else>
-									<span class="info_line"><span class="info_line_first">[ <a href="/fa/members/regist/new?type=&appIdx=${subj.aidx }&freeSubj=${subj.kwamok}&freeOmrDate=${subj.omrDate}&freeHkey=${subj.hkey}" class="blue">REGISTER</a> ]</span></span>
+										<span class="info_line"><span class="info_line_first gray">[ REGISTER ]</span></span>
 									</#if>
 									<span class="info_line"></span>
 									<!-- DIAG -->
 									<#if subj.digYN == 'Y'>
 										<#if subj.memKey != ''>
-										<span class="info_line_first"><a href="javascript:$.openPop('/fa/diagnosis/ippr?memKey=${subj.memKey }&subj=${subj.kwamok }&freejindan=I', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">DIAG</a></span>
+										<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/ippr?memKey=${subj.memKey }&subj=${subj.kwamok }&freejindan=I', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">DIAG</a></span>
 										<#else>
-										<span class="info_line_first"><a href="javascript:$.openPop('/fa/diagnosis/ippr?memKey=${subj.aidx }&subj=${subj.kwamok }&freejindan=A', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">DIAG</a></span>
+										<span class="info_line"><a href="javascript:$.openPop('/fa/diagnosis/ippr?memKey=${subj.aidx }&subj=${subj.kwamok }&freejindan=A', 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');" class="blue">DIAG</a></span>
 										</#if>
 									<#else>
-										<span class="info_line_first gray">DIAG</span>
+										<span class="info_line gray">DIAG</span>
 									</#if>
 									<!-- IPPR -->
 									<#if subj.digYN == 'Y' && subj.omrDate != ''>

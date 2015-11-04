@@ -196,6 +196,7 @@ public class MemberDto {
 		private String digYN;
 		private int aidx;
 		private String memKey;
+		private String isConnect;
 	}
 	
 	@Data
@@ -337,6 +338,40 @@ public class MemberDto {
 		private String type;
 		private String subj;
 		private String memName;
+	}
+	
+	@Data
+	public static class MemberRegistDropStatusJA{
+		
+		private String empKey;
+		private String deptName;
+		private int KMNew;
+		private int KMDrop;
+		private int KKNew;
+		private int KKDrop;
+		private int KGNew;
+		private int KGDrop;
+		private int EMNew;
+		private int EMDrop;
+		private int EENew;
+		private int EEDrop;
+		private int KPNew;
+		private int KPDrop;
+		private int KSNew;
+		private int KSDrop;
+		private int PSNew;
+		private int PSDrop;
+		private int ERNew;
+		private int ERDrop;
+		private int CPNew;
+		private int CPDrop;
+		private int CLNew;
+		private int CLDrop;
+		private int EPNew;
+		private int EPDrop;
+		private int TTNew;
+		private int TTDrop;
+
 	}
 }
 	
