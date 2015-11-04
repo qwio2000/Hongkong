@@ -42,7 +42,7 @@ public class MemberWeeklyScheduleController {
 	@Autowired
 	private MessageSourceAccessor msa;
 	
-	@RequestMapping(value={"/fa/members/weeklyschedule"}, method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members/weeklyschedule", "/ja/members/weeklyschedule"}, method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getWeeklySchedulePage(Model model, @ModelAttribute LoginInfo loginInfo){
 		log.debug("member Weekly Schedule Page ");
 		List<String> headerScript = new ArrayList<>();
@@ -50,15 +50,29 @@ public class MemberWeeklyScheduleController {
 		headerScript.add("memberWeeklySchedule");
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("subjs", subjs);
-		return "member/weeklyschedule/weeklyschedule";
+		String viewName = "alertAndRedirect";
+		if("JA".equalsIgnoreCase(loginInfo.getUserType())){
+			viewName = "member/weeklyschedule/weeklyscheduleJA";
+		}else if("FA".equalsIgnoreCase(loginInfo.getUserType())){
+			viewName = "member/weeklyschedule/weeklyschedule";
+		}else{
+			model.addAttribute("message", msa.getMessage("members.weeklyschedule.error"));
+			model.addAttribute("url", "/"+loginInfo.getUserType().toLowerCase()+"/members/weeklyschedule");
+		}
+		return viewName;
 	}
 	
-	@RequestMapping(value={"/fa/members/weeklyschedule/{subj}"}, method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
+	@RequestMapping(value={"/fa/members/weeklyschedule/{subj}", "/ja/members/weeklyschedule/{subj}"}, method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public Map<String, Object> getMemberWorkbookJson(@ModelAttribute LoginInfo loginInfo, @PathVariable String subj){
 		log.debug("get member WeeklySchedule, subj : {}", subj);
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<MemberWeeklyScheduleInfo> scheduleInfos = memberWeeklyScheduleService.getMemberWeeklySchedule(loginInfo.getJisaCD(), loginInfo.getDeptCD(), subj);
+		List<MemberWeeklyScheduleInfo> scheduleInfos = null;
+		if("JA".equalsIgnoreCase(loginInfo.getUserType())){
+			scheduleInfos = memberWeeklyScheduleService.getMemberWeeklyScheduleJA(loginInfo.getJisaCD(), subj);
+		}else if("FA".equalsIgnoreCase(loginInfo.getUserType())){
+			scheduleInfos = memberWeeklyScheduleService.getMemberWeeklySchedule(loginInfo.getJisaCD(), loginInfo.getDeptCD(), subj);
+		}
 		map.put("scheduleInfos", scheduleInfos);
 		return map;
 	}

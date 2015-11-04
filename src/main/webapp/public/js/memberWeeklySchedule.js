@@ -2,13 +2,14 @@ $(function(){
 	$.extend({
 		getWeeklySchedule:function(){
 			var subj = $("#subject").val();
-			var searchUrl = "/fa/members/weeklyschedule/"+subj;
+			var searchUrl = "/"+userType.toLowerCase()+"/members/weeklyschedule/"+subj;
 			$.ajax({
 				url:searchUrl,
 				type:"GET",
 				cache: false,
 				dataType: "json",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
+					$('#titleSubj').html('Weekly Schedule - '+subj);
 					var source = $("#weeklyScheduleTemplate").html();
 					var template = Handlebars.compile(source);
 					Handlebars.registerHelper("inc", function(value, options){
@@ -78,7 +79,7 @@ $(function(){
 			});
 		}
 	});
-	if(window.location.pathname == '/fa/members/weeklyschedule'){
+	if(window.location.pathname == '/'+userType.toLowerCase()+'/members/weeklyschedule'){
 		$.getWeeklySchedule();
 	}
 	$("input[name=subj]").change(function(){
