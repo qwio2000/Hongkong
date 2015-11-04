@@ -57,6 +57,7 @@
 										<input type="hidden" id="mlstname" name="mlstname" value="${ippr.mlstname}">
 										<input type="hidden" id="gradeNM" name="gradeNM" value="${ippr.gradeNM}">
 										<input type="hidden" id="subjname" name="subjname" value="${ippr.subjname}">
+										<input type="hidden" id="subj" name="subj" value="${subj}">
 										<input type="hidden" id="inputdate" name="inputdate" value="${ippr.inputdate}">
 										<input type="hidden" id="mBirthDay" name="mBirthDay" value="${ippr.MBirthDay}">
 										<input type="hidden" id="gradeCD" name="gradeCD" value="${ippr.gradeCD}">

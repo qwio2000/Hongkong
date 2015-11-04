@@ -1,6 +1,7 @@
 $(function(){
 	$.extend({
-		getipprinput:function(){  
+		getipprinput:function(){
+			$(".btnArea").css("display","none")
 			$("input[name=testType]").attr("disabled",false);
 			$("select[name=leveldung]").attr("disabled",false);
 			$('#ipprinput').submit();

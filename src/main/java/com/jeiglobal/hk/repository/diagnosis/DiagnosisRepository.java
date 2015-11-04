@@ -69,5 +69,7 @@ public interface DiagnosisRepository {
 	DiagnosisDto.DiagnosisRangeHlLang findDiagnosisRangeHlLang(Map<String, Object> map);
 	
 	DiagnosisDto.DiagnosisOmrMemChk findDiagnosisOmrMemChk(Map<String, Object> map);
+	
+	DiagnosisDto.DiagnosisMujinJindoSet findDiagnosisMujinJindoSet(Map<String, Object> map);
 
 }
