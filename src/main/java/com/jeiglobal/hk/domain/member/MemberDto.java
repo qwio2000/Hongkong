@@ -196,6 +196,7 @@ public class MemberDto {
 		private String digYN;
 		private int aidx;
 		private String memKey;
+		private String isConnect;
 	}
 	
 	@Data

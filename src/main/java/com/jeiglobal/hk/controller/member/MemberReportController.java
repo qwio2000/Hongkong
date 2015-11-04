@@ -253,7 +253,6 @@ public class MemberReportController {
 	@RequestMapping(value={"/fa/members/reports/memberinfo"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public String addMemberInfoPop(MemMst memMst, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) throws ParseException {
-		//TODO StatusCD 업데이트 하는 부분 논의 후 추가
 		String workId = CommonUtils.getWorkId(request);
 		memberReportService.setMemberInfoByFreeGicho(memMst, loginInfo, workId);
 		if(!"M".equals(memMst.getMemKey().substring(0, 1))){
@@ -391,10 +390,8 @@ public class MemberReportController {
 			memberReportService.removeMemSubjRegistByMemKeyAndSubj(memberRegist, workId, hUpdCD);
 			//MemSubjTuition
 			memberReportService.removeMemSubjTuitionByMemKeyAndSubj(memberRegist, workId, hUpdCD);
-			if(!"02".equals(type)){
-				//MemSubjProgress
-				memberReportService.removeMemSubjProgressByMemKeyAndSubj(memberRegist, workId, hUpdCD);
-			}
+			//MemSubjProgress
+			memberReportService.removeMemSubjProgressByMemKeyAndSubj(memberRegist, workId, type);
 		}
 		returnMap.put("count", memberReportService.getMemSubjRegistOtherSubj(memberRegist));
 		return returnMap;

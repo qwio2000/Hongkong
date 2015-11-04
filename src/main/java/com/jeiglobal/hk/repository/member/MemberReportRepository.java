@@ -114,8 +114,6 @@ public interface MemberReportRepository {
 	public void deleteMemSubjTuitionByRegistCancel(Map<String, Object> param);
 	
 	public void insertMemSubjProgressHisByRegistCancel(Map<String, Object> param);
-	
-	public void deleteMemSubjProgressByRegistCancel(Map<String, Object> param);
 
 	public void updateMemSubjMstByRegistCancel(Map<String, Object> param);
 

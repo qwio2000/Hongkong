@@ -549,14 +549,12 @@ public class MemberReportService {
 	 * @param workId void
 	 */
 	public void removeMemSubjProgressByMemKeyAndSubj(
-			MemSubjRegist memberRegist, String workId, String hUpdCD) {
+			MemSubjRegist memberRegist, String workId, String type) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("memberRegist", memberRegist);
 		param.put("workId", workId);
-		param.put("hUpdCD", hUpdCD);
+		param.put("type", "02".equals(type) ? "B" : "I");
 		memberReportRepository.insertMemSubjProgressHisByRegistCancel(param);
-		memberReportRepository.deleteMemSubjProgressByRegistCancel(param);
-		
 	}
 
 	/**
@@ -596,6 +594,8 @@ public class MemberReportService {
 	 */
 	public List<MemberReportFreeDiagInfo> getMemberReportFreeDiagInfoByHkey(
 			String hkey) throws ParseException {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -2);
 		List<MemberReportFreeDiagInfo> memberReportFreeDiagInfos = memberReportRepository.findMemberReportFreeDiagInfoByHkey(hkey);
 		for (MemberReportFreeDiagInfo memberReportFreeDiagInfo : memberReportFreeDiagInfos) {
 			if(memberReportFreeDiagInfo.getOmrBirth() != null && !memberReportFreeDiagInfo.getOmrBirth().isEmpty()){
