@@ -3,21 +3,20 @@
  */
 package com.jeiglobal.hk.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import javax.servlet.http.*;
 
-import com.jeiglobal.hk.domain.auth.LoginInfo;
-import com.jeiglobal.hk.service.MainService;
-import com.jeiglobal.hk.utils.MessageSourceAccessor;
+import lombok.extern.slf4j.*;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
+
+import com.jeiglobal.hk.domain.auth.*;
+import com.jeiglobal.hk.service.*;
+import com.jeiglobal.hk.utils.*;
 
 /**
  * 클래스명 : MainController.java
@@ -39,10 +38,20 @@ public class MainController {
 	@Autowired
 	private MainService mainService;
 	
+	@Value("${serverurl.globalbms}")
+	private String globalbmsUrl;
+	
 	@RequestMapping(value={"/fa","/ja"}, method={RequestMethod.GET,RequestMethod.HEAD})
-	public String getMain(Model model, @ModelAttribute LoginInfo loginInfo) {
-		
-		System.out.println("userType=" + loginInfo.getUserType());
+	public String getMain(Model model, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) {
+		String currentUrl = request.getRequestURL().toString();
+		if(!currentUrl.contains(loginInfo.getUserType().toLowerCase())){
+			if("ma".equalsIgnoreCase(loginInfo.getUserType())){
+				return "redirect:"+globalbmsUrl+"/ma";
+			}else{
+				return "redirect:/"+loginInfo.getUserType().toLowerCase();
+			}
+		}
+		log.debug("userType=" + loginInfo.getUserType());
 /*		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("main");
 		model.addAttribute("headerScript", headerScript);*/
