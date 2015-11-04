@@ -148,11 +148,10 @@ public class DiagnosisController {
 		String deptCD = loginInfo.getDeptCD();
 		String digYN = "";
 		
-		if ("A".equals(freejindan) || "I".equals(freejindan)) {			// 무료진단 X 등급 제외
+		if (("A").equals(freejindan) || ("I").equals(freejindan)) {			// 무료진단 X 등급 제외
 			digYN = "Y";
 		}
 		
-		digYN = "Y";
 		
 		DiagnosisDto.DiagnosisInputippr diagnosisInputippr = diagnosisService.getDiagnosisInputippr(jisaCD, deptCD, memKey, subj, freejindan);	 //회원정보
 		
