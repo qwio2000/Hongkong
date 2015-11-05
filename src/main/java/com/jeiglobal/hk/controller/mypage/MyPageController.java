@@ -112,7 +112,7 @@ public class MyPageController {
 	@ResponseBody
 	public String getUserSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
 		String deptCD, String userId, String dutyCD, String userLevel, String userFstName, String userLstName,
-		String email, String phone, String title, String department, String userPwd, String statusCD, String oldUserPwd, String pwdChgFlag, String userType){
+		String email, String phone, String title, String department, String userPwd, String statusCD, String oldUserPwd, String pwdChgFlag, String userType, String newUserId){
 		
 		String newUserPwd = "";
 		if("Y".equals(pwdChgFlag)){
@@ -121,7 +121,7 @@ public class MyPageController {
 			newUserPwd = oldUserPwd;
 		}
 		String workId = CommonUtils.getWorkId(request);
-		String result = centerService.getUserSave(loginInfo.getJisaCD(),deptCD, userId, userType, userLevel, dutyCD, userFstName, userLstName, email,  phone,  title,  department, newUserPwd, statusCD, workId);		
+		String result = centerService.getUserSave(loginInfo.getJisaCD(),deptCD, userId, userType, userLevel, dutyCD, userFstName, userLstName, email,  phone,  title,  department, newUserPwd, statusCD, workId, newUserId);		
 		String msgCode = "";
 		if("N1".equals(result)){
 			msgCode = "user.save.error.n1";
@@ -155,6 +155,17 @@ public class MyPageController {
 		return "mypage/myPage";
 		
 	}
-	
+	@RequestMapping(value={"/ja/mypage/userIdChkJson"},method = {RequestMethod.GET}, produces="application/json;charset=UTF-8;")
+	@ResponseBody	
+	public String getUserIdChkJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request, String newUserId){
+		int result = centerService.getUserIdChk(newUserId);		
+		String CHK = "";
+		if(result > 0){
+			CHK = "N";
+		}else{
+			CHK = "Y";
+		}
+		return CHK;
+	}
 	
 }

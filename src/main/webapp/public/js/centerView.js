@@ -55,8 +55,51 @@ $(function(){
 				});
 			}
 		},
-		
-		
+			
+		// User ID 중복체크
+		userIdChk:function(){
+			if(!($.required("newUserId","User ID"))){
+				$("#newUserId").focus();
+				return;
+			}
+			if($("#newUserId").val().length < 5){
+				alert("User ID를 5자리 이상으로 입력해 주세요.");
+				$("#newUserId").focus();
+				return;
+			}			
+			var pattern = /(^([a-z0-9]+)([a-z0-9_]+$))/;
+			if(!pattern.test($.trim($("#newUserId").val()))){
+			    alert("User ID 형식이 아닙니다.\n\n영소문자, 숫자, _ 만 가능.\n\n첫글자는 영소문자, 숫자만 가능\n");
+			    return;
+			}
+			var newUserId = $("#newUserId").val();
+			var param = {"newUserId":newUserId};
+			$.ajax({
+				url:"/ja/mypage/userIdChkJson",
+				type:"GET",
+				cache: false,
+				async: true,
+				data: param,
+				dataType: "text",
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					if(jsonData == "Y"){
+						alert("사용 가능한 ID입니다.");
+						$("#newUserIdConf").val(newUserId);
+						$("#userIdChk").val('Y');
+					} else{
+						alert("사용할 수 없는 ID입니다.");
+						$("#newUserId").val('');
+						$("#newUserIdConf").val('');
+						$("#userIdChk").val('N');	
+						$("#newUserId").focus();
+					}	
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(_THROWNERROR);
+				}
+			});		
+
+		},
 		// User 등록
 		openAddNewUser:function(deptCD, addUserFlag, jobFlag){
 			if(addUserFlag != "Y"){
@@ -75,7 +118,8 @@ $(function(){
 		openMyEditUser:function(deptCD,userId){
 			var url = "/ja/mypage/userEdit?deptCD="+deptCD+"&userId="+userId;		
 			$.openPop(url, "userEdit","menubar=no,toolbar=no,status=no,resizable=yes,scrollbars=yes,width=620,height=700");
-		},			
+		},	
+		// User 비밀번호 초기화
 		userPwdClear:function(userId){
 			if(confirm("비밀번호를 초기화 하시겠습니까?\n\n초기화 하시면 비밀번호는 User ID 로 초기화 됩니다.")) {
 				var param = $("#userForm").serialize();
@@ -233,6 +277,15 @@ $(function(){
 			}
 		}
 		if($("#userId").val()==''){ // 신규등록일때만 체크
+			// 지사장이 마이페이지에서 Add New User한 경우
+			if ($("#jobFlag").val()=='myPage'){ 
+				if(!($.required("newUserId","User ID"))){return;}
+				if(!($("#newUserIdConf").val()== $("#newUserId").val() && $("#userIdChk").val()=='Y')){
+					alert("ID 중복체크를 해 주십시요.");
+					return;
+				}	
+			}
+			// 비밀번호 체크
 			if(!($.required("userPwd","Password"))){return;}
 			if(!($.required("reTypeUserPwd","Retype Password"))){return;}
 			if(!$.passwordCheck("userPwd","Password")){
@@ -243,9 +296,8 @@ $(function(){
 				alert("Confirm Retype Password!!");
 				$("#reTypeUserPwd").focus();
 				return;
-			}		
+			}				
 		}		
-		
 		var param = $("#userForm").serialize();
 		$.ajax({
 			url:"/ja/centers/userSaveJson",
