@@ -245,7 +245,6 @@ public class CenterService {
 	public void addFACookies(String memberId, HttpServletResponse response) {
 		StandardPasswordEncoder standrdPasswordEncoder = new StandardPasswordEncoder();
 		String authKey = standrdPasswordEncoder.encode(memberId);
-		authoritiesService.updateEncodeCookieById(memberId, authKey);
 		CommonUtils.addCookie("AUTHKey", authKey, cookieDomain, response);
 		CommonUtils.addCookie("AUTHId", memberId, cookieDomain, response);
 	}
