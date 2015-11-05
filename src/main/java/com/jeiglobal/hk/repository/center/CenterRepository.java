@@ -53,8 +53,7 @@ public interface CenterRepository {
 		public String userSave(Map<String, Object> param);
 		public void changeUserPwdSave(Map<String, Object> param);
 		public UserView userView(String userId);
-		
-
+		public int findUsersCount(String userId);
 		
 
 		

@@ -192,7 +192,7 @@ public class CenterService {
 		param.put("deptCD", deptCD);
 		return centerRepository.userList(param);				
 	}
-	public String getUserSave(String jisaCD, String deptCD, String userId, String userType, String userLevel, String dutyCD, String userFstName, String userLstName, String email,  String phone,  String title,  String department, String userPwd, String statusCD,String workId) {		
+	public String getUserSave(String jisaCD, String deptCD, String userId, String userType, String userLevel, String dutyCD, String userFstName, String userLstName, String email,  String phone,  String title,  String department, String userPwd, String statusCD,String workId,String newUserId) {		
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("jisaCD", jisaCD);
 		param.put("deptCD", deptCD);
@@ -209,6 +209,7 @@ public class CenterService {
 		param.put("userPwd", userPwd);
 		param.put("statusCD", statusCD);
 		param.put("workId", workId);
+		param.put("newUserId", newUserId);
 		return centerRepository.userSave(param);				
 	}	
 	public void setChangeUserPwdSave(String userId, String userPwd,String workId) {		
@@ -221,7 +222,9 @@ public class CenterService {
 	public UserView getUserView(String userId) {		
 		return centerRepository.userView(userId);				
 	}		
-		
+	public int getUserIdChk(String userId) {
+		return centerRepository.findUsersCount(userId);
+	}	
 	
 	
 	
