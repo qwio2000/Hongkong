@@ -166,17 +166,17 @@ public class InterimController {
 		InterimDto.InterimSDWorkBasicLst interimSDWorkBasicLst =interimService.getInerimSDWorkBasicLst(jisaCD,grade,birthday,mm);
 		
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		SimpleDateFormat now = new SimpleDateFormat("yyyy-MM");
 		Calendar cal = Calendar.getInstance();
 		cal.set(Integer.parseInt(yy), Integer.parseInt(mm) -1 , 1);
 		cal.add(Calendar.MONTH, 1);
-		String convYYMM = sdf.format(cal.getTime());
+		String convYYMM = now.format(cal.getTime());
 		model.addAttribute("convYYMM1", convYYMM);
 		cal.add(Calendar.MONTH, 1);
-		convYYMM = sdf.format(cal.getTime());
+		convYYMM = now.format(cal.getTime());
 		model.addAttribute("convYYMM2", convYYMM);
 		cal.add(Calendar.MONTH, 1);
-		convYYMM = sdf.format(cal.getTime());
+		convYYMM = now.format(cal.getTime());
 		model.addAttribute("convYYMM3", convYYMM);
 		
 		String setdata1 = interimSDWorkBasicLst.getSetdata1();

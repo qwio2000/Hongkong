@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jeiglobal.hk.repository.diagnosis.AdjustmentRepository">
+	<!-- 진도 조정 세트 주차 리스트 -->
+	<select id="findAdjustmentList" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.AdjustmentDto$AdjustmentList">
+			CALL globalbiz.SPAdjustmentList(#{jisaCD},#{memKey},#{subj},#{ayy},#{amm},#{byy},#{bmm});	
+	</select>
+	<!-- 등급 진도  -->
+	<select id="findAdjustmentJindoSetList" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.AdjustmentDto$AdjustmentJindoSetList">
+			CALL globalbiz.SPAdjustmentJindoSetList(#{jisaCD},#{subj},#{dung},#{chk});
+	</select>
+	
+	
+	
+</mapper>
