@@ -373,5 +373,12 @@ public class MemberDto {
 		private int TTDrop;
 
 	}
+	
+	@Data
+	public static class MemberWeeklyDetailInfo{
+		private String visitHoursName;
+		private String deptName;
+		private int cnt;
+	}
 }
 	

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberWeeklyDetailInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberWeeklyScheduleInfo;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
@@ -46,7 +47,7 @@ public class MemberWeeklyScheduleController {
 	private MemberReportService memberReportService;
 	
 	@RequestMapping(value={"/fa/members/weeklyschedule", "/ja/members/weeklyschedule"}, method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getWeeklySchedulePage(Model model, @ModelAttribute LoginInfo loginInfo){
+	public String getWeeklySchedulePage(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam(value="subj", defaultValue="All", required=false) String subj){
 		log.debug("member Weekly Schedule Page ");
 		List<String> headerScript = new ArrayList<>();
 		List<String> subjs = commonService.getOpenSubjsByDeptCD(loginInfo.getJisaCD(), loginInfo.getDeptCD());
@@ -55,6 +56,9 @@ public class MemberWeeklyScheduleController {
 		model.addAttribute("subjs", subjs);
 		String viewName = "alertAndRedirect";
 		if("JA".equalsIgnoreCase(loginInfo.getUserType())){
+			List<MemberWeeklyScheduleInfo> scheduleInfos = memberWeeklyScheduleService.getMemberWeeklyScheduleJA(loginInfo.getJisaCD(), subj);
+			model.addAttribute("subj", subj);
+			model.addAttribute("scheduleInfos", scheduleInfos);
 			viewName = "member/weeklyschedule/weeklyscheduleJA";
 		}else if("FA".equalsIgnoreCase(loginInfo.getUserType())){
 			viewName = "member/weeklyschedule/weeklyschedule";
@@ -65,18 +69,23 @@ public class MemberWeeklyScheduleController {
 		return viewName;
 	}
 	
-	@RequestMapping(value={"/fa/members/weeklyschedule/{subj}", "/ja/members/weeklyschedule/{subj}"}, method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
+	@RequestMapping(value={"/fa/members/weeklyschedule/{subj}"}, method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public Map<String, Object> getMemberWorkbookJson(@ModelAttribute LoginInfo loginInfo, @PathVariable String subj){
 		log.debug("get member WeeklySchedule, subj : {}", subj);
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<MemberWeeklyScheduleInfo> scheduleInfos = null;
-		if("JA".equalsIgnoreCase(loginInfo.getUserType())){
-			scheduleInfos = memberWeeklyScheduleService.getMemberWeeklyScheduleJA(loginInfo.getJisaCD(), subj);
-		}else if("FA".equalsIgnoreCase(loginInfo.getUserType())){
-			scheduleInfos = memberWeeklyScheduleService.getMemberWeeklySchedule(loginInfo.getJisaCD(), loginInfo.getDeptCD(), subj);
-		}
+		List<MemberWeeklyScheduleInfo> scheduleInfos = memberWeeklyScheduleService.getMemberWeeklySchedule(loginInfo.getJisaCD(), loginInfo.getDeptCD(), subj);
 		map.put("scheduleInfos", scheduleInfos);
+		return map;
+	}
+	
+	@RequestMapping(value={"/ja/members/weeklyschedule/detail"}, method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public Map<String, Object> getMemberWeeklyDetailJson(@ModelAttribute LoginInfo loginInfo, String time, String yoil, String subj){
+		log.debug("Getting member WeeklySchedule Detail");
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<MemberWeeklyDetailInfo> list = memberWeeklyScheduleService.getMemberWeeklyDetailInfo(loginInfo.getJisaCD(), time, yoil, subj);
+		map.put("list", list);
 		return map;
 	}
 	

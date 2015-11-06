@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import com.jeiglobal.hk.domain.member.*;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberWeeklyDetailInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberWeeklyScheduleInfo;
 import com.jeiglobal.hk.repository.member.*;
 import com.jeiglobal.hk.utils.*;
@@ -103,6 +104,23 @@ public class MemberWeeklyScheduleService {
 		param.put("jisaCD", jisaCD);
 		param.put("subj", ("All".equalsIgnoreCase(subj) ? "" : subj));
 		return memberWeeklyScheduleRepository.findMemberWeeklyScheduleJA(param);
+	}
+	/**
+	 * 지사 WeeklySchedule Detail Popup
+	 * @param jisaCD
+	 * @param time
+	 * @param yoil
+	 * @param subj 
+	 * @return List<MemberWeeklyDetailInfo>
+	 */
+	public List<MemberWeeklyDetailInfo> getMemberWeeklyDetailInfo(
+			String jisaCD, String time, String yoil, String subj) {
+		param.clear();
+		param.put("jisaCD", jisaCD);
+		param.put("time", time);
+		param.put("yoil", yoil);
+		param.put("subj", subj);
+		return memberWeeklyScheduleRepository.findMemberWeeklyDetailInfo(param);
 	}
 
 }
