@@ -40,6 +40,10 @@
 	<a href="javascript:var a=window.open('/fa/diagnosis/interimPrint?jisaCD=08&yy=2015&mm=01&memKey=AA296624&subj=KM&lang=K', 'engpreview','menubar=no,toolbar=yes,status=no,resizable=yes,scrollbars=yes,width=710,height=480');">
 		형성평가 기록부
 	</a>
+	</br>
+	<a href="javascript:var a=window.open('/fa/diagnosis/adjustmentinput?jisaCD=08&memKey=AA296624&subj=KM', 'engpreview','menubar=no,toolbar=yes,status=no,resizable=yes,scrollbars=yes,width=710,height=480');">
+		진도조정
+	</a>
 	
 
 	
