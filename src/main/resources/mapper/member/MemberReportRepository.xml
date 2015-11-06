@@ -324,20 +324,9 @@
 	<delete id="deleteMemSubjTuitionByRegistCancel" parameterType="hashMap">
 	DELETE FROM globalbiz.MemSubjTuition WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj} AND feeYMD >= #{memberRegist.registYMD}
 	</delete>
-	
-	
-	<insert id="insertMemSubjProgressHisByRegistCancel" parameterType="hashMap" useGeneratedKeys="true" keyProperty="idx">
-	INSERT INTO globalbiz.MemSubjProgressMstHis
-		(memKey, subj, yy, mm, wk, wkSeq, yoil, wbSet, wbOutYMD, yymmwk, regCD, regDate, regID, updCD, updDate, updID, hUpdCD, hUpdDate, hUpdID)
-	SELECT memKey, subj, yy, mm, wk, wkSeq, yoil, wbSet, wbOutYMD, yymmwk, regCD, regDate, regID, updCD, updDate, updID, #{hUpdCD}, NOW(), #{workId}
-	FROM globalbiz.MemSubjProgressMst
-	WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj}
-	ORDER BY yy, mm, wk
-	</insert>
-	<delete id="deleteMemSubjProgressByRegistCancel" parameterType="hashMap">
-	DELETE FROM globalbiz.MemSubjProgressMst WHERE memKey = #{memberRegist.memKey} AND subj = #{memberRegist.subj}
-	</delete>
-	
+	<select id="insertMemSubjProgressHisByRegistCancel" parameterType="hashMap" statementType="CALLABLE">
+		CALL globaldig.SPRegReturnJindoSet(#{memberRegist.jisaCD},#{memberRegist.memKey},#{memberRegist.subj},#{type},#{workId})
+	</select>
 	<update id="updateMemSubjMstByRegistCancel" parameterType="hashMap">
 	UPDATE globalbiz.MemSubjMst AS a, globalbiz.MemSubjMstHis AS b
 	SET a.memKey = b.memKey, a.subj = b.subj, a.statusCD = b.statusCD, a.memName = b.memName, a.yoil = b.yoil, a.studyNum = b.studyNum, a.bookNum = b.bookNum, a.digGrade = b.digGrade, a.registFstYMD = b.registFstYMD, a.registFnlYMD = b.registFnlYMD, a.dropFnlYMD = b.dropFnlYMD, a.expireYMD = b.expireYMD, a.feeFnlYMD = b.feeFnlYMD, a.yoilChgYMD = b.yoilChgYMD, a.studyNumChgYMD = b.studyNumChgYMD, a.bookNumChgYMD = b.bookNumChgYMD, a.befoYoil = b.befoYoil, a.befoStudyNum = b.befoStudyNum, a.befoBookNum = b.befoBookNum, a.empKey = b.empKey, a.deptCD = b.deptCD, a.jisaCD = b.jisaCD, a.regDate = b.regDate, a.regID = b.regID, a.updDate = b.updDate, a.updID = b.updID
@@ -361,14 +350,16 @@
 		ORDER BY a.hkey
 	</select>
 	<select id="findMemberReportFreeDiagSubjInfosByAidx" parameterType="int" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportFreeDiagSubjInfo">
-		SELECT MAX(a.hkey) AS hkey, a.kwamok, MAX(a.omrDate) AS omrDate, a.jisaCD, b.digYN, a.aidx, a.memKey
+		SELECT MAX(a.hkey) AS hkey, a.kwamok, MAX(a.omrDate) AS omrDate, a.jisaCD, b.digYN, a.aidx, a.memKey, 
+			CASE MAX(a.omrDate) > DATE_ADD(CONVERT(NOW(),CHAR(10)), INTERVAL -2 MONTH) WHEN 1 THEN 'true' WHEN 0 THEN 'false' END AS isConnect
 		FROM globaldig.FreeGicho AS a 
 			LEFT JOIN globalbiz.DeptSubjInfo AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND a.kwamok = b.subj
 		WHERE a.aidx = #{aidx} OR a.memKey = CASE WHEN a.memKey != '' THEN (SELECT MAX(memKey) AS memKey FROM globaldig.FreeGicho WHERE aidx = #{aidx} GROUP BY aidx) ELSE '0' END
 		GROUP BY kwamok
 	</select>
 	<select id="findMemberReportFreeDiagSubjInfosByMemKey" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberReportFreeDiagSubjInfo">
-		SELECT MAX(a.hkey) as hkey, a.kwamok, MAX(a.omrDate) AS omrDate, a.jisaCD, b.digYN, a.aidx, a.memKey
+		SELECT MAX(a.hkey) as hkey, a.kwamok, MAX(a.omrDate) AS omrDate, a.jisaCD, b.digYN, a.aidx, a.memKey, 
+			CASE MAX(a.omrDate) > DATE_ADD(CONVERT(NOW(),CHAR(10)), INTERVAL -2 MONTH) WHEN 1 THEN 'true' WHEN 0 THEN 'false' END AS isConnect
 		FROM globaldig.FreeGicho AS a 
 			INNER JOIN globalbiz.DeptSubjInfo AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND a.kwamok = b.subj
 		WHERE a.memKey = #{memKey}
@@ -463,5 +454,8 @@
 			       #{item}
 			 </foreach>
 		ORDER BY sortCD
+	</select>
+	<select id="updateMemSubjProgressMst" parameterType="hashMap" statementType="CALLABLE">
+		CALL globaldig.SPOmrYoilJindoSet(#{jisaCD},#{memKey},#{subj},#{yoil},#{workId})
 	</select>
 </mapper>

@@ -114,8 +114,6 @@ public interface MemberReportRepository {
 	public void deleteMemSubjTuitionByRegistCancel(Map<String, Object> param);
 	
 	public void insertMemSubjProgressHisByRegistCancel(Map<String, Object> param);
-	
-	public void deleteMemSubjProgressByRegistCancel(Map<String, Object> param);
 
 	public void updateMemSubjMstByRegistCancel(Map<String, Object> param);
 
@@ -145,5 +143,7 @@ public interface MemberReportRepository {
 	public String findSubjsInMemAppointment(String key);
 
 	public List<String> findSubjsExceptDigN(Map<String, Object> param);
+
+	public void updateMemSubjProgressMst(Map<String, Object> param);
 
 }

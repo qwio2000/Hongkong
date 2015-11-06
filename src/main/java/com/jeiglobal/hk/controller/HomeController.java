@@ -117,7 +117,7 @@ public class HomeController {
 		HttpRequestResponseHolder hrrh = new HttpRequestResponseHolder(request, response);
 		hsscr.loadContext(hrrh).setAuthentication(null);//기존 Authentication에 저장된 객체 제거
 		model.asMap().clear();//ModelAttribute parameter 제거
-		return "redirect:"+globalbmsUrl+"/ma/records";
+		return "redirect:"+globalbmsUrl+"/ma";
 	}
 	/**
 	 * favicon.ico 요청 시 No Mapping Log 방지하기 위해 만듬 

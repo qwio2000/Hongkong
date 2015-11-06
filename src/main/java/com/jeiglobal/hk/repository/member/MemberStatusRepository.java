@@ -3,6 +3,7 @@ package com.jeiglobal.hk.repository.member;
 import java.util.*;
 
 import com.jeiglobal.hk.domain.member.MemberDto.MemberRegistDropStatus;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberRegistDropStatusJA;
 import com.jeiglobal.hk.repository.*;
 
 /**
@@ -20,6 +21,9 @@ public interface MemberStatusRepository {
 	public int findMemberRegistDropStatusCount(Map<String, Object> param);
 
 	public List<MemberRegistDropStatus> findMemberRegistDropStatus(
+			Map<String, Object> param);
+
+	public List<MemberRegistDropStatusJA> findMemberRegistDropStatusJA(
 			Map<String, Object> param);
 
 }

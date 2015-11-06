@@ -334,7 +334,8 @@ public class CenterController {
 	@ResponseBody
 	public String getUserSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request,
 		String deptCD, String userId, String dutyCD, String userLevel, String userFstName, String userLstName,
-		String email, String phone, String title, String department, String userPwd, String statusCD, String userType){
+		String email, String phone, String title, String department, String userPwd, String statusCD, 
+		String userType, @RequestParam(defaultValue="") String newUserId){
 
 		String newUserPwd = "";
 		if("".equals(userId)){
@@ -343,7 +344,7 @@ public class CenterController {
 			newUserPwd = userPwd;
 		}
 		String workId = CommonUtils.getWorkId(request);
-		String result = centerService.getUserSave(loginInfo.getJisaCD(),deptCD, userId, userType, userLevel, dutyCD, userFstName, userLstName, email,  phone,  title,  department, newUserPwd, statusCD, workId);		
+		String result = centerService.getUserSave(loginInfo.getJisaCD(),deptCD, userId, userType, userLevel, dutyCD, userFstName, userLstName, email,  phone,  title,  department, newUserPwd, statusCD, workId, newUserId);		
 		String msgCode = "";
 		if("N1".equals(result)){
 			msgCode = "user.save.error.n1";

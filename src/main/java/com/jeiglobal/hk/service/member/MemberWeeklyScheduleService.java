@@ -91,5 +91,18 @@ public class MemberWeeklyScheduleService {
 		memberReportRepository.insertMemSubjStudyHis(param);
 		memberWeeklyScheduleRepository.updateMemSubjStudy(param);		
 	}
+	/**
+	 * Weekly Schedule 지사
+	 * @param jisaCD
+	 * @param subj
+	 * @return List<MemberWeeklyScheduleInfo>
+	 */
+	public List<MemberWeeklyScheduleInfo> getMemberWeeklyScheduleJA(
+			String jisaCD, String subj) {
+		param.clear();
+		param.put("jisaCD", jisaCD);
+		param.put("subj", ("All".equalsIgnoreCase(subj) ? "" : subj));
+		return memberWeeklyScheduleRepository.findMemberWeeklyScheduleJA(param);
+	}
 
 }

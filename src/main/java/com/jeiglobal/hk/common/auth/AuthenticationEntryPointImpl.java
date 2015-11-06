@@ -1,6 +1,7 @@
 package com.jeiglobal.hk.common.auth;
 
 import java.io.*;
+import java.net.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -37,13 +38,14 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		if(loginFormPath == null || loginFormPath.isEmpty()){
 			setLoginFormPath("/login");
 		}
-		String redirectUrl = UrlUtils.buildRequestUrl(request);
-		String encodedUrl = response.encodeRedirectURL(redirectUrl);
-		if("/".equals(encodedUrl)){
-			response.sendRedirect(globalbmsUrl+loginFormPath);
-		}else{
-			response.sendRedirect(globalbmsUrl+loginFormPath+"?returl="+encodedUrl);
+		String url = globalbmsUrl + loginFormPath;
+		System.out.println("URL : "+UrlUtils.buildRequestUrl(request));
+		String encodedUrl = response.encodeRedirectURL(UrlUtils.buildRequestUrl(request));
+		String testEncode = URLEncoder.encode(URLEncoder.encode(UrlUtils.buildRequestUrl(request), "UTF-8"), "UTF-8");
+		if(!"/".equals(encodedUrl)){
+			url += "?returl="+testEncode;
 		}
+		response.sendRedirect(url);
 	}
 
 	public void setLoginFormPath(String loginFormPath) {

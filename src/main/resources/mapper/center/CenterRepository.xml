@@ -70,7 +70,7 @@
 		CALL globalbiz.SPUserList(#{jisaCD},#{deptCD});
 	</select>
 	<select id="userSave" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String">
-		CALL globalbiz.SPUserSave(#{jisaCD},#{deptCD},#{userId},#{userType},#{userLevel},#{dutyCD},#{userFstName},#{userLstName},#{email},#{phone},#{title},#{department},#{userPwd},#{statusCD},#{workId})
+		CALL globalbiz.SPUserSave(#{jisaCD},#{deptCD},#{userId},#{userType},#{userLevel},#{dutyCD},#{userFstName},#{userLstName},#{email},#{phone},#{title},#{department},#{userPwd},#{statusCD},#{workId},#{newUserId})
 	</select>	
 	<select id="userView" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.UserView">
 		CALL globalbiz.SPUserView(#{userId});
@@ -80,8 +80,11 @@
 		SET userPasswd = #{userPwd},updDate=NOW(), updID=#{workId}
 		WHERE userId = #{userId}
 	</update>	
-	
-	
+	<select id="findUsersCount" parameterType="java.lang.String" resultType="int">
+		SELECT COUNT(1)
+		FROM globalbiz.Users
+		WHERE userId = #{userId};
+	</select>	
 	
 	
 	

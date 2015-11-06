@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberRegistDropStatus;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberRegistDropStatusJA;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
 import com.jeiglobal.hk.utils.*;
@@ -73,4 +74,31 @@ public class MemberStatusController {
 		return map;
 	}
 	
+	@RequestMapping(value={"/ja/members/status"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getJAMemberStatus(Model model, @ModelAttribute LoginInfo loginInfo) throws ParseException{
+		log.debug("Getting JA Member Status Page, Regist & Drop");
+		List<String> headerScript = new ArrayList<>();
+		headerScript.add("memberStatus");
+		List<String> searchYYMM = CommonUtils.getMonthsByOneYearBefore();
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("searchYYMM", searchYYMM);
+		model.addAttribute("currentMonthName", CommonUtils.changeDateFormat("MM / yyyy", "MMMM", searchYYMM.get(0)));
+		return "member/status/registDropJA";
+	}
+	
+	@RequestMapping(value={"/ja/members/status/registDrop"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> getMemberRegistDropStatusJA(@ModelAttribute LoginInfo loginInfo,
+			String searchYYMM) throws ParseException{
+		log.debug("Getting Member Regist & Drop Status {}", searchYYMM);
+		searchYYMM = CommonUtils.changeDateFormat("MM / yyyy", "yyyy-MM", searchYYMM);
+		List<MemberRegistDropStatusJA> list = memberStatusService.getMemberRegistDropStatusJA(loginInfo, searchYYMM);
+		MemberRegistDropStatusJA total = memberStatusService.getTotalRegistDropStatusJA(list);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("total", total);
+		map.put("month", CommonUtils.changeDateFormat("yyyy-MM", "MMMM", searchYYMM));
+		map.put("year", searchYYMM.split("-")[0]);
+		return map;
+	}
 }

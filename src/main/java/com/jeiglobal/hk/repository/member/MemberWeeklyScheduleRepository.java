@@ -28,4 +28,7 @@ public interface MemberWeeklyScheduleRepository {
 
 	public void updateMemSubjStudy(Map<String, Object> param);
 
+	public List<MemberWeeklyScheduleInfo> findMemberWeeklyScheduleJA(
+			Map<String, Object> param);
+
 }

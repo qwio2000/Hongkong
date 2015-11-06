@@ -22,4 +22,7 @@
 		SET yoil = #{yoil}, visitHours = #{manageTime}, updDate=NOW(), updID=#{workId}
 		WHERE memKey = #{memKey} and subj = #{subj} and yoilSeq = '1'
 	</update>
+	<select id="findMemberWeeklyScheduleJA" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberWeeklyScheduleInfo">
+		CALL globalbiz.SPMemWeeklyScheduleJisaList(#{jisaCD},'',#{subj})
+	</select>
 </mapper>

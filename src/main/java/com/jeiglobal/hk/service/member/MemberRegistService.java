@@ -293,8 +293,7 @@ public class MemberRegistService {
 		//Key : registFee, monthFee, sectionFee, feeUnit, freeType
 		Map<String, Object> resultMap = memberRegistRepository.findMemFeeInfo(param);
 		String feeGubun = ("1".equals(type) || "3".equals(type)) && i == 0 ? "01" : ("1".equals(isResume)) ? "03" : ("2".equals(isResume)) ? "02" : "04";
-		//TODO feeKind : 입금 종류 (일반, 할인, 면제)
-		String feeKind = "1";
+		String feeKind = "".equals(resultMap.get("freeType").toString()) ? "1" : "2";
 		int registFee = ("2".equals(type))? 0 : (i == 0)? Integer.parseInt(resultMap.get("registFee").toString()) : 0;
 		int longFee = Integer.parseInt(resultMap.get("monthFee").toString()) * (Integer.parseInt(monthNum) - 1);
 		int totalFee = Integer.parseInt(resultMap.get("sectionFee").toString())
