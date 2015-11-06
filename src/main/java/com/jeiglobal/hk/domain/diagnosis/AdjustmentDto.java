@@ -57,4 +57,22 @@ public class AdjustmentDto {
 		private String casKey;
 		private String casNset;
 	}
+	
+	@Data
+	public static class AdjustmentinputSaveJson{
+		private String jisaCD;
+		private String memKey;	
+		private String subj;		
+		private String yy;		
+		private String mm;		
+		private String wk;		
+		private String yoil;		
+		private String bokGubun;	
+		private String set1;		
+		private String set2;		
+		private String set3;		
+		private String set4;		
+		private String set5;		
+		private String workID;	
+	}	
 }

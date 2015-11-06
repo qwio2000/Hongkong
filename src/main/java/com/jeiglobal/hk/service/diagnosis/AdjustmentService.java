@@ -4,11 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto;
+import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto.AdjustmentinputSaveJson;
 import com.jeiglobal.hk.repository.diagnosis.AdjustmentRepository;
+import com.jeiglobal.hk.utils.CommonUtils;
 
 /**
  * 클래스명 : AdjustmentService.java
@@ -47,6 +51,13 @@ public class AdjustmentService {
 		param.put("chk", chk);
 
 		return adjustmentRepository.findAdjustmentJindoSetList(param);
+	}
+
+	public Map<String, String> addAdjustmentJindoBokSave(AdjustmentinputSaveJson bokInsert, HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		bokInsert.setWorkID(CommonUtils.getWorkId(request));
+		
+		return adjustmentRepository.findAdjustmentJindoBokSave(bokInsert);
 	}
 
 	
