@@ -7,9 +7,12 @@
 			<div class="selection_list pt20">
 				<p>Tuition</p>
 				<ul>
-					<li><span class="title line2">Month Fee</span> <span class="input_w">${feeUnitName?default('')} <input type="text" value="${monthFee?default('')}" class="searchInput" style="width:218px" readOnly /></span></li>
 					<#list memFeeInfoList as list>
-					<li><span class="title line2">Remaining Week${list.weekNum}</span> <span class="input_w">${list.feeUnitName} <input type="text" value="${list.sectionFee}" class="searchInput" style="width:218px" readOnly /></span></li>
+					<li><span class="title line2">Month Fee</span> <span class="input_w">${list.feeUnitName} <input type="text" value="${list.monthFee}" class="searchInput" style="width:218px" readOnly /></span></li>
+					<li><span class="title line2">Remaining Week1</span> <span class="input_w">${list.feeUnitName} <input type="text" value="${list.sectionFee1}" class="searchInput" style="width:218px" readOnly /></span></li>
+					<li><span class="title line2">Remaining Week2</span> <span class="input_w">${list.feeUnitName} <input type="text" value="${list.sectionFee2}" class="searchInput" style="width:218px" readOnly /></span></li>
+					<li><span class="title line2">Remaining Week3</span> <span class="input_w">${list.feeUnitName} <input type="text" value="${list.sectionFee3}" class="searchInput" style="width:218px" readOnly /></span></li>
+					<li><span class="title line2">Remaining Week4</span> <span class="input_w">${list.feeUnitName} <input type="text" value="${list.sectionFee4}" class="searchInput" style="width:218px" readOnly /></span></li>
 					</#list>
 				</ul>
 			</div>

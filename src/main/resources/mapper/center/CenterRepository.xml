@@ -30,7 +30,7 @@
 		SELECT jisaCD, deptType, memType, feeType
 		, 	CONCAT(deptType, ',', memType, ',', feeType) AS centerType
 		, 	CONCAT(FuncCodeDtlNM(jisaCD,'0300',deptType,'','') , ' + ', FuncCodeDtlNM(jisaCD,'0301',memType,'',''), ' + ', FuncCodeDtlNM(jisaCD,'0302',feeType,'','')) AS centerTypeName
-		FROM globalbiz.MemFeeInfo
+		FROM globalbiz.SubjTuitionInfo
 		WHERE jisaCD = #{jisaCD} 
 		GROUP BY deptType, memType, feeType;	
 	</select>
@@ -38,10 +38,7 @@
 		CALL globalbiz.SPCenterSave(#{jisaCD},#{deptCD},#{deptName},#{deptType}, #{memType}, #{feeType}, #{empFstName}, #{empLstName}
 		, #{addr}, #{zip}, #{city}, #{stateCD}, #{email}, #{phone}, #{fax}, #{contractTerm}, #{contractDate}, #{openDate}
 		, #{rtyType}, #{statusCD},#{workId})
-	</select>	
-	
-	
-	
+	</select>
 	<!-- 센터 상담 이력 -->
 	<select id="findCenterCommentCallsCount" parameterType="java.lang.String" resultType="int">
 		SELECT COUNT(1)
@@ -63,8 +60,6 @@
 			(callDate, callNotes, jisaCD, deptCD, regDate, regID)
 		VALUES (#{callDate}, #{callNotes}, #{jisaCD}, #{deptCD}, NOW(), #{regID});
 	</insert>
-	
-	
 	<!-- 사용자 -->
 	<select id="userList" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.center.UserList">
 		CALL globalbiz.SPUserList(#{jisaCD},#{deptCD});
