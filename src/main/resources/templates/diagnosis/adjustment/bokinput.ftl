@@ -38,7 +38,7 @@
 									<td>
 										<#if listIndex.juset1YN == "Y">
 											<span class="radio_wrap">
-												<input type="radio" value="wb" name="wb" id="wb1${listIndex_index }" onclick="javascript:$.getOnchangewk('${yy}','${mm}','1','${listIndex.juset1}','${jisaCD}','${subj}','${listIndex.jusetDung1}');" >
+												<input type="radio" value="wb" name="wb" id="wb1${listIndex_index }" onclick="javascript:$.getOnchangebokwk('${yy}','${mm}','1','${listIndex.juset1}','${jisaCD}','${subj}','${listIndex.jusetDung1}');" >
 												<label class="radio_label" for="wb1${listIndex_index }" > ${listIndex.juset1 }</label>
 											</span>
 										<#else>
@@ -48,7 +48,7 @@
 									<td>
 										<#if listIndex.juset2YN == "Y">
 											<span class="radio_wrap">
-												<input type="radio" value="wb" name="wb" id="wb2${listIndex_index }" onclick="javascript:$.getOnchangewk('${yy}','${mm}','2','${listIndex.juset2}','${jisaCD}','${subj}','${listIndex.jusetDung2}');" >
+												<input type="radio" value="wb" name="wb" id="wb2${listIndex_index }" onclick="javascript:$.getOnchangebokwk('${yy}','${mm}','2','${listIndex.juset2}','${jisaCD}','${subj}','${listIndex.jusetDung2}');" >
 												<label class="radio_label" for="wb2${listIndex_index }"> ${listIndex.juset2 }</label>
 											</span>
 										<#else>
@@ -58,7 +58,7 @@
 									<td>
 										<#if listIndex.juset3YN == "Y">
 											<span class="radio_wrap">
-												<input type="radio" value="wb" name="wb" id="wb3${listIndex_index }" onclick="javascript:$.getOnchangewk('${yy}','${mm}','3','${listIndex.juset3}','${jisaCD}','${subj}','${listIndex.jusetDung3}');" >
+												<input type="radio" value="wb" name="wb" id="wb3${listIndex_index }" onclick="javascript:$.getOnchangebokwk('${yy}','${mm}','3','${listIndex.juset3}','${jisaCD}','${subj}','${listIndex.jusetDung3}');" >
 												<label class="radio_label" for="wb3${listIndex_index }"> ${listIndex.juset3 }</label>
 											</span>
 										<#else>
@@ -68,7 +68,7 @@
 									<td>
 										<#if listIndex.juset4YN == "Y">
 											<span class="radio_wrap">
-												<input type="radio" value="wb" name="wb" id="wb4${listIndex_index }" onclick="javascript:$.getOnchangewk('${yy}','${mm}','4','${listIndex.juset4}','${jisaCD}','${subj}','${listIndex.jusetDung4}');" >
+												<input type="radio" value="wb" name="wb" id="wb4${listIndex_index }" onclick="javascript:$.getOnchangebokwk('${yy}','${mm}','4','${listIndex.juset4}','${jisaCD}','${subj}','${listIndex.jusetDung4}');" >
 												<label class="radio_label" for="wb4${listIndex_index }"> ${listIndex.juset4 }</label>
 											</span>
 										<#else>
@@ -78,7 +78,7 @@
 									<td>
 										<#if listIndex.juset5YN == "Y">
 											<span class="radio_wrap">
-												<input type="radio" value="wb" name="wb" id="wb5${listIndex_index }" onclick="javascript:$.getOnchangewk('${yy}','${mm}','5','${listIndex.juset5}','${jisaCD}','${subj}','${listIndex.jusetDung5}');" >
+												<input type="radio" value="wb" name="wb" id="wb5${listIndex_index }" onclick="javascript:$.getOnchangebokwk('${yy}','${mm}','5','${listIndex.juset5}','${jisaCD}','${subj}','${listIndex.jusetDung5}');" >
 												<label class="radio_label" for="wb5${listIndex_index }"> ${listIndex.juset5 }</label>
 											</span>
 										<#else>
@@ -103,7 +103,7 @@
 							<label class="radio_label" for="bokB" > 범위복습</label>
 						</span>
 						<input type="text" class="searchInput" style="width:88px" id="setB1" readonly> ~ 
-						<input type="text" class="searchInput" style="width:88px" id="setB2" readonly>
+						<input type="text" class="searchInput" style="width:88px" id="setB3" readonly>
 					</li>
 					<li>
 						<span class="radio_wrap">
@@ -123,8 +123,20 @@
 					
 				</div>
 			</div>
+
+			<input type="hidden" id="jisaCD" value="${jisaCD }">
+			<input type="hidden" id="memKey" value="${memKey }">
+			<input type="hidden" id="subj" value="${subj }">
+			<input type="hidden" id="yoil" value="${yoil }">
+			<input type="hidden" id="set1" value="">
+			<input type="hidden" id="set2" value="">
+			<input type="hidden" id="set3" value="">
+			<input type="hidden" id="set4" value="">
+			<input type="hidden" id="set5" value="">
+			
+			
 			<div class="btnArea">
-				<a href="#"><span>Save</span></a>
+				<a href="javascript:$.getBokSave();"><span>Save</span></a>
 				<a href="#"><span>Cancel</span></a>
 			</div>
 		</div>

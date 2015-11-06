@@ -1,15 +1,21 @@
 package com.jeiglobal.hk.controller.diagnosis;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto;
 import com.jeiglobal.hk.service.CommonService;
@@ -32,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class AdjustmentController {
 
+	
 	@Autowired
 	private AdjustmentService adjustmentService;
 	
@@ -41,9 +48,9 @@ public class AdjustmentController {
 	@Autowired
 	private MessageSourceAccessor messageSourceAccesor;
 	
-	// 처방 조회
+	// 진도조정
 	@RequestMapping(value={"/fa/diagnosis/adjustmentinput"}, method={RequestMethod.GET,RequestMethod.HEAD})
-	public String adjustmentinput(Model model, String jisaCD, String memKey, String subj) {
+	public String adjustmentinput(Model model, String jisaCD, String memKey, String subj, String yoil) {
 		
 		log.debug("Getting adjustment input");
 		//header에 포함할 스크립트 
@@ -64,14 +71,14 @@ public class AdjustmentController {
 		
 		
 		
-		
-		
 		// 진도 조정 세트 주차  리스트 
 		List<AdjustmentDto.AdjustmentList> adjustmentList = adjustmentService.getAdjustmentList(jisaCD, memKey, subj, ayy, amm, byy, bmm);
 		
 		
-		model.addAttribute("jisaCD", jisaCD);	
-		model.addAttribute("subj", subj);	
+		model.addAttribute("jisaCD", jisaCD);
+		model.addAttribute("memKey", memKey);
+		model.addAttribute("subj", subj);
+		model.addAttribute("yoil", yoil);
 		model.addAttribute("adjustmentList", adjustmentList);		
 		
 		return "diagnosis/adjustment/bokinput";
@@ -103,6 +110,24 @@ public class AdjustmentController {
 		
 		return "diagnosis/adjustment/bokinputJson";
 		
+	}
+	
+	// 진도조정 SAVE	
+	@RequestMapping(value={"/fa/diagnosis/adjustmentinputSaveJson"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> adjustmentinputSaveJson(Model model,AdjustmentDto.AdjustmentinputSaveJson bokInsert, HttpServletRequest request ) throws ParseException {
+		
+		
+		
+		adjustmentService.addAdjustmentJindoBokSave(bokInsert, request);
+		
+		String alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.Bokchange.success"); // 진도조정 성공
+	
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("alertMsg", alertMsg);
+		
+		
+		return map;
 	}
 }
 
