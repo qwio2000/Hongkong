@@ -413,9 +413,9 @@ public class CenterController {
 		String rerult = centerService.getCenterSave(loginInfo.getJisaCD(), deptCD, deptName, deptType, memType, feeType, empFstName, empLstName,addr, zip, city, stateCD, email, phone, fax, contractTerm, contractDate, openDate, rtyType, statusCD, workId);
 		String msgCode = "";
 		if("N1".equals(rerult)){
-			msgCode = "user.save.error.n1";
+			msgCode = "center.save.error.n1";
 		}else if("N2".equals(rerult)){
-			msgCode = "user.save.error.n2";
+			msgCode = "center.save.error.n2";
 		}else{
 			msgCode = "common.save.success";
 		}
