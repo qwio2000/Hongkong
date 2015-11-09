@@ -1,4 +1,4 @@
-<#include "/include/header.ftl">
+<#include "/include/popupheader.ftl">
 <!-- Main Content -->
 <div class="content">
 		<h2 class="conTit">Adjustment</h2>
@@ -148,4 +148,4 @@
 
 
 <!--// Main Content -->
-<#include "/include/footer.ftl">
+<#include "/include/popupfooter.ftl">
