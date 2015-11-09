@@ -134,7 +134,6 @@ $(function(){
 		}
 	});
 	$("#preferredYMDPicker, #preferredYMD").click(function(){
-		var date = null;
 		var birthDay = $('#preferredYMD').val();
 		var dataSplit = birthDay.split("/");
 		var yy = dataSplit[2];
