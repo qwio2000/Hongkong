@@ -436,8 +436,8 @@ function freeDiagOtherSubj(){
 	}else{
 		freeJindan = 'A';
 	}
-	self.close();
-	$.openPop('/fa/diagnosis/ippr?memKey='+key+'&subj='+subj+'&freejindan='+freeJindan, 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
+	window.resizeTo(1024, 900);
+	location.href='/fa/diagnosis/ippr?memKey='+key+'&subj='+subj+'&freejindan='+freeJindan;
 }
 
 function openAdjustment(jisaCD, memKey, yoil, subj){
