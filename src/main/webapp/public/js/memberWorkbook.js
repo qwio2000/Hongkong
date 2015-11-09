@@ -84,3 +84,7 @@ $(function(){
 function addMPR(subj, memKey, mFstName, mLstName, yy, mm){
 	$.openPop("/fa/diagnosis/interimMpi?jisaCD="+jisaCD+"&deptCD="+deptCD+"&subj="+subj+"&memKey="+memKey+"&mfstname="+mFstName+"&mlstname="+mLstName+"&yy="+yy+"&mm="+mm, "MPRInput", "width=1024,height=800,left=300,scrollbars=yes,resizable=yes");
 }
+
+function openAdjustment(jisaCD, memKey, yoil, subj){
+	$.openPop('/fa/diagnosis/adjustmentinput?jisaCD='+jisaCD+'&memKey='+memKey+'&yoil='+yoil+'&subj='+subj, 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
+}

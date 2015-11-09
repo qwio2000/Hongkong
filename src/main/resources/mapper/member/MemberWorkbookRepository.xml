@@ -29,7 +29,7 @@
 		LIMIT #{startRow}, #{rowBlockSize}
 	</select>
 	<select id="findMemberWorkbookSubjInfo" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberWorkbookSubjInfo">
-		SELECT a.memKey, a.subj, b.yoil, globalbiz.FuncCodeDtlNM(a.jisaCD, '0006', b.yoil, 'K', 'Y') AS yoilName, b.visitHours, globalbiz.FuncCodeDtlNM(a.jisaCD, '0206', b.visitHours, '', 'Y') AS visitHoursName,
+		SELECT a.memKey, a.subj, a.jisaCD, b.yoil, globalbiz.FuncCodeDtlNM(a.jisaCD, '0006', b.yoil, 'K', 'Y') AS yoilName, b.visitHours, globalbiz.FuncCodeDtlNM(a.jisaCD, '0206', b.visitHours, '', 'Y') AS visitHoursName,
 			globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set1}, '1') AS set1,  globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set1}, '2') AS setWbOutYMD1,
 			SUBSTRING(#{weekMap.set1}, 1, 4) AS yy1, SUBSTRING(#{weekMap.set1}, 5, 2) AS mm1,
 			globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set2}, '1') AS set2,  globalbiz.FuncMemberProgressGet(a.memKey, a.subj, #{weekMap.set2}, '2') AS setWbOutYMD2,

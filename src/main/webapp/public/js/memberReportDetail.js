@@ -439,3 +439,7 @@ function freeDiagOtherSubj(){
 	self.close();
 	$.openPop('/fa/diagnosis/ippr?memKey='+key+'&subj='+subj+'&freejindan='+freeJindan, 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
 }
+
+function openAdjustment(jisaCD, memKey, yoil, subj){
+	$.openPop('/fa/diagnosis/adjustmentinput?jisaCD='+jisaCD+'&memKey='+memKey+'&yoil='+yoil+'&subj='+subj, 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
+}

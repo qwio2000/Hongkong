@@ -271,6 +271,7 @@ public class MemberDto {
 	public static class MemberWorkbookSubjInfo{
 		private String memKey;
 		private String subj;
+		private String jisaCD;
 		private String yoil;
 		private String yoilName;
 		private String visitHours;

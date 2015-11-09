@@ -39,7 +39,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			setLoginFormPath("/login");
 		}
 		String url = globalbmsUrl + loginFormPath;
-		System.out.println("URL : "+UrlUtils.buildRequestUrl(request));
 		String encodedUrl = response.encodeRedirectURL(UrlUtils.buildRequestUrl(request));
 		String testEncode = URLEncoder.encode(URLEncoder.encode(UrlUtils.buildRequestUrl(request), "UTF-8"), "UTF-8");
 		if(!"/".equals(encodedUrl)){
