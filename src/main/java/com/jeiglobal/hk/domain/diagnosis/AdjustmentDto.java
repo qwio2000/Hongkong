@@ -60,6 +60,7 @@ public class AdjustmentDto {
 	
 	@Data
 	public static class AdjustmentinputSaveJson{
+		private String jindoGubun;
 		private String jisaCD;
 		private String memKey;	
 		private String subj;		
@@ -75,4 +76,11 @@ public class AdjustmentDto {
 		private String set5;		
 		private String workID;	
 	}	
+	
+	@Data
+	public static class AdjustmentJindoChk{
+		private String bulsayu;
+		private String msgchk;
+		private String nosayu;
+	}
 }

@@ -12,9 +12,20 @@
 	</select>
 	
 	<!-- 복습 진도 저장 -->
+	<select id="findAdjustmentJindoChk" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.AdjustmentDto$AdjustmentJindoChk">
+			CALL globalbiz.SPAdjustmentJindoChk(#{jisaCD},#{memKey},#{subj},#{bokGubun},#{set1},#{set3});
+	</select>
+	
+	<!-- 진도 복습 저장 -->
 	<select id="findAdjustmentJindoBokSave" statementType="CALLABLE" parameterType="com.jeiglobal.hk.domain.diagnosis.AdjustmentDto$AdjustmentinputSaveJson" resultType="hashMap">	
 			CALL globalbiz.SPAdjustmentJindoBokSave(#{jisaCD},#{memKey},#{subj},#{yy},#{mm},#{wk},#{yoil},#{bokGubun},#{set1},#{set2},#{set3},#{set4},#{set5},#{workID})						
 	</select>
+	
+	<!-- 진도 당김 저장 -->
+	<select id="findAdjustmentJindoDangSave" statementType="CALLABLE" parameterType="com.jeiglobal.hk.domain.diagnosis.AdjustmentDto$AdjustmentinputSaveJson" resultType="hashMap">	
+			CALL globalbiz.SPAdjustmentJindoDangSave(#{jisaCD},#{memKey},#{subj},#{yy},#{mm},#{wk},#{yoil},#{bokGubun},#{set1},#{set2},#{set3},#{set4},#{set5},#{workID})						
+	</select>
+	
 	
 	
 	

@@ -24,6 +24,13 @@ $(function(){
 				,async: false
 			});	
 		},
+		getOnchangedangwk:function(yy,mm,wk,set,jisaCD,subj,dung){   //진도조정 당김
+			$("#pYear").val(yy);
+			$("#pMonth").val(mm);
+			$("#pWeek").val(wk);
+			$("#pSet").val(set);
+			
+		},
 		getSetban:function(defaultset,choiceset){   //세트 반영			
 			if (defaultset <= choiceset){				
 				alert($("#alertMsg1").val()); //'해당주차의 세트와 같거나 큰 세트 입니다. 다시 선택하세요'
@@ -69,8 +76,9 @@ $(function(){
 		
 			
 		},
-		getBokSave:function(){   //진도 복습 저장
+		getJindoSave:function(){   //진도 조정 저장
 			$(".btnArea").css("display","none")
+			var jindoGubun = $("#jindoGubun").val();
 			var jisaCD = $("#jisaCD").val();
 			var memKey = $("#memKey").val();
 			var subj = $("#subj").val();
@@ -86,7 +94,7 @@ $(function(){
 			var set5 = $("#set5").val();	
 			
 			var searchUrl = "/fa/diagnosis/adjustmentinputSaveJson";			
-			var paramData = {"jisaCD":jisaCD, "memKey":memKey, "subj":subj, "yy":yy, "mm":mm, "wk":wk, "yoil":yoil
+			var paramData = {"jindoGubun":jindoGubun, "jisaCD":jisaCD, "memKey":memKey, "subj":subj, "yy":yy, "mm":mm, "wk":wk, "yoil":yoil
 					, "bokGubun":bokGubun, "set1":set1, "set2":set2, "set3":set3, "set4":set4, "set5":set5};			
 	
 			$.ajax({
@@ -96,7 +104,8 @@ $(function(){
 				data: paramData,
 				dataType: "JSON",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
-					alert(jsonData.alertMsg)
+					alert(jsonData.alertMsg);
+					self.close();
 					
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
@@ -120,10 +129,12 @@ $(function(){
 			$("#set4").val("");
 			$("#set5").val("");			
 		}
-		
-		
 	
+	});	
 	
+	$("#jindoGubun").change(function() {
+		document.location.href = "/fa/diagnosis/adjustmentinput?jisaCD="+$("#jisaCD").val()+"&memKey="+$("#memKey").val()+"&yoil="+$("#yoil").val()+"&subj="+$("#subj").val()+"&jindoGubun="+$("#jindoGubun").val()+"";
 	});
-	
 });
+
+
