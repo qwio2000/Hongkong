@@ -4,8 +4,8 @@
 		<h2 class="conTit">Adjustment</h2>
 		<div class="list02 pt20">
 			<select name="jindoGubun" id="jindoGubun" style="width:365px">
-				<option value="40" selected>Review</option>
-				<option value="41">Skip week</option>
+				<option value="40">Review</option>
+				<option value="41" selected>Skip week</option>
 			</select>
 		</div>
 		<div class="clearfix mb60">
@@ -38,7 +38,7 @@
 									<td>
 										<#if listIndex.juset1YN == "Y">
 											<span class="radio_wrap">
-												<input type="radio" value="wb" name="wb" id="wb1${listIndex_index }" onclick="javascript:$.getOnchangebokwk('${yy}','${mm}','1','${listIndex.juset1}','${jisaCD}','${subj}','${listIndex.jusetDung1}');" >
+												<input type="radio" value="wb" name="wb" id="wb1${listIndex_index }" onclick="javascript:$.getOnchangedangwk('${yy}','${mm}','1','${listIndex.juset1}','${jisaCD}','${subj}','${listIndex.jusetDung1}');" >
 												<label class="radio_label" for="wb1${listIndex_index }" > ${listIndex.juset1 }</label>
 											</span>
 										<#else>
@@ -48,7 +48,7 @@
 									<td>
 										<#if listIndex.juset2YN == "Y">
 											<span class="radio_wrap">
-												<input type="radio" value="wb" name="wb" id="wb2${listIndex_index }" onclick="javascript:$.getOnchangebokwk('${yy}','${mm}','2','${listIndex.juset2}','${jisaCD}','${subj}','${listIndex.jusetDung2}');" >
+												<input type="radio" value="wb" name="wb" id="wb2${listIndex_index }" onclick="javascript:$.getOnchangedangwk('${yy}','${mm}','2','${listIndex.juset2}','${jisaCD}','${subj}','${listIndex.jusetDung2}');" >
 												<label class="radio_label" for="wb2${listIndex_index }"> ${listIndex.juset2 }</label>
 											</span>
 										<#else>
@@ -58,7 +58,7 @@
 									<td>
 										<#if listIndex.juset3YN == "Y">
 											<span class="radio_wrap">
-												<input type="radio" value="wb" name="wb" id="wb3${listIndex_index }" onclick="javascript:$.getOnchangebokwk('${yy}','${mm}','3','${listIndex.juset3}','${jisaCD}','${subj}','${listIndex.jusetDung3}');" >
+												<input type="radio" value="wb" name="wb" id="wb3${listIndex_index }" onclick="javascript:$.getOnchangedangwk('${yy}','${mm}','3','${listIndex.juset3}','${jisaCD}','${subj}','${listIndex.jusetDung3}');" >
 												<label class="radio_label" for="wb3${listIndex_index }"> ${listIndex.juset3 }</label>
 											</span>
 										<#else>
@@ -68,7 +68,7 @@
 									<td>
 										<#if listIndex.juset4YN == "Y">
 											<span class="radio_wrap">
-												<input type="radio" value="wb" name="wb" id="wb4${listIndex_index }" onclick="javascript:$.getOnchangebokwk('${yy}','${mm}','4','${listIndex.juset4}','${jisaCD}','${subj}','${listIndex.jusetDung4}');" >
+												<input type="radio" value="wb" name="wb" id="wb4${listIndex_index }" onclick="javascript:$.getOnchangedangwk('${yy}','${mm}','4','${listIndex.juset4}','${jisaCD}','${subj}','${listIndex.jusetDung4}');" >
 												<label class="radio_label" for="wb4${listIndex_index }"> ${listIndex.juset4 }</label>
 											</span>
 										<#else>
@@ -78,7 +78,7 @@
 									<td>
 										<#if listIndex.juset5YN == "Y">
 											<span class="radio_wrap">
-												<input type="radio" value="wb" name="wb" id="wb5${listIndex_index }" onclick="javascript:$.getOnchangebokwk('${yy}','${mm}','5','${listIndex.juset5}','${jisaCD}','${subj}','${listIndex.jusetDung5}');" >
+												<input type="radio" value="wb" name="wb" id="wb5${listIndex_index }" onclick="javascript:$.getOnchangedangwk('${yy}','${mm}','5','${listIndex.juset5}','${jisaCD}','${subj}','${listIndex.jusetDung5}');" >
 												<label class="radio_label" for="wb5${listIndex_index }"> ${listIndex.juset5 }</label>
 											</span>
 										<#else>
@@ -97,32 +97,9 @@
 						<input type="text" class="searchInput" style="width:100px" id='pWeek' readonly> &nbsp; Week &nbsp;
 						<input type="text" class="searchInput" style="width:100px" id='pSet' readonly> &nbsp; Set &nbsp;
 					</li>
-					<li>
-						<span class="radio_wrap">
-							<input type="radio" value="B" name="bokGubun" id="bokB" onClick="javascript:$.getRefreshSet();" >
-							<label class="radio_label" for="bokB" > 범위복습</label>
-						</span>
-						<input type="text" class="searchInput" style="width:88px" id="setB1" readonly> ~ 
-						<input type="text" class="searchInput" style="width:88px" id="setB3" readonly>
-					</li>
-					<li>
-						<span class="radio_wrap">
-							<input type="radio" value="S" name="bokGubun" id="bokS" onClick="javascript:$.getRefreshSet();"  checked>
-							<label class="radio_label" for="bokS" > 선택복습</label>
-						</span>
-						<input type="text" class="searchInput" style="width:78px" id="setS1" readonly> , 
-						<input type="text" class="searchInput" style="width:78px" id="setS2" readonly> , 
-						<input type="text" class="searchInput" style="width:78px" id="setS3" readonly> , 
-						<input type="text" class="searchInput" style="width:78px" id="setS4" readonly> , 
-						<input type="text" class="searchInput" style="width:78px" id="setS5" readonly> 
-					</li>
 				</ul>
 			</div>
-			<div class="conRight2">
-				<div class="lank_list" id="listSet" >
-					
-				</div>
-			</div>
+			
 
 			<input type="hidden" id="jisaCD" value="${jisaCD }">
 			<input type="hidden" id="memKey" value="${memKey }">

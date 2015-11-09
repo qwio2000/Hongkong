@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto;
+import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto.AdjustmentJindoChk;
 import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto.AdjustmentinputSaveJson;
 import com.jeiglobal.hk.repository.diagnosis.AdjustmentRepository;
 import com.jeiglobal.hk.utils.CommonUtils;
@@ -59,6 +60,28 @@ public class AdjustmentService {
 		
 		return adjustmentRepository.findAdjustmentJindoBokSave(bokInsert);
 	}
+	
+	public Map<String, String> addAdjustmentJindoDangSave(AdjustmentinputSaveJson bokInsert, HttpServletRequest request) {
+		bokInsert.setWorkID(CommonUtils.getWorkId(request));	
+		
+		return adjustmentRepository.findAdjustmentJindoDangSave(bokInsert);
+		
+	}
+
+
+	public AdjustmentJindoChk addAdjustmentJindoChk(String jisaCD, String memKey, String subj, String bokGubun,
+			String set1, String set3) {
+		param.put("jisaCD", jisaCD);		
+		param.put("memKey", memKey);
+		param.put("subj", subj);
+		param.put("bokGubun", bokGubun);
+		param.put("set1", set1);
+		param.put("set3", set3);
+
+		return adjustmentRepository.findAdjustmentJindoChk(param);
+	}
+
+	
 
 	
 

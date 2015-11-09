@@ -50,7 +50,7 @@ public class AdjustmentController {
 	
 	// 진도조정
 	@RequestMapping(value={"/fa/diagnosis/adjustmentinput"}, method={RequestMethod.GET,RequestMethod.HEAD})
-	public String adjustmentinput(Model model, String jisaCD, String memKey, String subj, String yoil) {
+	public String adjustmentinput(Model model, String jisaCD, String memKey, String subj, String yoil, String jindoGubun) {
 		
 		log.debug("Getting adjustment input");
 		//header에 포함할 스크립트 
@@ -58,6 +58,37 @@ public class AdjustmentController {
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("diagnosisAdjustment");		
 		model.addAttribute("headerScript", headerScript);	
+		
+		
+		if(("").equals(jindoGubun) || jindoGubun == null){
+			jindoGubun = "40";
+		}
+	
+		// 진도 조정 체크
+		/*String alertMsg = "";
+		AdjustmentDto.AdjustmentJindoChk jindoChk = adjustmentService.addAdjustmentJindoChk(jisaCD,memKey,subj,jindoGubun,"","");		
+		if(("N").equals(jindoChk.getMsgchk())){
+			if(("1").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error1"); // 유지 회원만 가능합니다.
+			}else if(("2").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error2"); // 진단 후 진도 조정이 가능합니다.
+			}else if(("3").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error3"); // [진도 당김]을 할 수 없습니다.\n 입.복회일로부터 3주 이내만 가능합니다.
+			}else if(("4").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error4"); // 진도조정 하루에 한번만 가능
+			}else if(("5").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error5"); // 복습은 월 2회까지만 가능합니다.이번달에 이미 진도조정(복습)을 두번 하셨습니다!
+			}else if(("6").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error6"); // 당김은 월 1회까지만 가능합니다.이번달에 이미 진도조정을 하셨습니다!
+			}else if(("7").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error7"); // 복습 세트수가 45세트를 넘었습니다.
+			}else if(("8").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error8"); //복습 세트수가 15세트를 넘었습니다.
+			}
+			model.addAttribute("message",alertMsg);
+			model.addAttribute("mode", "close");
+			return "alertAndRedirect";		
+		}*/
 		
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat nowAyy = new SimpleDateFormat("yyyy");
@@ -69,8 +100,6 @@ public class AdjustmentController {
 		String byy = nowAyy.format(cal.getTime());
 		String bmm = nowAmm.format(cal.getTime());
 		
-		
-		
 		// 진도 조정 세트 주차  리스트 
 		List<AdjustmentDto.AdjustmentList> adjustmentList = adjustmentService.getAdjustmentList(jisaCD, memKey, subj, ayy, amm, byy, bmm);
 		
@@ -80,8 +109,12 @@ public class AdjustmentController {
 		model.addAttribute("subj", subj);
 		model.addAttribute("yoil", yoil);
 		model.addAttribute("adjustmentList", adjustmentList);		
+		if(("41").equals(jindoGubun)){
+			return "diagnosis/adjustment/danginput";
+		}else{
+			return "diagnosis/adjustment/bokinput";
+		}
 		
-		return "diagnosis/adjustment/bokinput";
 	}
 	
 	@RequestMapping(value={"/fa/diagnosis/adjustmentinputJson"}, method={RequestMethod.GET,RequestMethod.HEAD})
@@ -108,24 +141,58 @@ public class AdjustmentController {
 		model.addAttribute("dung2", adjustmentJindoSetList2);	
 		model.addAttribute("dung3", adjustmentJindoSetList3);	
 		
+		
 		return "diagnosis/adjustment/bokinputJson";
 		
 	}
 	
-	// 진도조정 SAVE	
+	// 진도 조정 SAVE	
 	@RequestMapping(value={"/fa/diagnosis/adjustmentinputSaveJson"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> adjustmentinputSaveJson(Model model,AdjustmentDto.AdjustmentinputSaveJson bokInsert, HttpServletRequest request ) throws ParseException {
 		
+		String alertMsg = "";
 		
+		// 진도 조정 체크
+		AdjustmentDto.AdjustmentJindoChk  jindoChk = adjustmentService.addAdjustmentJindoChk(bokInsert.getJisaCD(),bokInsert.getMemKey(),bokInsert.getSubj(),bokInsert.getBokGubun(),bokInsert.getSet1(),bokInsert.getSet3());		
 		
-		adjustmentService.addAdjustmentJindoBokSave(bokInsert, request);
-		
-		String alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.Bokchange.success"); // 진도조정 성공
-	
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("alertMsg", alertMsg);
 		
+		
+		if(("Y").equals(jindoChk.getMsgchk())){
+			if(("41").equals(bokInsert.getJindoGubun())){
+				// 진도당김 저장
+				adjustmentService.addAdjustmentJindoDangSave(bokInsert, request);			
+				
+			}else{
+				// 진도복습
+				adjustmentService.addAdjustmentJindoBokSave(bokInsert, request);			
+				
+			}
+			alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.success"); // 진도조정 성공	
+			
+			
+		}else{
+			if(("1").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error1"); // 유지 회원만 가능합니다.
+			}else if(("2").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error2"); // 진단 후 진도 조정이 가능합니다.
+			}else if(("3").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error3"); // [진도 당김]을 할 수 없습니다.\n 입.복회일로부터 3주 이내만 가능합니다.
+			}else if(("4").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error4"); // 진도조정 하루에 한번만 가능
+			}else if(("5").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error5"); // 복습은 월 2회까지만 가능합니다.이번달에 이미 진도조정(복습)을 두번 하셨습니다!
+			}else if(("6").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error6"); // 당김은 월 1회까지만 가능합니다.이번달에 이미 진도조정을 하셨습니다!
+			}else if(("7").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error7"); // 복습 세트수가 45세트를 넘었습니다.
+			}else if(("8").equals(jindoChk.getNosayu())){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error8"); //복습 세트수가 15세트를 넘었습니다.
+			}
+		}
+
+		map.put("alertMsg", alertMsg);
 		
 		return map;
 	}
