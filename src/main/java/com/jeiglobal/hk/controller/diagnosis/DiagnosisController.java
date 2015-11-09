@@ -245,6 +245,15 @@ public class DiagnosisController {
 			}
 		}
 		
+		String OmrKind = "";
+		if(testType == ""){
+			OmrKind = "1";
+		}else{
+			OmrKind = testType;
+		}
+			
+		System.out.println(testType);
+		
 		model.addAttribute("omrdate", omrdate);  //처방일자		
 		model.addAttribute("memKey", memKey);	//회원번호
 		model.addAttribute("empKey", empKey);    //원장번호
@@ -254,7 +263,7 @@ public class DiagnosisController {
 		model.addAttribute("leveldung", leveldung);
 		model.addAttribute("gradeCD", gradeCD);
 		model.addAttribute("mBirthDay", mBirthDay);
-		model.addAttribute("OmrKind", testType);
+		model.addAttribute("OmrKind", OmrKind);
 		model.addAttribute("studyNum", studyNum);
 		model.addAttribute("bookNum", bookNum);
 		model.addAttribute("deptCd", deptCd);   
@@ -266,7 +275,7 @@ public class DiagnosisController {
 		model.addAttribute("subjname", subj);
 		model.addAttribute("leveldung", leveldung);
 		model.addAttribute("inputdate", inputdate);
-		model.addAttribute("testType", testType);
+		model.addAttribute("testType", OmrKind);
 		model.addAttribute("readchk", readchk);
 		model.addAttribute("nomr", nomr);
 		model.addAttribute("freejindan", freejindan);

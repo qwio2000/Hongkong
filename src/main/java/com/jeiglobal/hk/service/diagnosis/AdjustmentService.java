@@ -14,6 +14,7 @@ import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto.AdjustmentJindoChk;
 import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto.AdjustmentinputSaveJson;
 import com.jeiglobal.hk.repository.diagnosis.AdjustmentRepository;
 import com.jeiglobal.hk.utils.CommonUtils;
+import com.jeiglobal.hk.utils.MessageSourceAccessor;
 
 /**
  * 클래스명 : AdjustmentService.java
@@ -30,6 +31,9 @@ public class AdjustmentService {
 	
 	@Autowired
 	private AdjustmentRepository adjustmentRepository;
+	
+	@Autowired
+	private MessageSourceAccessor messageSourceAccesor;
 
 	Map<String, Object> param = new HashMap<>();
 	
@@ -82,6 +86,28 @@ public class AdjustmentService {
 	}
 
 	
+	
+	public String jindochk(AdjustmentDto.AdjustmentJindoChk jindoChk) {
+		String alertMsg = "";
+		if(("1").equals(jindoChk.getNosayu())){
+			alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error1"); // 유지 회원만 가능합니다.
+		}else if(("2").equals(jindoChk.getNosayu())){
+			alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error2"); // 진단 후 진도 조정이 가능합니다.
+		}else if(("3").equals(jindoChk.getNosayu())){
+			alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error3"); // [진도 당김]을 할 수 없습니다.\n 입.복회일로부터 3주 이내만 가능합니다.
+		}else if(("4").equals(jindoChk.getNosayu())){
+			alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error4"); // 진도조정 하루에 한번만 가능
+		}else if(("5").equals(jindoChk.getNosayu())){
+			alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error5"); // 복습은 월 2회까지만 가능합니다.이번달에 이미 진도조정(복습)을 두번 하셨습니다!
+		}else if(("6").equals(jindoChk.getNosayu())){
+			alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error6"); // 당김은 월 1회까지만 가능합니다.이번달에 이미 진도조정을 하셨습니다!
+		}else if(("7").equals(jindoChk.getNosayu())){
+			alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error7"); // 복습 세트수가 45세트를 넘었습니다.
+		}else if(("8").equals(jindoChk.getNosayu())){
+			alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error8"); //복습 세트수가 15세트를 넘었습니다.
+		}
+		return alertMsg;
+	}
 
 	
 

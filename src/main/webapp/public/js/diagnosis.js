@@ -295,6 +295,7 @@ $(function(){
 			var paramData = {"jisaCD":jisaCD, "omrDate":OmrDate, "hkey":Hkey, "kwamok":Kwamok, "rw":Rw, "nOmr":NOmr, "omrGrd":OmrGrd, "omrHak":OmrHak
 			, "omrKind":OmrKind, "omrDay1":OmrDay1, "omrBirth":OmrBirth, "omrSetCnt":OmrSetCnt, "omrWeekCnt":OmrWeekCnt, "omrDay2":OmrDay2, "workID":WorkID, "freejindan":freejindan};
 			
+			
 				
 				 $.ajax({
 					url:searchUrl,
@@ -307,6 +308,10 @@ $(function(){
 						alert(jsonData.alertMsg);
 						
 						self.close();
+						
+						if(freejindan = "A"){
+							opener.location.href="/fa/members/reports/"+$("#Hkey").val()							
+						}
 						
 						$.openIpprPost(jisaCD,OmrDate, Hkey, mujin, Kwamok, Kwamok.substring(0,1), 'Y', 'IpprPageSub');
 						

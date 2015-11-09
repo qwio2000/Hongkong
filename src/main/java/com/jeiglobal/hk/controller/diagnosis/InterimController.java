@@ -63,7 +63,7 @@ public class InterimController {
 		
 		
 		String[]  noArrer = new String[18];
-		System.out.println( CommonUtils.LeftString(subj,1) );
+		
 		if( ("M").equals(CommonUtils.RightString(subj,1))) { 
 			if(("E").equals(CommonUtils.LeftString(subj,1))){
 				noArrer[0] = "A"; noArrer[1] = "B"; noArrer[2] = "C"; noArrer[3] = "D"; noArrer[4] = "E";

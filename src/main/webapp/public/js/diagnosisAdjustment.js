@@ -95,8 +95,8 @@ $(function(){
 			
 			var searchUrl = "/fa/diagnosis/adjustmentinputSaveJson";			
 			var paramData = {"jindoGubun":jindoGubun, "jisaCD":jisaCD, "memKey":memKey, "subj":subj, "yy":yy, "mm":mm, "wk":wk, "yoil":yoil
-					, "bokGubun":bokGubun, "set1":set1, "set2":set2, "set3":set3, "set4":set4, "set5":set5};			
-	
+					, "bokGubun":bokGubun, "set1":set1, "set2":set2, "set3":set3, "set4":set4, "set5":set5};		
+
 			$.ajax({
 				url:searchUrl,
 				type:"GET",
@@ -105,7 +105,11 @@ $(function(){
 				dataType: "JSON",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
 					alert(jsonData.alertMsg);
-					self.close();
+					if(jsonData.chkMsg=="N"){
+						$(".btnArea").css("display","")
+					}else{
+						self.close();
+					}
 					
 				},
 				error:function (xhr, ajaxOptions, thrownError){	

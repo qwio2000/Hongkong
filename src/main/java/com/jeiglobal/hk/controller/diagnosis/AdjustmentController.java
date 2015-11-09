@@ -65,30 +65,15 @@ public class AdjustmentController {
 		}
 	
 		// 진도 조정 체크
-		/*String alertMsg = "";
-		AdjustmentDto.AdjustmentJindoChk jindoChk = adjustmentService.addAdjustmentJindoChk(jisaCD,memKey,subj,jindoGubun,"","");		
+		String alertMsg = "";
+		AdjustmentDto.AdjustmentJindoChk jindoChk = adjustmentService.addAdjustmentJindoChk(jisaCD,memKey,subj,jindoGubun,"","");	
+		
 		if(("N").equals(jindoChk.getMsgchk())){
-			if(("1").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error1"); // 유지 회원만 가능합니다.
-			}else if(("2").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error2"); // 진단 후 진도 조정이 가능합니다.
-			}else if(("3").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error3"); // [진도 당김]을 할 수 없습니다.\n 입.복회일로부터 3주 이내만 가능합니다.
-			}else if(("4").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error4"); // 진도조정 하루에 한번만 가능
-			}else if(("5").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error5"); // 복습은 월 2회까지만 가능합니다.이번달에 이미 진도조정(복습)을 두번 하셨습니다!
-			}else if(("6").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error6"); // 당김은 월 1회까지만 가능합니다.이번달에 이미 진도조정을 하셨습니다!
-			}else if(("7").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error7"); // 복습 세트수가 45세트를 넘었습니다.
-			}else if(("8").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error8"); //복습 세트수가 15세트를 넘었습니다.
-			}
+			alertMsg = adjustmentService.jindochk(jindoChk);
 			model.addAttribute("message",alertMsg);
 			model.addAttribute("mode", "close");
 			return "alertAndRedirect";		
-		}*/
+		}
 		
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat nowAyy = new SimpleDateFormat("yyyy");
@@ -102,7 +87,6 @@ public class AdjustmentController {
 		
 		// 진도 조정 세트 주차  리스트 
 		List<AdjustmentDto.AdjustmentList> adjustmentList = adjustmentService.getAdjustmentList(jisaCD, memKey, subj, ayy, amm, byy, bmm);
-		
 		
 		model.addAttribute("jisaCD", jisaCD);
 		model.addAttribute("memKey", memKey);
@@ -158,43 +142,33 @@ public class AdjustmentController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		
-		if(("Y").equals(jindoChk.getMsgchk())){
-			if(("41").equals(bokInsert.getJindoGubun())){
-				// 진도당김 저장
-				adjustmentService.addAdjustmentJindoDangSave(bokInsert, request);			
+		if(("").equals(bokInsert.getYy()) || ("").equals(bokInsert.getMm()) || ("").equals(bokInsert.getWk())  ){
+			alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error");
+		}else{
+			if(("Y").equals(jindoChk.getMsgchk())){
+				if(("41").equals(bokInsert.getJindoGubun())){
+					// 진도당김 저장
+					adjustmentService.addAdjustmentJindoDangSave(bokInsert, request);			
+					
+				}else{
+					// 진도복습
+					adjustmentService.addAdjustmentJindoBokSave(bokInsert, request);			
+					
+				}
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.success"); // 진도조정 성공	
+				
 				
 			}else{
-				// 진도복습
-				adjustmentService.addAdjustmentJindoBokSave(bokInsert, request);			
-				
-			}
-			alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.success"); // 진도조정 성공	
-			
-			
-		}else{
-			if(("1").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error1"); // 유지 회원만 가능합니다.
-			}else if(("2").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error2"); // 진단 후 진도 조정이 가능합니다.
-			}else if(("3").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error3"); // [진도 당김]을 할 수 없습니다.\n 입.복회일로부터 3주 이내만 가능합니다.
-			}else if(("4").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error4"); // 진도조정 하루에 한번만 가능
-			}else if(("5").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error5"); // 복습은 월 2회까지만 가능합니다.이번달에 이미 진도조정(복습)을 두번 하셨습니다!
-			}else if(("6").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error6"); // 당김은 월 1회까지만 가능합니다.이번달에 이미 진도조정을 하셨습니다!
-			}else if(("7").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error7"); // 복습 세트수가 45세트를 넘었습니다.
-			}else if(("8").equals(jindoChk.getNosayu())){
-				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error8"); //복습 세트수가 15세트를 넘었습니다.
+				alertMsg = adjustmentService.jindochk(jindoChk);
 			}
 		}
-
+		
+		map.put("chkMsg", jindoChk.getMsgchk());
 		map.put("alertMsg", alertMsg);
 		
 		return map;
 	}
+	
+	
 }
 
