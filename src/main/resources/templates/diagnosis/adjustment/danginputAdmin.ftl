@@ -90,7 +90,7 @@
 			
 			<div class="conRight2">
 				<div class="lank_list" id="listSet" >
-					<dl style="height:700px;overflow-y:auto;">
+					<dl style="height:600px;overflow-y:auto;">
 						<#assign fst = ""><#assign dungs = ""><#assign dungs2 = "">
 						<#list dung as dungIndex>
 							<#assign dungs2 = dungIndex.dung>
