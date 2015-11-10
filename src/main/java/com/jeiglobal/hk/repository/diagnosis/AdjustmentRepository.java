@@ -24,9 +24,18 @@ public interface AdjustmentRepository {
 	
 	Map<String, String> findAdjustmentJindoBokSave(AdjustmentDto.AdjustmentinputSaveJson bokInsert);
 	
+	Map<String, String> findAdjustmentJindoBokSaveAdmin(AdjustmentDto.AdjustmentinputSaveJson bokInsert);
+	
 	Map<String, String> findAdjustmentJindoDangSave(AdjustmentDto.AdjustmentinputSaveJson bokInsert);
 	
+	Map<String, String> findAdjustmentJindoDangSaveAdmin(AdjustmentDto.AdjustmentinputSaveJson bokInsert);
+	
 	AdjustmentDto.AdjustmentJindoChk findAdjustmentJindoChk(Map<String, Object> map);
+	
+	List<AdjustmentDto.AdjustmentJindoSetListAdmin> findAdjustmentJindoSetListAdmin(Map<String, Object> map);
+	
+	
+	
 	
 	
 }

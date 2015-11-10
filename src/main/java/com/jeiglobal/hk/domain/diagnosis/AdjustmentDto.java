@@ -75,6 +75,11 @@ public class AdjustmentDto {
 		private String set4;		
 		private String set5;		
 		private String workID;	
+		private String minyy;
+		private String minmm;
+		private String minwk;
+		private String allset;
+		
 	}	
 	
 	@Data
@@ -82,5 +87,13 @@ public class AdjustmentDto {
 		private String bulsayu;
 		private String msgchk;
 		private String nosayu;
+	}
+	
+	@Data
+	public static class AdjustmentJindoSetListAdmin{
+		private String dung;
+		private String cas_key;
+		private String cas_nset;
+		private String sort;
 	}
 }
