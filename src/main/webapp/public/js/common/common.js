@@ -152,6 +152,25 @@ $(function(){
 			}
 			return true;
 		},		
+		// 숫자+소숫점만 입력받게 함
+		numericDecimalCheck:function() {
+			 var code = window.event.keyCode;
+			 if (!((code >= 48 && code <= 57) || (code >= 96 && code <= 105) || code == 110 || code == 190 || code == 8 || code == 9 || code == 13 || code == 46)){
+				 //event.returnValue = false;
+				 alert("숫자+소수점만 입력 가능합니다.");
+				 return;
+			 }				
+		},		
+	    // 숫자+소수점인지 검사:양수면서 최대 소수점 2자리 이하까지만 통과시키는 필터
+		numericDecimal:function(element,str){
+			var pattern = /^\d+(?:[.]?[\d]?[\d])?$/;
+			if(!pattern.test($.trim($("#"+element).val()))){
+			    alert(str + ":숫자+소수점이 아닙니다.\n");
+			    return false;
+			}
+			return true;
+		},				
+		
 		
 		// 양쪽 공백 없애기
 		trimvalue:function(element){
