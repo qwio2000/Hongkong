@@ -11,8 +11,10 @@ import org.springframework.web.filter.*;
 import org.springframework.web.servlet.*;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.*;
+import org.springframework.web.servlet.view.*;
 
 import com.jeiglobal.hk.common.*;
+import com.jeiglobal.hk.excel.*;
 import com.jeiglobal.hk.utils.*;
 import com.navercorp.lucy.security.xss.servletfilter.*;
 
@@ -81,13 +83,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/public/js/**")
 		.addResourceLocations("/public/js/");
-//		.setCachePeriod(31556926);
 		registry.addResourceHandler("/public/css/**")
 		.addResourceLocations("/public/css/");
-//		.setCachePeriod(31556926);
 		registry.addResourceHandler("/public/img/**")
 		.addResourceLocations("/public/img/");
-//		.setCachePeriod(31556926);
 		registry.addResourceHandler("/public/promotion/**")
 		.addResourceLocations("/public/promotion/");
 	}
@@ -119,13 +118,24 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 		return resolver;
 	}
 	
-//	@Bean
-//	public ModelMapper modelMapper(){
-//		return new ModelMapper();
-//	}
+	/**
+	 * 빈네임뷰리졸버(엑셀 다운로드)
+	 * @return
+	 */
+	@Bean
+	public ViewResolver beanNameViewResolver() {
+		BeanNameViewResolver resolver = new BeanNameViewResolver();
+		resolver.setOrder(0);
+		return resolver;
+	}
 	
 	@Bean
 	public BCryptPasswordEncoder setBCryptPasswordEncoder(){
 		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean(name="weeklyScheduleExcel")
+	public WeeklyScheduleExcel weeklyScheduleExcel(){
+		return new WeeklyScheduleExcel();
 	}
 }

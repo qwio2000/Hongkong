@@ -443,3 +443,6 @@ function freeDiagOtherSubj(){
 function openAdjustment(jisaCD, memKey, yoil, subj){
 	$.openPop('/fa/diagnosis/adjustmentinput?jisaCD='+jisaCD+'&memKey='+memKey+'&yoil='+yoil+'&subj='+subj, 'FilePop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
 }
+function progressAdjust(jisaCD, memKey, yoil, subj){
+	$.openPop('/fa/diagnosis/adjustmentinputAdmin?jisaCD='+jisaCD+'&memKey='+memKey+'&yoil='+yoil+'&subj='+subj, 'memberReportPop', 'width=1024,height=800,left=300,scrollbars=yes,resizable=yes');
+}

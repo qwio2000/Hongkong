@@ -90,6 +90,15 @@ $(function(){
 			$('#weeklyForm').submit();
 		}
 	});
+	
+	$("#excel").on("click", function(){
+		var subj = $("#subject").val();
+		var form = "<form action='/ja/members/weeklyschedule/excel' method='post'>"; 
+		form += "<input type='hidden' name='subj' value='"+subj+"' />"; 
+		form += "</form>"; 
+		jQuery(form).appendTo("body").submit().remove(); 
+	});
+	
 	//btn_schedule 클래스 클릭시 스케줄 박스 오픈
 	$('.btn_schedule').each(function(){
 		$(this).mouseenter(function(e){

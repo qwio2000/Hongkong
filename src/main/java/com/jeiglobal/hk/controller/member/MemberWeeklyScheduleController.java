@@ -119,4 +119,10 @@ public class MemberWeeklyScheduleController {
 		return msa.getMessage("member.weeklyschedule.update.success");
 	}
 	
+	@RequestMapping(value="/ja/members/weeklyschedule/excel", method=RequestMethod.POST)
+	public String emptyHakjukXls(Model model, String subj, @ModelAttribute LoginInfo loginInfo){
+		List<MemberWeeklyScheduleInfo> scheduleInfos = memberWeeklyScheduleService.getMemberWeeklyScheduleJA(loginInfo.getJisaCD(), subj);
+		model.addAttribute("dataList", scheduleInfos);
+		return "weeklyScheduleExcel";
+	}
 }
