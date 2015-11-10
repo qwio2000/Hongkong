@@ -35,4 +35,6 @@ public interface CommonRepository {
 	public Map<String, Object> findDeptOpenCloseTime(Map<String, Object> param);
 
 	public List<CodeDtl> findDeptAvailableTimes(Map<String, Object> param);
+
+	public List<String> findOpenSubjsByJisaCD(String jisaCD);
 }

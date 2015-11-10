@@ -50,7 +50,7 @@ public class MemberWeeklyScheduleController {
 	public String getWeeklySchedulePage(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam(value="subj", defaultValue="All", required=false) String subj){
 		log.debug("member Weekly Schedule Page ");
 		List<String> headerScript = new ArrayList<>();
-		List<String> subjs = commonService.getOpenSubjsByDeptCD(loginInfo.getJisaCD(), loginInfo.getDeptCD());
+		List<String> subjs = commonService.getOpenSubjsByJisaCD(loginInfo.getJisaCD());
 		headerScript.add("memberWeeklySchedule");
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("subjs", subjs);

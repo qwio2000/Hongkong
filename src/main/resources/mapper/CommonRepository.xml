@@ -68,4 +68,10 @@
 		FROM globalbiz.CodeDtl 
 		WHERE jisaCD = #{jisaCD} AND mstCD = '0206' AND dtlCD BETWEEN #{start} AND #{end}
 	</select>
+	<select id="findOpenSubjsByJisaCD" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT subj 
+		FROM globalbiz.SubjInfo 
+		WHERE jisaCD = #{jisaCD} 
+		ORDER BY sortVal
+	</select>
 </mapper>

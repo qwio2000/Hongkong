@@ -3,7 +3,7 @@ package com.jeiglobal.hk.service.member;
 import java.text.*;
 import java.util.*;
 
-import org.modelmapper.*;
+import org.springframework.beans.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
@@ -36,9 +36,6 @@ public class MemberRegistService {
 	
 	@Autowired
 	private CommonService commonService;
-	
-	@Autowired
-	private ModelMapper modelMapper;
 	
 	@Value("${flag.fstVisit}")
 	private int fstVisit;
@@ -251,7 +248,8 @@ public class MemberRegistService {
 	public MemSubjRegist getMemSubjRegist(int i, MemMst memMst, LoginInfo loginInfo,
 			String subj, String type, String firstManageDate, String manageTime, String bookNum,
 			String studyNum, Date currentDate, String isResume, String memKey, int appIdx) throws ParseException {
-		MemSubjRegist memSubjRegist = modelMapper.map(memMst, MemSubjRegist.class);
+		MemSubjRegist memSubjRegist = new MemSubjRegist();
+		BeanUtils.copyProperties(memMst, memSubjRegist);
 		memSubjRegist.setRegistYMD(CommonUtils.getDateForFormat(currentDate));
 		memSubjRegist.setSubj(subj);
 		memSubjRegist.setRegistGubunCD((i == 0 && ("1".equals(type) || "3".equals(type))) ? "01" : ("1".equals(isResume)) ? "03" : "02");//신입

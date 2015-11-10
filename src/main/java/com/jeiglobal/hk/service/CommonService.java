@@ -170,4 +170,13 @@ public class CommonService {
 		return commonRepository.findDeptAvailableTimes(param);
 		
 	}
+
+	/**
+	 * 지사 운영중인 과목 가져오기
+	 * @param jisaCD
+	 * @return List<String>
+	 */
+	public List<String> getOpenSubjsByJisaCD(String jisaCD) {
+		return commonRepository.findOpenSubjsByJisaCD(jisaCD);
+	}
 }
