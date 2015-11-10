@@ -21,12 +21,26 @@
 			CALL globalbiz.SPAdjustmentJindoBokSave(#{jisaCD},#{memKey},#{subj},#{yy},#{mm},#{wk},#{yoil},#{bokGubun},#{set1},#{set2},#{set3},#{set4},#{set5},#{workID})						
 	</select>
 	
+	<!-- 관리자 진도 복습 저장 -->
+	<select id="findAdjustmentJindoBokSaveAdmin" statementType="CALLABLE" parameterType="com.jeiglobal.hk.domain.diagnosis.AdjustmentDto$AdjustmentinputSaveJson" resultType="hashMap">	
+			CALL globalbiz.SPAdjustmentJindoBokSaveAdmin(#{jisaCD},#{memKey},#{subj},#{yy},#{mm},#{wk},#{yoil},#{bokGubun},#{set1},#{set2},#{set3},#{set4},#{set5},#{workID})						
+	</select>
+	
 	<!-- 진도 당김 저장 -->
 	<select id="findAdjustmentJindoDangSave" statementType="CALLABLE" parameterType="com.jeiglobal.hk.domain.diagnosis.AdjustmentDto$AdjustmentinputSaveJson" resultType="hashMap">	
 			CALL globalbiz.SPAdjustmentJindoDangSave(#{jisaCD},#{memKey},#{subj},#{yy},#{mm},#{wk},#{yoil},#{bokGubun},#{set1},#{set2},#{set3},#{set4},#{set5},#{workID})						
 	</select>
 	
+	<!-- 관리자 진도 당김 저장 -->
+	<select id="findAdjustmentJindoDangSaveAdmin" statementType="CALLABLE" parameterType="com.jeiglobal.hk.domain.diagnosis.AdjustmentDto$AdjustmentinputSaveJson" resultType="hashMap">	
+			CALL globalbiz.SPAdjustmentJindoDangSaveAdmin(#{jisaCD},#{memKey},#{subj},#{minyy},#{minmm},#{minwk},#{yoil},#{allset},#{workID})						
+	</select>
 	
+	
+	<!-- 관리자 진도 세트   -->
+	<select id="findAdjustmentJindoSetListAdmin" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.AdjustmentDto$AdjustmentJindoSetListAdmin">
+			CALL globalbiz.SPAdjustmentJindoSetListAdmin(#{jisaCD},#{subj});
+	</select>
 	
 	
 	

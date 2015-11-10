@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto;
 import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto.AdjustmentJindoChk;
+import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto.AdjustmentJindoSetListAdmin;
 import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto.AdjustmentinputSaveJson;
 import com.jeiglobal.hk.repository.diagnosis.AdjustmentRepository;
 import com.jeiglobal.hk.utils.CommonUtils;
@@ -65,11 +66,24 @@ public class AdjustmentService {
 		return adjustmentRepository.findAdjustmentJindoBokSave(bokInsert);
 	}
 	
+	public Map<String, String> addAdjustmentJindoBokSaveAdmin(AdjustmentinputSaveJson bokInsert, HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		bokInsert.setWorkID(CommonUtils.getWorkId(request));
+		
+		return adjustmentRepository.findAdjustmentJindoBokSaveAdmin(bokInsert);
+	}
+	
 	public Map<String, String> addAdjustmentJindoDangSave(AdjustmentinputSaveJson bokInsert, HttpServletRequest request) {
 		bokInsert.setWorkID(CommonUtils.getWorkId(request));	
 		
 		return adjustmentRepository.findAdjustmentJindoDangSave(bokInsert);
 		
+	}
+	
+	public Map<String, String> addAdjustmentJindoDangSaveAdmin(AdjustmentinputSaveJson bokInsert, HttpServletRequest request) {
+		bokInsert.setWorkID(CommonUtils.getWorkId(request));	
+		
+		return adjustmentRepository.findAdjustmentJindoDangSaveAdmin(bokInsert);
 	}
 
 
@@ -108,6 +122,15 @@ public class AdjustmentService {
 		}
 		return alertMsg;
 	}
+
+	public List<AdjustmentJindoSetListAdmin> getAdjustmentJindoSetListAdmin(String jisaCD, String subj) {
+		param.put("jisaCD", jisaCD);		
+		param.put("subj", subj);
+
+		return adjustmentRepository.findAdjustmentJindoSetListAdmin(param);
+	}
+
+	
 
 	
 

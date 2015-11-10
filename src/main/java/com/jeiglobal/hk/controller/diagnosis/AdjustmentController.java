@@ -170,5 +170,99 @@ public class AdjustmentController {
 	}
 	
 	
+	
+	
+	/*
+	  관리자 진도 조정 
+	*/
+	
+	
+	// 관리자 진도조정
+	@RequestMapping(value={"/fa/diagnosis/adjustmentinputAdmin"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String adjustmentinputAdmin(Model model, String jisaCD, String memKey, String subj, String yoil, String jindoGubun) {
+		
+		log.debug("Getting adjustment input");
+		//header에 포함할 스크립트 
+		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("diagnosisAdjustment");		
+		model.addAttribute("headerScript", headerScript);	
+		
+		
+		if(("").equals(jindoGubun) || jindoGubun == null){
+			jindoGubun = "40";
+		}
+
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat nowAyy = new SimpleDateFormat("yyyy");
+		SimpleDateFormat nowAmm = new SimpleDateFormat("MM");
+		cal.add(Calendar.MONTH, -1);
+		String ayy = nowAyy.format(cal.getTime());
+		String amm = nowAmm.format(cal.getTime());
+		
+		cal.add(Calendar.MONTH, 2000);
+		String byy = nowAyy.format(cal.getTime());
+		String bmm = nowAmm.format(cal.getTime());
+		
+		// 진도 조정 세트 주차  리스트 
+		List<AdjustmentDto.AdjustmentList> adjustmentList = adjustmentService.getAdjustmentList(jisaCD, memKey, subj, ayy, amm, byy, bmm);
+		// 등급별 세트 리스트
+		List<AdjustmentDto.AdjustmentJindoSetListAdmin> adjustmentJindoSetListAdmin = adjustmentService.getAdjustmentJindoSetListAdmin(jisaCD, subj);
+		
+		String alertMsg1 = messageSourceAccesor.getMessage("Adjustmentinput.Choiceset.Error"); //'해당주차의 세트와 같거나 큰 세트 입니다. 다시 선택하세요'
+		String alertMsg2 = messageSourceAccesor.getMessage("Adjustmentinput.Choiceset.all"); //'모두 선택 하셨습니다.'
+		String alertMsg3 = messageSourceAccesor.getMessage("Adjustmentinput.Choiceset.check"); //'세트를 선택해주세요'
+		
+		model.addAttribute("alertMsg1", alertMsg1);
+		model.addAttribute("alertMsg2", alertMsg2);
+		model.addAttribute("alertMsg3", alertMsg3);
+		
+		model.addAttribute("jisaCD", jisaCD);
+		model.addAttribute("memKey", memKey);
+		model.addAttribute("subj", subj);
+		model.addAttribute("yoil", yoil);
+		model.addAttribute("adjustmentList", adjustmentList);	
+		model.addAttribute("dung", adjustmentJindoSetListAdmin);
+		
+		if(("41").equals(jindoGubun)){
+			return "diagnosis/adjustment/danginputAdmin";
+		}else{
+			return "diagnosis/adjustment/bokinputAdmin";
+		}
+		
+	}
+	// 관리자 진도 조정 SAVE	
+		@RequestMapping(value={"/fa/diagnosis/adjustmentinputSaveAdminJson"}, method={RequestMethod.GET,RequestMethod.HEAD})
+		@ResponseBody
+		public Map<String, Object> adjustmentinputSaveAdminJson(Model model,AdjustmentDto.AdjustmentinputSaveJson bokInsert, HttpServletRequest request ) throws ParseException {
+			
+			String alertMsg = "";
+			
+		
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			if(("").equals(bokInsert.getYy()) || ("").equals(bokInsert.getMm()) || ("").equals(bokInsert.getWk())  ){
+				alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.error");
+			}else{
+				
+					if(("41").equals(bokInsert.getJindoGubun())){
+						// 진도당김 저장
+						adjustmentService.addAdjustmentJindoDangSaveAdmin(bokInsert, request);			
+						
+					}else{
+						// 진도복습
+						adjustmentService.addAdjustmentJindoBokSaveAdmin(bokInsert, request);			
+						
+					}
+					alertMsg = messageSourceAccesor.getMessage("Adjustmentinput.change.success"); // 진도조정 성공	
+				
+			}
+		
+			map.put("alertMsg", alertMsg);
+			
+			return map;
+		}
+	
+	
 }
 

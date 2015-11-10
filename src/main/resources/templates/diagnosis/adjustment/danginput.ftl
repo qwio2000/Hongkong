@@ -34,7 +34,7 @@
 							<#list adjustmentList as listIndex>
 								<tr>
 									<#assign yy = listIndex.yy><#assign mm = listIndex.mm>
-									<td>${listIndex.yy }/${listIndex.mm }</td>
+									<td>${yy }/${mm }</td>
 									<td>
 										<#if listIndex.juset1YN == "Y">
 											<span class="radio_wrap">
