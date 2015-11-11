@@ -217,6 +217,10 @@ public class AdjustmentController {
 		model.addAttribute("alertMsg2", alertMsg2);
 		model.addAttribute("alertMsg3", alertMsg3);
 		
+		
+		model.addAttribute("ayy", ayy);
+		model.addAttribute("amm", amm);
+		
 		model.addAttribute("jisaCD", jisaCD);
 		model.addAttribute("memKey", memKey);
 		model.addAttribute("subj", subj);

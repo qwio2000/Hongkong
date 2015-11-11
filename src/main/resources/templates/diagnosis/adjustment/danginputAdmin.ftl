@@ -11,7 +11,7 @@
 		
 		<div class="clearfix mb60">
 			<div class="conLeft2">
-				<div class="tbl01">
+				<div class="tbl01"  style="height:529px;overflow-y:auto;">
 					<table>
 						<colgroup>
 							<col width="100px" />
@@ -32,6 +32,7 @@
 							</tr>
 						</thead>
 						<tbody>
+						<#if adjustmentList?has_content>
 							<#list adjustmentList as listIndex>
 								<tr>
 									<#assign yy = listIndex.yy><#assign mm = listIndex.mm>
@@ -68,6 +69,42 @@
 									</td>
 								</tr>
 							</#list>
+						<#else>
+								<tr>
+									<#assign yy = ayy><#assign mm = amm>
+									<td>${yy }/${mm }</td>
+									<td>
+											<span class="chk_s01">
+												<input type="checkbox" value="" name="wb" id="dset${yy }${mm }1" yy="${yy }" mm="${mm }" wk="1" onclick="javascript:$.getOnchangedangwkAdmin('${yy}','${mm}','1','','${jisaCD}','${subj}','');" >
+												<label class="radio_label"  for="dset${yy }${mm }1"><span onclick="javascript:$.getSetDelAdmin('${yy}','${mm}','5');" id="choiceset${yy }${mm }1"></span></label>
+											</span>
+									</td>
+									<td>
+											<span class="chk_s01">
+												<input type="checkbox" value="" name="wb" id="dset${yy }${mm }2" yy="${yy }" mm="${mm }" wk="2" onclick="javascript:$.getOnchangedangwkAdmin('${yy}','${mm}','2','','${jisaCD}','${subj}','');" >
+												<label class="radio_label"  for="dset${yy }${mm }2"><span onclick="javascript:$.getSetDelAdmin('${yy}','${mm}','2');" id="choiceset${yy }${mm }2"></span></label>
+											</span>
+									</td>
+									<td>
+											<span class="chk_s01">
+												<input type="checkbox" value="" name="wb" id="dset${yy }${mm }3" yy="${yy }" mm="${mm }" wk="3" onclick="javascript:$.getOnchangedangwkAdmin('${yy}','${mm}','3','','${jisaCD}','${subj}','');" >
+												<label class="radio_label"  for="dset${yy }${mm }3"><span onclick="javascript:$.getSetDelAdmin('${yy}','${mm}','3');" id="choiceset${yy }${mm }3"></span></label>
+											</span>
+									</td>
+									<td>
+											<span class="chk_s01">
+												<input type="checkbox" value="" name="wb" id="dset${yy }${mm }4" yy="${yy }" mm="${mm }" wk="4" onclick="javascript:$.getOnchangedangwkAdmin('${yy}','${mm}','4','','${jisaCD}','${subj}','');" >
+												<label class="radio_label"  for="dset${yy }${mm }4"><span onclick="javascript:$.getSetDelAdmin('${yy}','${mm}','4');" id="choiceset${yy }${mm }4"></span></label>
+											</span>
+									</td>
+									<td>
+											<span class="chk_s01">
+												<input type="checkbox" value="" name="wb" id="dset${yy }${mm }5" yy="${yy }" mm="${mm }" wk="5" onclick="javascript:$.getOnchangedangwkAdmin('${yy}','${mm}','5','','${jisaCD}','${subj}','');" >
+												<label class="radio_label"  for="dset${yy }${mm }5"><span onclick="javascript:$.getSetDelAdmin('${yy}','${mm}','5');" id="choiceset${yy }${mm }5"></span></label>
+											</span>
+									</td>
+								</tr>
+						</#if>
 						</tbody>
 					</table>
 				</div>
