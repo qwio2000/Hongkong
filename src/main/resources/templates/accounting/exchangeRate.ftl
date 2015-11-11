@@ -34,10 +34,11 @@
 					<tbody id="mainContent"></tbody>
 				</table>
 			</div>
-			<br />
+		</div>
+		<div class="conRight" id="exchangeRateRegist">
+			<br /><br /><br /><br /><br /><br /><br />
 			<#if currentYear == selYY>
-			<div  id="exchangeRateRegist">
-			<h2>Regist/Edit</h2>						
+			<h2>Regist(Edit)</h2>						
 			<div class="tbl01 tbl_report">
 				<form id="exchangeRateForm" name="exchangeRateForm" action="" method="">			
 				<table>
@@ -65,8 +66,7 @@
 			</div>
 			<br />
 			<span class="btnArea"><a id="saveExchangeRate" href="javascript:;"><span style="width:70px">Save</span></a></span>
-			</div>
-			</#if >			
+			</#if >		
 		</div>
 	</div>
 

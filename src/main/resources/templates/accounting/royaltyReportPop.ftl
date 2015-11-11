@@ -53,10 +53,10 @@
 							<td>${list.payment}</td>
 							<td class="col_gray">${list.currBalance}</td>
 							<td>${list.royalty}</td>
-							<td>${list.itemCharge}</td>
-							<td>${list.freightCharge}</td>
+							<td>${list.chargeItem}</td>
+							<td>${list.freight}</td>
 							<td>${list.lateFee}</td>
-							<td>${list.otherCharge}</td>
+							<td>${list.otherCreditDebit}</td>
 							<td class="col_gray">${list.totalCharge}</td>
 						</tr>
 						<#else>

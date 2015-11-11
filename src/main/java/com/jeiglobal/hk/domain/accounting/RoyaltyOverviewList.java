@@ -27,14 +27,17 @@ public class RoyaltyOverviewList {
 	private int memRoyaltyRate;
 	private int memRoyalty;
 	private int itemCharge;
-	private int freightCharge;
-	private int lateFee;
-	private int otherCharge;
+	private int royaltyCreditDebit; 	// 기타정산:로열티
+	private int chargeableItems;		// 기타정산:물품구입대금
+	private int freight;				// 기타정산:배송료
+	private int lateFee;				// 기타정산:연체료
+	private int otherCreditDebit;		// 기타정산:그외
 	private int royalty;
 	private int prevBalance;
 	private int payment;
 	private int currBalance;
 	private int totalCharge;
+	private int chargeItem;
 	private String payInDate;
 	private String payInState;
 	private String deptType;

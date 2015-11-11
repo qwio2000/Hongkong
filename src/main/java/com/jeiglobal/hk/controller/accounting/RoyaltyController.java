@@ -62,7 +62,7 @@ public class RoyaltyController {
 		Calendar cal = Calendar.getInstance();
 		String currentYear = new SimpleDateFormat("YYYY").format(cal.getTime());
 		String currentMonth = new SimpleDateFormat("MM").format(cal.getTime());
-		List<MonthInfo> months = CommonUtils.getMonths(1);	//월 목록(short Type)
+		List<MonthInfo> months = CommonUtils.getMonths(1);	//월 목록(short Type:2)
 		
 		if("".equals(selYY)){
 			selYY=currentYear;

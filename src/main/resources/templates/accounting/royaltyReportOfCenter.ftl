@@ -54,10 +54,10 @@
 			<td>{{payment}}</td>
 			<td class="col_gray">{{currBalance}}</td>
 			<td>{{royalty}}</td>
-			<td>{{itemCharge}}</td>
-			<td>{{freightCharge}}</td>
+			<td>{{chargeItem}}</td>
+			<td>{{freight}}</td>
 			<td>{{lateFee}}</td>
-			<td>{{otherCharge}}</td>
+			<td>{{otherCreditDebit}}</td>
 			<td class="col_gray">{{totalCharge}}</td>
 		</tr>
 
