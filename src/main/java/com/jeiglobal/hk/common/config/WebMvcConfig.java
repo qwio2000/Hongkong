@@ -39,8 +39,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	 * @return MessageSourceAccessor
 	 */
 	@Bean
-	public MessageSourceAccessor messageSourceAccesor(
-			MessageSource messageSource) {
+	public MessageSourceAccessor messageSourceAccesor(MessageSource messageSource) {
 		return new MessageSourceAccessor(messageSource);
 	}
 	
@@ -49,9 +48,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	 * @return MenuIntercepter
 	 */
 	@Bean
-	public MenuIntercepter menuIntercepter(){
-		return new MenuIntercepter();
-	}
+	public MenuIntercepter menuIntercepter(){ return new MenuIntercepter();}
+	
 	/**
 	 * PUT method Filter
 	 * @return FilterRegistrationBean
@@ -101,10 +99,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	 * 파일다운로드 뷰 설정
 	 * @return FileDownload
 	 */
-	@Bean(name="download")
-	public FileDownload download() {
-		return new FileDownload();
-	}
+	@Bean
+	public FileDownload download() { return new FileDownload(); }
+	
 	/**
 	 * Default Locale 설정
 	 * @return LocaleResolver
@@ -128,14 +125,17 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 		resolver.setOrder(0);
 		return resolver;
 	}
-	
+	/**
+	 * 패스워드 암호화
+	 * @return BCryptPasswordEncoder
+	 */
 	@Bean
-	public BCryptPasswordEncoder setBCryptPasswordEncoder(){
-		return new BCryptPasswordEncoder();
-	}
+	public BCryptPasswordEncoder setBCryptPasswordEncoder(){ return new BCryptPasswordEncoder(); }
 	
-	@Bean(name="weeklyScheduleExcel")
-	public WeeklyScheduleExcel weeklyScheduleExcel(){
-		return new WeeklyScheduleExcel();
-	}
+	/**
+	 * WeeklySchedule Excel Download Bean
+	 * @return WeeklyScheduleExcel
+	 */
+	@Bean
+	public WeeklyScheduleExcel weeklyScheduleExcel(){ return new WeeklyScheduleExcel(); }
 }
