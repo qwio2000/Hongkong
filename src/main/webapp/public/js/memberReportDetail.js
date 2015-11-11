@@ -149,6 +149,24 @@ function guardianInfoSubmit(){
 			$("#gPhone").focus();
 			return;
 		}
+		if($.trim($("#zip").val()) != ''){
+			if(!$.phoneCheck('zip','zip')){
+				$("#zip").focus();
+				return;
+			}
+		}
+		if($.trim($("#gPhone").val()) != ''){
+			if(!$.phoneCheck('gPhone','학부모 Phone')){
+				$("#gPhone").focus();
+				return;
+			}
+		}
+		if($.trim($("#gCellPhone").val()) != ''){
+			if(!$.phoneCheck('gCellPhone','학부모 CellPhone')){
+				$("#gCellPhone").focus();
+				return;
+			}
+		}
 		//학부모 이메일
 		if($.trim($("#gEmail").val()) != ''){
 			if(!$.emailCheck("gEmail")){
@@ -249,6 +267,18 @@ function memberInfoSubmit(){
 		if($.trim($("#mEmail").val()) != ''){
 			if(!$.emailCheck("mEmail")){
 				$("#mEmail").focus();
+				return;
+			}
+		}
+		if($.trim($("#eContact").val()) != ''){
+			if(!$.phoneCheck('eContact','eContact')){
+				$("#eContact").focus();
+				return;
+			}
+		}
+		if($.trim($("#ePhone").val()) != ''){
+			if(!$.phoneCheck('ePhone','ePhone')){
+				$("#ePhone").focus();
 				return;
 			}
 		}

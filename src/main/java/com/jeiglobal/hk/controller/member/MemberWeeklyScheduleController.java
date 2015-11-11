@@ -47,7 +47,7 @@ public class MemberWeeklyScheduleController {
 	private MemberReportService memberReportService;
 	
 	@RequestMapping(value={"/fa/members/weeklyschedule", "/ja/members/weeklyschedule"}, method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getWeeklySchedulePage(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam(value="subj", defaultValue="All", required=false) String subj){
+	public String getWeeklySchedulePage(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam(value="subj", defaultValue="", required=false) String subj){
 		log.debug("member Weekly Schedule Page ");
 		List<String> headerScript = new ArrayList<>();
 		List<String> subjs = commonService.getOpenSubjsByJisaCD(loginInfo.getJisaCD());

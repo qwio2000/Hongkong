@@ -169,7 +169,15 @@ $(function(){
 			    return false;
 			}
 			return true;
-		},				
+		},
+		phoneCheck:function(element,str){
+			var pattern = /(^[0-9-]+$)/;
+			if(!pattern.test($.trim($("#"+element).val()))){
+			    alert(str + ": 형식에 맞지 않습니다.\n");
+			    return false;
+			}
+			return true;
+		},			
 		
 		
 		// 양쪽 공백 없애기

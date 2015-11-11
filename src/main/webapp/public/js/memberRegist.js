@@ -255,6 +255,36 @@ function submitValid(){
 		$("#gPhone").focus();
 		return;
 	}
+	if($.trim($("#zip").val()) != ''){
+		if(!$.phoneCheck('zip','zip')){
+			$("#zip").focus();
+			return;
+		}
+	}
+	if($.trim($("#gPhone").val()) != ''){
+		if(!$.phoneCheck('gPhone','학부모 Phone')){
+			$("#gPhone").focus();
+			return;
+		}
+	}
+	if($.trim($("#gCellPhone").val()) != ''){
+		if(!$.phoneCheck('gCellPhone','학부모 CellPhone')){
+			$("#gCellPhone").focus();
+			return;
+		}
+	}
+	if($.trim($("#eContact").val()) != ''){
+		if(!$.phoneCheck('eContact','회원 eContact')){
+			$("#eContact").focus();
+			return;
+		}
+	}
+	if($.trim($("#ePhone").val()) != ''){
+		if(!$.phoneCheck('ePhone','회원 ePhone')){
+			$("#ePhone").focus();
+			return;
+		}
+	}
 	//회원 이름
 	if(!$.required('mFstName','회원 First Name')){
 		$("#mFstName").focus();

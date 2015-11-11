@@ -102,7 +102,7 @@ public class MemberWeeklyScheduleService {
 			String jisaCD, String subj) {
 		param.clear();
 		param.put("jisaCD", jisaCD);
-		param.put("subj", ("All".equalsIgnoreCase(subj) ? "" : subj));
+		param.put("subj", subj);
 		return memberWeeklyScheduleRepository.findMemberWeeklyScheduleJA(param);
 	}
 	/**

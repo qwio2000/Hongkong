@@ -410,6 +410,11 @@ public class MemberReportController {
 		}else{
 			freeDiagOtherSubjs = memberReportService.getSubjsInMemAppointment(key, loginInfo);
 		}
+		if(freeDiagOtherSubjs == null || freeDiagOtherSubjs.isEmpty()){
+			model.addAttribute("message", msa.getMessage("member.report.freediag.subj.notfound"));
+			model.addAttribute("mode", "close");
+			return "alertAndRedirect";
+		}
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("freeDiagOtherSubjs", freeDiagOtherSubjs);
 		model.addAttribute("key", key);

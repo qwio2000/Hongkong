@@ -1,16 +1,16 @@
 <#include "/include/header.ftl">
 <!-- Main Content -->
 <div class="content">
-	<h2 class="conTit" id="titleSubj">Weekly Schedule - ${subj?default('') }</h2>
+	<h2 class="conTit" id="titleSubj">Weekly Schedule - <#if subj?default('') == "">All<#else>${subj}</#if></h2>
 	<form id="weeklyForm" action="/ja/members/weeklyschedule" method="get">
 	<div class="list02 pt20 clearfix">
 		<div class="float_l">
-			<span class="radio_wrap"><input type="radio" value="All" name="subj" id="subj_All" <#if subj == 'All'>checked="checked"</#if>><label class="radio_label" for="subj_All"> All</label></span>
+			<span class="radio_wrap"><input type="radio" value="" name="subj" id="subj_All" <#if subj == ''>checked="checked"</#if>><label class="radio_label" for="subj_All"> All</label></span>
 			<#list subjs as subject>
 				<span class="radio_wrap"><input type="radio" value="${subject }" name="subj" id="subj_${subject }" <#if subj = subject>checked="checked"</#if>><label class="radio_label" for="subj_${subject }"> ${subject }</label></span>
 			</#list>
 		</div>
-		<input type="hidden" id="subject" value="${subj?default('All') }"/>
+		<input type="hidden" id="subject" value="${subj?default('') }"/>
 		<div class="float_r">
 			<a class="btn_print m0" id="excel" style="cursor: pointer;" title="Excel">Excel</a>
 		</div>
