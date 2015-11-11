@@ -10,7 +10,7 @@
 		</div>
 		<div class="clearfix mb60">
 			<div class="conLeft2">
-				<div class="tbl01">
+				<div class="tbl01"  style="height:529px;overflow-y:auto;">
 					<table>
 						<colgroup>
 							<col width="100px" />
@@ -31,6 +31,7 @@
 							</tr>
 						</thead>
 						<tbody>
+						<#if adjustmentList?has_content>
 							<#list adjustmentList as listIndex>
 								<tr>
 									<#assign yy = listIndex.yy><#assign mm = listIndex.mm>
@@ -77,6 +78,42 @@
 									</td>
 								</tr>
 							</#list>
+						<#else>
+							<tr>
+									<#assign yy = ayy><#assign mm = amm>
+									<td>${yy }/${mm }</td>
+									<td>
+										<span class="radio_wrap">
+											<input type="radio" value="wb" name="wb" id="wb10" onclick="javascript:$.getOnchangebokwkAdmin('${yy}','${mm}','1','','${jisaCD}','${subj}','');" >
+											<label class="radio_label" style="display:inline" for="wb10" > </label>
+										</span>
+									</td>
+									<td>
+										<span class="radio_wrap">
+											<input type="radio" value="wb" name="wb" id="wb11" onclick="javascript:$.getOnchangebokwkAdmin('${yy}','${mm}','2','','${jisaCD}','${subj}','');" >
+											<label class="radio_label" style="display:inline" for="wb11" > </label>
+										</span>
+									</td>
+									<td>
+										<span class="radio_wrap">
+											<input type="radio" value="wb" name="wb" id="wb12" onclick="javascript:$.getOnchangebokwkAdmin('${yy}','${mm}','3','','${jisaCD}','${subj}','');" >
+											<label class="radio_label" style="display:inline" for="wb12" > </label>
+										</span>
+									</td>
+									<td>
+										<span class="radio_wrap">
+											<input type="radio" value="wb" name="wb" id="wb13" onclick="javascript:$.getOnchangebokwkAdmin('${yy}','${mm}','4','','${jisaCD}','${subj}','');" >
+											<label class="radio_label" style="display:inline" for="wb13" > </label>
+										</span>
+									</td>
+									<td>
+										<span class="radio_wrap">
+											<input type="radio" value="wb" name="wb" id="wb14" onclick="javascript:$.getOnchangebokwkAdmin('${yy}','${mm}','5','','${jisaCD}','${subj}','');" >
+											<label class="radio_label" style="display:inline" for="wb14" > </label>
+										</span>
+									</td>
+							</tr>
+						</#if>
 						</tbody>
 					</table>
 				</div>
