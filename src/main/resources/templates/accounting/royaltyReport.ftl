@@ -85,9 +85,9 @@
 			<td>{{currBalance}}</td>
 			<td><a href="javascript:;" onClick="$.openRoyaltyView('{{deptCD}}','{{mgYY}}','{{mgMM}}');" class="click">{{royalty}}</a></td>
 			<td><a href="#" class="btn_report">{{itemCharge}}</a></td>
-			<td class="gray">{{freightCharge}}</td>
+			<td class="gray">{{freight}}</td>
 			<td class="gray">{{lateFee}}</td>
-			<td><a href="#" class="btn_report">{{otherCharge}}</a></td>
+			<td><a href="#" class="btn_report">{{otherCreditDebit}}</a></td>
 			<td>{{totalCharge}}</td>
 		</tr>
 	{{else}}
@@ -102,10 +102,10 @@
 			<td>{{payment}}</td>
 			<td>{{currBalance}}</td>
 			<td>{{royalty}}</td>
-			<td>{{itemCharge}}</td>
-			<td>{{freightCharge}}</td>
+			<td>{{chargeItem}}</td>
+			<td>{{freight}}</td>
 			<td>{{lateFee}}</td>
-			<td>{{otherCharge}}</td>
+			<td>{{otherCreditDebit}}</td>
 			<td>{{totalCharge}}</td>
 		</tr>
 	{{/each}}
