@@ -123,6 +123,7 @@ public class MemberWeeklyScheduleController {
 	public String emptyHakjukXls(Model model, String subj, @ModelAttribute LoginInfo loginInfo){
 		List<MemberWeeklyScheduleInfo> scheduleInfos = memberWeeklyScheduleService.getMemberWeeklyScheduleJA(loginInfo.getJisaCD(), subj);
 		model.addAttribute("dataList", scheduleInfos);
+		model.addAttribute("subj", subj);
 		return "weeklyScheduleExcel";
 	}
 }

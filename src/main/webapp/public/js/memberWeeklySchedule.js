@@ -93,6 +93,7 @@ $(function(){
 	
 	$("#excel").on("click", function(){
 		var subj = $("#subject").val();
+		
 		var form = "<form action='/ja/members/weeklyschedule/excel' method='post'>"; 
 		form += "<input type='hidden' name='subj' value='"+subj+"' />"; 
 		form += "</form>"; 
