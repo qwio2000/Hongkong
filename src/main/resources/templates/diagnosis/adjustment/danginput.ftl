@@ -110,6 +110,7 @@
 			<input type="hidden" id="set3" value="">
 			<input type="hidden" id="set4" value="">
 			<input type="hidden" id="set5" value="">
+			<input type="hidden" id="alertMsg3" value="">
 			
 			
 			<div class="btnArea">
