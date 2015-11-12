@@ -18,7 +18,7 @@
 				<p>Select subject(s) that this center offers.</p>
 				<ul>
 					<#list centerOpenSubjList as list>
-					<li><span class="chk_s01"><input type="checkbox" name="openSubj" value="${list.subj }" id="chkOpenSubj_${list.subj }"  <#if list.openSubj != "">checked</#if>><label for="chkOpenSubj_${list.subj }">${list.subj }</label></span></li>
+					<li><span class="chk_s01"><input type="checkbox" name="openSubj" value="${list.subj }" id="chkOpenSubj_${list.subj }"  <#if list.openSubjUseYN == "Y">checked</#if>><label for="chkOpenSubj_${list.subj }">${list.subj }</label></span></li>
 					</#list>
 				</ul>			
 			</div>
