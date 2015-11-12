@@ -29,7 +29,7 @@ public class WeeklyScheduleExcel extends AbstractExcelView {
 	protected void buildExcelDocument(Map<String, Object> model,
 			HSSFWorkbook workbook, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		String subj = model.get("subj").toString();
+		String subj = ("".equals(model.get("subj").toString()) ? "All" : model.get("subj").toString());
 		String userAgent = request.getHeader("User-Agent");
 		String fileName = "weeklySchedule_"+subj+".xls";
 		
