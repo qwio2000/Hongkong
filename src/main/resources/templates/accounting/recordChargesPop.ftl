@@ -8,7 +8,6 @@
 			<div id="addCharge" style="display:none;">
 			<form id="recordChargeForm" name="recordChargeForm" action="" method="">
 			<input type="hidden" name="deptCD" id="deptCD" value="${deptCD }">
-			<input type="hidden" name="idx" id="idx" value="">
 			<div class="notice_date">Input Month: ${currentMonthName?default('') } ${currentYear?default('') }</div>
 			<div class="tbl01 mt5" >
 				<table>
@@ -101,7 +100,7 @@
 							<td class="left">${list.chargeName }</td>
 							<td>${list.amount }</td>
 							<td class="left">${list.memo }</td>
-							<td class="no_line"><#if (list.mgYY == currentYear && list.mgMM == currentMonth) ><a href="javascript:$.deleteRecordCharge('${list.idx}')" class="btn_delete">delete</a></#if></td>
+							<td class="no_line"><#if (list.delFlag == "Y") ><a href="javascript:$.deleteRecordCharge('${list.idx}')" class="btn_delete">delete</a></#if></td>
 						</tr>
 						<#else>
 						<tr><td colspan="5">no search results</td></tr>

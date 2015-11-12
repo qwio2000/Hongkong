@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -118,9 +119,9 @@ public class ChargeController {
 		
 		return "accounting/recordChargesPop";
 	}		
-	@RequestMapping(value={"/ja/accounting/recordChargesPopSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@RequestMapping(value={"/ja/accounting/recordChargesPopSaveJson","/ja/accounting/recordCharges/delete"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
-	public String getUserSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request, 
+	public String getRecordChargesPopSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request, 
 			@RequestParam(defaultValue="") String deptCD,
 			@RequestParam(defaultValue="") String chargeYMD, @RequestParam(defaultValue="") String chargeCD,
 			@RequestParam(defaultValue="") String memo, @RequestParam(defaultValue="0") int amount,
@@ -142,23 +143,53 @@ public class ChargeController {
 
 		return messageSource.getMessage(msgCode);
 	}
-		
-	
 	
 	/**
 	 * 기타입금 입력내역 조회 화면 : 지사
 	 */
 	@RequestMapping(value={"/ja/accounting/chargeReport"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getChargeReport(Model model, @ModelAttribute LoginInfo loginInfo, String yy, String mm){
+	public String getChargeReport(Model model, @ModelAttribute LoginInfo loginInfo, 
+			@RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM) throws ParseException{
 		
-		//List<UserList> dataUserList = centerService.getUserList(loginInfo.getJisaCD(), yy, mm);
-		//log.debug("Getting centerView Page, royaltyOverview : {}", dataUserList);
+		Calendar cal = Calendar.getInstance();
+		String currentYear = new SimpleDateFormat("YYYY").format(cal.getTime());
+		String currentMonth = new SimpleDateFormat("MM").format(cal.getTime());
+		List<MonthInfo> months = CommonUtils.getMonths(1);	//월 목록(short Type:2)
 		
+		if("".equals(selYY)){
+			selYY=currentYear;
+		}
+		if("".equals(selMM)){
+			selMM=currentMonth;
+		}
 		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("accountingCharge");
+		headerScript.add("accountingCharges");
 		model.addAttribute("headerScript", headerScript);
-		//model.addAttribute("userList", dataUserList);
+		model.addAttribute("selYY", selYY);
+		model.addAttribute("selMM", selMM);
+		model.addAttribute("months", months);			
+		
 		return "accounting/chargeReport";
-	}	
+	}
+	@RequestMapping(value={"/ja/accounting/chargeReportJson"},method = {RequestMethod.GET}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public Map<String, Object> getChargeReportJson(@ModelAttribute LoginInfo loginInfo, 
+		@RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM) throws ParseException{
+
+		List<Map<String, Object>> dataChargeReportList = chargeService.getRecordChargeList(loginInfo.getJisaCD(), "", selYY, selMM, "");
+		log.debug("Getting chargeReport Page, dataRecordChargeList : {}", dataChargeReportList);
+		
+		int totAmount = 0;
+		int totCnt = 0;
+		if (dataChargeReportList.size()>0) {
+			totAmount = Integer.parseInt(dataChargeReportList.get(0).get("totAmount").toString());
+			totCnt = dataChargeReportList.size();
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("chargeReportList", dataChargeReportList);
+		map.put("totAmount", totAmount);
+		map.put("totCnt", totCnt);
+		return map;
+	}		
 	
 }
