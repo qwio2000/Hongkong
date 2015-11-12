@@ -59,21 +59,28 @@ public class AdjustmentController {
 		headerScript.add("diagnosisAdjustment");		
 		model.addAttribute("headerScript", headerScript);	
 		
+		String alertMsg3 = messageSourceAccesor.getMessage("Adjustmentinput.Choiceset.check"); //'세트를 선택해주세요'
+		
+		String alertMsg = "";
 		
 		if(("").equals(jindoGubun) || jindoGubun == null){
-			jindoGubun = "40";
+			//jindoGubun = "40";
+		
+		}else{
+			// 진도 조정 체크
+			AdjustmentDto.AdjustmentJindoChk jindoChk = adjustmentService.addAdjustmentJindoChk(jisaCD,memKey,subj,jindoGubun,"","");	
+			
+			if(("N").equals(jindoChk.getMsgchk())){
+				alertMsg = adjustmentService.jindochk(jindoChk);
+				model.addAttribute("message",alertMsg);
+				model.addAttribute("mode", "close");
+		
+				
+				return "alertAndRedirect";		
+			}
 		}
 	
-		// 진도 조정 체크
-		String alertMsg = "";
-		AdjustmentDto.AdjustmentJindoChk jindoChk = adjustmentService.addAdjustmentJindoChk(jisaCD,memKey,subj,jindoGubun,"","");	
 		
-		if(("N").equals(jindoChk.getMsgchk())){
-			alertMsg = adjustmentService.jindochk(jindoChk);
-			model.addAttribute("message",alertMsg);
-			model.addAttribute("mode", "close");
-			return "alertAndRedirect";		
-		}
 		
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat nowAyy = new SimpleDateFormat("yyyy");
@@ -85,6 +92,8 @@ public class AdjustmentController {
 		String byy = nowAyy.format(cal.getTime());
 		String bmm = nowAmm.format(cal.getTime());
 		
+	
+		
 		// 진도 조정 세트 주차  리스트 
 		List<AdjustmentDto.AdjustmentList> adjustmentList = adjustmentService.getAdjustmentList(jisaCD, memKey, subj, ayy, amm, byy, bmm);
 		
@@ -92,11 +101,15 @@ public class AdjustmentController {
 		model.addAttribute("memKey", memKey);
 		model.addAttribute("subj", subj);
 		model.addAttribute("yoil", yoil);
-		model.addAttribute("adjustmentList", adjustmentList);		
+		model.addAttribute("adjustmentList", adjustmentList);
+		model.addAttribute("alertMsg3", alertMsg3);
+	
 		if(("41").equals(jindoGubun)){
 			return "diagnosis/adjustment/danginput";
-		}else{
+		}else if(("40").equals(jindoGubun)){
 			return "diagnosis/adjustment/bokinput";
+		}else{
+			return "diagnosis/adjustment/input";
 		}
 		
 	}
