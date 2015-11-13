@@ -10,7 +10,7 @@ import lombok.Data;
  *
  * 작성자 : 성현범(IT지원팀)
  * 
- * [Diagnosis -> Adjustment] Controller
+ * [Diagnosis -> Adjustment] domain
  */
 public class AdjustmentDto {
 	
