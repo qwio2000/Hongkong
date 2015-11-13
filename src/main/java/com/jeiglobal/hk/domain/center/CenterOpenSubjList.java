@@ -22,5 +22,6 @@ public class CenterOpenSubjList {
 	private String subj;
 	private String openSubj;
 	private String sort;
+	private String openSubjUseYN;
 	
 }
