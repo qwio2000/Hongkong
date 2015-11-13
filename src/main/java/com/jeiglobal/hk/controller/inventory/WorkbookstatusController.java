@@ -1,7 +1,11 @@
 package com.jeiglobal.hk.controller.inventory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,12 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jeiglobal.hk.domain.auth.LoginInfo;
-import com.jeiglobal.hk.domain.diagnosis.AdjustmentDto;
 import com.jeiglobal.hk.domain.inventory.WorkbookstatusDto;
 import com.jeiglobal.hk.service.CommonService;
 import com.jeiglobal.hk.service.inventory.WorkbookstatusService;
+import com.jeiglobal.hk.utils.CommonUtils;
 import com.jeiglobal.hk.utils.MessageSourceAccessor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +49,7 @@ public class WorkbookstatusController {
 	@Autowired
 	private MessageSourceAccessor messageSourceAccesor;
 	
-	// 가맹점 재고관리화면
+	// 지사 재고 메인 리스트
 	@RequestMapping(value={"/ja/inventory/workbookstatus"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String workbookstatus(Model model, @ModelAttribute LoginInfo loginInfo) {
 		log.debug("Getting inventory workbookstatus");
@@ -57,7 +63,7 @@ public class WorkbookstatusController {
 		String jisaCD = loginInfo.getJisaCD();
 		String statusCD = "1";
 		
-		//가맹점 메인 리스트
+		//가맹점 리스트
 		List<WorkbookstatusDto.WorkbookStatusMstList> workbookStatusMstList = workbookstatusService.getWorkbookStatusMstList(jisaCD, statusCD);
 
 		
@@ -66,9 +72,9 @@ public class WorkbookstatusController {
 		return "inventory/workbookstatus/jaList";
 	}
 	
-	// 가맹점 재고관리화면
+	// 상품별 세부수량 조회
 	@RequestMapping(value={"/ja/inventory/workbookstatusSubj"}, method={RequestMethod.GET,RequestMethod.HEAD})
-	public String workbookstatusSubj(Model model, String jisaCD, String deptCD, String subj) {
+	public String workbookstatusSubj(Model model, String jisaCD, String deptCD, String subj, @RequestParam(defaultValue="") String gubun) {
 		log.debug("Getting inventory workbookstatusCalgary");
 		
 		//header에 포함할 스크립트 
@@ -76,15 +82,60 @@ public class WorkbookstatusController {
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("inventory");		
 		model.addAttribute("headerScript", headerScript);	
-				
+		
+		// 가맹점 과목 리스트
 		List<WorkbookstatusDto.WorkbookStatusMstsubj> workbookStatusMstsubj = workbookstatusService.getWorkbookStatusMstsubj(jisaCD, deptCD);
-	
+		
+		//과목 등급 리스트
+		List<String> workbookStatusDungList = workbookstatusService.getWorkbookStatusDungList(jisaCD, subj);
+		
+		//가맹점 세트별 수량 리스트
+		List<WorkbookstatusDto.WorkbookStatusSetList> workbookStatusSetList = workbookstatusService.getWorkbookStatusSetList(jisaCD, deptCD, subj);
+		
+		/*log.debug("===============================================================");
+		for (WorkbookstatusDto.WorkbookStatusSetList workbookStatusSetList2 : workbookStatusSetList) {
+			log.debug("jisaCD : {}, deptCD : {}", workbookStatusSetList2.getJisaCD(), workbookStatusSetList2.getDeptCD());
+			for (WorkbookstatusDto.WorkbookStatusSetDungList zz : workbookStatusSetList2.getDungList()) {
+				log.debug("===============================================================");
+				log.debug("dung : {}", zz.toString());
+			}
+		}*/
+		
+		model.addAttribute("jisaCD", jisaCD);
+		model.addAttribute("deptCD", deptCD);
 		model.addAttribute("subj", subj);
+		model.addAttribute("gubun", gubun);
 		model.addAttribute("subjlist", workbookStatusMstsubj);
 		
-		return "inventory/workbookstatus/subj";
+		
+		model.addAttribute("wbdung", workbookStatusDungList);
+		model.addAttribute("setlist", workbookStatusSetList);
+
+		if(("ship").equals(gubun)){
+			return "inventory/workbookstatus/shipInventory";
+		}else if(("adjust").equals(gubun)){
+			return "inventory/workbookstatus/adjustInventory";	
+		}else if(("setrestockqty").equals(gubun)){
+			return "inventory/workbookstatus/setrestockqty";		
+		}else{
+			return "inventory/workbookstatus/subj";
+		}
+		
 	}
 	
+	//지사 적정재고 수정
+	@RequestMapping(value={"/ja/inventory/workbookstatusSetrestockqtyJson"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> workbookstatusSetrestockqtyJson(Model model, HttpServletRequest request, String jisaCD, String deptCD, String subj, String allset) {
+		String workId = CommonUtils.getWorkId(request);
+		
+
+		workbookstatusService.addIventorySetrestockqtyUpt(jisaCD, deptCD, subj, allset, workId);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("saveOK", messageSourceAccesor.getMessage("Inventory.workbookstatus.Setrestockqty.success"));		
+		return map;
+	}
 	
 	
 	

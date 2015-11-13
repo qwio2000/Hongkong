@@ -7,26 +7,20 @@
 			<select name="subjgo" id="subjgo" style="width:200px">
 				<#list subjlist as subjlistIndex>
 					<#if subj == subjlistIndex.subj>
-						<option value="${subjlistIndex.jisaCD },${subjlistIndex.deptCD },${subjlistIndex.subj },'' " selected="selected">${subjlistIndex.subjnm }</option>
+						<option value="${subjlistIndex.jisaCD },${subjlistIndex.deptCD },${subjlistIndex.subj },${gubun}" selected="selected">${subjlistIndex.subjnm }</option>
 					<#else>
-						<option value="${subjlistIndex.jisaCD },${subjlistIndex.deptCD },${subjlistIndex.subj },'' ">${subjlistIndex.subjnm }</option>
+						<option value="${subjlistIndex.jisaCD },${subjlistIndex.deptCD },${subjlistIndex.subj },${gubun}">${subjlistIndex.subjnm }</option>
 					</#if>
 				</#list>
 			</select>
 		</div>
+		
 		<div class="clearfix list02 pt20">
 			<div class="float_l">
-				<span class="status_txt">Click inventory qty to view history.</span>
-			</div>
-			<div class="float_r">
-				<div class="clearfix btnArea_txt_top">
-					<a href="#" class="btn_print2">Print</a>
-					<a href="/ja/inventory/workbookstatusSubj?jisaCD=${jisaCD }&deptCD=${deptCD}&subj=${subj}&gubun=ship" class="btn_delivery">Ship Inventory</a>
-					<a href="/ja/inventory/workbookstatusSubj?jisaCD=${jisaCD }&deptCD=${deptCD}&subj=${subj}&gubun=adjust" class="btn_info" style="padding-left:38px">Adjust Inventory</a>
-					<a href="/ja/inventory/workbookstatusSubj?jisaCD=${jisaCD }&deptCD=${deptCD}&subj=${subj}&gubun=setrestockqty" class="btn_set last">Set Restock Qty</a>
-				</div>
+				<span class="status_txt">Enter actural shipping qty and click <strong>[Confrim & Ship Inventory]</strong> button</span>
 			</div>
 		</div>
+
 		<div class="tbl01 mt5 tbl_status">
 			<table>
 				<thead>
@@ -50,7 +44,7 @@
 										
 										<#assign stocqty = dungListIndex.stocqty>
 										<#assign stableqty = dungListIndex.stableqty>
-										<#assign qty = stocqty?number - stableqty?number>
+										<#assign qty = stocqty?number - stableqty?number>  <!-- 현재재고 - 적정재고 -->
 										<#if wbdungIndex_index = 0>
 											<td class="no_line">${dungListIndex.wbname }</td>
 										<#else>
@@ -58,11 +52,11 @@
 										</#if>
 											<td class="col_n"> 				<!--  gt :> , gte : >= , lt < , lte <= -->
 												<#if stableqty?number == stocqty?number >  <!-- 적정재고 = 현재재고  "검정색"-->
-													${stocqty }
+													<input type="text" style="width:20px" name="" id="" value="" />
 												<#elseif stableqty?number lt stocqty?number>  <!-- 적정재고 < 현재재고  "파란색"-->
-													<span class="font_blue">${stocqty }</span><i>(${qty })</i>
+													<input type="text" style="width:20px" name="" id="" value="" />
 												<#elseif stableqty?number gt stocqty?number>  <!-- 적정재고 > 현재재고  "빨간색"-->
-													<span class="font_red">${stocqty }</span><i>(${qty })</i>
+													<input type="text" style="width:20px" name="" id="" value="${qty?replace("-","") }" />
 												</#if>
 											</td>
 										<#assign chk = "1">
@@ -81,25 +75,13 @@
 							</#list>
 						</tr>
 					</#list>
-									
-					<tr class="line2 total">
-						<#list wbdung as wbdungIndex>
-							<#if wbdungIndex_index = 0>
-								<td colspan="2" class="no_line">152</td>
-							<#else>
-								<td colspan="2" >152</td>
-							</#if>
-						</#list>
-					</tr>
-				
 				</tbody>
 			</table>
-			<div class="pt20">
-				Total: <strong>1,995</strong>
-			</div>
-		
 		</div>
-
+		<div class="btnArea">
+			<a href="#"><span>Confirm &amp; Ship Inventory</span></a>
+		</div>
+	
 		
 	</div>
 <!--// Main Content -->

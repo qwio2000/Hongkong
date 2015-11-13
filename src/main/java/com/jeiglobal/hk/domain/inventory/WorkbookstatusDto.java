@@ -2,6 +2,7 @@ package com.jeiglobal.hk.domain.inventory;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -18,8 +19,8 @@ import lombok.Data;
 public class WorkbookstatusDto {
 	@Data
 	public static class WorkbookStatusMstList{
-		private String jisacd;
-		private String deptcd;
+		private String jisaCD;
+		private String deptCD;
 		private String centeername;
 		private String st;
 		private String lastship;
@@ -32,9 +33,32 @@ public class WorkbookstatusDto {
 	
 	@Data
 	public static class WorkbookStatusMstsubj{
-		private String jisacd;
-		private String deptcd;
+		private String jisaCD;
+		private String deptCD;
 		private String subj;
 		private String subjnm;
 	}
+	
+	@Data
+	public static class WorkbookStatusSetList{
+		private String jisaCD;
+		private String deptCD;
+		private String alllist;
+		private List<WorkbookStatusSetDungList> dungList;
+		
+	}
+	
+	@Data
+	@AllArgsConstructor
+	public static class WorkbookStatusSetDungList{
+		private String caskey;
+		private String casset;
+		private String wbset;
+		private String wbgrade;
+		private String wbname;
+		private String stocqty;
+		private String stableqty;		
+	}
+
+	
 }

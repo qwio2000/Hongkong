@@ -21,5 +21,13 @@ public interface WorkbookstatusRepository {
 	List<WorkbookstatusDto.WorkbookStatusMstList> findWorkbookStatusMstList(Map<String, Object> map);
 	
 	List<WorkbookstatusDto.WorkbookStatusMstsubj> findWorkbookStatusMstsubj(Map<String, Object> map);
+	
+	List<WorkbookstatusDto.WorkbookStatusSetList> findWorkbookStatusSetList(Map<String, Object> map);
+	
+	List<String> findWorkbookStatusDungList(Map<String, Object> map);
+	
+	String findIventorySetrestockqtyUpt(Map<String, Object> map);
+	
+	
 
 }

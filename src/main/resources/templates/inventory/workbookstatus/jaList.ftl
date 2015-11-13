@@ -58,10 +58,11 @@
 								</div>
 							</td>
 							<td>
+								${mstlistIndex.deptCD }
 								<select name="subjgo" id="subjgo" style="width:125px">
 									<option value=""></option>
 									<#list mstlistIndex.subj as subjIndex>
-										<option value="${subjIndex.jisacd },${subjIndex.deptcd },${subjIndex.subj }">${subjIndex.subjnm }</option>
+										<option value="${subjIndex.jisaCD },${subjIndex.deptCD },${subjIndex.subj },'' ">${subjIndex.subjnm }</option>
 									</#list>
 								</select>
 								
