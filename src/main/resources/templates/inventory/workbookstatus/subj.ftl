@@ -20,7 +20,7 @@
 			</div>
 			<div class="float_r">
 				<div class="clearfix btnArea_txt_top">
-					<a href="#" class="btn_print2">Print</a>
+					<a href="/ja/inventory/workbookstatusPrint?jisaCD=${jisaCD }&deptCD=${deptCD}&subj=${subj}&gubun=print" class="btn_print2">Print</a>
 					<a href="/ja/inventory/workbookstatusSubj?jisaCD=${jisaCD }&deptCD=${deptCD}&subj=${subj}&gubun=ship" class="btn_delivery">Ship Inventory</a>
 					<a href="/ja/inventory/workbookstatusSubj?jisaCD=${jisaCD }&deptCD=${deptCD}&subj=${subj}&gubun=adjust" class="btn_info" style="padding-left:38px">Adjust Inventory</a>
 					<a href="/ja/inventory/workbookstatusSubj?jisaCD=${jisaCD }&deptCD=${deptCD}&subj=${subj}&gubun=setrestockqty" class="btn_set last">Set Restock Qty</a>

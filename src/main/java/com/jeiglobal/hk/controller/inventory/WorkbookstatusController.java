@@ -1,6 +1,8 @@
 package com.jeiglobal.hk.controller.inventory;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,18 +102,33 @@ public class WorkbookstatusController {
 				log.debug("dung : {}", zz.toString());
 			}
 		}*/
+	
+		String subjnm = "";
+		for(WorkbookstatusDto.WorkbookStatusMstsubj subjlist : workbookStatusMstsubj){
+			if((subj).equals(subjlist.getSubj())){
+				subjnm = subjlist.getSubjnm();
+			}			
+		}
+		
+		/*1/28/2015 at 12:00AM*/
+		Date today = new Date(); 
+		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy 'at' HH:mm a");
+		
 		
 		model.addAttribute("jisaCD", jisaCD);
 		model.addAttribute("deptCD", deptCD);
 		model.addAttribute("subj", subj);
 		model.addAttribute("gubun", gubun);
+		model.addAttribute("subjnm", subjnm);
+		model.addAttribute("date", format.format(today));
 		model.addAttribute("subjlist", workbookStatusMstsubj);
-		
-		
+				
 		model.addAttribute("wbdung", workbookStatusDungList);
 		model.addAttribute("setlist", workbookStatusSetList);
 
-		if(("ship").equals(gubun)){
+		if(("print").equals(gubun)){
+			return "inventory/workbookstatus/printAjax";
+		}else if(("ship").equals(gubun)){
 			return "inventory/workbookstatus/shipInventory";
 		}else if(("adjust").equals(gubun)){
 			return "inventory/workbookstatus/adjustInventory";	
@@ -121,6 +138,30 @@ public class WorkbookstatusController {
 			return "inventory/workbookstatus/subj";
 		}
 		
+	}
+	
+	
+	// 상품별 print
+	@RequestMapping(value={"/ja/inventory/workbookstatusPrint"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String workbookstatusPrint(Model model, String jisaCD, String deptCD, String subj, @RequestParam(defaultValue="") String gubun) {
+		log.debug("Getting inventory workbookstatusPrint");
+		
+		//header에 포함할 스크립트 
+		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("inventory");		
+		model.addAttribute("headerScript", headerScript);	
+		
+		// 가맹점 과목 리스트
+		List<WorkbookstatusDto.WorkbookStatusMstsubj> workbookStatusMstsubj = workbookstatusService.getWorkbookStatusMstsubj(jisaCD, deptCD);
+		
+		model.addAttribute("jisaCD", jisaCD);
+		model.addAttribute("deptCD", deptCD);
+		model.addAttribute("subj", subj);
+		model.addAttribute("gubun", gubun);
+		model.addAttribute("subjlist", workbookStatusMstsubj);
+		
+		return "inventory/workbookstatus/print";
 	}
 	
 	//지사 적정재고 수정

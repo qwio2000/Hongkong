@@ -22,8 +22,8 @@ $(function(){
 			
 			$(".btnArea").css("display","none");
 			var searchUrl = "/ja/inventory/workbookstatusSetrestockqtyJson";
-			var paramData = {"jisaCD":jisaCD, "deptCD":deptCD, "subj":subj, "data":data};		
-			//console.log(data)
+			var paramData = {"jisaCD":jisaCD, "deptCD":deptCD, "subj":subj, "allset":data};		
+			//console.log(paramData)
 			 $.ajax({
 				url:searchUrl,
 				type:"GET",
@@ -39,6 +39,33 @@ $(function(){
 				}
 			});
 			
+		},
+		getPrint:function(){ 
+			var jisaCD = $("#jisaCD").val();
+			var deptCD = $("#deptCD").val();			
+			var gubun = $("#gubun").val();
+			var subj = "";
+			
+			$("[id^=subjlist_]").each(function (i, v) {
+				subj = $(this).val();
+				
+				var searchUrl = "/ja/inventory/workbookstatusSubj";
+				var paramData = "jisaCD="+jisaCD+"&deptCD="+deptCD+"&subj="+subj+"&gubun="+gubun;
+				//console.log(paramData)
+				$.ajax({
+					type: "GET"
+					,url: searchUrl
+					,data: paramData					
+					,success: function(data){	
+						$("#printlist").append(data)
+					}
+					,error: function (data, textStatus) { 
+						alert(textStatus); 			
+					}
+					,async: false
+				});
+				
+			});
 		},
 		
 		getReload:function(){  //페이지 새로고침
@@ -67,4 +94,10 @@ $(function(){
 	    });
 	    
 	});
+	
+	
+	// 상품별 print
+	if(window.location.pathname == '/ja/inventory/workbookstatusPrint'){
+		$.getPrint();
+	}
 });
