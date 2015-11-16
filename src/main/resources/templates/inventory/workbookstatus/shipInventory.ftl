@@ -52,11 +52,11 @@
 										</#if>
 											<td class="col_n"> 				<!--  gt :> , gte : >= , lt < , lte <= -->
 												<#if stableqty?number == stocqty?number >  <!-- 적정재고 = 현재재고  "검정색"-->
-													<input type="text" style="width:20px" name="" id="" value="" />
+													<input type="text" style="width:20px" id="input_${wbdungIndex }_${dungListIndex.caskey }"  value="" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" />
 												<#elseif stableqty?number lt stocqty?number>  <!-- 적정재고 < 현재재고  "파란색"-->
-													<input type="text" style="width:20px" name="" id="" value="" />
+													<input type="text" style="width:20px" id="input_${wbdungIndex }_${dungListIndex.caskey }"  value="" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" />
 												<#elseif stableqty?number gt stocqty?number>  <!-- 적정재고 > 현재재고  "빨간색"-->
-													<input type="text" style="width:20px" name="" id="" value="${qty?replace("-","") }" />
+													<input type="text" style="width:20px" id="input_${wbdungIndex }_${dungListIndex.caskey }"  value="${qty?replace("-","") }" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" />
 												</#if>
 											</td>
 										<#assign chk = "1">
@@ -78,8 +78,14 @@
 				</tbody>
 			</table>
 		</div>
+		
+		<input type="hidden" id="jisaCD" value="${jisaCD }">
+		<input type="hidden" id="deptCD" value="${deptCD }">
+		<input type="hidden" id="subj" value="${subj }">
+		<div id="allset" style=""></div>
+		
 		<div class="btnArea">
-			<a href="#"><span>Confirm &amp; Ship Inventory</span></a>
+			<a href="javascript:$.getShipInventorySave();"><span>Confirm &amp; Ship Inventory</span></a>
 		</div>
 	
 		

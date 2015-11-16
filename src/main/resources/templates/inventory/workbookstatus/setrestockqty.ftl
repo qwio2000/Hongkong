@@ -1,3 +1,4 @@
+<connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http" maxParameterCount="10000" />  
 <#include "/include/header.ftl">
 <!-- Main Content -->
 	<div class="content">
@@ -95,9 +96,9 @@
 		<input type="hidden" id="jisaCD" value="${jisaCD }">
 		<input type="hidden" id="deptCD" value="${deptCD }">
 		<input type="hidden" id="subj" value="${subj }">
-		<div id="allset" style="display:none"></div>
+		<div id="allset" style=""></div>
 		
-		<div class="btnArea">
+		<div class="btnArea" id="btnArea">
 			<a href="javascript:$.getReload();"><span>Cancle</span></a>
 			<a href="javascript:$.getSetrestockqtySave();"><span style="width:285px">Save Inventory Restocking Qty</span></a>
 		</div>

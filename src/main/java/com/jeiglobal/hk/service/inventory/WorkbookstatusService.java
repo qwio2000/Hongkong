@@ -86,5 +86,15 @@ public class WorkbookstatusService {
 		
 	}
 
+	public String addIventoryShipInventoryUpt(String jisaCD, String deptCD, String subj, String allset, String workId) {
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		param.put("subj", subj);
+		param.put("allset", allset);
+		param.put("workId", workId);
+		return workbookstatusRepository.findIventoryShipInventoryUpt(param);
+		
+	}
+
 	
 }

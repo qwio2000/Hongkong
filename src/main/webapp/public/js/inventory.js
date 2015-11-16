@@ -1,6 +1,6 @@
 $(function(){
 	$.extend({
-		getSetrestockqtySave:function(){   // 적정재고 수정 저장
+		/*getShipInventorySave:function(){   // 현재고 수량 저장
 			var cnt = "";
 			var wbgrade = "";
 			var caskey = "";
@@ -15,13 +15,15 @@ $(function(){
 				cnt = $("#"+$(this).attr("id")).val();
 				wbgrade =$(this).attr("wbgrade");
 				caskey = $(this).attr("caskey");
-				$("#allset").append(cnt+","+wbgrade+","+caskey+"@@");
+				if(cnt != ""){
+					$("#allset").append(cnt+","+wbgrade+","+caskey+"@@");
+				}
 			});
 			
 			data = $("#allset").html();
 			
 			$(".btnArea").css("display","none");
-			var searchUrl = "/ja/inventory/workbookstatusSetrestockqtyJson";
+			var searchUrl = "/ja/inventory/workbookstatusShipInventorySave";
 			var paramData = {"jisaCD":jisaCD, "deptCD":deptCD, "subj":subj, "allset":data};		
 			//console.log(paramData)
 			 $.ajax({
@@ -39,7 +41,52 @@ $(function(){
 				}
 			});
 			
+		},*/
+		
+		getSetrestockqtySave:function(){   // 적정재고 수정 저장
+			$("#btnArea").css("display","none");
+			var cnt = "";
+			var wbgrade = "";
+			var caskey = "";
+			var data = "";
+			var jisaCD = $("#jisaCD").val();
+			var deptCD = $("#deptCD").val();
+			var subj = $("#subj").val();
+			
+			$("#allset").html("");
+			
+			$("[id^=input_]").each(function (i, v) {
+				cnt = parseInt($("#"+$(this).attr("id")).val());
+				wbgrade =$(this).attr("wbgrade");
+				caskey = $(this).attr("caskey");
+				$("#allset").append(cnt+","+wbgrade+","+caskey+"@");
+			});
+			
+			data = $("#allset").html();
+			alert(data.length)
+			
+			var searchUrl = "/ja/inventory/workbookstatusSetrestockqtySave";
+			var paramData = {"jisaCD":jisaCD, "deptCD":deptCD, "subj":subj, "allset": data};
+
+
+			$.ajax({
+				url:searchUrl,
+				type:"GET",
+				cache: false,
+				data: paramData,
+				dataType: "JSON",			
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					alert(jsonData.saveOK);
+					$.getReload();
+				},
+				error:function (request,status,error){
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					
+				}
+			});
+			
 		},
+		
 		getPrint:function(){ 
 			var jisaCD = $("#jisaCD").val();
 			var deptCD = $("#deptCD").val();			
@@ -96,8 +143,8 @@ $(function(){
 	});
 	
 	
-	// 상품별 print
+	/*// 상품별 print
 	if(window.location.pathname == '/ja/inventory/workbookstatusPrint'){
 		$.getPrint();
-	}
+	}*/
 });

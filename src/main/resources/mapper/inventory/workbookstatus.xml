@@ -42,16 +42,17 @@
 			WHERE a.jisaCD=#{jisaCD} AND b.deptCD=#{deptCD} AND a.subj=#{subj}
 			GROUP BY RIGHT(a.casKey,2)
 	</select>
+	
+	<!-- 지사 현재고 수량 수정 -->
+	<select id="findIventoryShipInventoryUpt" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
+			CALL globalbiz.SPIventoryShipInventoryUpt(#{jisaCD},#{deptCD},#{subj},#{allset},#{workId});
+	</select>
+	
 
 	<!-- 지사 적정재고 수량 수정 -->
 	<select id="findIventorySetrestockqtyUpt" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
 			CALL globalbiz.SPIventorySetrestockqtyUpt(#{jisaCD},#{deptCD},#{subj},#{allset},#{workId});
 	</select>
-	
-	
-	
-	
-	
 	
 	
 </mapper>

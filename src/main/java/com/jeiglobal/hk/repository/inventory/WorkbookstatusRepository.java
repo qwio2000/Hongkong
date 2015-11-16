@@ -28,6 +28,8 @@ public interface WorkbookstatusRepository {
 	
 	String findIventorySetrestockqtyUpt(Map<String, Object> map);
 	
+	String findIventoryShipInventoryUpt(Map<String, Object> map);
+	
 	
 
 }
