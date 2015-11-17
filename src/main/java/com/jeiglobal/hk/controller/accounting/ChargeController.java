@@ -79,7 +79,8 @@ public class ChargeController {
 	@RequestMapping(value={"/ja/accounting/recordChargesPop"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getRecordChargesPop(Model model, @ModelAttribute LoginInfo loginInfo, 
 			@RequestParam(defaultValue="") String deptCD, 
-			@RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM) throws ParseException{
+			@RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM,
+			@RequestParam(defaultValue="") String deptName) throws ParseException{
 		
 		Calendar cal = Calendar.getInstance();
 		String currentYear = new SimpleDateFormat("YYYY").format(cal.getTime());
@@ -112,6 +113,7 @@ public class ChargeController {
 		model.addAttribute("deptCD", deptCD);
 		model.addAttribute("selYY", selYY);
 		model.addAttribute("selMM", selMM);
+		model.addAttribute("deptName", deptName);
 		model.addAttribute("currentYear", currentYear);
 		model.addAttribute("currentMonth", currentMonth);
 		model.addAttribute("currentMonthName", CommonUtils.changeDateFormat("yyyy-MM", "MMMM", currentYear + "-" + currentMonth));
@@ -136,7 +138,11 @@ public class ChargeController {
 		log.debug("Getting recordCharges Page, result : {}", result);
 		String msgCode = "";
 		if("Y".equals(result)){
-			msgCode = "common.save.success";
+			if (idx>0){
+				msgCode = "common.delete.success";
+			}else{
+				msgCode = "common.insert.success";
+			}			
 		}else{
 			msgCode = "common.save.error";
 		}

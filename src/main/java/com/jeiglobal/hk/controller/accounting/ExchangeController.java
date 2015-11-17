@@ -57,7 +57,7 @@ public class ExchangeController {
 	 * 환율 입력 조회 : 지사
 	 */
 	@RequestMapping(value={"/ja/accounting/exchangeRate"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getRoyaltyOverview(Model model, @ModelAttribute LoginInfo loginInfo, 
+	public String getExchangeRate(Model model, @ModelAttribute LoginInfo loginInfo, 
 			@RequestParam(defaultValue="") String selYY) throws ParseException{
 		
 		Calendar cal = Calendar.getInstance();
@@ -80,14 +80,14 @@ public class ExchangeController {
 	public Map<String, Object> getExchangeRateJson(@ModelAttribute LoginInfo loginInfo, 
 		@RequestParam(defaultValue="") String selYY) throws ParseException{
 		List<Map<String, Object>> dataExchangeRateList = exchangeService.getExchangeRateList(loginInfo.getJisaCD(), selYY);
-		log.debug("Getting royaltyOverview Page, dataRoyaltyReportList : {}", dataExchangeRateList);
+		log.debug("Getting exchangeRate Page, dataExchangeRateList : {}", dataExchangeRateList);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("exchangeRateList", dataExchangeRateList);
 		return map;
 	}		
 	@RequestMapping(value={"/ja/accounting/exchangeRateSaveJson"},method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
-	public String getUserSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request, 
+	public String getExchangeRateSaveJson(@ModelAttribute LoginInfo loginInfo, HttpServletRequest request, 
 			@RequestParam(defaultValue="0") String cny, @RequestParam(defaultValue="0") String sgd){
 		
 		Calendar cal = Calendar.getInstance();

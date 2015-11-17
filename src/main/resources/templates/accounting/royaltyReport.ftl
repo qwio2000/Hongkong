@@ -56,22 +56,27 @@
 			</thead>
 			<tbody id="mainContent"></tbody>
 		</table>
-		<!-- 세부내역 -->
-		<div class="report_detail" style="display:none;">
-			<div class="detail_list">
-				<div class="txt_date">12/19/2014 : $30.00</div>
-				<ul>
-					<li class="line">20 Calendars</li>
-				</ul>
-			</div>
-		</div>
+		<!-- 세부내역 레이어 팝업-->
+		<div  class="report_detail" style="display:none;" id="chargeDetailContent"></div>
 		<!-- //세부내역 -->		
 	</div>
 
 </div>
 
-
 <!--// Main Content -->
+
+<!-- 세부내역 레이어 팝업-->
+<script id="chargeDetailContentTemplate" type="text/x-handlebars-template">
+	<div class="detail_list">
+		{{#each recordChargeList}}
+		<div class="txt_date">{{chargeYMD}} : {{amount}}</div>
+		<ul>
+			<li class="line">{{memo}}</li>
+		</ul>
+		{{/each}}
+	</div>
+</script>
+<!-- //세부내역 -->
 <script id="mainContentTemplate" type="text/x-handlebars-template">
 	{{#each royaltyReportList}}
 		<tr class="line2">
@@ -84,10 +89,10 @@
 			<td>{{payment}}</td>
 			<td>{{currBalance}}</td>
 			<td><a href="javascript:;" onClick="$.openRoyaltyView('{{deptCD}}','{{mgYY}}','{{mgMM}}');" class="click">{{royalty}}</a></td>
-			<td><a href="#" class="btn_report">{{itemCharge}}</a></td>
+			<td><a href="javascript:;" onMouseOver="$.getChargeDetailOfRoyaltyReport('{{deptCD}}','{{mgYY}}','{{mgMM}}','02');" class="btn_report">{{itemCharge}}</a></td>
 			<td class="gray">{{freight}}</td>
 			<td class="gray">{{lateFee}}</td>
-			<td><a href="#" class="btn_report">{{otherCreditDebit}}</a></td>
+			<td><a href="javascript:;" onMouseOver="$.getChargeDetailOfRoyaltyReport('{{deptCD}}','{{mgYY}}','{{mgMM}}','05');" class="btn_report">{{otherCreditDebit}}</a></td>
 			<td>{{totalCharge}}</td>
 		</tr>
 	{{else}}

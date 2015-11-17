@@ -8,6 +8,7 @@
 			<div id="addCharge" style="display:none;">
 			<form id="recordChargeForm" name="recordChargeForm" action="" method="">
 			<input type="hidden" name="deptCD" id="deptCD" value="${deptCD }">
+			<input type="hidden" name="deptName" id="deptName" value="${deptName }">
 			<div class="notice_date">Input Month: ${currentMonthName?default('') } ${currentYear?default('') }</div>
 			<div class="tbl01 mt5" >
 				<table>
@@ -73,7 +74,10 @@
 					</select>
 					<span class="btnArea mt0"><a id="recordChargeSearchSubmit" href="javascript:;"><span style="width:70px">View</span></a></span>
 					<span class="btnArea mt0"><a href="javascript:;" onClick="$.addCharge();" ><span style="width:95px">Add Charge</span></a></span>
-				</div>			
+				</div>		
+				<div class="float_r">
+					<div class="notice_state">Center : <em>${deptName?default('')}</em></div>
+				</div>							
 				</form>
 			</div>
 			<div class="tbl01 mt5">

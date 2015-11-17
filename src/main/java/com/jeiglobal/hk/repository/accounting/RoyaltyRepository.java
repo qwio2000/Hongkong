@@ -23,5 +23,7 @@ public interface RoyaltyRepository {
 	
 	public List<RoyaltyOverviewList> royaltyOverviewList(Map<String, Object> param);
 	public List<RoyaltyOverviewList> royaltyOverviewTot(Map<String, Object> param);
+	public List<Map<String, Object>> royaltyViewOfSalesList(Map<String, Object> param);
+	public Map<String, Object> royaltyView(Map<String, Object> param);
 	
 }

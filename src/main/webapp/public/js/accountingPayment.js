@@ -1,10 +1,10 @@
 $(function(){	
 	$.extend({
 
-		// charge report 리스트
-		getChargeReportResult:function(){
+		// payment report 리스트
+		getPaymentReportResult:function(){
 			var paramData = {"selYY":$("#selYY").val(),	"selMM":$("#selMM").val()};
-			var setUrl = "/ja/accounting/chargeReportJson";			
+			var setUrl = "/ja/accounting/paymentReportJson";			
 			$.ajax({
 				type:"GET",				
 				url:setUrl,
@@ -55,18 +55,18 @@ $(function(){
 				}
 			});
 		},	
-		openRecordChargesPop:function(deptCD,selYY,selMM,deptName){
-			var url = "/ja/accounting/recordChargesPop?deptCD="+deptCD+"&selYY="+selYY+"&selMM="+selMM+"&deptName="+deptName;
-			$.openPop(url, "recordChargesPop","menubar=no,toolbar=no,status=no,resizable=yes,scrollbars=yes,width=1000,height=700");			
+		openRecordPaymentPop:function(deptCD,selYY,selMM){
+			var url = "/ja/accounting/recordPaymentPop?deptCD="+deptCD+"&selYY="+selYY+"&selMM="+selMM;
+			$.openPop(url, "recordPaymentPop","menubar=no,toolbar=no,status=no,resizable=yes,scrollbars=yes,width=1000,height=700");			
 		},
-		addCharge:function(){
-			$("#addCharge").toggle();
+		addPayment:function(){
+			$("#addPayment").toggle();
 		},
-		deleteRecordCharge:function(idx){
+		deleteRecordPayment:function(idx,deptCD){
 			if(confirm("정보를 삭제 하시겠습니까?")) {
-				var param = {"idx":idx};
+				var param = {"idx":idx,"deptCD":deptCD};
 				$.ajax({
-					url:"/ja/accounting/recordCharges/delete",
+					url:"/ja/accounting/recordPayment/delete",
 					type:"POST",
 					cache: false,
 					async: true,
@@ -86,47 +86,55 @@ $(function(){
 	});
  
 	
-	// charge Report 검색 클릭	
+	// payment Report 검색 클릭	
 	$("#searchSubmit").on("click", function() {
-		$.getChargeReportResult();
+		$.getPaymentReportResult();
 	});
 	// 검색 초기화
 	$("#searchInit").on("click", function() {
 		$('#selYY').getSetSSValue($.toDay().split("-")[0]);		
 		$('#selMM').getSetSSValue($.toDay().split("-")[1]);
-		location.href = "/ja/accounting/chargeReport";
+		location.href = "/ja/accounting/paymentReport";
 	});
-	if(window.location.pathname == '/ja/accounting/chargeReport'){
-		$.getChargeReportResult();
+	if(window.location.pathname == '/ja/accounting/paymentReport'){
+		$.getPaymentReportResult();
 	}
 	
-	// 기타정산 검색
-	$("#recordChargeSearchSubmit").on("click", function() {
-		location.href = "/ja/accounting/recordChargesPop?deptCD="+$("#deptCD").val() + "&selYY="+$("#selYY > option:selected").val()+ "&selMM="+$("#selMM > option:selected").val()+"&deptName="+$("#deptName").val();
+	// 미수금 입금 검색
+	$("#recordPaymentSearchSubmit").on("click", function() {
+		location.href = "/ja/accounting/recordPaymentPop?deptCD="+$("#deptCD").val() + "&selYY="+$("#selYY > option:selected").val()+ "&selMM="+$("#selMM > option:selected").val();
 	});	
 	
 
-	//기타정산 저장
-	$("#saveRecordCharge").on("click", function() {
-		if(!($.required("chargeMMDDYY","Date"))){return;}
-		if(!($.required("chargeCD","Type"))){return;}
-		if(!($.required("amount","Amount"))){return;}
+	//미수금 저장
+	$("#saveRecordPayment").on("click", function() {
+		if(!($.required("payMMDDYY","Date"))){return;}
+		if(!($.required("payCD","Type"))){return;}
+		//if(!($.required("refNo","refNo"))){return;}
+		if(!($.required("amount","amount"))){return;}
 		if(!($.numeric("amount","Amount"))){return;}
 		if(!($.required("memo","Memo"))){return;}
 		
-		var chargeYMDSplit = $("#chargeMMDDYY").val().split("/");
-		var chargeYMD = chargeYMDSplit[2] + "-" + chargeYMDSplit[0] + "-" +  chargeYMDSplit[1];
-		if(chargeYMD.substr(0,7) != $.toDay().substr(0,7)){
+		var payYMDSplit = $("#payMMDDYY").val().split("/");
+		var payYMD = payYMDSplit[2] + "-" + payYMDSplit[0] + "-" +  payYMDSplit[1];
+		if(payYMD.substr(0,7) != $.toDay().substr(0,7)){
 			alert("금월로 입력해 주세요.");
 			return;
 		}		
-		$("#chargeYMD").val(chargeYMD);
+		$("#payYMD").val(payYMD);
+		if(parseInt($("#amount").val(),10)<=0){
+			alert("0이상으로 입력 해 주세요.");
+			return;
+		}
+		if(parseInt($("#balance").val(),10) < parseInt($("#amount").val(),10)+ parseInt($("#currAmount").val(),10)){
+			alert("미수금을 오버 하였습니다.");
+			return;
+		}
 		
-
 		if(confirm("정보를 저장 하시겠습니까?")) {
-			var param = $("#recordChargeForm").serialize();
+			var param = $("#recordPaymentForm").serialize();
 			$.ajax({
-				url:"/ja/accounting/recordChargesPopSaveJson",
+				url:"/ja/accounting/recordPaymentPopSaveJson",
 				type:"POST",
 				cache: false,
 				async: true,
@@ -134,7 +142,8 @@ $(function(){
 				dataType: "text",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
 					alert(jsonData);
-					location.reload();
+					//location.reload();
+					location.href = "/ja/accounting/recordPaymentPop?deptCD="+$("#deptCD").val() + "&selYY="+$.toDay().substr(0,4)+ "&selMM="+$.toDay().substr(5,2);
 					opener.location.reload();
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
@@ -145,7 +154,7 @@ $(function(){
 		
 	});	
 	
-	$("#chargeMMDDYY").datepicker({
+	$("#payMMDDYY").datepicker({
 		changeMonth: false,
 		changeYear: false,
 		showButtonPanel: true, 
@@ -156,17 +165,17 @@ $(function(){
 			var yy = dataSplit[2];
 			var mm = dataSplit[0];
 			var dd = dataSplit[1];
-			var chargeDate = yy + "-" + mm + "-" +  dd;
-			if(chargeDate.substr(0,7) != $.toDay().substr(0,7)){
+			var payDate = yy + "-" + mm + "-" +  dd;
+			if(payDate.substr(0,7) != $.toDay().substr(0,7)){
 				alert('금월로 입력하십시요.');
-				$("#chargeMMDDYY").val('');	
+				$("#payMMDDYY").val('');	
 				return;
 			}
 		}	
     });		
-	$("#chargeDatePicker, #chargeMMDDYY").click(function(){
-		$("#chargeMMDDYY").val(''); 		
-		$("#chargeMMDDYY").datepicker("show");
+	$("#payDatePicker, #payMMDDYY").click(function(){
+		$("#payMMDDYY").val(''); 		
+		$("#payMMDDYY").datepicker("show");
 	});		
 	
 	

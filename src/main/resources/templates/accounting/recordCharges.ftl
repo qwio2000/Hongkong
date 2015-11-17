@@ -47,7 +47,7 @@
 							<td>${list.lateFee }</td>
 							<td>${list.otherCreditDebit }</td>
 							<td class="col_gray">${list.total }</td>
-							<td><a href="javascript:;" onClick="$.openRecordChargesPop('${list.deptCD }','${list.mgYY }','${list.mgMM }');" class="btn_icon_one btn_doc2">View detail</a></td>
+							<td><a href="javascript:;" onClick="$.openRecordChargesPop('${list.deptCD }','${list.mgYY }','${list.mgMM }','${list.deptName }');" class="btn_icon_one btn_doc2">View detail</a></td>
 						</tr>
 						<#else>
 						<tr ><td colspan="9">no search results</td></tr>

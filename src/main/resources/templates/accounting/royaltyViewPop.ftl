@@ -4,120 +4,134 @@
 	<div class="popup_top"><h1>Royalty Report</h1> <a href="javascript:self.close();" class="btn_popup_close">close</a></div>
 	<div class="popup_content">
 		<div class="pop_input">
-			<div class="tbl01 mt0">
+			<h2 class="conTit">Calgary - Current Enrollment : January 2015</h2>
+			<div class="tbl01">
 				<table>
-					<colgroup>
-						<col style="width:50px" />
-						<col style="width:50px" />
-						<col style="width:80px"/>
-						<col style="width:80px" />
-						<col style="width:80px" />
-						<col style="width:80px" />
-						<col style="width:80px" />
-						<col style="width:80px" />
-						<col style="width:80px" />
-						<col style="width:60px" />
-						<col style="width:90px" />
-					</colgroup>
 					<thead>
 						<tr class="line">
-							<th colspan="2" class="no_line">Subject</th>
-							<th>MATH</th>
-							<th>ENGLISH</th>
-							<th>READING</th>
-							<th>KOREAN</th>
-							<th>PS <br />MATH</th>
-							<th>HANGEUL</th>
-							<th>BRAIN <br />SAFARI</th>
-							<th>Total</th>
-							<th>Subject Fee</th>
+							<th class="no_line" rowspan="2" style="width:150px">Subject</th>
+							<th rowspan="2">Begining</th>
+							<th rowspan="2">Drop</th>
+							<th colspan="4">New</th>
+							<th rowspan="2">Ending</th>
+						</tr>
+						<tr class="line">
+							<th>100%</th>
+							<th>75%</th>
+							<th>50%</th>
+							<th>25%</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr class="line2">
-							<th colspan="2" class="no_line">Begining</th>
-							<td>25</td>
-							<td>24</td>
-							<td>5</td>
+							<th class="no_line">MATH</th>
+							<td>11</td>
+							<td>1</td>
+							<td>1</td>
 							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td class="col_gray">54</td>
-							<td class="col_gray">$1,404.00</td>
+							<td>1</td>
+							<td>1</td>
+							<td class="col_bold">13</td>
 						</tr>
 						<tr class="line2">
-							<th colspan="2" class="no_line">Drop</th>
+							<th class="no_line">ENGLISH</th>
+							<td>11</td>
+							<td>1</td>
+							<td>1</td>
 							<td>0</td>
-							<td>0</td>
-							<td>5</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td class="col_gray">54</td>
-							<td class="col_gray">$1,404.00</td>
+							<td>1</td>
+							<td>1</td>
+							<td class="col_bold">13</td>
 						</tr>
 						<tr class="line2">
-							<th class="no_line no_left" rowspan="4">New</th>
-							<th class="no_left">100%</th>
+							<th class="no_line">READING</th>
+							<td>11</td>
+							<td>1</td>
+							<td>1</td>
 							<td>0</td>
-							<td>0</td>
-							<td>5</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td class="col_gray">54</td>
-							<td class="col_gray">$1,404.00</td>
+							<td>1</td>
+							<td>1</td>
+							<td class="col_bold">13</td>
 						</tr>
 						<tr class="line2">
-							<th class="no_left">75%</th>
+							<th class="no_line">KOREAN</th>
+							<td>11</td>
+							<td>1</td>
+							<td>1</td>
 							<td>0</td>
-							<td>0</td>
-							<td>5</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td class="col_gray">54</td>
-							<td class="col_gray">$1,404.00</td>
+							<td>1</td>
+							<td>1</td>
+							<td class="col_bold">13</td>
 						</tr>
 						<tr class="line2">
-							<th class="no_left">50%</th>
+							<th class="no_line">PS MATH</th>
+							<td>11</td>
+							<td>1</td>
+							<td>1</td>
 							<td>0</td>
-							<td>0</td>
-							<td>5</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td class="col_gray">54</td>
-							<td class="col_gray">$1,404.00</td>
+							<td>1</td>
+							<td>1</td>
+							<td class="col_bold">13</td>
 						</tr>
 						<tr class="line2">
-							<th class="no_left">25%</th>
+							<th class="no_line">Discoverers</th>
+							<td>11</td>
+							<td>1</td>
+							<td>1</td>
 							<td>0</td>
-							<td>0</td>
-							<td>5</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td class="col_gray">54</td>
-							<td class="col_gray">$1,404.00</td>
+							<td>1</td>
+							<td>1</td>
+							<td class="col_bold">13</td>
 						</tr>
-						<tr class="line2 bold">
-							<th class="no_line" colspan="2">Ending</th>
+						<tr class="line2">
+							<th class="no_line">Explorers</th>
+							<td>11</td>
+							<td>1</td>
+							<td>1</td>
 							<td>0</td>
+							<td>1</td>
+							<td>1</td>
+							<td class="col_bold">13</td>
+						</tr>
+						<tr class="line2">
+							<th class="no_line">HANGEUL</th>
+							<td>11</td>
+							<td>1</td>
+							<td>1</td>
 							<td>0</td>
-							<td>5</td>
+							<td>1</td>
+							<td>1</td>
+							<td class="col_bold">13</td>
+						</tr>
+						<tr class="line2">
+							<th class="no_line">BRAIN SAFARI</th>
+							<td>11</td>
+							<td>1</td>
+							<td>1</td>
 							<td>0</td>
+							<td>1</td>
+							<td>1</td>
+							<td class="col_bold">13</td>
+						</tr>
+						<tr class="line2 total">
+							<th class="no_line col_gray">Total</th>
+							<td>11</td>
+							<td>1</td>
+							<td>1</td>
 							<td>0</td>
-							<td>0</td>
-							<td>0</td>
-							<td class="col_gray">54</td>
-							<td class="col_gray">$1,404.00</td>
+							<td>1</td>
+							<td>1</td>
+							<td class="col_bold">13</td>
+						</tr>
+						<tr class="line2 total">
+							<th class="no_line col_gray">Subject Fee</th>
+							<td>$558.00</td>
+							<td>($56.00)</td>
+							<td>$56.00</td>
+							<td>$21.00</td>
+							<td>$28.00</td>
+							<td>$7.00</td>
+							<td class="col_bold">$644.00</td>
 						</tr>
 					</tbody>
 				</table>
@@ -210,21 +224,21 @@
 						<tr class="line2">
 							<th class="no_line">Previous Balance</th>
 							<td class="left"></td>
-							<td>$768.90</td>
+							<td>$13,731.85</td>
 						</tr>
 						<tr class="line2">
 							<th class="no_line">Payment Received</th>
-							<td class="left">Check (716589765) $768.90 received on 01/14/2014</td>
-							<td>-$768.90</td>
+							<td class="left"></td>
+							<td>-$0.00</td>
 						</tr>
 						<tr class="line2">
 							<th class="no_line">This month Charges</th>
 							<td class="left"></td>
-							<td>$179.00</td>
+							<td>$13,731.85</td>
 						</tr>
 						<tr class="total line2">
 							<td class="no_line left" colspan="2">Total Amount Due</td>
-							<td>$179.00</td>
+							<td>$15,026.50</td>
 						</tr>
 					</tbody>
 				</table>
