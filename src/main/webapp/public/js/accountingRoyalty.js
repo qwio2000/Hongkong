@@ -22,6 +22,32 @@ $(function(){
 				}
 			});
 		},	
+		getChargeDetailOfRoyaltyReport:function(deptCD,selYY,selMM,chargeCD){
+			var paramData = {"deptCD":deptCD, "selYY":selYY, "selMM":selMM, "chargeCD":chargeCD};
+			var setUrl = "/ja/accounting/chargeDetailOfRoyaltyReportJson";
+			$.ajax({
+				type:"GET",				
+				url:setUrl,
+				data: paramData,				
+				cache: false,
+				async: true,				
+				dataType: "json",
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					var source = $("#chargeDetailContentTemplate").html();
+					var template = Handlebars.compile(source);				
+					$("#chargeDetailContent").empty();
+					$("#chargeDetailContent").append(template(jsonData));
+
+					if(jsonData.totalCnt == 0){
+						$('.report_detail').hide();
+						e.preventDefault();
+					}
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(_THROWNERROR);
+				}
+			});
+		},		
 		getRoyaltyReportResult:function(){
 			var paramData = {"selYY":$("#selYY").val(),	"selMM":$("#selMM").val()};
 			var setUrl = "/ja/accounting/royaltyReportJson";
@@ -38,7 +64,7 @@ $(function(){
 					$("#mainContent").empty();
 					$("#mainContent").append(template(jsonData));
 					
-					//Royalty Report : btn_schedule 클래스 클릭시 스케줄 박스 오픈				
+					//Royalty Report : btn_schedule 클래스 클릭시 스케줄 박스 오픈					
 					$('.btn_report').each(function(){
 						$(this).mouseenter(function(e){
 							var top = $(this).position().top+$(this).height(); //top 위치
@@ -52,10 +78,7 @@ $(function(){
 							$('.report_detail').hide();
 							e.preventDefault();
 						});
-					});					
-					
-					
-					
+					});						
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert(_THROWNERROR);

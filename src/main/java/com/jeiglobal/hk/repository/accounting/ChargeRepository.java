@@ -20,7 +20,7 @@ import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
 @PrimaryRepositoryAnnoInterface
 public interface ChargeRepository {
 	
-	public List<Map<String, Object>> recordCharegs(Map<String, Object> param);
-	public List<Map<String, Object>> recordCharegsList(Map<String, Object> param);
+	public List<Map<String, Object>> recordCharges(Map<String, Object> param);
+	public List<Map<String, Object>> recordChargesList(Map<String, Object> param);
 	public String recordChargesPopSave(Map<String, Object> param);
 }

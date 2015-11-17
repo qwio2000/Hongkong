@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jeiglobal.hk.domain.accounting.RoyaltyOverviewList;
 import com.jeiglobal.hk.domain.auth.LoginInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MonthInfo;
-import com.jeiglobal.hk.service.CommonService;
+import com.jeiglobal.hk.service.accounting.ChargeService;
 import com.jeiglobal.hk.service.accounting.RoyaltyService;
 import com.jeiglobal.hk.utils.CommonUtils;
 import com.jeiglobal.hk.utils.MessageSourceAccessor;
@@ -47,7 +47,7 @@ public class RoyaltyController {
 	private MessageSourceAccessor messageSource;// message 사용
 	
 	@Autowired
-	private CommonService commonService;	
+	private ChargeService chargeService;	
 	
 	@Autowired
 	private RoyaltyService royaltyService;
@@ -157,6 +157,20 @@ public class RoyaltyController {
 		map.put("royaltyReportTot", dataRoyaltyReportTot);
 		return map;
 	}	
+	@RequestMapping(value={"/ja/accounting/chargeDetailOfRoyaltyReportJson","/fa/accounting/chargeDetailOfRoyaltyReportJson"},method = {RequestMethod.GET}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public Map<String, Object> getChargeDetailOfRoyaltyReportJson(@ModelAttribute LoginInfo loginInfo, 
+		@RequestParam(defaultValue="") String deptCD, @RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM,
+		@RequestParam(defaultValue="") String chargeCD) throws ParseException{
+
+		List<Map<String, Object>> dataRecordChargeList = chargeService.getRecordChargeList(loginInfo.getJisaCD(), deptCD, selYY, selMM, chargeCD);
+		log.debug("Getting royaltyReport Page, dataRecordChargeList : {}", dataRecordChargeList);
+		int totalCnt = (dataRecordChargeList.size()>0)? dataRecordChargeList.size() : 0;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("recordChargeList", dataRecordChargeList);
+		map.put("totalCnt", totalCnt);
+		return map;
+	}	
 	@RequestMapping(value={"/ja/accounting/royaltyReportPop"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getRoyaltyReportPop(Model model, @ModelAttribute LoginInfo loginInfo, 
 			@RequestParam(defaultValue="") String deptCD, @RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM){
@@ -190,12 +204,7 @@ public class RoyaltyController {
 	@RequestMapping(value={"/ja/accounting/royaltyViewPop","/fa/accounting/royaltyViewPop"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getRoyaltyViewPop(Model model, @ModelAttribute LoginInfo loginInfo, 
 			@RequestParam(defaultValue="") String deptCD, @RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM){
-		/* 나중에 작업
-		Calendar cal = Calendar.getInstance();
-		String currentYear = new SimpleDateFormat("YYYY").format(cal.getTime());
-		if("".equals(selYY)){
-			selYY=currentYear;
-		}
+
 		List<RoyaltyOverviewList> dataRoyaltyReportList = royaltyService.getRoyaltyOverviewList(loginInfo.getJisaCD(), deptCD, selYY, selMM, loginInfo.getUserType());
 		String deptName = "";
 		String stateName = "";
@@ -209,13 +218,14 @@ public class RoyaltyController {
 		headerScript.add("accountingRoyalty");
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("royaltyReportList", dataRoyaltyReportList);
-		model.addAttribute("currentYear", currentYear);
 		model.addAttribute("selYY", selYY);
 		model.addAttribute("deptCD", deptCD);		
 		model.addAttribute("deptName", deptName);
 		model.addAttribute("stateName", stateName);
 		model.addAttribute("feeUnitName", feeUnitName);
-		*/
+
 		return "accounting/royaltyViewPop";
-	}	
+	}
+
+	
 }
