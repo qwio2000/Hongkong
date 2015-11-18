@@ -130,4 +130,17 @@ public class LeadController {
 		leadService.addCenterLeadNote(note);
 		return msa.getMessage("lead.note.insert.success");
 	}
+	
+	@RequestMapping(value = { "/ja/leads/edit/{idx:[0-9]+}" }, method = { RequestMethod.GET, RequestMethod.HEAD })
+	public String getLeadEditPage(Model model, @ModelAttribute LoginInfo loginInfo, @PathVariable int idx) {
+		log.debug("Getting Lead Edit Page, idx = {}", idx);
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("lead");
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("centerLead", leadService.getCenterLeadByIdx(idx));
+		model.addAttribute("leadStatus", commonService.getCodeDtls("0320", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("howHears", commonService.getCodeDtls("0321", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("centerStates", commonService.getCenterStates(loginInfo.getJisaCD()));
+		return "lead/edit";
+	}
 }

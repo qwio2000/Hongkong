@@ -4,7 +4,7 @@
 	<h2 class="conTit">BizLead : ${centerLead.contactFstName } ${centerLead.contactLstName }</h2>
 	<div class="list02 clearfix">
 		<div class="float_r">
-			<div class="btnArea_txt p0"><a href="" class="btn_info m0"><span class="hidden">modify</span></a></div>
+			<div class="btnArea_txt p0"><a href="/ja/leads/edit/${centerLead.idx }" class="btn_info m0"><span class="hidden">modify</span></a></div>
 		</div>
 	</div>
 	<div class="tbl01 mt5">
