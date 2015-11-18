@@ -76,23 +76,24 @@ public class WorkbookstatusService {
 		return workbookstatusRepository.findWorkbookStatusDungList(param);
 	}
 
-	public String addIventorySetrestockqtyUpt(String jisaCD, String deptCD, String subj, String allset, String workId) {
+	public String addInventorySetrestockqtyUpt(String jisaCD, String deptCD, String subj, String allset, String workId) {
 		param.put("jisaCD", jisaCD);
 		param.put("deptCD", deptCD);
 		param.put("subj", subj);
 		param.put("allset", allset);
 		param.put("workId", workId);
-		return workbookstatusRepository.findIventorySetrestockqtyUpt(param);
+		return workbookstatusRepository.findInventorySetrestockqtyUpt(param);
 		
 	}
 
-	public String addIventoryShipInventoryUpt(String jisaCD, String deptCD, String subj, String allset, String workId) {
+	public String addInventoryShipInventoryUpt(String jisaCD, String deptCD, String subj, String allset, String reqCD, String workId) {
 		param.put("jisaCD", jisaCD);
 		param.put("deptCD", deptCD);
 		param.put("subj", subj);
 		param.put("allset", allset);
+		param.put("reqCD", reqCD);
 		param.put("workId", workId);
-		return workbookstatusRepository.findIventoryShipInventoryUpt(param);
+		return workbookstatusRepository.findInventoryShipInventoryUpt(param);
 		
 	}
 

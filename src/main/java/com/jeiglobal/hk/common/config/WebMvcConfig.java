@@ -1,22 +1,27 @@
 package com.jeiglobal.hk.common.config;
 
-import java.util.*;
+import java.util.Locale;
 
-//import org.modelmapper.*;
-import org.springframework.boot.context.embedded.*;
-import org.springframework.context.*;
-import org.springframework.context.annotation.*;
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.filter.*;
-import org.springframework.web.servlet.*;
-import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.i18n.*;
-import org.springframework.web.servlet.view.*;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.view.BeanNameViewResolver;
 
-import com.jeiglobal.hk.common.*;
-import com.jeiglobal.hk.excel.*;
-import com.jeiglobal.hk.utils.*;
-import com.navercorp.lucy.security.xss.servletfilter.*;
+import com.jeiglobal.hk.common.FileDownload;
+import com.jeiglobal.hk.common.MenuIntercepter;
+import com.jeiglobal.hk.excel.WeeklyScheduleExcel;
+import com.jeiglobal.hk.utils.MessageSourceAccessor;
+import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 
 /**
  * 

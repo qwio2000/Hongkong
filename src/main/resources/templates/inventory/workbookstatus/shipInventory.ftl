@@ -52,11 +52,11 @@
 										</#if>
 											<td class="col_n"> 				<!--  gt :> , gte : >= , lt < , lte <= -->
 												<#if stableqty?number == stocqty?number >  <!-- 적정재고 = 현재재고  "검정색"-->
-													<input type="text" style="width:20px" id="input_${wbdungIndex }_${dungListIndex.caskey }"  value="" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" />
+													<input type="text" style="width:20px" id="input_${wbdungIndex }_${dungListIndex.caskey }"  value="" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" autoqty=""/>
 												<#elseif stableqty?number lt stocqty?number>  <!-- 적정재고 < 현재재고  "파란색"-->
-													<input type="text" style="width:20px" id="input_${wbdungIndex }_${dungListIndex.caskey }"  value="" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" />
+													<input type="text" style="width:20px" id="input_${wbdungIndex }_${dungListIndex.caskey }"  value="" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" autoqty="" />
 												<#elseif stableqty?number gt stocqty?number>  <!-- 적정재고 > 현재재고  "빨간색"-->
-													<input type="text" style="width:20px" id="input_${wbdungIndex }_${dungListIndex.caskey }"  value="${qty?replace("-","") }" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" />
+													<input type="text" style="width:20px" id="input_${wbdungIndex }_${dungListIndex.caskey }"  value="${qty?replace("-","") }" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" autoqty="${qty?replace("-","") }" />
 												</#if>
 											</td>
 										<#assign chk = "1">

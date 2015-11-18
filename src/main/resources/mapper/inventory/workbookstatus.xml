@@ -44,14 +44,14 @@
 	</select>
 	
 	<!-- 지사 현재고 수량 수정 -->
-	<select id="findIventoryShipInventoryUpt" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
-			CALL globalbiz.SPIventoryShipInventoryUpt(#{jisaCD},#{deptCD},#{subj},#{allset},#{workId});
+	<select id="findInventoryShipInventoryUpt" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
+			CALL globalbiz.SPInventoryShipInventoryUpt(#{jisaCD},#{deptCD},#{subj},#{allset},#{reqCD},#{workId});
 	</select>
 	
 
 	<!-- 지사 적정재고 수량 수정 -->
-	<select id="findIventorySetrestockqtyUpt" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
-			CALL globalbiz.SPIventorySetrestockqtyUpt(#{jisaCD},#{deptCD},#{subj},#{allset},#{workId});
+	<select id="findInventorySetrestockqtyUpt" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
+			CALL globalbiz.SPInventorySetrestockqtyUpt(#{jisaCD},#{deptCD},#{subj},#{allset},#{workId});
 	</select>
 	
 	

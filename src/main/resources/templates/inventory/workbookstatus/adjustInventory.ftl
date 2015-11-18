@@ -42,16 +42,16 @@
 								<#list setlistIndxe.dungList as dungListIndex>
 									<#if wbdungIndex == dungListIndex.wbgrade>
 										
-										<#assign stocqty = dungListIndex.stocqty>
-										<#assign stableqty = dungListIndex.stableqty>
+										<#assign stocqty = dungListIndex.stocqty> <!-- 현재재고 -->
+										<#assign stableqty = dungListIndex.stableqty> <!--  적정재고 -->
 										<#assign qty = stocqty?number - stableqty?number>  <!-- 현재재고 - 적정재고 -->
 										<#if wbdungIndex_index = 0>
 											<td class="no_line">${dungListIndex.wbname }</td>
 										<#else>
 											<td>${dungListIndex.wbname }</td>
 										</#if>
-											<td class="col_n"> 				<!--  gt :> , gte : >= , lt < , lte <= -->
-												<input type="text" style="width:20px" name="" id="" value="${stocqty }" />		
+											<td class="col_n"> 				<!--  gt :> , gte : >= , lt < , lte <= -->	
+												<input type="text" style="width:20px" name="" id="input_${wbdungIndex }_${dungListIndex.caskey }"  value="${stocqty }" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" autoqty="${qty?replace("-","") }" stocqty="${stocqty }" />
 											</td>
 										<#assign chk = "1">
 									</#if>					
@@ -72,9 +72,15 @@
 				</tbody>
 			</table>
 		</div>
+		
+		<input type="hidden" id="jisaCD" value="${jisaCD }">
+		<input type="hidden" id="deptCD" value="${deptCD }">
+		<input type="hidden" id="subj" value="${subj }">
+		<div id="allset" style=""></div>
+		
 		<div class="btnArea">
 			<a href="#"><span>Cancle</span></a>
-			<a href="#"><span>Adjust Inventroy</span></a>
+			<a href="javascript:$.getAdjustInventorySave();"><span>Adjust Inventroy</span></a>
 		</div>
 	</div>
 <!--// Main Content -->
