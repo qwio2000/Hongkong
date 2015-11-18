@@ -1,10 +1,11 @@
 $(function(){
 	$.extend({
-		/*getShipInventorySave:function(){   // 현재고 수량 저장
+		getShipInventorySave:function(){   // Ship 재고 수량 저장
 			var cnt = "";
 			var wbgrade = "";
 			var caskey = "";
-			var data = "";
+			var autoqty = "";
+			var allset = "";
 			var jisaCD = $("#jisaCD").val();
 			var deptCD = $("#deptCD").val();
 			var subj = $("#subj").val();
@@ -15,33 +16,70 @@ $(function(){
 				cnt = $("#"+$(this).attr("id")).val();
 				wbgrade =$(this).attr("wbgrade");
 				caskey = $(this).attr("caskey");
+				autoqty = $(this).attr("autoqty");
 				if(cnt != ""){
-					$("#allset").append(cnt+","+wbgrade+","+caskey+"@@");
+					$("#allset").append(cnt+","+wbgrade+","+caskey+","+autoqty+"@@");
 				}
 			});
 			
-			data = $("#allset").html();
+			allset = $("#allset").html();
 			
 			$(".btnArea").css("display","none");
+			
+			$.getInventorySave(jisaCD, deptCD, subj, allset, '12');
+		},
+		
+		getAdjustInventorySave:function(){   // Adjust 재고 수량 저장
+			var cnt = "";
+			var wbgrade = "";
+			var caskey = "";
+			var autoqty = ""; //전산자동계산
+			var stocqty = ""; //현재고
+			var allset = "";
+			var jisaCD = $("#jisaCD").val();
+			var deptCD = $("#deptCD").val();
+			var subj = $("#subj").val();
+			
+			$("#allset").html("");
+			
+			$("[id^=input_]").each(function (i, v) {
+				cnt = $("#"+$(this).attr("id")).val();
+				wbgrade =$(this).attr("wbgrade");
+				caskey = $(this).attr("caskey");
+				autoqty = $(this).attr("autoqty");
+				stocqty = $(this).attr("stocqty");
+				cnt = cnt - stocqty
+				if(cnt != "0"){
+					$("#allset").append(cnt+","+wbgrade+","+caskey+","+autoqty+"@@");
+				}
+			});
+			
+			allset = $("#allset").html();
+			
+			$(".btnArea").css("display","none");
+			
+			$.getInventorySave(jisaCD, deptCD, subj, allset, '11');
+		},
+		
+		getInventorySave:function(jisaCD, deptCD, subj, allset, reqCD){
 			var searchUrl = "/ja/inventory/workbookstatusShipInventorySave";
-			var paramData = {"jisaCD":jisaCD, "deptCD":deptCD, "subj":subj, "allset":data};		
+			var paramData = {"jisaCD":jisaCD, "deptCD":deptCD, "subj":subj, "allset":allset, "reqCD":reqCD};		
 			//console.log(paramData)
 			 $.ajax({
 				url:searchUrl,
-				type:"GET",
+				type:"POST",
 				cache: false,
 				data: paramData,
 				dataType: "JSON",			
 				success: function(jsonData, textStatus, XMLHttpRequest) {
 					alert(jsonData.saveOK);
-					$.getReload();
+					//$.getReload();
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert(thrownError);
 				}
 			});
-			
-		},*/
+		},
 		
 		getSetrestockqtySave:function(){   // 적정재고 수정 저장
 			$("#btnArea").css("display","none");
@@ -71,7 +109,7 @@ $(function(){
 
 			$.ajax({
 				url:searchUrl,
-				type:"GET",
+				type:"POST",
 				cache: false,
 				data: paramData,
 				dataType: "JSON",			
@@ -143,8 +181,8 @@ $(function(){
 	});
 	
 	
-	/*// 상품별 print
+	// 상품별 print
 	if(window.location.pathname == '/ja/inventory/workbookstatusPrint'){
 		$.getPrint();
-	}*/
+	}
 });

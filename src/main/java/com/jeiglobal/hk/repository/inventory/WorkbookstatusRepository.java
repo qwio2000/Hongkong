@@ -26,9 +26,9 @@ public interface WorkbookstatusRepository {
 	
 	List<String> findWorkbookStatusDungList(Map<String, Object> map);
 	
-	String findIventorySetrestockqtyUpt(Map<String, Object> map);
+	String findInventorySetrestockqtyUpt(Map<String, Object> map);
 	
-	String findIventoryShipInventoryUpt(Map<String, Object> map);
+	String findInventoryShipInventoryUpt(Map<String, Object> map);
 	
 	
 
