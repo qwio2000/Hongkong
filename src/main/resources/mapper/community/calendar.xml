@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	작성일 : 2015-11-04
+	작성자 : 이지은
+	내  용 : 커뮤니티 > 캘린더
+-->
+<mapper namespace="com.jeiglobal.hk.repository.community.CalendarRepository">
+	
+	<!-- 캘린더 내역 가져오기. -->
+	<select id="CalendarList" resultType="com.jeiglobal.hk.domain.community.Calendar" parameterType="com.jeiglobal.hk.domain.auth.LoginInfo">
+		SELECT aidx, title, CONCAT(START,'T',starttime) START, CONCAT(END,'T',endtime) END
+				, color, description, starttime, endtime, jisaCD, deptCD, regID, regDate
+		FROM globalbiz.BoardCalendar
+		WHERE jisaCD = #{jisaCD}
+	</select>
+
+	<select id="CalendarDetail" resultType="com.jeiglobal.hk.domain.community.Calendar" parameterType="int">
+		SELECT aidx, title, start, end, color, description, starttime, endtime, jisaCD, deptCD, regID, regDate
+		FROM globalbiz.BoardCalendar
+		WHERE aidx = #{aidx}
+	</select>
+	
+	
+</mapper>
