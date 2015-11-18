@@ -22,9 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jeiglobal.hk.domain.accounting.RoyaltyOverviewList;
 import com.jeiglobal.hk.domain.auth.LoginInfo;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberWeeklyScheduleInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MonthInfo;
+import com.jeiglobal.hk.domain.promotionitem.PromotionOrderItem;
 import com.jeiglobal.hk.service.accounting.ChargeService;
+import com.jeiglobal.hk.service.accounting.PaymentService;
 import com.jeiglobal.hk.service.accounting.RoyaltyService;
+import com.jeiglobal.hk.service.promotionitem.PromotionitemService;
 import com.jeiglobal.hk.utils.CommonUtils;
 import com.jeiglobal.hk.utils.MessageSourceAccessor;
 
@@ -48,6 +52,12 @@ public class RoyaltyController {
 	
 	@Autowired
 	private ChargeService chargeService;	
+	
+	@Autowired
+	private PaymentService paymentService;
+	
+	@Autowired
+	private PromotionitemService promotionitemservice;	
 	
 	@Autowired
 	private RoyaltyService royaltyService;
@@ -163,7 +173,7 @@ public class RoyaltyController {
 		@RequestParam(defaultValue="") String deptCD, @RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM,
 		@RequestParam(defaultValue="") String chargeCD) throws ParseException{
 
-		List<Map<String, Object>> dataRecordChargeList = chargeService.getRecordChargeList(loginInfo.getJisaCD(), deptCD, selYY, selMM, chargeCD);
+		List<Map<String, Object>> dataRecordChargeList = chargeService.getRecordChargeList(loginInfo.getJisaCD(), deptCD, selYY, selMM, chargeCD, loginInfo.getUserType());
 		log.debug("Getting royaltyReport Page, dataRecordChargeList : {}", dataRecordChargeList);
 		int totalCnt = (dataRecordChargeList.size()>0)? dataRecordChargeList.size() : 0;
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -205,27 +215,53 @@ public class RoyaltyController {
 	public String getRoyaltyViewPop(Model model, @ModelAttribute LoginInfo loginInfo, 
 			@RequestParam(defaultValue="") String deptCD, @RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM){
 
-		List<RoyaltyOverviewList> dataRoyaltyReportList = royaltyService.getRoyaltyOverviewList(loginInfo.getJisaCD(), deptCD, selYY, selMM, loginInfo.getUserType());
-		String deptName = "";
-		String stateName = "";
-		String feeUnitName = "";
-		if (dataRoyaltyReportList.size()>0) {
-			deptName = dataRoyaltyReportList.get(0).getDeptName();
-			stateName = dataRoyaltyReportList.get(0).getStateName();
-			feeUnitName = dataRoyaltyReportList.get(0).getFeeUnitNM();
-		}
+		List<Map<String, Object>> dataRoyaltyViewOfSalesList = royaltyService.getRoyaltyViewOfSalesList(loginInfo.getJisaCD(), deptCD, selYY, selMM, loginInfo.getUserType());
+		Map<String, Object> dataRoyaltyView = royaltyService.getRoyaltyView(loginInfo.getJisaCD(), deptCD, selYY, selMM, loginInfo.getUserType());
+		List<Map<String, Object>> dataRecordPaymentList = paymentService.getRecordPaymentList(loginInfo.getJisaCD(), deptCD, selYY, selMM, "", loginInfo.getUserType());
+		List<Map<String, Object>> dataRecordChargeList = chargeService.getRecordChargeList(loginInfo.getJisaCD(), deptCD, selYY, selMM, "99", loginInfo.getUserType());
+		log.debug("Getting 로열티 상세 팝업의 기타정산내역 상세 Page, dataRecordChargeList : {}", dataRecordChargeList);
+		int recordChargeTotalCnt = (dataRecordChargeList.size()>0)? dataRecordChargeList.size() : 0;
+		
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("accountingRoyalty");
 		model.addAttribute("headerScript", headerScript);
-		model.addAttribute("royaltyReportList", dataRoyaltyReportList);
+		model.addAttribute("royaltyViewOfSalesList", dataRoyaltyViewOfSalesList);
+		model.addAttribute("royaltyView", dataRoyaltyView);
+		model.addAttribute("recordPaymentList", dataRecordPaymentList);
+		model.addAttribute("recordChargeList", dataRecordChargeList);
+		model.addAttribute("recordChargeTotalCnt", recordChargeTotalCnt);
 		model.addAttribute("selYY", selYY);
-		model.addAttribute("deptCD", deptCD);		
-		model.addAttribute("deptName", deptName);
-		model.addAttribute("stateName", stateName);
-		model.addAttribute("feeUnitName", feeUnitName);
+		model.addAttribute("selMM", selMM);
+		model.addAttribute("deptCD", deptCD);
 
 		return "accounting/royaltyViewPop";
-	}
+	}	
+	@RequestMapping(value={"/ja/accounting/promoitemOrderDtlJson","/fa/accounting/promoitemOrderDtlJson"},method = {RequestMethod.GET}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public Map<String, Object> getPromoitemOrderDtlOfRoyaltyReportJson(@ModelAttribute LoginInfo loginInfo,
+		@RequestParam(defaultValue="") int aidx) {
+
+		List<PromotionOrderItem> dataPromoOrderDtllist = promotionitemservice.promotionitemOrderDtlList(aidx);
+		log.debug("Getting 로열티 상세 팝업의 판촉물 상세 레이어 Page, dataPromoOrderDtllist : {}", dataPromoOrderDtllist);
+		int totalCnt = (dataPromoOrderDtllist.size()>0)? dataPromoOrderDtllist.size() : 0;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("promoOrderDtllist", dataPromoOrderDtllist);
+		map.put("totalCnt", totalCnt);
+		return map;
+	}	
+	// 로열티 레포트 엑셀
+	@RequestMapping(value="/ja/accounting/royaltyReport/excel", method=RequestMethod.POST)
+	public String getRoyaltyReportExcel(Model model, @ModelAttribute LoginInfo loginInfo,
+		@RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM){
+		
+		List<RoyaltyOverviewList> dataRoyaltyReportList = royaltyService.getRoyaltyOverviewList(loginInfo.getJisaCD(), "", selYY, selMM, loginInfo.getUserType());
+		List<RoyaltyOverviewList> dataRoyaltyReportTot = royaltyService.getRoyaltyOverviewTot(loginInfo.getJisaCD(), "", selYY, selMM, loginInfo.getUserType());		
+		model.addAttribute("royaltyReportList", dataRoyaltyReportList);
+		model.addAttribute("royaltyReportTot", dataRoyaltyReportTot);
+		model.addAttribute("selYY", selYY);
+		model.addAttribute("selMM", selMM);
+		return "royaltyReportExcel";
+	}	
 
 	
 }

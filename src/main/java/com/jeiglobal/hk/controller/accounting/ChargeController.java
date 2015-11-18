@@ -94,7 +94,7 @@ public class ChargeController {
 			selMM=currentMonth;
 		}		
 		
-		List<Map<String, Object>> dataRecordChargeList = chargeService.getRecordChargeList(loginInfo.getJisaCD(), deptCD, selYY, selMM, "");
+		List<Map<String, Object>> dataRecordChargeList = chargeService.getRecordChargeList(loginInfo.getJisaCD(), deptCD, selYY, selMM, "", loginInfo.getUserType());
 		log.debug("Getting recordCharges Page, dataRecordChargeList : {}", dataRecordChargeList);
 		
 		int totAmount = 0;
@@ -182,7 +182,7 @@ public class ChargeController {
 	public Map<String, Object> getChargeReportJson(@ModelAttribute LoginInfo loginInfo, 
 		@RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM) throws ParseException{
 
-		List<Map<String, Object>> dataChargeReportList = chargeService.getRecordChargeList(loginInfo.getJisaCD(), "", selYY, selMM, "");
+		List<Map<String, Object>> dataChargeReportList = chargeService.getRecordChargeList(loginInfo.getJisaCD(), "", selYY, selMM, "", loginInfo.getUserType());
 		log.debug("Getting chargeReport Page, dataRecordChargeList : {}", dataChargeReportList);
 		
 		int totAmount = 0;

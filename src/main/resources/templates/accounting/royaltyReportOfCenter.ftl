@@ -45,9 +45,9 @@
 			<td class="no_line left pl5">
 				<div class="clearfix">
 					<div class="sel_name"><a href="javascript:;" onClick="$.openRoyaltyView('{{deptCD}}','{{mgYY}}','{{mgMM}}');" class="icon_search">{{mgMMName}}</a></div>
-					<div class="sel_print">
+					<!-- div class="sel_print">
 						<a href="#" class="icon_print"><span class="hidden">Print</span></a>
-					</div>
+					</div -->
 				</div>
 			</td>
 			<td>{{prevBalance}}</td>

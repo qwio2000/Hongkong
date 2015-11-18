@@ -37,13 +37,14 @@ public class ChargeService {
 		param.put("mgMM", mgMM);
 		return chargeRepository.recordCharges(param);				
 	}
-	public List<Map<String, Object>> getRecordChargeList(String jisaCD, String deptCD, String mgYY, String mgMM, String jobFlag) {		
+	public List<Map<String, Object>> getRecordChargeList(String jisaCD, String deptCD, String mgYY, String mgMM, String jobFlag, String userType) {		
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("jisaCD", jisaCD);
 		param.put("deptCD", deptCD);
 		param.put("mgYY", mgYY);
 		param.put("mgMM", mgMM);
 		param.put("jobFlag", jobFlag);
+		param.put("userType", userType);
 		return chargeRepository.recordChargesList(param);				
 	}	
 	public String getRecordChargesPopSave(String jisaCD, String deptCD, String chargeYMD, String mgYY, String mgMM, String chargeCD, String memo, int amount, String workId, int idx) {		
