@@ -27,14 +27,17 @@ public class CenterLeads {
 	private String cellPhone;
 	private String city;
 	private String stateCD;
+	private String stateName;
 	private String zip;
 	private String addr;
 	private String country;
 	private String howHear;
+	private String howHearName;
 	private String howHearMore;
 	private String areaInterested;
 	private String notes;
 	private String statusCD;
+	private String statusName;
 	private String lastContactYMD;
 	private String jisaCD;
 	private Date regDate;
