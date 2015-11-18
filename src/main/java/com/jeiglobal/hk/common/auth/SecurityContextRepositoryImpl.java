@@ -62,7 +62,9 @@ public class SecurityContextRepositoryImpl implements SecurityContextRepository{
 			String userName = map.get("AUTHId").toString();
 			String encodeCookie = map.get("AUTHKey").toString();
 			long cnt = authoritiesService.countMemberByIdAndEncodeCookie(userName, encodeCookie);
-			if(cnt == 1){
+			//자동 로그인시 기존 로그인 되어 있는 경우 
+			boolean isAdmin = (map.containsKey("BmsAUTHKey") || map.containsKey("JisaAUTHKey"));
+			if(cnt == 1 || isAdmin){
 				if(ctx.getAuthentication() == null){
 					LoginInfo member = authoritiesService.findMemberById(userName);
 					member.setUserPasswd("");
@@ -118,6 +120,18 @@ public class SecurityContextRepositoryImpl implements SecurityContextRepository{
 			}else if("AUTHKey".equals(cookie.getName())){
 				try {
 					map.put("AUTHKey",URLDecoder.decode(cookie.getValue(),"utf-8"));
+				} catch (UnsupportedEncodingException e) {
+					return null;
+				}
+			}else if("BmsAUTHKey".equals(cookie.getName())){
+				try {
+					map.put("BmsAUTHKey",URLDecoder.decode(cookie.getValue(),"utf-8"));
+				} catch (UnsupportedEncodingException e) {
+					return null;
+				}
+			}else if("JisaAUTHKey".equals(cookie.getName())){
+				try {
+					map.put("JisaAUTHKey",URLDecoder.decode(cookie.getValue(),"utf-8"));
 				} catch (UnsupportedEncodingException e) {
 					return null;
 				}

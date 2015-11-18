@@ -148,11 +148,10 @@ public class DiagnosisController {
 		String deptCD = loginInfo.getDeptCD();
 		String digYN = "";
 		
-		if ("A".equals(freejindan) || "I".equals(freejindan)) {			// 무료진단 X 등급 제외
+		if (("A").equals(freejindan) || ("I").equals(freejindan)) {			// 무료진단 X 등급 제외
 			digYN = "Y";
 		}
 		
-		digYN = "Y";
 		
 		DiagnosisDto.DiagnosisInputippr diagnosisInputippr = diagnosisService.getDiagnosisInputippr(jisaCD, deptCD, memKey, subj, freejindan);	 //회원정보
 		
@@ -186,6 +185,9 @@ public class DiagnosisController {
 		model.addAttribute("level", gradeOfSubject);
 		model.addAttribute("freejindan", freejindan);
 		model.addAttribute("subj", subj);
+		
+		model.addAttribute("testType", diagnosisOmrMemChk.getOmrkind());
+		model.addAttribute("leveldung", diagnosisOmrMemChk.getSetdung());
 
 		
 		return "diagnosis/diagnosis/ippr";	
@@ -193,7 +195,7 @@ public class DiagnosisController {
 	
 	// ippr 오답 입력
 	@RequestMapping(value={"/fa/diagnosis/ipprinput"}, method={RequestMethod.POST,RequestMethod.HEAD})  
-	public String diagnosisIpprinput(Model model, @ModelAttribute LoginInfo loginInfo,String memKey, String jisaCD, String deptCd, String mfstname, String mlstname, String gradeNM, String gradeCD,  String subjname 
+	public String diagnosisIpprinput(Model model, @ModelAttribute LoginInfo loginInfo,String memKey, String jisaCD, String deptCd, String mfstname, String mlstname, String gradeNM, String gradeCD, String subj,  String subjname 
 			, String leveldung, String inputdate, String mBirthDay, String testType, String readchk, String nomr, String yoil, String studyNum, String bookNum, String freejindan) {
 		log.debug("Getting ipprinput List Page");
 		//header에 포함할 스크립트 
@@ -201,6 +203,28 @@ public class DiagnosisController {
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("diagnosis");		
 		model.addAttribute("headerScript", headerScript);	
+		
+		String alertMsg = "";
+		// x 등급 무진일시 진단평가 없이 진도 셋팅
+		if (("X").equals(leveldung)){
+			
+			DiagnosisDto.DiagnosisMujinJindoSet diagnosisMujinJindoSet = diagnosisService.getDiagnosisMujinJindoSet(jisaCD, memKey, subj);	 //무진단시 진도셋팅
+			
+			if (diagnosisMujinJindoSet == null) {
+				alertMsg = messageSourceAccesor.getMessage("Ippr.Diagnosis.MujinJindoSet.Error");   //'무진단실패'
+			}else if (("1").equals(diagnosisMujinJindoSet.getAlertcd())){
+				alertMsg = messageSourceAccesor.getMessage("Ippr.Diagnosis.MujinJindoSet.success");   //'복회무진단 성공'
+			}else if (("2").equals(diagnosisMujinJindoSet.getAlertcd())){
+				alertMsg = messageSourceAccesor.getMessage("Ippr.Diagnosis.MujinJindoSet.success");   //'신입무진단성공'
+			}else if (("9").equals(diagnosisMujinJindoSet.getAlertcd())){
+				alertMsg = messageSourceAccesor.getMessage("Ippr.Diagnosis.MujinJindoSet.Error");	 //'무진단 대상아님'
+			}
+			
+			model.addAttribute("message", alertMsg);
+			model.addAttribute("mode", "close");
+			return "alertAndRedirect";
+		}
+		
 		
 		String omrdate = CommonUtils.getCurrentYMD();  // 오늘 날짜
 		DeptMst deptMst = commonService.getDeptMstByDeptCD(deptCd);
@@ -221,6 +245,15 @@ public class DiagnosisController {
 			}
 		}
 		
+		String OmrKind = "";
+		if(testType == ""){
+			OmrKind = "1";
+		}else{
+			OmrKind = testType;
+		}
+			
+		System.out.println(testType);
+		
 		model.addAttribute("omrdate", omrdate);  //처방일자		
 		model.addAttribute("memKey", memKey);	//회원번호
 		model.addAttribute("empKey", empKey);    //원장번호
@@ -230,7 +263,7 @@ public class DiagnosisController {
 		model.addAttribute("leveldung", leveldung);
 		model.addAttribute("gradeCD", gradeCD);
 		model.addAttribute("mBirthDay", mBirthDay);
-		model.addAttribute("OmrKind", testType);
+		model.addAttribute("OmrKind", OmrKind);
 		model.addAttribute("studyNum", studyNum);
 		model.addAttribute("bookNum", bookNum);
 		model.addAttribute("deptCd", deptCd);   
@@ -239,10 +272,10 @@ public class DiagnosisController {
 		model.addAttribute("yoil1", yoil1);
 		model.addAttribute("yoil2", yoil2);
 		model.addAttribute("gradeNM", gradeNM);		
-		model.addAttribute("subjname", subjname);
+		model.addAttribute("subjname", subj);
 		model.addAttribute("leveldung", leveldung);
 		model.addAttribute("inputdate", inputdate);
-		model.addAttribute("testType", testType);
+		model.addAttribute("testType", OmrKind);
 		model.addAttribute("readchk", readchk);
 		model.addAttribute("nomr", nomr);
 		model.addAttribute("freejindan", freejindan);
@@ -381,7 +414,7 @@ public class DiagnosisController {
 		String omrBanOK = "";
 		
 		omrBanOK = diagnosisService.addDiagnosisOmrBan(jisaCD, omrDate, hkey, kwamok, rw, nOmr, omrGrd, omrHak, omrKind, omrDay1, omrBirth, omrSetCnt, omrWeekCnt, omrDay2, workID, freejindan);
-		System.out.println("=================omrBanOK=================");		
+		//System.out.println("=================omrBanOK=================");		
 
 		if ("Y".equals(omrBanOK)) {
 			alertMsg = messageSourceAccesor.getMessage("Ippr.Ban.Insert.success");
@@ -389,7 +422,7 @@ public class DiagnosisController {
 			alertMsg = messageSourceAccesor.getMessage("Ippr.Ban.Insert.Error");
 		}
 
-		System.out.println("=================alertMsg=================");		
+		//System.out.println("=================alertMsg=================");		
 
 
 		Map<String, Object> map = new HashMap<String, Object>();

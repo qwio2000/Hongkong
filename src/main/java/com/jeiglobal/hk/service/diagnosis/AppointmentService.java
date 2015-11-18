@@ -28,18 +28,8 @@ public class AppointmentService {
 	
 	Map<String, Object> param = new HashMap<>();
 
-//	public List<AppointmentSerch> getAppointmentSearch(String name,
-//			String jisaCD, String deptCD, int pageNum, int pageSize) {
-//		map.put("name", name);		
-//		map.put("jisaCD", jisaCD);		
-//		map.put("deptCD", deptCD);
-//		map.put("pageNum", pageNum);
-//		map.put("pageSize", pageSize);
-//		
-//		return appointmentRepository.findAppointmentSerch(map);
-//	}
-
 	/**
+	 * Appointment Count
 	 * @param jisaCD
 	 * @param deptCD
 	 * @return int
@@ -52,6 +42,7 @@ public class AppointmentService {
 	}
 
 	/**
+	 * Appointment List
 	 * @param jisaCD
 	 * @param deptCD
 	 * @param startRow
@@ -69,6 +60,7 @@ public class AppointmentService {
 	}
 
 	/**
+	 * Appointment 정보 가져오기
 	 * @param idx
 	 * @return Appointment
 	 */
@@ -92,6 +84,7 @@ public class AppointmentService {
 	}
 
 	/**
+	 * 이름으로 Appointment 가져오기
 	 * @param name
 	 * @param jisaCD
 	 * @param deptCD
@@ -107,6 +100,7 @@ public class AppointmentService {
 	}
 
 	/**
+	 * idx와 type으로 Appointment 가져오기
 	 * @param idx
 	 * @param type
 	 * @return Appointment
@@ -119,6 +113,7 @@ public class AppointmentService {
 	}
 
 	/**
+	 * Appointment 등록 시 Appointment 셋팅 
 	 * @param type
 	 * @param memAppointment
 	 * @param loginInfo

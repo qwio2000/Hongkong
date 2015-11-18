@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jeiglobal.hk.repository.member.MemberRegistRepository">
 	<select id="getCalcFee" parameterType="hashMap" resultType="int">
-		SELECT a.sectionFee + a.monthFee AS Fee
-		FROM globalbiz.MemFeeInfo AS a 
+		SELECT CASE #{week} WHEN 1 THEN a.sectionFee1 WHEN 2 THEN a.sectionFee2 WHEN 3 THEN a.sectionFee3 WHEN 4 THEN a.sectionFee4 END + a.monthFee AS Fee 
+		FROM globalbiz.SubjTuitionInfo AS a 
 			INNER JOIN globalbiz.DeptMst AS b 
 			ON a.deptType = b.deptType AND a.memType = b.memType AND a.feeType = b.feeType
-		WHERE b.deptCD = #{deptCD} AND a.bookNum = #{bookNum} AND a.weekNum = #{week}
+		WHERE b.deptCD = #{deptCD} AND a.bookNum = #{bookNum}
 	</select>
 	<select id="findMemberRegistSearch" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberRegistSearchInfo">
 		SELECT a.memKey, CONCAT(IFNULL(mFstName,''),' ', IFNULL(mLstName,'')) AS memName, CONCAT(IFNULL(gFstName,''),' ', IFNULL(gLstName,'')) AS guardianName,  
@@ -55,15 +55,16 @@
 		#{zip}, #{addr}, #{gEmail}, #{gPhone}, #{gCellPhone}, IFNULL(#{registWhy},''), IFNULL(#{registWhyEtc},''), IFNULL(#{registHow},''), IFNULL(#{registHowEtc},''), #{remarks}, #{regDate}, #{regID}, #{updDate}, #{updID})
 	</insert>
 	<select id="findMemFeeInfo" parameterType="hashMap" resultType="hashMap">
-		SELECT CASE WHEN c.freeType IS NOT NULL THEN 0 ELSE registFee END AS registFee, b.monthFee, b.sectionFee, b.feeUnit, IFNULL(c.freeType, '') AS freeType
+		SELECT CASE WHEN c.freeType IS NOT NULL THEN 0 ELSE registFee END AS registFee, b.monthFee, 
+			CASE #{weekNum} WHEN 1 THEN b.sectionFee1 WHEN 2 THEN b.sectionFee2 WHEN 3 THEN b.sectionFee3 WHEN 4 THEN b.sectionFee4 END AS sectionFee, b.feeUnit, IFNULL(c.freeType, '') AS freeType
 		FROM globalbiz.DeptMst AS a 
-		INNER JOIN globalbiz.MemFeeInfo AS b ON a.deptType = b.deptType AND a.memType = b.memType AND a.feeType = b.feeType
+		INNER JOIN globalbiz.SubjTuitionInfo AS b ON a.deptType = b.deptType AND a.memType = b.memType AND a.feeType = b.feeType
 		LEFT JOIN (
 			SELECT a.freeType, a.jisaCD, b.deptCD, a.startYMD, a.endYMD
 			FROM MemFeeFreeTermGroup a 
 				INNER JOIN MemFeeFreeTerm b ON(a.idx=b.mftIdx)
 		) AS c ON a.jisaCD = c.jisaCD AND a.deptCD = c.deptCD AND NOW() BETWEEN c.startYMD AND c.endYMD
-		WHERE a.deptCD = #{deptCD} AND b.weekNum = #{weekNum} 
+		WHERE a.deptCD = #{deptCD}
 	</select>
 	<insert id="insertNewMemSubjMst" parameterType="com.jeiglobal.hk.domain.member.MemSubjMst" >
 		INSERT INTO globalbiz.MemSubjMst (memKey, subj, statusCD, memName, yoil, studyNum, bookNum, digGrade, registFstYMD, 

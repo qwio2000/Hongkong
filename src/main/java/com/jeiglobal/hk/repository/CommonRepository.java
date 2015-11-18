@@ -22,7 +22,7 @@ public interface CommonRepository {
 
 	public List<CenterState> findCenterStates(String jisaCD);
 
-	public String findOpenSubjsByDeptCD(Map<String, Object> param);
+	public List<String> findOpenSubjsByDeptCD(Map<String, Object> param);
 
 	public List<GradeOfSubject> findGradeOfSubject(Map<String, Object> param);
 
@@ -35,4 +35,6 @@ public interface CommonRepository {
 	public Map<String, Object> findDeptOpenCloseTime(Map<String, Object> param);
 
 	public List<CodeDtl> findDeptAvailableTimes(Map<String, Object> param);
+
+	public List<String> findOpenSubjsByJisaCD(String jisaCD);
 }

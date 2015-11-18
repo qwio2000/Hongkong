@@ -98,7 +98,7 @@
 								<#list info.memberReportSubjInfos as subj>
 								<tr class="subject">
 									<td colspan="2" class="left">
-										<a href="#" class="btn_graph">${subj.subj?default('') }</a>
+										<a href="javascript:progressAdjust('${subj.jisaCD }','${subj.memKey }','${subj.yoil }','${subj.subj }')" class="btn_graph">${subj.subj?default('') }</a>
 										<#if subj.statusCD == "1">
 											<span class="info_line">Since ${subj.convertRegistYMD }</span>
 											<span class="info_line">${subj.yoilName?default('') }</span>

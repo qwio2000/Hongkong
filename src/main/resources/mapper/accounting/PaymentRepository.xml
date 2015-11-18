@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.accounting.PaymentRepository">
+	<!-- 로열티 미수금 입금 관리 -->
+	<select id="recordPayment" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap" >
+		CALL globalmagam.SPPaymentRecord(#{jisaCD},#{mgYY},#{mgMM});
+	</select>	 
+	<select id="recordPaymentList" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap" >
+		CALL globalmagam.SPPaymentRecordList(#{jisaCD},#{deptCD},#{mgYY},#{mgMM},#{jobFlag});
+	</select>	
+	<select id="recordPaymentPopSave" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String" >
+		CALL globalmagam.SPPaymentRecordSave(#{jisaCD},#{deptCD},#{payYMD},#{mgYY},#{mgMM},#{payCD},#{refNo},#{memo},#{amount},#{workId},#{idx});
+	</select>	
+</mapper>

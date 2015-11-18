@@ -3,6 +3,7 @@ package com.jeiglobal.hk.repository.member;
 import java.util.*;
 
 import com.jeiglobal.hk.domain.member.*;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberWeeklyDetailInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberWeeklyScheduleInfo;
 import com.jeiglobal.hk.repository.*;
 
@@ -27,5 +28,11 @@ public interface MemberWeeklyScheduleRepository {
 	public void updateMemSubjMst(Map<String, Object> param);
 
 	public void updateMemSubjStudy(Map<String, Object> param);
+
+	public List<MemberWeeklyScheduleInfo> findMemberWeeklyScheduleJA(
+			Map<String, Object> param);
+
+	public List<MemberWeeklyDetailInfo> findMemberWeeklyDetailInfo(
+			Map<String, Object> param);
 
 }

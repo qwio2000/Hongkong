@@ -1,5 +1,8 @@
 <#include "/include/header.ftl">
 <!-- Main Content -->
+<!-- 적용시에는 아래 라이브러리를 header 에 넣을것~ 지금은 테스트~ -->
+<link rel="stylesheet" type="text/css" href="${jsPath }/Nwagon/Nwagon.css" />
+<script type="text/javascript" src="${jsPath }/Nwagon/Nwagon.js"></script>
 <div class="content">
 	<h2 class="conTit">By Grade</h2>
 	<div class="tbl01 tbl_w100">
@@ -16,21 +19,46 @@
 				<tr>
 					<td class="col_gray b_r">Count</td>
 					<#list analysisByGrade as grade>
-						<th>${grade.countOfGrades }</th>
+						<td>${grade.countOfGrades }</td>
 					</#list>
 				</tr>
 				<tr>
 					<td class="col_gray b_r">Radio</td>
 					<#list analysisByGrade as grade>
-						<th>${grade.ratio }%</th>
+						<td>${grade.ratio }%</td>
 					</#list>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	<div class="graphArea pt30">
-		<img src="${imgPath}/temp/graph01.jpg" alt="" />
-	</div>
+	<!-- 등급별 회원 수 현황 그래프 : str  -->
+	<h2 class="conTit">Grades By Members</h2>
+		<div id="gradesByMembers" class="graphArea pt30"></div>
+	<!-- 등급별 회원 수 현황 그래프 : end  -->
+	<script type="text/javascript">
+	// 막대그래프
+	// ※ 라벨텍스트 기울기 없애려면 :  Nwagon.js 에서 Nwagon.column.drawLables 함수 안에서 attributes 라는 변수에 'transform':'rotate(315,'+ x +','+ y + ')' 삭제할것. 
+	//  텍스트가 길 경우에 글씨가 겹치는걸 방지하게 위해 기울기 설정되어있음.
+	// 주의 : 1. 수치 뿌릴때 eval 처리할것. 
+	//		  2. 데이터 처리시 오류가 난다면, 데이터를 새로운 Array 에 담아서 처리해볼것.
+	var data = [<#list analysisByGrade as grade><#if grade_index != 0>,</#if>${grade.countOfGrades?number }</#list>];
+	var names = [<#list analysisByGrade as grade><#if grade_index != 0>,</#if>'${grade.dtlCDNM }'</#list>];
+	var options = {
+		'legend': {
+			names: names
+		},
+		'dataset': {
+			title: 'Grades by Members',
+			values: data,
+			colorset: ['#5586EB']
+		},
+		'chartDiv': 'gradesByMembers',
+		'chartType': 'column',
+		'chartSize': { width: 960, height: 365 },
+		'increment': 5
+	};
+	Nwagon.chart(options);	
+	</script>
 	<div class="tbl01">
 		<table>
 			<colgroup>

@@ -49,7 +49,7 @@ public class MemberWorkbookController {
 		log.debug("member Workbook Page {} ");
 		List<String> headerScript = new ArrayList<>();
 		List<MonthInfo> months = CommonUtils.getMonths(1);
-		List<String> subjs = commonService.getOpenSubjsByDeptCD(loginInfo.getJisaCD(), loginInfo.getDeptCD());
+		List<String> subjs = commonService.getOpenSubjsByDeptCD(loginInfo.getJisaCD(), loginInfo.getDeptCD(), "1");
 		headerScript.add("memberWorkbook");
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("months", months);

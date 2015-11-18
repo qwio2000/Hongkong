@@ -1,27 +1,16 @@
 package com.jeiglobal.hk.controller.member;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.*;
+import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.*;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.*;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.ui.*;
+import org.springframework.web.bind.annotation.*;
 
 import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
@@ -56,9 +45,6 @@ public class MemberRegistController {
 	private MemberRegistService memberRegistService;
 	
 	@Autowired
-	private ModelMapper modelMapper;
-	
-	@Autowired
 	private MessageSourceAccessor msa;
 	
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
@@ -84,6 +70,9 @@ public class MemberRegistController {
 		return map;
 	}
 	
+	/**
+	 * 입회 페이지 
+	 */
 	@RequestMapping(value={"/fa/members/regist/new"}, method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMemberRegistPage(Model model,
 			String type, // 1 : 최초 신입, 2: 타과목, 3: 형제 회원
@@ -98,6 +87,7 @@ public class MemberRegistController {
 		log.debug("appIdx : {}", appIdx);
 		List<String> appSubjs = null;
 		MemAppointment memAppointment = null;
+		//Appointment 연결 여부
 		if(appIdx != null && appIdx != 0){
 			memAppointment = memberRegistService.getAppointmentByIdx(appIdx);
 			if(memAppointment.getMemKey() != null && !memAppointment.getMemKey().isEmpty()){
@@ -179,6 +169,9 @@ public class MemberRegistController {
 		return maxDays;
 	}
 	
+	/**
+	 * 회비 계산 
+	 */
 	@RequestMapping(value="/fa/members/regist/feecalc", method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public int getFeeCalcJson(String firstManageDate, int bookNum, @ModelAttribute LoginInfo loginInfo) throws ParseException{
@@ -187,6 +180,9 @@ public class MemberRegistController {
 		return fee;
 	}
 	
+	/**
+	 * 입회 처리
+	 */
 	@RequestMapping(value="/fa/members", method = {RequestMethod.POST})
 	public String addMemberRegist(Model model, String type, MemMst memMst, 
 			String[] subj, String[] firstManageDate, String[] manageTime, String[] fee, String[] bookNum, String[] studyNum, String[] monthNum, String[] isResume,
@@ -228,6 +224,7 @@ public class MemberRegistController {
 				}
 				memberRegistService.addNewMemSubjRegist(memSubjRegist);
 				memberRegistService.addNewMemSubjTuition(memSubjTuition);
+				//무료진단 진도 연결
 				if(subj[i].equals(freeDiagInfo.getFreeSubj())){
 					String isOk = memberRegistService.addMemProgressByFreeDiag(freeDiagInfo, loginInfo, memMst.getMemKey());
 					if(!"Y".equals(isOk)){
@@ -246,6 +243,7 @@ public class MemberRegistController {
 			memberRegistService.setGuadianInfoForMemMst(memMst, memKey, type);
 			memberRegistService.addNewMemMst(memMst);
 		}
+		//Appointment, FreeGicho 업데이트
 		if(appIdx != 0){
 			memberRegistService.setMemAppointRegistYMD(appIdx, currentDate, workId, memMst.getMemKey());
 			if(freeDiagInfo != null && !"".equals(freeDiagInfo.getFreeSubj())){

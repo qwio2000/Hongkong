@@ -6,7 +6,7 @@
 		<div class="pop_jisa">
 			<form action="" name="userForm" id="userForm">
 			<input type="hidden" name="deptCD" id="deptCD"  value="${deptCD?default('')}"/>		
-			<input type="hidden" name="userId" id="userId" value="${userId?default('')}"/>
+			<input type="hidden" name="userId" id="userId" value="${userId?default('')}"/>			
 			<input type="hidden" name="statusCD" id="statusCD" value="${statusCD?default('')}"/>
 			<input type="hidden" name="userType" id="userType" value="${userType?default('')}"/>
 			<input type="hidden" name="jobFlag" id="jobFlag" value="${jobFlag?default('')}"/>
@@ -16,13 +16,20 @@
 					<label for="" class="tit">Center Name</label>
 					<strong>${centerInfo.deptName }</strong>
 				</li>
+
+				<#if jobFlag == "myPage">
 				<li>
 					<label for="" class="tit">User ID</label>
-					<strong>자동생성</strong>
-				</li>
-				<#if jobFlag == "myPage">
-				<input type="hidden" name="dutyCD" id="dutyCD" value="J1"/>
-				<#else>				
+					<input type="text" name="newUserId" id="newUserId" class="searchInput" style="width:175px"  maxlength='10' > <a href="javascript:;" onClick="$.userIdChk();" >ID중복체크</a>
+					<input type="hidden" name="newUserIdConf" id="newUserIdConf" value=""/>
+					<input type="hidden" name="userIdChk" id="userIdChk" value=""/>					
+				</li>				
+				<input type="hidden" name="dutyCD" id="dutyCD" value="J1"/><!-- 지사스탭 -->
+				<#else>
+				<li>				
+					<label for="" class="tit">User ID</label>
+					<strong>자동생성</strong>					
+				</li>								
 				<li>
 					<label for="" class="tit">User Duty <span class="must">*</span></label>
 					<select name="dutyCD" id="dutyCD" style="width:187px;margin-right:3px">

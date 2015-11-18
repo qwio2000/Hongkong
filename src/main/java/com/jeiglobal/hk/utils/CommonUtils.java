@@ -7,6 +7,7 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import org.springframework.context.i18n.*;
 import org.springframework.web.util.*;
 
 import com.jeiglobal.hk.domain.member.MemberDto.MonthInfo;
@@ -180,7 +181,7 @@ public class CommonUtils {
 	 */
 	public static String changeDateFormat(String beforePattern, String afterPattern, String value) throws ParseException{
 		SimpleDateFormat beforeSdf = new SimpleDateFormat(beforePattern);
-		SimpleDateFormat afterSdf = new SimpleDateFormat(afterPattern);
+		SimpleDateFormat afterSdf = new SimpleDateFormat(afterPattern, LocaleContextHolder.getLocale());
 		Date valueDate = beforeSdf.parse(value);
 		return afterSdf.format(valueDate);
 	}
@@ -281,5 +282,22 @@ public class CommonUtils {
 		}else{
 			return "0"+month;
 		}
+	}
+
+	/**
+	 * 현재 날짜 기준으로 년 월 가져오기
+	 * @return List<String>
+	 */
+	public static List<String> getMonthsByOneYearBefore() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM / yyyy");
+		List<String> months = new ArrayList<>();
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.DATE, 1);
+		for (int i = 0; i < 13; i++) {
+			months.add(sdf.format(cal.getTime()));
+			cal.add(Calendar.MONTH, -1);
+		}
+		
+		return months;
 	}
 }

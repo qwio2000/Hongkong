@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jeiglobal.hk.repository.inventory.WorkbookstatusRepository">
+	<!-- 지사 재고관리 메인 리스트 -->
+	<select id="findWorkbookStatusMstList" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookstatusDto$WorkbookStatusMstList">
+			CALL globalbiz.SPWorkbookStatusMstList(#{jisaCD},#{statusCD});
+	</select>
+	
+	<!-- 지사 재고관리 메인 리스트  센터별 과목 -->
+	<select id="findWorkbookStatusMstsubj" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookstatusDto$WorkbookStatusMstsubj">
+			SELECT 
+				jisaCD, deptCD, subj, globalbiz.FuncCodeDtlNM(jisaCD,'0002',subj,'','') AS subjNM 
+			FROM globalbiz.DeptSubjInfo
+			WHERE jisaCD=#{jisaCD} AND deptCD=#{deptCD}
+			ORDER BY sortCD;
+	</select>
+	
+	<!-- 지사 상품별 등급 리스트 -->
+	<select id="findWorkbookStatusDungList" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
+			SELECT 
+				wbGrade
+			FROM globalbiz.IvnWorkBookMst
+			WHERE jisaCD=#{jisaCD} AND subj=#{subj}
+			GROUP BY wbGrade
+			ORDER BY sortCD
+	</select>
+	
+	
+	<!-- 지사 상품별 세부수량 리스트-->
+	<select id="findWorkbookStatusSetList" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookstatusDto$WorkbookStatusSetList">
+			SELECT 
+				a.jisaCD, b.deptCD,
+				GROUP_CONCAT(
+					 CONCAT_WS('|', a.casKey, a.casSet, a.wbSet, a.wbGrade, a.wbName, b.wbQty, c.wbQty ) 
+				ORDER BY a.casKey SEPARATOR ',' ) AS alllist
+			FROM globalbiz.IvnWorkBookMst AS a
+			INNER JOIN globalbiz.IvnWorkBookStockQty AS b
+			ON a.jisaCD = b.jisaCD AND a.subj = b.subj AND a.casKey = b.casKey
+			INNER JOIN globalbiz.IvnWorkBookStableQty AS c
+			ON a.jisaCD = c.jisaCD AND a.subj = c.subj AND a.casKey = c.casKey
+			WHERE a.jisaCD=#{jisaCD} AND b.deptCD=#{deptCD} AND a.subj=#{subj}
+			GROUP BY RIGHT(a.casKey,2)
+	</select>
+	
+	<!-- 지사 현재고 수량 수정 -->
+	<select id="findInventoryShipInventoryUpt" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
+			CALL globalbiz.SPInventoryShipInventoryUpt(#{jisaCD},#{deptCD},#{subj},#{allset},#{reqCD},#{workId});
+	</select>
+	
+
+	<!-- 지사 적정재고 수량 수정 -->
+	<select id="findInventorySetrestockqtyUpt" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
+			CALL globalbiz.SPInventorySetrestockqtyUpt(#{jisaCD},#{deptCD},#{subj},#{allset},#{workId});
+	</select>
+	
+	
+</mapper>

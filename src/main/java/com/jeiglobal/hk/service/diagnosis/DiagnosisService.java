@@ -443,15 +443,16 @@ public class DiagnosisService {
 			return diagnosisRepository.findDiagnosisOmrMemChk(map);	
 		}
 
-
-
-		
-
-		
-
-
-
-	
 	/** //개인별 처방기록부 **/
+		
+		public DiagnosisDto.DiagnosisMujinJindoSet getDiagnosisMujinJindoSet(String jisaCD, String memKey, String subj) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("jisaCD", jisaCD);		
+			map.put("memKey", memKey);		
+			map.put("subj", subj);
+			
+			return diagnosisRepository.findDiagnosisMujinJindoSet(map);	
+		}
+
 
 }

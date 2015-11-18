@@ -9,6 +9,7 @@ $(function(){
 				cache: false,
 				dataType: "json",
 				success: function(jsonData, textStatus, XMLHttpRequest) {
+					$('#titleSubj').html('Weekly Schedule - '+subj);
 					var source = $("#weeklyScheduleTemplate").html();
 					var template = Handlebars.compile(source);
 					Handlebars.registerHelper("inc", function(value, options){
@@ -82,8 +83,58 @@ $(function(){
 		$.getWeeklySchedule();
 	}
 	$("input[name=subj]").change(function(){
-		$("#subject").val($(this).val());
-		$.getWeeklySchedule();
+		if(userType.toLowerCase() == 'fa'){
+			$("#subject").val($(this).val());
+			$.getWeeklySchedule();
+		}else{
+			$('#weeklyForm').submit();
+		}
+	});
+	
+	$("#excel").on("click", function(){
+		var subj = $("#subject").val();
+		
+		var form = "<form action='/ja/members/weeklyschedule/excel' method='post'>"; 
+		form += "<input type='hidden' name='subj' value='"+subj+"' />"; 
+		form += "</form>"; 
+		jQuery(form).appendTo("body").submit().remove(); 
+	});
+	
+	//btn_schedule 클래스 클릭시 스케줄 박스 오픈
+	$('.btn_schedule').each(function(){
+		$(this).mouseenter(function(e){
+			var splitAry = $(this).attr("value").split(",");
+			var subj = $('input[name=subj]:checked').val();
+			var param = {"time":splitAry[0], "yoil":splitAry[1], "subj":subj};
+			var visitHoursName = splitAry[2];
+			$.ajax({
+				url:"/ja/members/weeklyschedule/detail",
+				type:"GET",
+				cache: false,
+				dataType: "json",
+				data: param,
+				async: false,
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					var source = $("#weeklyScheduleDetailTemplate").html();
+					var template = Handlebars.compile(source);
+					$("#detailContent").empty();
+					$("#detailContent").append(template(jsonData));
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(thrownError);
+				}
+			});
+			var top = $(this).position().top+$(this).height(); //top 위치
+			var left = $(this).position().left; //left위치
+			$('.btn_schedule').removeClass('on');
+			$(this).addClass('on');
+			scheduleBox($('.schedule_detail'), top, left);
+			e.preventDefault();
+		});
+		$(this).mouseleave(function(e){
+			$('.schedule_detail').hide();
+			e.preventDefault();
+		});
 	});
 });
 
@@ -109,4 +160,18 @@ function changeManageInfoSubmit(){
 			}
 		});
 	}
+}
+
+function scheduleBox(el, top, left){
+	//박스크기가 범위를 벗어날때 위치조정
+	if(el.width()+left < el.parent().width()){
+		el.css({display:'block',top:top, left:left});
+	}else{
+		el.css({display:'block',top:top, right:0, left:'inherit'});
+	}
+	//박스닫기
+	el.find('.btn_close').click(function(e){
+		el.hide();
+		e.preventDefault();
+	});
 }

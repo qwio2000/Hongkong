@@ -22,4 +22,16 @@
 		SET yoil = #{yoil}, visitHours = #{manageTime}, updDate=NOW(), updID=#{workId}
 		WHERE memKey = #{memKey} and subj = #{subj} and yoilSeq = '1'
 	</update>
+	<select id="findMemberWeeklyScheduleJA" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberWeeklyScheduleInfo">
+		CALL globalbiz.SPMemWeeklyScheduleJisaList(#{jisaCD},'',#{subj})
+	</select>
+	<select id="findMemberWeeklyDetailInfo" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberWeeklyDetailInfo">
+		SELECT globalbiz.FuncCodeDtlNM(#{jisaCD}, '0206', c.visitHours, '', 'Y') AS visitHoursName, a.deptName, COUNT(1) AS cnt
+		FROM globalbiz.DeptMst AS a
+			INNER JOIN globalbiz.MemSubjMst AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND b.statusCD = '1'
+			INNER JOIN globalbiz.MemSubjStudy AS c ON b.memKey = c.memKey AND b.subj = c.subj AND c.yoilSeq = '1'
+		WHERE b.yoil = #{yoil} AND c.visitHours = #{time} AND a.jisaCD = #{jisaCD}
+			AND b.subj = CASE #{subj} WHEN 'All' THEN b.subj ELSE #{subj} END
+		GROUP BY a.deptCD
+	</select>
 </mapper>

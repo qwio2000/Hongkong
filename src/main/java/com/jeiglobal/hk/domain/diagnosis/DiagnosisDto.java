@@ -363,8 +363,15 @@ public class DiagnosisDto {
 		private String msgchk;
 		private String omrkind;
 		private String ingset;
+		private String setdung;
 	}
 	
+	
+	@Data // 무진단
+	public static class DiagnosisMujinJindoSet{		
+		private String alertcd;
+		private String successyn;
+	}
 	
 	
 	

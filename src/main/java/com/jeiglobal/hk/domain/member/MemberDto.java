@@ -196,6 +196,7 @@ public class MemberDto {
 		private String digYN;
 		private int aidx;
 		private String memKey;
+		private String isConnect;
 	}
 	
 	@Data
@@ -270,6 +271,7 @@ public class MemberDto {
 	public static class MemberWorkbookSubjInfo{
 		private String memKey;
 		private String subj;
+		private String jisaCD;
 		private String yoil;
 		private String yoilName;
 		private String visitHours;
@@ -328,6 +330,56 @@ public class MemberDto {
 		private String memWeeklyInfo6;
 		private String memWeeklyInfo7;
 		
+	}
+	
+	@Data
+	public static class MemberRegistDropStatus{
+		private String date;
+		private String convDate;
+		private String type;
+		private String subj;
+		private String memName;
+	}
+	
+	@Data
+	public static class MemberRegistDropStatusJA{
+		
+		private String empKey;
+		private String deptName;
+		private int KMNew;
+		private int KMDrop;
+		private int KKNew;
+		private int KKDrop;
+		private int KGNew;
+		private int KGDrop;
+		private int EMNew;
+		private int EMDrop;
+		private int EENew;
+		private int EEDrop;
+		private int KPNew;
+		private int KPDrop;
+		private int KSNew;
+		private int KSDrop;
+		private int PSNew;
+		private int PSDrop;
+		private int ERNew;
+		private int ERDrop;
+		private int CPNew;
+		private int CPDrop;
+		private int CLNew;
+		private int CLDrop;
+		private int EPNew;
+		private int EPDrop;
+		private int TTNew;
+		private int TTDrop;
+
+	}
+	
+	@Data
+	public static class MemberWeeklyDetailInfo{
+		private String visitHoursName;
+		private String deptName;
+		private int cnt;
 	}
 }
 	

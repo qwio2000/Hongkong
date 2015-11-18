@@ -132,8 +132,15 @@
 
 	<!--// 개인별 처방기록부 -->
 	
-		<!-- 예상진도 수학 외-->
-		<select id="findDiagnosisOmrMemChk" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOmrMemChk">
-			CALL globaldig.SPOmrMemChk (#{jisaCD},#{memKey},#{subj},#{freejindan});
-		</select>
+	<!-- 예상진도 수학 외-->
+	<select id="findDiagnosisOmrMemChk" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisOmrMemChk">
+		CALL globaldig.SPOmrMemChk (#{jisaCD},#{memKey},#{subj},#{freejindan});
+	</select>
+		
+	<!-- 무진단시-->
+	<select id="findDiagnosisMujinJindoSet" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.diagnosis.DiagnosisDto$DiagnosisMujinJindoSet">
+		CALL globaldig.SPOmrMujinJindoSet (#{jisaCD},#{memKey},#{subj});
+	</select>
+		
+		
 </mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.accounting.ChargeRepository">
+	<!-- 기타 정산 -->
+	<select id="recordCharges" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap" >
+		CALL globalmagam.SPChargeRecord(#{jisaCD},#{mgYY},#{mgMM});
+	</select>	
+	<select id="recordChargesList" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap" >
+		CALL globalmagam.SPChargeRecordList(#{jisaCD},#{deptCD},#{mgYY},#{mgMM},#{jobFlag});
+	</select>		
+	<select id="recordChargesPopSave" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String" >
+		CALL globalmagam.SPChargeRecordSave(#{jisaCD},#{deptCD},#{chargeYMD},#{mgYY},#{mgMM},#{chargeCD},#{memo},#{amount},#{workId},#{idx});
+	</select>	
+
+
+</mapper>

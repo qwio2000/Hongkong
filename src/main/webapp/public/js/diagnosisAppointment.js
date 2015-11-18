@@ -134,7 +134,6 @@ $(function(){
 		}
 	});
 	$("#preferredYMDPicker, #preferredYMD").click(function(){
-		var date = null;
 		var birthDay = $('#preferredYMD').val();
 		var dataSplit = birthDay.split("/");
 		var yy = dataSplit[2];
@@ -352,6 +351,36 @@ function submitValid(type){
 				return false;
 			}
 		}
+		if($.trim($("#zip").val()) != ''){
+			if(!$.phoneCheck('zip','zip')){
+				$("#zip").focus();
+				return;
+			}
+		}
+		if($.trim($("#gPhone").val()) != ''){
+			if(!$.phoneCheck('gPhone','학부모 Phone')){
+				$("#gPhone").focus();
+				return;
+			}
+		}
+		if($.trim($("#gCellPhone").val()) != ''){
+			if(!$.phoneCheck('gCellPhone','학부모 CellPhone')){
+				$("#gCellPhone").focus();
+				return;
+			}
+		}
+		if($.trim($("#eContact").val()) != ''){
+			if(!$.phoneCheck('eContact','회원 eContact')){
+				$("#eContact").focus();
+				return;
+			}
+		}
+		if($.trim($("#ePhone").val()) != ''){
+			if(!$.phoneCheck('ePhone','회원 ePhone')){
+				$("#ePhone").focus();
+				return;
+			}
+		}
 	}
 	if(type != "03"){
 		//회원 이름
@@ -409,6 +438,18 @@ function submitValid(type){
 			if(!$.emailCheck("mEmail")){
 				$("#mEmail").focus();
 				return false;
+			}
+		}
+		if($.trim($("#eContact").val()) != ''){
+			if(!$.phoneCheck('eContact','회원 eContact')){
+				$("#eContact").focus();
+				return;
+			}
+		}
+		if($.trim($("#ePhone").val()) != ''){
+			if(!$.phoneCheck('ePhone','회원 ePhone')){
+				$("#ePhone").focus();
+				return;
 			}
 		}
 		

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.*;
+import com.jeiglobal.hk.domain.member.MemberDto.MemberWeeklyDetailInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MemberWeeklyScheduleInfo;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
@@ -42,15 +43,30 @@ public class MemberWeeklyScheduleController {
 	@Autowired
 	private MessageSourceAccessor msa;
 	
-	@RequestMapping(value={"/fa/members/weeklyschedule"}, method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getWeeklySchedulePage(Model model, @ModelAttribute LoginInfo loginInfo){
+	@Autowired
+	private MemberReportService memberReportService;
+	
+	@RequestMapping(value={"/fa/members/weeklyschedule", "/ja/members/weeklyschedule"}, method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getWeeklySchedulePage(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam(value="subj", defaultValue="", required=false) String subj){
 		log.debug("member Weekly Schedule Page ");
 		List<String> headerScript = new ArrayList<>();
-		List<String> subjs = commonService.getOpenSubjsByDeptCD(loginInfo.getJisaCD(), loginInfo.getDeptCD());
+		List<String> subjs = commonService.getOpenSubjsByJisaCD(loginInfo.getJisaCD());
 		headerScript.add("memberWeeklySchedule");
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("subjs", subjs);
-		return "member/weeklyschedule/weeklyschedule";
+		String viewName = "alertAndRedirect";
+		if("JA".equalsIgnoreCase(loginInfo.getUserType())){
+			List<MemberWeeklyScheduleInfo> scheduleInfos = memberWeeklyScheduleService.getMemberWeeklyScheduleJA(loginInfo.getJisaCD(), subj);
+			model.addAttribute("subj", subj);
+			model.addAttribute("scheduleInfos", scheduleInfos);
+			viewName = "member/weeklyschedule/weeklyscheduleJA";
+		}else if("FA".equalsIgnoreCase(loginInfo.getUserType())){
+			viewName = "member/weeklyschedule/weeklyschedule";
+		}else{
+			model.addAttribute("message", msa.getMessage("members.weeklyschedule.error"));
+			model.addAttribute("url", "/"+loginInfo.getUserType().toLowerCase()+"/members/weeklyschedule");
+		}
+		return viewName;
 	}
 	
 	@RequestMapping(value={"/fa/members/weeklyschedule/{subj}"}, method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
@@ -60,6 +76,16 @@ public class MemberWeeklyScheduleController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<MemberWeeklyScheduleInfo> scheduleInfos = memberWeeklyScheduleService.getMemberWeeklySchedule(loginInfo.getJisaCD(), loginInfo.getDeptCD(), subj);
 		map.put("scheduleInfos", scheduleInfos);
+		return map;
+	}
+	
+	@RequestMapping(value={"/ja/members/weeklyschedule/detail"}, method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public Map<String, Object> getMemberWeeklyDetailJson(@ModelAttribute LoginInfo loginInfo, String time, String yoil, String subj){
+		log.debug("Getting member WeeklySchedule Detail");
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<MemberWeeklyDetailInfo> list = memberWeeklyScheduleService.getMemberWeeklyDetailInfo(loginInfo.getJisaCD(), time, yoil, subj);
+		map.put("list", list);
 		return map;
 	}
 	
@@ -89,7 +115,15 @@ public class MemberWeeklyScheduleController {
 		String workId = CommonUtils.getWorkId(request);
 		memberWeeklyScheduleService.setMemSubjMstByMemKeyAndSubj(memKey, subj, workId, yoil);
 		memberWeeklyScheduleService.setMemSubjStudyByMemKeyAndSubj(memKey, subj, workId, yoil, manageTime);
+		memberReportService.setMemSubjProgressMst(loginInfo.getJisaCD(), memKey, subj, yoil, workId);
 		return msa.getMessage("member.weeklyschedule.update.success");
 	}
 	
+	@RequestMapping(value="/ja/members/weeklyschedule/excel", method=RequestMethod.POST)
+	public String emptyHakjukXls(Model model, String subj, @ModelAttribute LoginInfo loginInfo){
+		List<MemberWeeklyScheduleInfo> scheduleInfos = memberWeeklyScheduleService.getMemberWeeklyScheduleJA(loginInfo.getJisaCD(), subj);
+		model.addAttribute("dataList", scheduleInfos);
+		model.addAttribute("subj", subj);
+		return "weeklyScheduleExcel";
+	}
 }

@@ -23,10 +23,12 @@ public class MemFeeInfoList {
 	private String feeType;
 	private String subj;
 	private int bookNum;
-	private int weekNum;
 	private int registFee;
 	private int monthFee;
-	private int sectionFee;
+	private int sectionFee1;
+	private int sectionFee2;
+	private int sectionFee3;
+	private int sectionFee4;
 	private String feeUnit;
 	private String feeUnitName;
 

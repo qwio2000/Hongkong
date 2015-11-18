@@ -43,7 +43,7 @@
 				</tr>
 				<tr>
 					<td class="ver-m"></td>
-					<td class="ver-m"><b>관리요일 :</b></td>
+					<td class="ver-m"></td>
 					<td class="ver-m">&nbsp;</td>
 					<td class="ver-m"><b>학습기간 :</b></td>
 					<td class="ver-m">${sdgicho.hakgigan }</td>
@@ -103,9 +103,7 @@
 					
 			</table>
 			<!-------------------------------형성평가 오답내용 분석---------------------------------->
-			
-
-
+			<#if sdgicho.kwamok?substring(1,2) != "S">
 			<table border="0" cellspacing="0" cellpadding="0" width="640">
 				<tr>
 					<td colspan="9" height="20" class="ver-m"><font size=2.5 ><b><strong>형성평가 오답내용 분석</strong></b></font></td>
@@ -170,7 +168,7 @@
 					</#if>
 				</#if>
 			</table>
-			
+			</#if>
 			<!----------------------------------진도현황(금월/예상)---------------------------------->
 			<table border="0" cellspacing="0" cellpadding="0" width="640">
 				<tr>

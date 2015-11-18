@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.member.MemberStatusRepository">
+	<select id="findMemberRegistDropStatusCount" parameterType="hashMap" resultType="int">
+		SELECT COUNT(1) 
+		FROM (
+			SELECT registYMD AS DATE, DATE_FORMAT(regDate, '%m/%d/%Y %h:%i %p') AS convDate, 'REGISTER' AS TYPE, subj, CONCAT(mFstName, ' ', mLstName) AS memName FROM globalbiz.MemSubjRegist WHERE jisaCD = #{loginInfo.jisaCD} AND deptCD = #{loginInfo.deptCD}
+			UNION
+			SELECT dropYMD AS DATE, DATE_FORMAT(regDate, '%m/%d/%Y %h:%i %p') AS convDate, 'DROP' AS TYPE, subj, memName  FROM globalbiz.MemSubjDrop WHERE jisaCD = #{loginInfo.jisaCD} AND deptCD = #{loginInfo.deptCD}
+		) AS a
+		WHERE LEFT(a.date, 7) = #{searchYYMM}
+	</select>
+	<select id="findMemberRegistDropStatus" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberRegistDropStatus">
+		SELECT a.date, a.convDate, a.type, a.subj, a.memName  
+		FROM (
+			SELECT registYMD AS DATE, DATE_FORMAT(regDate, '%m/%d/%Y %h:%i %p') AS convDate, 'REGISTER' AS TYPE, subj, CONCAT(mFstName, ' ', mLstName) AS memName FROM globalbiz.MemSubjRegist WHERE jisaCD = #{loginInfo.jisaCD} AND deptCD = #{loginInfo.deptCD}
+			UNION
+			SELECT dropYMD AS DATE, DATE_FORMAT(regDate, '%m/%d/%Y %h:%i %p') AS convDate, 'DROP' AS TYPE, subj, memName  FROM globalbiz.MemSubjDrop WHERE jisaCD = #{loginInfo.jisaCD} AND deptCD = #{loginInfo.deptCD}
+		) AS a
+		WHERE LEFT(a.date, 7) = #{searchYYMM}
+		ORDER BY subj, convDate
+	</select>
+	<select id="findMemberRegistDropStatusJA" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberDto$MemberRegistDropStatusJA">
+		SELECT a.empKey, a.deptName, 
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'KM',#{searchYYMM},'1') AS KMNew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'KM',#{searchYYMM},'2') AS KMDrop,
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'KK',#{searchYYMM},'1') AS KKNew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'KK',#{searchYYMM},'2') AS KKDrop,
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'KG',#{searchYYMM},'1') AS KGNew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'KG',#{searchYYMM},'2') AS KGDrop,
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'EM',#{searchYYMM},'1') AS EMNew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'EM',#{searchYYMM},'2') AS EMDrop,
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'EE',#{searchYYMM},'1') AS EENew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'EE',#{searchYYMM},'2') AS EEDrop,
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'KP',#{searchYYMM},'1') AS KPNew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'KP',#{searchYYMM},'2') AS KPDrop,
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'KS',#{searchYYMM},'1') AS KSNew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'KS',#{searchYYMM},'2') AS KSDrop,
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'PS',#{searchYYMM},'1') AS PSNew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'PS',#{searchYYMM},'2') AS PSDrop,
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'ER',#{searchYYMM},'1') AS ERNew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'ER',#{searchYYMM},'2') AS ERDrop,
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'CP',#{searchYYMM},'1') AS CPNew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'CP',#{searchYYMM},'2') AS CPDrop,
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'CL',#{searchYYMM},'1') AS CLNew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'CL',#{searchYYMM},'2') AS CLDrop,
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'EP',#{searchYYMM},'1') AS EPNew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'EP',#{searchYYMM},'2') AS EPDrop,
+			globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'TT',#{searchYYMM},'1') AS TTNew, globalbiz.FuncRegistDropCountGet(a.jisaCD,a.deptCD,'TT',#{searchYYMM},'2') AS TTDrop
+		FROM globalbiz.DeptMst AS a
+		WHERE a.jisaCD = #{loginInfo.jisaCD} AND a.deptCD != '00000' AND a.statusCD = '1'
+	</select>
+</mapper>

@@ -99,7 +99,7 @@
 		{{#xIf @index "==" 0}}
 			<td>{{yoilName}} {{visitHoursName}}</td>
 			<td class="left pl5">
-				<a href="#" class="subject_graph" title="진도조정">{{subj}}</a>
+				<a href="javascript:openAdjustment('{{jisaCD}}','{{memKey}}','{{yoil}}','{{subj}}')" class="subject_graph" title="진도조정">{{subj}}</a>
 			</td>
 			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy1}}','{{mm1}}')" title="형성평가">{{set1}}</a></td>
 			<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy2}}','{{mm2}}')" title="형성평가">{{set2}}</a></td>
@@ -120,7 +120,7 @@
 			<tr class="line2">
 				<td>{{yoilName}} {{visitHoursName}}</td>
 				<td class="left pl5">
-					<a href="#" class="subject_graph" title="진도조정">{{subj}}</a>
+					<a href="javascript:openAdjustment('{{jisaCD}}','{{memKey}}','{{yoil}}','{{subj}}')" class="subject_graph" title="진도조정">{{subj}}</a>
 				</td>
 				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy1}}','{{mm1}}')" title="형성평가">{{set1}}</a></td>
 				<td><a href="javascript:addMPR('{{subj}}','{{../memKey}}','{{../../mfstName}}','{{../../mlstName}}','{{yy2}}','{{mm2}}')" title="형성평가">{{set2}}</a></td>
