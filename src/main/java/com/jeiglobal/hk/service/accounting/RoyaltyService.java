@@ -49,4 +49,24 @@ public class RoyaltyService {
 		param.put("userType", userType);
 		return royaltyRepository.royaltyOverviewTot(param);				
 	}	
+	public List<Map<String, Object>> getRoyaltyViewOfSalesList(String jisaCD, String deptCD, String selYY, String selMM, String userType) {		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		param.put("selYY", selYY);
+		param.put("selMM", selMM);
+		param.put("userType", userType);
+		return royaltyRepository.royaltyViewOfSalesList(param);				
+	}	
+	public Map<String, Object> getRoyaltyView(String jisaCD, String deptCD, String selYY, String selMM, String userType) {		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		param.put("selYY", selYY);
+		param.put("selMM", selMM);
+		param.put("userType", userType);
+		return royaltyRepository.royaltyView(param);				
+	}	
+	
+	
 }

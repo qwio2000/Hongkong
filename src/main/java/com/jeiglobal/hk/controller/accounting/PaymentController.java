@@ -93,8 +93,8 @@ public class PaymentController {
 			selMM=currentMonth;
 		}		
 		
-		List<Map<String, Object>> dataRecordPaymentCurrent = paymentService.getRecordPaymentList(loginInfo.getJisaCD(), deptCD, selYY, selMM, "current");
-		List<Map<String, Object>> dataRecordPaymentList = paymentService.getRecordPaymentList(loginInfo.getJisaCD(), deptCD, selYY, selMM, "");
+		List<Map<String, Object>> dataRecordPaymentCurrent = paymentService.getRecordPaymentList(loginInfo.getJisaCD(), deptCD, selYY, selMM, "current", loginInfo.getUserType());
+		List<Map<String, Object>> dataRecordPaymentList = paymentService.getRecordPaymentList(loginInfo.getJisaCD(), deptCD, selYY, selMM, "", loginInfo.getUserType());
 		log.debug("Getting recordPayment Page, dataRecordPaymentList : {}", dataRecordPaymentList);
 		
 		int balance = 0;
@@ -194,7 +194,7 @@ public class PaymentController {
 	public Map<String, Object> getPaymentReportJson(@ModelAttribute LoginInfo loginInfo, 
 		@RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM) throws ParseException{
 
-		List<Map<String, Object>> dataPaymentReportList = paymentService.getRecordPaymentList(loginInfo.getJisaCD(), "", selYY, selMM, "");
+		List<Map<String, Object>> dataPaymentReportList = paymentService.getRecordPaymentList(loginInfo.getJisaCD(), "", selYY, selMM, "", loginInfo.getUserType());
 		log.debug("Getting paymentReport Page, dataPaymentReportList : {}", dataPaymentReportList);
 		
 		int totAmount = 0;

@@ -21,7 +21,7 @@
 		</form>
 
 		<div class="float_r">
-			<a href="#" class="btn_print m0">Print</a>
+			<a href="javascript:;" onClick="$.royaltyReportExcel();" class="btn_print m0" title="Excel">Excel</a>
 		</div>
 	</div>
 	<div class="tbl01 tbl_report">

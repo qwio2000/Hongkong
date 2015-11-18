@@ -6,7 +6,7 @@
 		CALL globalmagam.SPPaymentRecord(#{jisaCD},#{mgYY},#{mgMM});
 	</select>	 
 	<select id="recordPaymentList" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap" >
-		CALL globalmagam.SPPaymentRecordList(#{jisaCD},#{deptCD},#{mgYY},#{mgMM},#{jobFlag});
+		CALL globalmagam.SPPaymentRecordList(#{jisaCD},#{deptCD},#{mgYY},#{mgMM},#{jobFlag},#{userType});
 	</select>	
 	<select id="recordPaymentPopSave" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String" >
 		CALL globalmagam.SPPaymentRecordSave(#{jisaCD},#{deptCD},#{payYMD},#{mgYY},#{mgMM},#{payCD},#{refNo},#{memo},#{amount},#{workId},#{idx});

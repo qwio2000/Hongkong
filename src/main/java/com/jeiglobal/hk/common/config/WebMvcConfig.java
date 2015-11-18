@@ -143,4 +143,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	 */
 	@Bean
 	public WeeklyScheduleExcel weeklyScheduleExcel(){ return new WeeklyScheduleExcel(); }
+	
+	/**
+	 * RoyaltyReport Excel Download Bean
+	 * @return royaltyReportExcel
+	 */
+	@Bean
+	public RoyaltyReportExcel royaltyReportExcel(){ return new RoyaltyReportExcel(); }	
 }
