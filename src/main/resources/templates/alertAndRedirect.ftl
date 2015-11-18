@@ -14,6 +14,8 @@
 		
 		if(mode == "close"){
 			self.close();		
+		}else if(mode == "back"){
+			history.back();
 		}else{
 			document.location.href = returnUrl;
 		}

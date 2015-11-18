@@ -176,4 +176,11 @@
 	<select id="insertMemProgressByFreeDiag" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String">
 		CALL globaldig.SPRegFreeSetJindo(#{loginInfo.jisaCD},#{freeDiagInfo.freeOmrDate},#{freeDiagInfo.freeHkey},#{memKey},#{freeDiagInfo.freeSubj})
 	</select>
+	<select id="findRegistCloseInfoByJisaCD" parameterType="java.lang.String" resultType="com.jeiglobal.hk.domain.member.MemRegistClose">
+		SELECT *
+		FROM globalbiz.MemRegistClose
+		WHERE jisaCD = #{jisaCD}
+		ORDER BY idx DESC
+		LIMIT 0, 1
+	</select>
 </mapper>

@@ -70,4 +70,6 @@ public interface MemberRegistRepository {
 
 	public String insertMemProgressByFreeDiag(Map<String, Object> param);
 
+	public MemRegistClose findRegistCloseInfoByJisaCD(String jisaCD);
+
 }

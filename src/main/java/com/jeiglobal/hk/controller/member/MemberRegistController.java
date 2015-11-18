@@ -80,6 +80,15 @@ public class MemberRegistController {
 			Integer appIdx,
 			MemberRegistFreeDiagInfo freeDiagInfo,
 			@ModelAttribute LoginInfo loginInfo) throws ParseException{
+		//본사에서 입회 불가 처리 여부 확인
+		MemRegistClose registCloseInfo = memberRegistService.getRegistCloseInfoByJisaCD(loginInfo.getJisaCD());
+		if("1".equals(registCloseInfo.getStatusCD())){
+			Object[] args = {registCloseInfo.getCloseReason()};
+			model.addAttribute("message", msa.getMessage("member.regist.close", args));
+			model.addAttribute("mode", "back");
+			return "alertAndRedirect";
+		}
+		
 		log.debug("Getting MemberRegist Page");
 		log.debug("Type : {}, memKey : {}, freeDiag : {}", type, memKey, freeDiagInfo);
 		List<String> headerScript = new ArrayList<String>();

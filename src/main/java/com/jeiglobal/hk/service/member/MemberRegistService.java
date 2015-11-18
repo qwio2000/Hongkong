@@ -436,5 +436,13 @@ public class MemberRegistService {
 		param.put("memKey", memKey);
 		return memberRegistRepository.insertMemProgressByFreeDiag(param);
 	}
+	/**
+	 * 입회 불가 여부 확인
+	 * @param jisaCD
+	 * @return String
+	 */
+	public MemRegistClose getRegistCloseInfoByJisaCD(String jisaCD) {
+		return memberRegistRepository.findRegistCloseInfoByJisaCD(jisaCD);
+	}
 	
 }
