@@ -3,9 +3,9 @@
 <mapper namespace="com.jeiglobal.hk.repository.lead.LeadRepository">
 	<select id="findLeads" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.lead.CenterLeads">
 		SELECT a.idx, DATE_FORMAT(a.leadYMD, '%m/%d/%Y') AS leadYMD, a.contactFstName, a.contactLstName, a.contactEmail, a.partnerFstName, a.partnerLstName, a.partnerEmail, a.phone, a.cellPhone, a.city, 
-			a.stateCD, b.stateName, a.zip, a.addr, a.country, a.howHear, globalbiz.FuncCodeDtlNM(a.jisaCD, '0321', a.howHear, '', 'Y') AS howHearName, a.howHearMore, a.areaInterested, a.notes, a.statusCD, globalbiz.FuncCodeDtlNM('08', '0320', a.statusCD, '', 'Y') AS statusName, DATE_FORMAT(a.lastContactYMD, '%m/%d/%Y') AS lastContactYMD, a.jisaCD, a.regDate, a.regID, a.updDate, a.updID
+			a.stateCD, IFNULL(b.stateName,'') AS stateName, a.zip, a.addr, a.country, a.howHear, globalbiz.FuncCodeDtlNM(a.jisaCD, '0321', a.howHear, '', 'Y') AS howHearName, a.howHearMore, a.areaInterested, a.notes, a.statusCD, globalbiz.FuncCodeDtlNM('08', '0320', a.statusCD, '', 'Y') AS statusName, DATE_FORMAT(a.lastContactYMD, '%m/%d/%Y') AS lastContactYMD, a.jisaCD, a.regDate, a.regID, a.updDate, a.updID
 		FROM globalbiz.CenterLeads AS a
-			INNER JOIN globalbiz.StateInfo AS b ON a.stateCD = b.stateCD
+			LEFT JOIN globalbiz.StateInfo AS b ON a.stateCD = b.stateCD
 		WHERE a.jisaCD = #{jisaCD} 
 		<if test="contactName != ''">
 			AND CONCAT(a.contactFstName, a.contactLstName) like CONCAT('%',#{contactName},'%')
@@ -26,7 +26,7 @@
 	<select id="findLeadsCount" parameterType="hashMap" resultType="int">
 		SELECT COUNT(1)
 		FROM globalbiz.CenterLeads AS a
-			INNER JOIN globalbiz.StateInfo AS b ON a.stateCD = b.stateCD
+			LEFT JOIN globalbiz.StateInfo AS b ON a.stateCD = b.stateCD
 		WHERE a.jisaCD = #{jisaCD} 
 		<if test="contactName != ''">
 			AND CONCAT(a.contactFstName, a.contactLstName) like CONCAT('%',#{contactName},'%')
@@ -43,9 +43,9 @@
 	</insert>
 	<select id="findCenterLeadByIdx" parameterType="int" resultType="com.jeiglobal.hk.domain.lead.CenterLeads">
 		SELECT a.idx, DATE_FORMAT(a.leadYMD, '%m/%d/%Y') AS leadYMD, a.contactFstName, a.contactLstName, a.contactEmail, a.partnerFstName, a.partnerLstName, a.partnerEmail, a.phone, a.cellPhone, a.city, 
-			a.stateCD, b.stateName, a.zip, a.addr, a.country, a.howHear, globalbiz.FuncCodeDtlNM(a.jisaCD, '0321', a.howHear, '', 'Y') AS howHearName, a.howHearMore, a.areaInterested, a.notes, a.statusCD, globalbiz.FuncCodeDtlNM('08', '0320', a.statusCD, '', 'Y') AS statusName, DATE_FORMAT(a.lastContactYMD, '%m/%d/%Y') AS lastContactYMD, a.jisaCD, a.regDate, a.regID, a.updDate, a.updID
+			a.stateCD, IFNULL(b.stateName, '') AS stateName, a.zip, a.addr, a.country, a.howHear, globalbiz.FuncCodeDtlNM(a.jisaCD, '0321', a.howHear, '', 'Y') AS howHearName, a.howHearMore, a.areaInterested, a.notes, a.statusCD, globalbiz.FuncCodeDtlNM('08', '0320', a.statusCD, '', 'Y') AS statusName, DATE_FORMAT(a.lastContactYMD, '%m/%d/%Y') AS lastContactYMD, a.jisaCD, a.regDate, a.regID, a.updDate, a.updID
 		FROM globalbiz.CenterLeads AS a
-			INNER JOIN globalbiz.StateInfo AS b ON a.stateCD = b.stateCD
+			LEFT JOIN globalbiz.StateInfo AS b ON a.stateCD = b.stateCD
 		WHERE idx = #{idx}
 	</select>
 	<select id="findLeadNotesByIdx" parameterType="int" resultType="com.jeiglobal.hk.domain.lead.CenterLeadsNote">
@@ -60,4 +60,13 @@
 		VALUES
 			(#{clIdx}, #{noteDate}, #{notes}, #{jisaCD}, NOW(), #{regID})
 	</insert>
+	<update id="updateCenterLead" parameterType="com.jeiglobal.hk.domain.lead.CenterLeads">
+		UPDATE globalbiz.CenterLeads
+		SET contactFstName = #{contactFstName}, contactLstName = #{contactLstName}, contactEmail = #{contactEmail}, 
+			partnerFstName = #{partnerFstName}, partnerLstName = #{partnerLstName}, partnerEmail = #{partnerEmail},
+			phone = #{phone}, cellPhone = #{cellPhone}, city = #{city}, stateCD = #{stateCD}, zip = #{zip}, addr = #{addr},
+			country = #{country}, howHear = #{howHear}, howHearMore = #{howHearMore}, areaInterested = #{areaInterested},
+			notes = #{notes}, statusCD = #{statusCD}, updDate = NOW(), updID = #{updID}
+		WHERE idx = #{idx}
+	</update>
 </mapper>

@@ -5,15 +5,15 @@
 	<form id="leadForm">
 	<ul class="list02 pt30">
 		<li>
-			<label for="contactFstName" class="tit2">Contact First Name</label>
+			<label for="contactFstName" class="tit2">Contact First Name <span class="must">*</span></label>
 			<input type="text" id="contactFstName" name="contactFstName" class="searchInput" style="width:373px" />
 		</li>
 		<li>
-			<label for="contactLstName" class="tit2">Last Name</label>
+			<label for="contactLstName" class="tit2">Last Name <span class="must">*</span></label>
 			<input type="text" id="contactLstName" name="contactLstName" class="searchInput" style="width:373px" />
 		</li>
 		<li>
-			<label for="contactEmail" class="tit2">Email Address</label>
+			<label for="contactEmail" class="tit2">Email Address <span class="must">*</span></label>
 			<input type="text" id="contactEmail" name="contactEmail" class="searchInput" style="width:373px" />
 		</li>
 		<li>
@@ -29,11 +29,11 @@
 			<input type="text" id="partnerEmail" name="partnerEmail" class="searchInput" style="width:373px" />
 		</li>
 		<li>
-			<label for="phone" class="tit2">Phone</label>
+			<label for="phone" class="tit2">Phone <span class="must">*</span></label>
 			<input type="text" id="phone" name="phone" class="searchInput" style="width:373px" />
 		</li>
 		<li>
-			<label for="cellPhone" class="tit2">Cell Phone</label>
+			<label for="cellPhone" class="tit2">Cell Phone <span class="must">*</span></label>
 			<input type="text" id="cellPhone" name="cellPhone" class="searchInput" style="width:373px;" />
 		</li>
 		<li>

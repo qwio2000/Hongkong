@@ -111,6 +111,15 @@ public class LeadController {
 		return "lead/view";
 	}
 	
+	@RequestMapping(value={"/ja/leads/{eIdx:[0-9]+}"}, method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String setLeadJson(@PathVariable int eIdx, CenterLeads centerLead, HttpServletRequest request){
+		log.debug("Setting CenterLead : {}", centerLead);
+		centerLead.setUpdID(CommonUtils.getWorkId(request));
+		leadService.setCenterLead(centerLead);
+		return msa.getMessage("lead.update.success");
+	}
+	
 	@RequestMapping(value={"/ja/leads/notes/{idx:[0-9]+}"}, method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public Map<String, Object> getLeadNotesJson(@PathVariable int idx){

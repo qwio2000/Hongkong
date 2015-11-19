@@ -29,4 +29,6 @@ public interface LeadRepository {
 
 	public void insertCenterLeadNote(CenterLeadsNote note);
 
+	public void updateCenterLead(CenterLeads centerLead);
+
 }

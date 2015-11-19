@@ -15,7 +15,7 @@
 					<option value="${status.dtlCD }">${status.dtlCDNM }</option>
 				</#list>
 			</select>
-			<span class="btnArea mt0"><a href="javascript:leadSearch();"><span style="width:70px">Search</span></a></span>
+			<span class="btnArea mt0"><a href="javascript:$.getLeadSearch();"><span style="width:70px">Search</span></a></span>
 		</div>
 		<div class="float_r">
 			<div class="btnArea_txt p0"><a href="/ja/leads/new" class="btn_doc m0">Add New</a></div>
@@ -24,7 +24,7 @@
 	<div class="tbl01 mt5">
 		<table>
 			<colgroup>
-				<col width="100" />
+				<col width="150" />
 				<col width="*" />
 				<col width="180" />
 				<col width="100" />

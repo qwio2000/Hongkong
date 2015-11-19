@@ -94,4 +94,11 @@ public class LeadService {
 	public void addCenterLeadNote(CenterLeadsNote note) {
 		leadRepository.insertCenterLeadNote(note);
 	}
+	/**
+	 * @param centerLead void
+	 */
+	public void setCenterLead(CenterLeads centerLead) {
+		leadRepository.updateCenterLead(centerLead);
+		
+	}
 }

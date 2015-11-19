@@ -73,7 +73,10 @@ $(function(){
 	});	
 });
 
+//Lead 등록
 function addNewLead(){
+	if(!validLead()){return;}
+	if(!confirm('등록하시겠습니까?')){return;}
 	var param = $("#leadForm").serialize();
 	console.log(param);
 	$.ajax({
@@ -91,7 +94,7 @@ function addNewLead(){
 		}
 	});
 }
-
+//정렬
 function sort(orderBy){
 	$("#orderBy").val(orderBy);
 	var ord = $("#ord").val();
@@ -103,21 +106,12 @@ function sort(orderBy){
 	$("#ord").val(ord);
 	$.getLeadSearch();
 }
-
-function leadSearch(){
-	var contactName = $("#contactName").val();
-	var statusCD = $("#statusCD").val();
-	if(contactName == "" && statusCD == ""){
-		alert("검색조건을 한 가지 이상 입력해주세요");
-		return;
-	}
-	$.getLeadSearch();
-}
-
+//Lead => Note 등록
 function addNewNote(){
 	var idx = $("#idx").val();
 	var notes = $("#notes").val();
 	if(!($.required("notes","Notes"))){return;}
+	if(!confirm('등록하시겠습니까?')){return;}
 	$.ajax({
 		url:"/ja/leads/notes/"+idx,
 		type:"POST",
@@ -133,4 +127,63 @@ function addNewNote(){
 			alert(thrownError);
 		}
 	});
+}
+//Lead 수정
+function updateLead() {
+	if(!validLead()){return;}
+	if(!confirm('수정하시겠습니까?')){return;}
+	var idx = $("#idx").val();
+	var param = $("#leadForm").serialize();
+	$.ajax({
+		url:"/ja/leads/"+idx,
+		type:"POST",
+		cache: false,
+		data: param,
+		dataType: "text",
+		success: function(jsonData, textStatus, XMLHttpRequest) {
+			alert(jsonData);
+			location.href="/ja/leads/"+idx;
+		},
+		error:function (xhr, ajaxOptions, thrownError){	
+			alert(thrownError);
+		}
+	});
+}
+
+function validLead(){
+	if(!($.required("contactFstName","Contact First Name"))){return false;}
+	if(!($.required("contactLstName","Contact Last Name"))){return false;}
+	if(!($.required("contactEmail","Contact Email"))){return false;}
+	if($.trim($("#contactEmail").val()) != ''){
+		if(!$.emailCheck("contactEmail")){
+			$("#contactEmail").focus();
+			return false;
+		}
+	}
+	if($.trim($("#partnerEmail").val()) != ''){
+		if(!$.emailCheck("partnerEmail")){
+			$("#partnerEmail").focus();
+			return false;
+		}
+	}
+	//Phone
+	if($.trim($("#phone").val()) == '' && $.trim($("#cellPhone").val()) == ''){
+		alert('연락처를 하나 이상 입력해주십시오.');
+		$("#phone").focus();
+		return false;
+	}
+	if($.trim($("#phone").val()) != ''){
+		if(!$.phoneCheck('phone','Phone')){
+			$("#phone").focus();
+			return false;
+		}
+	}
+	if($.trim($("#cellPhone").val()) != ''){
+		if(!$.phoneCheck('cellPhone','Cell Phone')){
+			$("#cellPhone").focus();
+			return false;
+		}
+	}
+	return true;
+	
 }
