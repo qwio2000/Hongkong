@@ -31,7 +31,7 @@
 			INNER JOIN globalbiz.MemSubjMst AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND b.statusCD = '1'
 			INNER JOIN globalbiz.MemSubjStudy AS c ON b.memKey = c.memKey AND b.subj = c.subj AND c.yoilSeq = '1'
 		WHERE b.yoil = #{yoil} AND c.visitHours = #{time} AND a.jisaCD = #{jisaCD}
-			AND b.subj = CASE #{subj} WHEN 'All' THEN b.subj ELSE #{subj} END
+			AND b.subj = CASE #{subj} WHEN '' THEN b.subj ELSE #{subj} END
 		GROUP BY a.deptCD
 	</select>
 </mapper>
