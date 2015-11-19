@@ -47,7 +47,45 @@ $(function(){
 					alert(_THROWNERROR);
 				}
 			});
-		},		
+		},
+		// 로열티 상세 팝업에서 판촉물 상세 레이어
+		getPromoItemOrderDtlOfRoyaltyView:function(aidx){
+			var paramData = {"aidx":aidx};
+			if(window.location.pathname.indexOf('/fa/accounting/')<0){
+				var setUrl = "/ja/accounting/promoitemOrderDtlJson";
+			}else{
+				var setUrl = "/fa/accounting/promoitemOrderDtlJson";
+			}					
+			$.ajax({
+				type:"GET",				
+				url:setUrl,
+				data: paramData,				
+				cache: false,
+				async: true,				
+				dataType: "json",
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					var source = $("#promoOrderDetailContentTemplate").html();
+					var template = Handlebars.compile(source);				
+					$("#promoOrderDetailContent").empty();
+					$("#promoOrderDetailContent").append(template(jsonData));					
+					$('.btn_view_list').each(function(){
+						$(this).mouseenter(function(e){
+							var top = $(this).position().top+$(this).height(); //top 위치
+							var left = $(this).position().left; //left위치
+							$.scheduleBox($('.layer_pop_list'), top, left);
+							e.preventDefault();
+						});
+						$(this).mouseleave(function(e){
+							$('.layer_pop_list').hide();
+							e.preventDefault();
+						});
+					});		
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(_THROWNERROR);
+				}
+			});
+		},			
 		getRoyaltyReportResult:function(){
 			var paramData = {"selYY":$("#selYY").val(),	"selMM":$("#selMM").val()};
 			var setUrl = "/ja/accounting/royaltyReportJson";
@@ -130,7 +168,17 @@ $(function(){
 				el.hide();
 				e.preventDefault();
 			});
-		}		
+		},
+		// 엑셀 다운로드
+		royaltyReportExcel:function(el, top, left){
+			var selYY = $("#selYY").val();
+			var selMM = $("#selMM").val();
+			var form = "<form action='/ja/accounting/royaltyReport/excel' method='post'>"; 
+			form += "<input type='hidden' name='selYY' value='"+selYY+"' />"; 
+			form += "<input type='hidden' name='selMM' value='"+selMM+"' />";
+			form += "</form>"; 
+			jQuery(form).appendTo("body").submit().remove(); 
+		}	
 	
 	});
 	

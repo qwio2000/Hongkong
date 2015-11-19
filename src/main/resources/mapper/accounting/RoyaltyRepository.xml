@@ -8,5 +8,10 @@
 	<select id="royaltyOverviewTot" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.accounting.RoyaltyOverviewList" >
 		CALL globalmagam.SPRoyaltyOverViewTot(#{jisaCD},#{deptCD},#{selYY},#{selMM},#{userType});
 	</select>	
-
+	<select id="royaltyViewOfSalesList" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap" >
+		CALL globalmagam.SPRoyaltyViewOfSales(#{jisaCD},#{deptCD},#{selYY},#{selMM},#{userType});
+	</select>
+	<select id="royaltyView" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap" >
+		CALL globalmagam.SPRoyaltyView(#{jisaCD},#{deptCD},#{selYY},#{selMM},#{userType});
+	</select>
 </mapper>

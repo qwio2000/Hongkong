@@ -6,7 +6,7 @@
 		CALL globalmagam.SPChargeRecord(#{jisaCD},#{mgYY},#{mgMM});
 	</select>	
 	<select id="recordChargesList" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap" >
-		CALL globalmagam.SPChargeRecordList(#{jisaCD},#{deptCD},#{mgYY},#{mgMM},#{jobFlag});
+		CALL globalmagam.SPChargeRecordList(#{jisaCD},#{deptCD},#{mgYY},#{mgMM},#{jobFlag},#{userType});
 	</select>		
 	<select id="recordChargesPopSave" statementType="CALLABLE" parameterType="hashMap" resultType="java.lang.String" >
 		CALL globalmagam.SPChargeRecordSave(#{jisaCD},#{deptCD},#{chargeYMD},#{mgYY},#{mgMM},#{chargeCD},#{memo},#{amount},#{workId},#{idx});
