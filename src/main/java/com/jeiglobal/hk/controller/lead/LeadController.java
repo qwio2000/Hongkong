@@ -120,6 +120,14 @@ public class LeadController {
 		return msa.getMessage("lead.update.success");
 	}
 	
+	@RequestMapping(value={"/ja/leads/{idx:[0-9]+}/statusCD"}, method = {RequestMethod.POST}, produces="application/json;charset=UTF-8;")
+	@ResponseBody
+	public String setLeadStatusCDJson(@PathVariable int idx, String statusCD, HttpServletRequest request){
+		String workId = CommonUtils.getWorkId(request);
+		leadService.setLeadStatusCD(idx, statusCD, workId);
+		return msa.getMessage("lead.statusCD.update.success");
+	}
+	
 	@RequestMapping(value={"/ja/leads/notes/{idx:[0-9]+}"}, method = {RequestMethod.GET, RequestMethod.HEAD}, produces="application/json;charset=UTF-8;")
 	@ResponseBody
 	public Map<String, Object> getLeadNotesJson(@PathVariable int idx){

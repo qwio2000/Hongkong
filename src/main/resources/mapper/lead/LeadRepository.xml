@@ -69,4 +69,9 @@
 			notes = #{notes}, statusCD = #{statusCD}, updDate = NOW(), updID = #{updID}
 		WHERE idx = #{idx}
 	</update>
+	<update id="updateCenterLeadStatusCD" parameterType="hashMap">
+		UPDATE globalbiz.CenterLeads
+		SET statusCD = #{statusCD}, updDate = NOW(), updID = #{workId}
+		WHERE idx = #{idx}
+	</update>
 </mapper>

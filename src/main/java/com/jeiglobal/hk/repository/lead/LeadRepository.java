@@ -31,4 +31,6 @@ public interface LeadRepository {
 
 	public void updateCenterLead(CenterLeads centerLead);
 
+	public void updateCenterLeadStatusCD(Map<String, Object> param);
+
 }

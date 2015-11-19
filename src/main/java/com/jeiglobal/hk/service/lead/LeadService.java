@@ -101,4 +101,16 @@ public class LeadService {
 		leadRepository.updateCenterLead(centerLead);
 		
 	}
+	/**
+	 * @param idx
+	 * @param statusCD void
+	 * @param workId 
+	 */
+	public void setLeadStatusCD(int idx, String statusCD, String workId) {
+		param.clear();
+		param.put("idx", idx);
+		param.put("statusCD", statusCD);
+		param.put("workId", workId);
+		leadRepository.updateCenterLeadStatusCD(param);
+	}
 }

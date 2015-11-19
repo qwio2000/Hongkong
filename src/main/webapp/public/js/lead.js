@@ -64,6 +64,24 @@ $(function(){
 	var pattern = new RegExp("\/ja\/leads\/([0-9]+)");
 	if(pattern.test($.trim(window.location.pathname))){
 		$.getNotes();
+		$("#statusCD").change(function(){
+			var idx = $("#idx").val();
+			var statusCD = $("#statusCD").val();
+			$.ajax({
+				url:"/ja/leads/"+idx+"/statusCD",
+				type:"POST",
+				cache: false,
+				data: {"statusCD":statusCD},
+				dataType: "text",
+				success: function(jsonData, textStatus, XMLHttpRequest) {
+					alert(jsonData);
+					location.reload();
+				},
+				error:function (xhr, ajaxOptions, thrownError){	
+					alert(thrownError);
+				}
+			});
+		});
 	}
 	
 	$(".paging").on("click","a.naviPage",function() {
