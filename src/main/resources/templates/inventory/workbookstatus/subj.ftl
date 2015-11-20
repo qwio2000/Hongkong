@@ -14,6 +14,7 @@
 				</#list>
 			</select>
 		</div>
+		<#if userType == "JA">
 		<div class="clearfix list02 pt20">
 			<div class="float_l">
 				<span class="status_txt">Click inventory qty to view history.</span>
@@ -27,6 +28,7 @@
 				</div>
 			</div>
 		</div>
+		</#if>
 		<div class="tbl01 mt5 tbl_status">
 			<table>
 				<thead>

@@ -4,7 +4,7 @@
 <mapper namespace="com.jeiglobal.hk.repository.inventory.WorkbookstatusRepository">
 	<!-- 지사 재고관리 메인 리스트 -->
 	<select id="findWorkbookStatusMstList" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookstatusDto$WorkbookStatusMstList">
-			CALL globalbiz.SPWorkbookStatusMstList(#{jisaCD},#{statusCD});
+			CALL globalbiz.SPWorkbookStatusMstList(#{jisaCD},#{deptCD},#{statusCD});
 	</select>
 	
 	<!-- 지사 재고관리 메인 리스트  센터별 과목 -->
@@ -12,7 +12,7 @@
 			SELECT 
 				jisaCD, deptCD, subj, globalbiz.FuncCodeDtlNM(jisaCD,'0002',subj,'E','') AS subjNM 
 			FROM globalbiz.DeptSubjInfo
-			WHERE jisaCD=#{jisaCD} AND deptCD=#{deptCD}
+			WHERE jisaCD=#{jisaCD} AND deptCD=#{subjdeptCD}
 			ORDER BY sortCD;
 	</select>
 	

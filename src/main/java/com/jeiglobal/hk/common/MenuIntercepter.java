@@ -86,10 +86,13 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 			});
 			int menuCodeCnt = menuCode.length();
 			
-			if(!menuCode.isEmpty() || 
+			if(!menuCode.isEmpty() ||
 					"/ja".equalsIgnoreCase(currentUrl) || "/fa".equalsIgnoreCase(currentUrl) // 메인
 					|| ant.match("/fa/diagnosis/**", currentUrl) //지사에서 처방 관련
-					|| "/fa/popupMsg".equalsIgnoreCase(currentUrl)){ //가맹점 팝업
+					|| "/fa/popupMsg".equalsIgnoreCase(currentUrl) //가맹점 팝업
+					|| ant.match("/ja/inventory/**", currentUrl) //지사 inventory
+				){ 
+
 				if(menuCodeCnt == 1){
 					menuFirstCode = menuCode.substring(0,1);
 				}else if(menuCodeCnt == 3){
