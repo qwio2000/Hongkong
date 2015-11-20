@@ -5,14 +5,13 @@
 		
 		<input type="hidden" id="jisaCD" value="${jisaCD }">
 		<input type="hidden" id="deptCD" value="${deptCD }">
-		<input type="hidden" id="gubun" value="${gubun }">
+		<input type="hidden" id="lastship" value="${lastship }">
 		<input type="hidden" id="pgubun" value="${pgubun }">
-		
 		
 		<#list subjlist as subjlistIndex>	
 			<input type="hidden" id="subjlist_${subjlistIndex.subj }" value="${subjlistIndex.subj }">
 		</#list>
-		
+
 		<div id=printlist></div>
 	</div>
 <!--// Main Content -->
