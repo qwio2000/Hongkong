@@ -59,7 +59,7 @@ public class WorkbookstatusController {
 		//header에 포함할 스크립트 
 		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
 		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("inventory");		
+		headerScript.add("inventory");
 		model.addAttribute("headerScript", headerScript);	
 		
 		String jisaCD = loginInfo.getJisaCD();
@@ -76,7 +76,7 @@ public class WorkbookstatusController {
 	
 	// 상품별 세부수량 조회
 	@RequestMapping(value={"/ja/inventory/workbookstatusSubj"}, method={RequestMethod.GET,RequestMethod.HEAD})
-	public String workbookstatusSubj(Model model, String jisaCD, String deptCD, String subj, @RequestParam(defaultValue="") String gubun) {
+	public String workbookstatusSubj(Model model, String jisaCD, String deptCD, String subj, @RequestParam(defaultValue="") String gubun, @RequestParam(defaultValue="") String pgubun) {
 		log.debug("Getting inventory workbookstatusCalgary");
 		
 		//header에 포함할 스크립트 
@@ -102,6 +102,10 @@ public class WorkbookstatusController {
 				log.debug("dung : {}", zz.toString());
 			}
 		}*/
+		String shipevery = "";
+		for (WorkbookstatusDto.WorkbookStatusSetList workbookStatusSetList2 : workbookStatusSetList) {
+			shipevery =  workbookStatusSetList2.getShipevery();			
+		}
 	
 		String subjnm = "";
 		for(WorkbookstatusDto.WorkbookStatusMstsubj subjlist : workbookStatusMstsubj){
@@ -123,9 +127,11 @@ public class WorkbookstatusController {
 		model.addAttribute("date", format.format(today));
 		model.addAttribute("subjlist", workbookStatusMstsubj);
 				
+		model.addAttribute("shipevery", shipevery);
 		model.addAttribute("wbdung", workbookStatusDungList);
 		model.addAttribute("setlist", workbookStatusSetList);
 
+		model.addAttribute("pgubun", pgubun);
 		if(("print").equals(gubun)){
 			return "inventory/workbookstatus/printAjax";
 		}else if(("ship").equals(gubun)){
@@ -140,10 +146,87 @@ public class WorkbookstatusController {
 		
 	}
 	
+	// 상품별 세부수량 해당세트 입/출고 리스트
+	@RequestMapping(value={"/ja/inventory/workbookstatusInventorySet"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String workbookstatusInventorySet(Model model, String jisaCD, String deptCD, String subj, String casKey ) {
+		log.debug("Getting inventory workbookstatusInventorySet");
+		List<WorkbookstatusDto.WorkbookStatusInventorySet> workbookStatusInventorySet = workbookstatusService.getWorkbookStatusInventorySet(jisaCD, deptCD, subj, casKey);
+		
+		model.addAttribute("casKey", casKey);
+		model.addAttribute("invenlist", workbookStatusInventorySet);
+		
+		return "inventory/workbookstatus/workbookstatusInventorySet";
+	}
+	
+	
+	// 최근 발송한 교재의 발송일 및 상품 세트별 세부 수량 조회 리스트
+	@RequestMapping(value={"/ja/inventory/IvnWorkBookInOutPrint"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String IvnWorkBookInOutPrint(Model model, String jisaCD, String deptCD, String lastship, String pgubun ) {
+		log.debug("Getting inventory IvnWorkBookInOutPrint");	
+		
+		//header에 포함할 스크립트 
+		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("inventory");		
+		model.addAttribute("headerScript", headerScript);	
+		
+		// 수량 수정한 과목 리스트
+		List<WorkbookstatusDto.WorkbookInOutSubjList> workbookInOutSubjList = workbookstatusService.getWorkbookInOutSubjList(jisaCD, deptCD, lastship);
+		
+		
+		model.addAttribute("jisaCD", jisaCD);
+		model.addAttribute("deptCD", deptCD);
+		model.addAttribute("lastship", lastship);
+		model.addAttribute("pgubun", pgubun);
+		model.addAttribute("subjlist", workbookInOutSubjList);
+		
+		return "inventory/workbookstatus/inOutPrint";
+	}
+	
+	@RequestMapping(value={"/ja/inventory/IvnWorkBookInOutPrintSubj"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String IvnWorkBookInOutPrintSubj(Model model, String jisaCD, String deptCD, String lastship, String subj, String pgubun ) {
+		log.debug("Getting inventory IvnWorkBookInOutPrint");	
+		
+	
+		// 수량 수정한 과목 리스트
+		List<WorkbookstatusDto.WorkbookInOutSubjList> workbookInOutSubjList = workbookstatusService.getWorkbookInOutSubjList(jisaCD, deptCD, lastship);
+				
+		//과목 등급 리스트
+		List<String> workbookStatusDungList = workbookstatusService.getWorkbookStatusDungList(jisaCD, subj);
+				
+		//가맹점 상품 세트별 세부 수량 조회 리스트
+		List<WorkbookstatusDto.IvnWorkBookInOutPrint> ivnWorkBookInOutPrint = workbookstatusService.getIvnWorkBookInOutPrint(jisaCD, deptCD, lastship,subj);
+		
+		String subjnm = "";
+		for(WorkbookstatusDto.WorkbookInOutSubjList subjlist : workbookInOutSubjList){
+		/*	System.out.println(subjlist.getSubj());
+			System.out.println("=========================");*/
+			if((subj).equals(subjlist.getSubj())){
+				subjnm = subjlist.getSubjnm();
+			}			
+		}
+		
+		/*1/28/2015 at 12:00AM*/
+		Date today = new Date(); 
+		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy 'at' HH:mm a");
+		
+		model.addAttribute("subj", subj);
+		model.addAttribute("subjnm", subjnm);
+		model.addAttribute("date", format.format(today));
+		model.addAttribute("pgubun",pgubun);
+		model.addAttribute("wbdung", workbookStatusDungList);
+		model.addAttribute("setlist", ivnWorkBookInOutPrint);
+		
+		return "inventory/workbookstatus/inOutPrintAjax";
+	}
+	
+	
+	
+	
 	
 	// 상품별 print
 	@RequestMapping(value={"/ja/inventory/workbookstatusPrint"}, method={RequestMethod.GET,RequestMethod.HEAD})
-	public String workbookstatusPrint(Model model, String jisaCD, String deptCD, String subj, @RequestParam(defaultValue="") String gubun) {
+	public String workbookstatusPrint(Model model, String jisaCD, String deptCD, String subj, @RequestParam(defaultValue="") String gubun, @RequestParam(defaultValue="") String pgubun) {
 		log.debug("Getting inventory workbookstatusPrint");
 		
 		//header에 포함할 스크립트 
@@ -159,6 +242,7 @@ public class WorkbookstatusController {
 		model.addAttribute("deptCD", deptCD);
 		model.addAttribute("subj", subj);
 		model.addAttribute("gubun", gubun);
+		model.addAttribute("pgubun", pgubun);
 		model.addAttribute("subjlist", workbookStatusMstsubj);
 		
 		return "inventory/workbookstatus/print";
@@ -182,14 +266,14 @@ public class WorkbookstatusController {
 	@RequestMapping(value={"/ja/inventory/workbookstatusSetrestockqtySave"}, method={RequestMethod.POST,RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> workbookstatusSetrestockqtyJson(Model model, HttpServletRequest request, String jisaCD, String deptCD, 
-			String subj, String allset) {
+			String subj, String shipevery, String allset) {
 		String workId = CommonUtils.getWorkId(request);
 
-	
-		workbookstatusService.addInventorySetrestockqtyUpt(jisaCD, deptCD, subj, allset, workId);
-
+		workbookstatusService.addInventorySetrestockqtyUpt(jisaCD, deptCD, subj, allset, shipevery, workId);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("saveOK", messageSourceAccesor.getMessage("Inventory.workbookstatus.Setrestockqty.success"));		
+
+		map.put("saveOK", messageSourceAccesor.getMessage("Inventory.workbookstatus.Setrestockqty.success"));			
+	
 		return map;
 	}
 	

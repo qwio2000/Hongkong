@@ -10,7 +10,7 @@
 	<!-- 지사 재고관리 메인 리스트  센터별 과목 -->
 	<select id="findWorkbookStatusMstsubj" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookstatusDto$WorkbookStatusMstsubj">
 			SELECT 
-				jisaCD, deptCD, subj, globalbiz.FuncCodeDtlNM(jisaCD,'0002',subj,'','') AS subjNM 
+				jisaCD, deptCD, subj, globalbiz.FuncCodeDtlNM(jisaCD,'0002',subj,'E','') AS subjNM 
 			FROM globalbiz.DeptSubjInfo
 			WHERE jisaCD=#{jisaCD} AND deptCD=#{deptCD}
 			ORDER BY sortCD;
@@ -30,29 +30,78 @@
 	<!-- 지사 상품별 세부수량 리스트-->
 	<select id="findWorkbookStatusSetList" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookstatusDto$WorkbookStatusSetList">
 			SELECT 
-				a.jisaCD, b.deptCD,
+				a.jisaCD, #{deptCD} as deptCD,
 				GROUP_CONCAT(
-					 CONCAT_WS('|', a.casKey, a.casSet, a.wbSet, a.wbGrade, a.wbName, b.wbQty, c.wbQty ) 
+					 CONCAT_WS('|', a.casKey, a.casSet, a.wbSet, a.wbGrade, a.wbName, IFNULL(b.wbQty,0), IFNULL(c.wbQty,0) ) 
 				ORDER BY a.casKey SEPARATOR ',' ) AS alllist
+				,IFNULL(c.shipevery,'') AS shipevery
 			FROM globalbiz.IvnWorkBookMst AS a
-			INNER JOIN globalbiz.IvnWorkBookStockQty AS b
-			ON a.jisaCD = b.jisaCD AND a.subj = b.subj AND a.casKey = b.casKey
-			INNER JOIN globalbiz.IvnWorkBookStableQty AS c
-			ON a.jisaCD = c.jisaCD AND a.subj = c.subj AND a.casKey = c.casKey
-			WHERE a.jisaCD=#{jisaCD} AND b.deptCD=#{deptCD} AND a.subj=#{subj}
+			LEFT JOIN globalbiz.IvnWorkBookStockQty AS b
+			ON a.jisaCD = b.jisaCD AND a.subj = b.subj AND a.casKey = b.casKey AND b.deptCD=#{deptCD}
+			LEFT JOIN globalbiz.IvnWorkBookStableQty AS c
+			ON a.jisaCD = c.jisaCD AND a.subj = c.subj AND a.casKey = c.casKey AND c.deptCD=#{deptCD}
+			WHERE a.jisaCD=#{jisaCD} AND a.subj=#{subj}
 			GROUP BY RIGHT(a.casKey,2)
 	</select>
 	
+	<!-- 최근 발송한 교재의 발송일 및 상품 세트별 세무 수량 조회 리스트 -->
+	<select id="findIvnWorkBookInOutPrint" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookstatusDto$IvnWorkBookInOutPrint">
+			SELECT 
+				a.jisaCD, #{deptCD} AS deptCD, a.subj,
+				GROUP_CONCAT(
+					 CONCAT_WS('|', a.casKey, a.casSet, a.wbSet, a.wbGrade, a.wbName, IFNULL(b.wbInOutCal,0), IFNULL(b.wbInOutShip,0) ) 
+				ORDER BY a.casKey SEPARATOR ',' ) AS alllist
+			FROM globalbiz.IvnWorkBookMst AS a
+			LEFT JOIN(
+				SELECT a.jisaCD, a.deptCD, b.subj, b.casKey, SUM(IFNULL(b.wbInOutCal,0)) AS wbInOutCal, SUM(IFNULL(b.wbInOutShip,0)) AS wbInOutShip
+				FROM globalbiz.IvnWorkBookInOutMst AS a
+				INNER JOIN globalbiz.IvnWorkBookInOutDtl AS b
+				ON a.aidx=b.fidx
+				WHERE a.jisaCD=#{jisaCD} AND a.deptCD=#{deptCD}
+					AND a.inOutReqYMD=#{lastship}
+				GROUP BY b.subj, b.casKey	
+			)AS b
+			ON a.jisaCD=b.jisaCD AND a.subj=b.subj AND a.casKey=b.casKey
+			WHERE a.jisaCD=#{jisaCD}  AND a.subj=#{subj}
+			GROUP BY a.subj, RIGHT(a.casKey,2)
+	</select>
+	
+	<!-- 수량 수정한 과목 리스트 -->
+	<select id="findWorkbookInOutSubjList" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookstatusDto$WorkbookInOutSubjList">
+			SELECT 
+				a.subj , globalbiz.FuncCodeDtlNM(#{jisaCD},'0002',a.subj,'E','') AS subjNM 
+			FROM globalbiz.IvnWorkBookInOutMst AS a
+			INNER JOIN globalbiz.SubjInfo AS b
+			ON  a.jisaCD=b.jisaCD AND a.subj=b.subj
+			WHERE a.jisaCD=#{jisaCD} AND a.deptCD=#{deptCD} AND a.inOutSignYMD=#{lastship}
+			GROUP BY a.subj
+			ORDER BY sortVal
+	</select>
+	
+
 	<!-- 지사 현재고 수량 수정 -->
 	<select id="findInventoryShipInventoryUpt" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
 			CALL globalbiz.SPInventoryShipInventoryUpt(#{jisaCD},#{deptCD},#{subj},#{allset},#{reqCD},#{workId});
 	</select>
 	
-
 	<!-- 지사 적정재고 수량 수정 -->
 	<select id="findInventorySetrestockqtyUpt" statementType="CALLABLE" parameterType="HASHMAP" resultType="java.lang.String">
-			CALL globalbiz.SPInventorySetrestockqtyUpt(#{jisaCD},#{deptCD},#{subj},#{allset},#{workId});
+			CALL globalbiz.SPInventorySetrestockqtyUpt(#{jisaCD},#{deptCD},#{subj},#{allset},#{shipevery},#{workId});
 	</select>
 	
+	<!-- 최근 발송한 교재의 발송일 및 상품 세트별 세부 수량 리스트 -->
+	<select id="findWorkbookStatusInventorySet" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookstatusDto$WorkbookStatusInventorySet">
+			SELECT a.inOutSignYMD, DATE_FORMAT(a.inOutSignYMD,'%m/%d/%Y') AS inOutSignYMDT, a.subj
+				, globalbiz.FuncCodeDtlNM(a.jisaCD,'0002',a.subj,'E','Y') AS subjNM
+				, b.casKey, b.wbName
+				, a.inOutReqCD
+				, globalbiz.FuncCodeDtlNM(a.jisaCD,'0901',a.inOutReqCD,'E','Y') AS inOutReqCDNM
+				,  b.wbStock, b.wbInOut, b.wbStock+b.wbInOut AS Balance
+			FROM globalbiz.IvnWorkBookInOutMst AS a
+			INNER JOIN globalbiz.IvnWorkBookInOutDtl AS b
+			ON a.aidx=b.fidx
+			WHERE a.jisaCD=#{jisaCD} AND a.deptCD=#{deptCD} AND a.subj=#{subj}  AND b.casKey=#{casKey}
+			ORDER BY b.aidx DESC
+	</select>
 	
 </mapper>
