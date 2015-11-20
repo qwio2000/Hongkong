@@ -73,7 +73,7 @@ $(function(){
 				dataType: "JSON",			
 				success: function(jsonData, textStatus, XMLHttpRequest) {
 					alert(jsonData.saveOK);
-					//$.getReload();
+					$.getReload();
 				},
 				error:function (xhr, ajaxOptions, thrownError){	
 					alert(thrownError);
@@ -90,6 +90,7 @@ $(function(){
 			var jisaCD = $("#jisaCD").val();
 			var deptCD = $("#deptCD").val();
 			var subj = $("#subj").val();
+			var shipevery = $("#shipevery").val();
 			
 			$("#allset").html("");
 			
@@ -101,10 +102,9 @@ $(function(){
 			});
 			
 			data = $("#allset").html();
-			alert(data.length)
 			
 			var searchUrl = "/ja/inventory/workbookstatusSetrestockqtySave";
-			var paramData = {"jisaCD":jisaCD, "deptCD":deptCD, "subj":subj, "allset": data};
+			var paramData = {"jisaCD":jisaCD, "deptCD":deptCD, "subj":subj, "shipevery":shipevery, "allset": data};
 
 
 			$.ajax({
@@ -129,13 +129,14 @@ $(function(){
 			var jisaCD = $("#jisaCD").val();
 			var deptCD = $("#deptCD").val();			
 			var gubun = $("#gubun").val();
+			var pgubun = $("#pgubun").val();
 			var subj = "";
 			
 			$("[id^=subjlist_]").each(function (i, v) {
 				subj = $(this).val();
 				
 				var searchUrl = "/ja/inventory/workbookstatusSubj";
-				var paramData = "jisaCD="+jisaCD+"&deptCD="+deptCD+"&subj="+subj+"&gubun="+gubun;
+				var paramData = "jisaCD="+jisaCD+"&deptCD="+deptCD+"&subj="+subj+"&gubun="+gubun+"&pgubun="+pgubun;
 				//console.log(paramData)
 				$.ajax({
 					type: "GET"
@@ -153,14 +154,52 @@ $(function(){
 			});
 		},
 		
+		getInOutallPrint:function(){ 
+			var jisaCD = $("#jisaCD").val();
+			var deptCD = $("#deptCD").val();	
+			var lastship = $("#lastship").val();
+			var pgubun = $("#pgubun").val();
+			var subj = "";
+			
+			$("[id^=subjlist_]").each(function (i, v) {
+				subj = $(this).val();
+		
+				var searchUrl = "/ja/inventory/IvnWorkBookInOutPrintSubj";
+				var paramData = "jisaCD="+jisaCD+"&deptCD="+deptCD+"&subj="+subj+"&lastship="+lastship+"&pgubun="+pgubun;
+				//console.log(paramData)
+				$.ajax({
+					type: "GET"
+					,url: searchUrl
+					,data: paramData					
+					,success: function(data){	
+						$("#printlist").append(data)
+					}
+					,error: function (data, textStatus) { 
+						alert(textStatus); 			
+					}
+					,async: false
+				});
+				
+			});
+		},
+
+		getNextPrint:function(jisaCD,deptCD,subj,gubun,pgubun){ 
+			location.href="/ja/inventory/workbookstatusPrint?jisaCD="+jisaCD+"&deptCD="+deptCD+"&subj="+subj+"&gubun="+gubun+"&pgubun="+pgubun+" "	
+		},
+		
+		getInOutPrint:function(jisaCD,deptCD,lastship,pgubun){ 
+			location.href="/ja/inventory/IvnWorkBookInOutPrint?jisaCD="+jisaCD+"&deptCD="+deptCD+"&lastship="+lastship+"&pgubun="+pgubun+" "	
+		},
+		
 		getReload:function(){  //페이지 새로고침
 			location.reload();
 		}
 	});
 	
-	
-	$("#subjgo").change(function() {
-		var myArray = $("#subjgo").val().split(',');	    
+
+	$("[id^=subjgo]").change(function() {
+		
+		var myArray = $(this).val().split(',');	    
 	    var jisaCD = myArray[0];
 	    var deptCD = myArray[1];
 	    var subj = myArray[2];
@@ -185,4 +224,10 @@ $(function(){
 	if(window.location.pathname == '/ja/inventory/workbookstatusPrint'){
 		$.getPrint();
 	}
+	
+	// 최근 발송한 교재의 발송일 및 상품 세트별 세부 수량 조회 리스트 print
+	if(window.location.pathname == '/ja/inventory/IvnWorkBookInOutPrint'){
+		$.getInOutallPrint();
+	}
+	
 });

@@ -24,8 +24,11 @@ public class WorkbookstatusDto {
 		private String centeername;
 		private String st;
 		private String lastship;
-		private String shipfreq;
+		private String lastshipt;
+		private String shipevery;
 		private String nextship;
+		private String nextshipt;
+		
 		private String promoitem;
 		private String additionalworkbook;
 		private List<WorkbookstatusDto.WorkbookStatusMstsubj> subj;
@@ -40,11 +43,18 @@ public class WorkbookstatusDto {
 	}
 	
 	@Data
+	public static class WorkbookInOutSubjList{
+		private String subj;
+		private String subjnm;
+	}
+	
+	@Data
 	public static class WorkbookStatusSetList{
 		private String jisaCD;
 		private String deptCD;
 		private String alllist;
 		private List<WorkbookStatusSetDungList> dungList;
+		private String shipevery;
 		
 	}
 	
@@ -60,5 +70,40 @@ public class WorkbookstatusDto {
 		private String stableqty;		
 	}
 
+	@Data
+	public static class IvnWorkBookInOutPrint{
+		private String jisaCD;
+		private String deptCD;
+		private String subj;
+		private String alllist;
+		private List<IvnWorkBookInOutPrintDungList> dungList;	
+	}
+	
+	@Data
+	@AllArgsConstructor
+	public static class IvnWorkBookInOutPrintDungList{
+		private String caskey;
+		private String casset;
+		private String wbset;
+		private String wbgrade;
+		private String wbname;
+		private String wbinoutcal;
+		private String wbinoutship;		
+	}
+	
+	@Data
+	public static class WorkbookStatusInventorySet{
+		private String inoutsignymd;
+		private String inoutsignymdt;
+		private String subj;	
+		private String subjnm;	
+		private String caskey;	
+		private String wbname;	
+		private String inoutreqcd;	
+		private String inoutreqcdnm;
+		private String wbstock;	
+		private String wbinout;	
+		private String balance;
+	}
 	
 }

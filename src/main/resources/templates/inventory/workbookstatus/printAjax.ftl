@@ -2,9 +2,11 @@
 		<div class="float_l">
 		Ship to Calgary : ${subjnm } (${subj })   <!-- ENGLISH (EE) -->
 		</div>
+		<#if pgubun == "P">
 		<div class="float_r">
 		Printed on  ${date }<!-- 1/28/2015 at 12:00AM -->
 		</div>
+		</#if>
 	</div>
 		
 	<div class="tbl01 mt5 tbl_status">
@@ -57,6 +59,35 @@
 						</#list>
 					</tr>
 				</#list>
+				
+				<#assign stocqtySum = 0?number><#assign stocqtySumTot = 0?number>
+					<tr class="line2 total">
+						<#list wbdung as wbdungIndex>
+							<#list setlist as setlistIndex>
+								<#list setlistIndex.dungList as dungListIndex>
+										<#if wbdungIndex == dungListIndex.wbgrade>
+											<#assign stocqty = dungListIndex.stocqty>
+											<#assign stableqty = dungListIndex.stableqty>
+											<#assign qty = stocqty?number - stableqty?number>  <!-- 현재재고 - 적정재고 -->
+											<#if stableqty?number gt stocqty?number>
+												<#assign stocqtySum = stocqtySum + qty?replace("-","")?number>	
+											</#if>
+										</#if>
+								</#list>
+							</#list>
+						
+							<#if wbdungIndex_index = 0>	
+								<td colspan="2" class="no_line">${stocqtySum }</td>
+							<#else>
+								<td colspan="2" >${stocqtySum }</td>
+							</#if>
+							<#assign stocqtySumTot = stocqtySumTot+stocqtySum>
+							<#assign stocqtySum = 0?number>
+						</#list>
+					</tr>
 			</tbody>
 		</table>
+		<div class="pt20">
+			Total: <strong>${stocqtySumTot }</strong>
+		</div>
 	</div>

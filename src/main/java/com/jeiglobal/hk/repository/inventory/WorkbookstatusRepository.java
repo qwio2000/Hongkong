@@ -24,11 +24,18 @@ public interface WorkbookstatusRepository {
 	
 	List<WorkbookstatusDto.WorkbookStatusSetList> findWorkbookStatusSetList(Map<String, Object> map);
 	
+	List<WorkbookstatusDto.IvnWorkBookInOutPrint> findIvnWorkBookInOutPrint(Map<String, Object> map);
+	
 	List<String> findWorkbookStatusDungList(Map<String, Object> map);
 	
 	String findInventorySetrestockqtyUpt(Map<String, Object> map);
 	
 	String findInventoryShipInventoryUpt(Map<String, Object> map);
+	
+	List<WorkbookstatusDto.WorkbookInOutSubjList> findWorkbookInOutSubjList(Map<String, Object> map);
+	
+	List<WorkbookstatusDto.WorkbookStatusInventorySet> findWorkbookStatusInventorySet(Map<String, Object> map);
+	
 	
 	
 

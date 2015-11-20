@@ -42,19 +42,27 @@
 				</thead>
 				<tbody>
 					<#assign chk = "0"><#assign qty = "0"><#assign stocqty = "0"><#assign stableqty = "0">
-					<#list setlist as setlistIndxe>
+					<#list setlist as setlistIndex>
 						<tr class="line2">
 							<#list wbdung as wbdungIndex>				
-								<#list setlistIndxe.dungList as dungListIndex>
+								<#list setlistIndex.dungList as dungListIndex>
 									<#if wbdungIndex == dungListIndex.wbgrade>
 										
 										<#assign stocqty = dungListIndex.stocqty>
 										<#assign stableqty = dungListIndex.stableqty>
 										<#assign qty = stocqty?number - stableqty?number>
 										<#if wbdungIndex_index = 0>
-											<td class="no_line">${dungListIndex.wbname }</td>
+											<td class="no_line">
+												<a href="javascript:$.openPop('/ja/inventory/workbookstatusInventorySet?jisaCD=${jisaCD }&deptCD=${deptCD }&subj=${subj }&casKey=${dungListIndex.caskey }','workbookstatusInventorySet','width=924,height=700,left=300,scrollbars=yes,resizable=yes')">
+												${dungListIndex.wbname }
+												</a>
+											</td>
 										<#else>
-											<td>${dungListIndex.wbname }</td>
+											<td>
+												<a href="javascript:$.openPop('/ja/inventory/workbookstatusInventorySet?jisaCD=${jisaCD }&deptCD=${deptCD }&subj=${subj }&casKey=${dungListIndex.caskey }','workbookstatusInventorySet','width=924,height=700,left=300,scrollbars=yes,resizable=yes')">
+												${dungListIndex.wbname }
+												</a>
+											</td>
 										</#if>
 											<td class="col_n"> 				<!--  gt :> , gte : >= , lt < , lte <= -->
 												<#if stableqty?number == stocqty?number >  <!-- 적정재고 = 현재재고  "검정색"-->
@@ -82,20 +90,31 @@
 						</tr>
 					</#list>
 									
+					<#assign stocqtySum = 0?number><#assign stocqtySumTot = 0?number>
 					<tr class="line2 total">
 						<#list wbdung as wbdungIndex>
-							<#if wbdungIndex_index = 0>
-								<td colspan="2" class="no_line">152</td>
+							<#list setlist as setlistIndex>
+								<#list setlistIndex.dungList as dungListIndex>
+										<#if wbdungIndex == dungListIndex.wbgrade>
+											<#assign stocqtySum = stocqtySum + dungListIndex.stocqty?number>	
+										</#if>
+								</#list>
+							</#list>
+						
+							<#if wbdungIndex_index = 0>	
+								<td colspan="2" class="no_line">${stocqtySum }</td>
 							<#else>
-								<td colspan="2" >152</td>
+								<td colspan="2" >${stocqtySum }</td>
 							</#if>
+							<#assign stocqtySumTot = stocqtySumTot+stocqtySum>
+							<#assign stocqtySum = 0?number>
 						</#list>
 					</tr>
 				
 				</tbody>
 			</table>
 			<div class="pt20">
-				Total: <strong>1,995</strong>
+				Total: <strong>${stocqtySumTot }</strong>
 			</div>
 		
 		</div>

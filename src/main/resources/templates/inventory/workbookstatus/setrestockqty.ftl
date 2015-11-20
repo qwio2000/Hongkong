@@ -19,9 +19,9 @@
 		<div class="clearfix list02 pt20">
 			<div class="float_l">
 				Ship every 
-				<select name="" id="" style="width:80px">
-					<option value="30">30</option>
-					<option value="30">60</option>
+				<select name="shipevery" id="shipevery" style="width:80px">
+					<option value="30" <#if shipevery == "30" > selected="selected"</#if> >30</option>
+					<option value="60" <#if shipevery == "60" > selected="selected"</#if> >60</option>
 				</select> 
 				days to this center.
 			</div>

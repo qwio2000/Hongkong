@@ -32,26 +32,34 @@
 							<td class="no_line">${mstlistIndex.st }</td>
 							<td class="left pl10"><a href="#" class="blue">${mstlistIndex.centeername }</a></td>
 							<td>
-								05/16/2014 <a href="#" class="icon_print"><span class="hidden">Print</span></a>
+								<#if mstlistIndex.lastshipt != "">
+									<a href="javascript:$.getInOutPrint('${mstlistIndex.jisaCD }','${mstlistIndex.deptCD }','${mstlistIndex.lastship }','')">${mstlistIndex.lastshipt }</a> 
+									<a href="javascript:$.getInOutPrint('${mstlistIndex.jisaCD }','${mstlistIndex.deptCD }','${mstlistIndex.lastship }','P')" class="icon_print"><span class="hidden">Print</span></a>
+								</#if>
 							</td>
 							<td>
 								<span class="radio_wrap">
-									<input type="radio" value="" name="" id="radio1"><label class="radio_label" for="radio1">30 days</label><br />
-									<input type="radio" value="" name="" id="radio2"><label class="radio_label" for="radio2">60 days</label>
+									<input type="radio" value="30" name="shipevery${mstlistIndex_index }" id="radio1${mstlistIndex_index }" disabled="disabled" <#if mstlistIndex.shipevery == "30">checked="checked"</#if>>
+									<label class="radio_label" for="radio1${mstlistIndex_index }">30 days</label><br />
+									<input type="radio" value="60" name="shipevery${mstlistIndex_index }" id="radio2${mstlistIndex_index }" disabled="disabled" <#if mstlistIndex.shipevery == "60">checked="checked"</#if>>
+									<label class="radio_label" for="radio2${mstlistIndex_index }">60 days</label>
 								</span>
 							</td>
-							<td>
-								<span class="txt_area">05/16/2014</span> <a href="#" class="icon_print"><span class="hidden">Print</span></a>
+							<td>	
+								<#if mstlistIndex.nextshipt != "">
+								<a href="javascript:$.getNextPrint('${mstlistIndex.jisaCD }','${mstlistIndex.deptCD }','','print','')"><span class="txt_area">${mstlistIndex.nextshipt }</span></a> 
+								<a href="javascript:$.getNextPrint('${mstlistIndex.jisaCD }','${mstlistIndex.deptCD }','','print','P')" class="icon_print"><span class="hidden">Print</span></a>
+								</#if>
 							</td>
 							<td>
-								<span class="txt_area">05/16/2014</span>
+								<span class="txt_area">''</span>
 								<div class="tbl_btn_area">
 									<a href="#" class="icon_print"><span class="hidden">Print</span></a>
 									<a href="#" class="icon_delivery"><span class="hidden">Delivery</span></a>
 								</div>
 							</td>
 							<td>
-								<span class="txt_area">05/16/2014 / Qty.35</span>
+								<span class="txt_area">'' / ''</span>
 								<div class="tbl_btn_area">
 									<a href="#" class="icon_print"><span class="hidden">Print</span></a>
 									<a href="#" class="icon_delivery"><span class="hidden">Delivery</span></a>
@@ -59,7 +67,7 @@
 							</td>
 							<td>
 								${mstlistIndex.deptCD }
-								<select name="subjgo" id="subjgo" style="width:125px">
+								<select name="subjgo" id="subjgo_${mstlistIndex_index }" style="width:125px">
 									<option value=""></option>
 									<#list mstlistIndex.subj as subjIndex>
 										<option value="${subjIndex.jisaCD },${subjIndex.deptCD },${subjIndex.subj },'' ">${subjIndex.subjnm }</option>
