@@ -47,9 +47,11 @@ public class MemberWorkbookController {
 	public String getMembers(Model model,
 			@ModelAttribute LoginInfo loginInfo, String jisaCD, String deptCD){
 		log.debug("member Workbook Page {} ");
+		if("".equals(jisaCD)){jisaCD = loginInfo.getJisaCD();}
+		if("".equals(deptCD)){deptCD = loginInfo.getDeptCD();}
 		List<String> headerScript = new ArrayList<>();
 		List<MonthInfo> months = CommonUtils.getMonths(1);
-		List<String> subjs = commonService.getOpenSubjsByDeptCD(loginInfo.getJisaCD(), loginInfo.getDeptCD(), "1");
+		List<String> subjs = commonService.getOpenSubjsByDeptCD(jisaCD, deptCD, "1");
 		headerScript.add("memberWorkbook");
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("months", months);

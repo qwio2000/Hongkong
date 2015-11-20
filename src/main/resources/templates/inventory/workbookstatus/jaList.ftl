@@ -30,7 +30,7 @@
 					<#list mstlist as mstlistIndex>
 						<tr class="line2">
 							<td class="no_line">${mstlistIndex.st }</td>
-							<td class="left pl10"><a href="#" class="blue">${mstlistIndex.centeername }</a></td>
+							<td class="left pl10"><a href="/ja/members/workbook?jisaCD=${mstlistIndex.jisaCD }&deptCD=${mstlistIndex.deptCD}" class="blue">${mstlistIndex.centeername }</a></td>
 							<td>
 								<#if mstlistIndex.lastshipt != "">
 									<a href="javascript:$.getInOutPrint('${mstlistIndex.jisaCD }','${mstlistIndex.deptCD }','${mstlistIndex.lastship }','')">${mstlistIndex.lastshipt }</a> 
