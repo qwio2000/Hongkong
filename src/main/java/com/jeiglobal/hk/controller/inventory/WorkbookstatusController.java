@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jeiglobal.hk.domain.auth.LoginInfo;
 import com.jeiglobal.hk.domain.inventory.WorkbookstatusDto;
-import com.jeiglobal.hk.service.CommonService;
 import com.jeiglobal.hk.service.inventory.WorkbookstatusService;
 import com.jeiglobal.hk.utils.CommonUtils;
 import com.jeiglobal.hk.utils.MessageSourceAccessor;
@@ -44,9 +43,7 @@ public class WorkbookstatusController {
 
 	@Autowired
 	private WorkbookstatusService  workbookstatusService;
-	
-	@Autowired
-	private CommonService commonService;
+
 	
 	@Autowired
 	private MessageSourceAccessor messageSourceAccesor;
@@ -65,8 +62,8 @@ public class WorkbookstatusController {
 		String jisaCD = loginInfo.getJisaCD();
 		String statusCD = "1";
 		
-		//가맹점 리스트
-		List<WorkbookstatusDto.WorkbookStatusMstList> workbookStatusMstList = workbookstatusService.getWorkbookStatusMstList(jisaCD, statusCD);
+		//가맹점 재고현황 리스트
+		List<WorkbookstatusDto.WorkbookStatusMstList> workbookStatusMstList = workbookstatusService.getWorkbookStatusMstList(jisaCD,"", statusCD);
 
 		
 		model.addAttribute("mstlist", workbookStatusMstList);
@@ -76,7 +73,7 @@ public class WorkbookstatusController {
 	
 	// 상품별 세부수량 조회
 	@RequestMapping(value={"/ja/inventory/workbookstatusSubj"}, method={RequestMethod.GET,RequestMethod.HEAD})
-	public String workbookstatusSubj(Model model, String jisaCD, String deptCD, String subj, @RequestParam(defaultValue="") String gubun, @RequestParam(defaultValue="") String pgubun) {
+	public String workbookstatusSubj(Model model, @ModelAttribute LoginInfo loginInfo, String jisaCD, String deptCD, String subj, @RequestParam(defaultValue="") String gubun, @RequestParam(defaultValue="") String pgubun) {
 		log.debug("Getting inventory workbookstatusCalgary");
 		
 		//header에 포함할 스크립트 
@@ -85,8 +82,11 @@ public class WorkbookstatusController {
 		headerScript.add("inventory");		
 		model.addAttribute("headerScript", headerScript);	
 		
+		String userType = loginInfo.getUserType();
+		
+		String subjdeptCD = deptCD;
 		// 가맹점 과목 리스트
-		List<WorkbookstatusDto.WorkbookStatusMstsubj> workbookStatusMstsubj = workbookstatusService.getWorkbookStatusMstsubj(jisaCD, deptCD);
+		List<WorkbookstatusDto.WorkbookStatusMstsubj> workbookStatusMstsubj = workbookstatusService.getWorkbookStatusMstsubj(jisaCD, subjdeptCD);
 		
 		//과목 등급 리스트
 		List<String> workbookStatusDungList = workbookstatusService.getWorkbookStatusDungList(jisaCD, subj);
@@ -109,6 +109,7 @@ public class WorkbookstatusController {
 	
 		String subjnm = "";
 		for(WorkbookstatusDto.WorkbookStatusMstsubj subjlist : workbookStatusMstsubj){
+			System.out.println(subjlist.getSubj());
 			if((subj).equals(subjlist.getSubj())){
 				subjnm = subjlist.getSubjnm();
 			}			
@@ -119,6 +120,7 @@ public class WorkbookstatusController {
 		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy 'at' HH:mm a");
 		
 		
+		model.addAttribute("userType", userType);
 		model.addAttribute("jisaCD", jisaCD);
 		model.addAttribute("deptCD", deptCD);
 		model.addAttribute("subj", subj);
@@ -235,8 +237,9 @@ public class WorkbookstatusController {
 		headerScript.add("inventory");		
 		model.addAttribute("headerScript", headerScript);	
 		
+		String subjdeptCD = deptCD;
 		// 가맹점 과목 리스트
-		List<WorkbookstatusDto.WorkbookStatusMstsubj> workbookStatusMstsubj = workbookstatusService.getWorkbookStatusMstsubj(jisaCD, deptCD);
+		List<WorkbookstatusDto.WorkbookStatusMstsubj> workbookStatusMstsubj = workbookstatusService.getWorkbookStatusMstsubj(jisaCD, subjdeptCD);
 		
 		model.addAttribute("jisaCD", jisaCD);
 		model.addAttribute("deptCD", deptCD);
@@ -276,6 +279,35 @@ public class WorkbookstatusController {
 	
 		return map;
 	}
+	
+	
+	
+	// 가맹점 재고현황 조회
+	@RequestMapping(value={"/fa/inventory/workbookstatusInventory"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String workbookstatusInventory(Model model, @ModelAttribute LoginInfo loginInfo) {
+		log.debug("Getting inventory workbookstatus");
+		
+		//header에 포함할 스크립트 
+		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("inventory");
+		model.addAttribute("headerScript", headerScript);	
+		
+		String jisaCD = loginInfo.getJisaCD();
+		String deptCD = loginInfo.getDeptCD();
+		String statusCD = "1";
+		
+		//재고현황 리스트
+		List<WorkbookstatusDto.WorkbookStatusMstList> workbookStatusMstList = workbookstatusService.getWorkbookStatusMstList(jisaCD, deptCD, statusCD);
+
+		
+		model.addAttribute("mstlist", workbookStatusMstList);
+		
+		return "inventory/workbookstatus/faList";
+	}
+	
+	
+
 	
 	
 	

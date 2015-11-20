@@ -14,7 +14,6 @@ import com.jeiglobal.hk.domain.inventory.WorkbookstatusDto.IvnWorkBookInOutPrint
 import com.jeiglobal.hk.domain.inventory.WorkbookstatusDto.WorkbookStatusInventorySet;
 import com.jeiglobal.hk.domain.inventory.WorkbookstatusDto.WorkbookStatusMstList;
 import com.jeiglobal.hk.domain.inventory.WorkbookstatusDto.WorkbookStatusSetDungList;
-import com.jeiglobal.hk.domain.inventory.WorkbookstatusDto.WorkbookStatusSetList;
 import com.jeiglobal.hk.repository.inventory.WorkbookstatusRepository;
 
 /**
@@ -35,22 +34,23 @@ public class WorkbookstatusService {
 
 	Map<String, Object> param = new HashMap<>();
 	
-	public List<WorkbookstatusDto.WorkbookStatusMstList> getWorkbookStatusMstList(String jisaCD, String statusCD) {
+	public List<WorkbookstatusDto.WorkbookStatusMstList> getWorkbookStatusMstList(String jisaCD, String deptCD, String statusCD) {
 		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
 		param.put("statusCD", statusCD);
 		List<WorkbookstatusDto.WorkbookStatusMstList> list = workbookstatusRepository.findWorkbookStatusMstList(param);
 		for (WorkbookStatusMstList workbookStatusMstList : list) {
 			param.put("jisaCD", workbookStatusMstList.getJisaCD());
-			param.put("deptCD", workbookStatusMstList.getDeptCD());
+			param.put("subjdeptCD", workbookStatusMstList.getDeptCD());
 			workbookStatusMstList.setSubj(workbookstatusRepository.findWorkbookStatusMstsubj(param));
 		}
 		
 		return list;
 	}
 
-	public List<WorkbookstatusDto.WorkbookStatusMstsubj> getWorkbookStatusMstsubj(String jisaCD, String deptCD) {
+	public List<WorkbookstatusDto.WorkbookStatusMstsubj> getWorkbookStatusMstsubj(String jisaCD, String subjdeptCD) {
 		param.put("jisaCD", jisaCD);
-		param.put("deptCD", deptCD);
+		param.put("subjdeptCD", subjdeptCD);
 		return workbookstatusRepository.findWorkbookStatusMstsubj(param);
 	}
 
