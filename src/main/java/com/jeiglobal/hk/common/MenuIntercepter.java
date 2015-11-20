@@ -88,7 +88,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 			
 			if(!menuCode.isEmpty() || 
 					"/ja".equalsIgnoreCase(currentUrl) || "/fa".equalsIgnoreCase(currentUrl)
-					|| ant.match("/fa/diagnosis/**", currentUrl)){
+					|| ant.match("/fa/diagnosis/**", currentUrl) || ant.match("/ja/inventory/**", currentUrl) ){
 				if(menuCodeCnt == 1){
 					menuFirstCode = menuCode.substring(0,1);
 				}else if(menuCodeCnt == 3){
