@@ -2,12 +2,19 @@ $(function(){
 	$.extend({
 		getWorkbookReport:function(){
 			var pageNum = $("#pageNum").val();
-			var searchUrl = "/fa/members/workbook/"+pageNum;
+			var searchUrl;
+			if(userType.toLowerCase() == 'fa'){
+				searchUrl = "/"+userType.toLowerCase()+"/members/workbook/"+pageNum;
+			}else if(userType.toLowerCase() == 'ja'){
+				searchUrl = "/"+userType.toLowerCase()+"/members/workbook/"+pageNum;
+			}
 			var month = $("#month").val();
 			var year     = $("#year").val();
 			var week    = $("#week").val();
 			var subj    = $("#subj").val();
-			var paramData = {"month":month, "year":year, "week":week, "subj":subj};
+			var jisaCD    = $("#jisaCD").val();
+			var deptCD    = $("#deptCD").val();
+			var paramData = {"month":month, "year":year, "week":week, "subj":subj, "jisaCD":jisaCD, "deptCD":deptCD};
 			$.ajax({
 				url:searchUrl,
 				type:"GET",

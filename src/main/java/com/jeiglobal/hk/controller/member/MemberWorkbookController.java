@@ -43,9 +43,9 @@ public class MemberWorkbookController {
 	@Autowired
 	private MemberWorkbookService memberWorkbookService;
 	
-	@RequestMapping(value={"/fa/members/workbook"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members/workbook", "/ja/members/workbook"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMembers(Model model,
-			@ModelAttribute LoginInfo loginInfo){
+			@ModelAttribute LoginInfo loginInfo, String jisaCD, String deptCD){
 		log.debug("member Workbook Page {} ");
 		List<String> headerScript = new ArrayList<>();
 		List<MonthInfo> months = CommonUtils.getMonths(1);
@@ -54,18 +54,22 @@ public class MemberWorkbookController {
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("months", months);
 		model.addAttribute("subjs", subjs);
-		return "member/workbook/reports";
+		model.addAttribute("jisaCD", jisaCD);
+		model.addAttribute("deptCD", deptCD);
+		return "member/workbook/reports"+("JA".equals(loginInfo.getUserType()) ? loginInfo.getUserType() : "");
 	}
-	@RequestMapping(value={"/fa/members/workbook/{pageNum:[0-9]+}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@RequestMapping(value={"/fa/members/workbook/{pageNum:[0-9]+}", "/ja/members/workbook/{pageNum:[0-9]+}"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> getMemberWorkbookJson(@ModelAttribute LoginInfo loginInfo,
-			int month, int year, int week, String subj,
+			int month, int year, int week, String subj, String jisaCD, String deptCD,
 			@PathVariable int pageNum){
 		log.debug("get member Workbook, year : {}, month : {}, week Range : {}", year, month, week);
+		if("".equals(jisaCD)){jisaCD = loginInfo.getJisaCD();}
+		if("".equals(deptCD)){deptCD = loginInfo.getDeptCD();}
 		Map<String, Object> map = new HashMap<String, Object>();
-		PageUtil pageUtil = new PageUtil(pageNum, memberWorkbookService.getMemberWorkbookCount(loginInfo.getJisaCD(), loginInfo.getDeptCD(), subj), pageSize, blockSize);
+		PageUtil pageUtil = new PageUtil(pageNum, memberWorkbookService.getMemberWorkbookCount(jisaCD, deptCD, subj), pageSize, blockSize);
 		if(pageUtil.getTotalPageCnt() > 0){
-			List<MemberWorkbookInfo> workbooks = memberWorkbookService.getMemberWorkbooks(year, month, week, subj, loginInfo.getJisaCD(), loginInfo.getDeptCD(), pageUtil.getStartRow(), pageUtil.getRowBlockSize());
+			List<MemberWorkbookInfo> workbooks = memberWorkbookService.getMemberWorkbooks(year, month, week, subj, jisaCD, deptCD, pageUtil.getStartRow(), pageUtil.getRowBlockSize());
 			map.put("workbooks", workbooks);
 		}
 		map.put("monthName", memberWorkbookService.getMonthName(month, CommonUtils.getMonths(2)));

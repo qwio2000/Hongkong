@@ -8,6 +8,8 @@
 		<div class="list02 pt20 clearfix">
 			<div class="float_l">
 				<input type="hidden" id="pageNum" value="1"/>
+				<input type="hidden" id="jisaCD" value="${jisaCD?default('') }"/>
+				<input type="hidden" id="deptCD" value="${deptCD?default('') }"/>
 				<select name="month" id="month" style="width:162px">
 					<#list months as month>
 						<option value="${month.monthNum }" <#if curMonth == month.monthNum>selected</#if>>${month.monthStr }</option>
