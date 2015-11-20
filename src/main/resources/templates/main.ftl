@@ -397,7 +397,33 @@
 						}
 					]
 				});
+				//메인 팝업
+				var idx = '${idxs?default("")}';
+				if(idx != ''){
+					popupOpen(idx);
+				}
 			});
+			function popupOpen(idx){
+				function getCookie(name){
+					var nameOfCookie = name + "=";
+					var x = 0;
+					while (x <= document.cookie.length){
+						var y = (x + nameOfCookie.length);
+						if (document.cookie.substring(x, y) == nameOfCookie){
+						if ((endOfCookie = document.cookie.indexOf(";", y)) == -1){
+						endOfCookie = document.cookie.length;
+						}
+						return unescape (document.cookie.substring(y, endOfCookie));
+						}
+						x = document.cookie.indexOf (" ", x) + 1;
+						if (x == 0) break;
+					}
+					return "";
+				}
+				if (getCookie("mainPop") != "done"){
+					$.openPop('/fa/popupMsg?idxs='+idx, 'mainPop', 'width=625,height=450,scrollbars=yes,resizable=no');
+				}
+			}
 		</script>
 	</div>
 	<!-- //event calender -->

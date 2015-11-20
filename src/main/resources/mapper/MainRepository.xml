@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeiglobal.hk.repository.MainRepository">
+	<select id="findPopupMsgIdx" parameterType="hashMap" resultType="java.lang.String">
+		SELECT GROUP_CONCAT(a.idx) AS idx
+		FROM globalbiz.PopUpMsgGroup AS a
+			INNER JOIN globalbiz.PopUpMsg AS b ON a.idx = b.pmgIdx
+		WHERE a.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD} AND #{currentYMD} BETWEEN a.startYMD AND a.endYMD
+		ORDER BY idx ASC
+	</select>
+	<select id="findPopupMsg" parameterType="java.util.List" resultType="com.jeiglobal.hk.domain.PopUpMsgGroup">
+		SELECT * 
+		FROM globalbiz.PopUpMsgGroup 
+		WHERE idx IN 
+			<foreach item="item" index="index" collection="list"
+			     open="(" separator="," close=")">
+			       #{item}
+			 </foreach>
+		ORDER BY idx ASC
+	</select>
+</mapper>

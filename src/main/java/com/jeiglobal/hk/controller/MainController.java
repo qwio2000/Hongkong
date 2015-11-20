@@ -14,6 +14,7 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
+import com.jeiglobal.hk.domain.*;
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.utils.*;
@@ -43,6 +44,7 @@ public class MainController {
 	
 	@RequestMapping(value={"/fa","/ja"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String getMain(Model model, @ModelAttribute LoginInfo loginInfo, HttpServletRequest request) {
+		//메인 페이지 요청 시 권한에 맞게 들어온 건지 체크 후 권한에 맞는 페이지로 redirect
 		String currentUrl = request.getRequestURL().toString();
 		if(!currentUrl.contains(loginInfo.getUserType().toLowerCase())){
 			if("ma".equalsIgnoreCase(loginInfo.getUserType())){
@@ -52,16 +54,32 @@ public class MainController {
 			}
 		}
 		log.debug("userType=" + loginInfo.getUserType());
-/*		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("main");
-		model.addAttribute("headerScript", headerScript);*/
-		
-		List<String> headerScript = new ArrayList<String>();
-		headerScript.add("main");
-		model.addAttribute("headerScript", headerScript);		
-		
+		//팝업
+		if("fa".equalsIgnoreCase(loginInfo.getUserType())){
+			String idxs = mainService.getPopupMsgIdx(loginInfo.getJisaCD(), loginInfo.getDeptCD(), CommonUtils.getCurrentYMD());
+			model.addAttribute("idxs", idxs);		
+		}
+//		List<String> headerScript = new ArrayList<String>();
+//		headerScript.add("main");
+//		model.addAttribute("headerScript", headerScript);		
+//		
 		return "main";
 	}
+	
+	@RequestMapping(value={"/fa/popupMsg"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String getMainPopupMsg(Model model, @ModelAttribute LoginInfo loginInfo, String idxs) {
+		List<String> idxList = new ArrayList<>();
+		if(idxs.indexOf(",") > 0){ // 팝업 두 개 이상
+			idxList = Arrays.asList(idxs.split(","));
+		}else{
+			idxList.add(idxs);
+		}
+		List<PopUpMsgGroup> popup = mainService.getPopupMsgIdx(idxList);
+		model.addAttribute("popupMsgs", popup);
+		return "mainPopMsg";
+	}
+	
+
 	
 	
 }
