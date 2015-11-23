@@ -142,6 +142,10 @@
 		{{/xIf}}
 	{{/each}}
 	</tr>
+{{else}}
+	<tr>
+		<td colspan="{{#xIf week "==" 10}}16{{else}}11{{/xIf}}">no search results</td>
+	</tr>
 {{/each}}
 </tbody>
 </script>
