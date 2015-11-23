@@ -22,5 +22,27 @@ public class MemberAnalysisDto {
 		private double ratio;
 	}
 	
+	@Data
+	public static class MemberByMonthFA{
+		private String mgYY;
+		private String mgMM;
+		private String displayYYMM;
+		private int memBegin;
+		private int memNew;
+		private int memDrop;
+		private int memNet;
+		private int memEnd;
+		private double memNewRate;
+		private double memDropRate;
+	}
+	
+	@Data
+	public static class MemberBySubject{
+		private String subj;
+		private int subjEnd;
+		private double subjRatio;
+		private int subjEndSum;
+	}
+	
 }
 	

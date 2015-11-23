@@ -39,6 +39,6 @@
 		var userType = '${loginInfo.userType}';
 	</script>
 </head>
-<body>
+<body class="jui">
 	<div class="wrap">
 		<#include "/include/headerMenu.ftl">

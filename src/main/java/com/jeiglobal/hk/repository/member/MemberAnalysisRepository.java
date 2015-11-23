@@ -4,6 +4,8 @@ import java.util.*;
 
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberAnalysisByGrade;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberByMonthFA;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberBySubject;
 import com.jeiglobal.hk.repository.*;
 
 /**
@@ -22,5 +24,9 @@ public interface MemberAnalysisRepository {
 
 	public List<MemberAnalysisByGrade> findMemberAnalysisByGrade(
 			Map<String, Object> param);
+
+	public List<MemberByMonthFA> findMemberByMonths(Map<String, Object> param);
+
+	public List<MemberBySubject> findMemberBySubject(Map<String, Object> param);
 
 }
