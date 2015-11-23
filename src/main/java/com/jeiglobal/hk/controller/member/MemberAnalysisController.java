@@ -50,4 +50,27 @@ public class MemberAnalysisController {
 		return "member/analysis/memberAnalysis";
 	}
 	
+	//지사 => Member => Member Analysis
+	@RequestMapping(value={"/ja/members/analysis"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getMemberAnalysisJAPage(Model model, @ModelAttribute LoginInfo loginInfo){
+		log.debug("Getting Member Analysis JA Page");
+		return "member/analysis/memberAnalysisJA";
+	}
+	
+	//지사 => Member => SubjectReport
+	@RequestMapping(value={"/ja/members/analysis/subject"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getMemberSubjectReportPage(Model model, @ModelAttribute LoginInfo loginInfo){
+		log.debug("Getting Subject Report Page");
+		return "member/analysis/subjectReport";
+	}
+	
+	//지사 => Member => Drop Analysis
+	@RequestMapping(value={"/ja/members/analysis/drop"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getDropAnalysisPage(Model model, @ModelAttribute LoginInfo loginInfo){
+		log.debug("Getting Drop Analysis Page");
+		return "member/analysis/dropAnalysis";
+	}
+	
+	
+	
 }
