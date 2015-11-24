@@ -26,7 +26,7 @@ $(function(){
 			
 			$(".btnArea").css("display","none");
 			
-			$.getInventorySave(jisaCD, deptCD, subj, allset, '12');
+			$.getInventorySave(jisaCD, deptCD, subj, allset, '', '12');
 		},
 		
 		getAdjustInventorySave:function(){   // Adjust 재고 수량 저장
@@ -58,13 +58,46 @@ $(function(){
 			
 			$(".btnArea").css("display","none");
 			
-			$.getInventorySave(jisaCD, deptCD, subj, allset, '11');
+			$.getInventorySave(jisaCD, deptCD, subj, allset, '', '11');
 		},
 		
-		getInventorySave:function(jisaCD, deptCD, subj, allset, reqCD){
+		getRequestAWSave:function(){  // 가맹점 긴급교재 신청 
+			var cnt = "";
+			var wbgrade = "";
+			var caskey = "";
+			var jisaCD = $("#jisaCD").val();
+			var deptCD = $("#deptCD").val();
+			var subj = $("#subj").val();
+			var inOutReqNote = $("#inOutReqNote").val();
+			
+			if(inOutReqNote == "" || inOutReqNote.length > 200){
+				$.inputValueCheck("inOutReqNote","Reson", 200);
+				return ;
+			}
+			
+			$("#allset").html("");
+			
+			$("[id^=input_]").each(function (i, v) {
+				cnt = $("#"+$(this).attr("id")).val();
+				wbgrade =$(this).attr("wbgrade");
+				caskey = $(this).attr("caskey");
+		
+				if(cnt != ""){
+					$("#allset").append(cnt+","+wbgrade+","+caskey+","+cnt+"@@");
+				}
+			});
+			
+			allset = $("#allset").html();
+			
+			$(".btnArea").css("display","none");
+			
+			$.getInventorySave(jisaCD, deptCD, subj, allset, inOutReqNote, '13');
+		},		
+		
+		getInventorySave:function(jisaCD, deptCD, subj, allset, inOutReqNote, reqCD){
 			var searchUrl = "/ja/inventory/workbookstatusShipInventorySave";
-			var paramData = {"jisaCD":jisaCD, "deptCD":deptCD, "subj":subj, "allset":allset, "reqCD":reqCD};		
-			//console.log(paramData)
+			var paramData = {"jisaCD":jisaCD, "deptCD":deptCD, "subj":subj, "allset":allset, "inOutReqNote":inOutReqNote, "reqCD":reqCD};		
+		
 			 $.ajax({
 				url:searchUrl,
 				type:"POST",
@@ -206,6 +239,21 @@ $(function(){
 	    var gubun = myArray[3];
     	document.location.href = "/ja/inventory/workbookstatusSubj?jisaCD="+jisaCD+"&deptCD="+deptCD+"&subj="+subj+"&gubun="+gubun+" ";
 	});
+	
+	
+	$("#subjRAW").change(function() {
+		
+		var myArray = $(this).val().split(',');	    
+	    var jisaCD = myArray[0];
+	    var deptCD = myArray[1];
+	    var subj = myArray[2];
+	   
+    	document.location.href = "/ja/inventory/requestAdditionalWorkbook?subj="+subj+" ";
+	  
+	});
+	
+	
+	
 	
 	
 	$("[id^=select_]").change(function (i, v) {	

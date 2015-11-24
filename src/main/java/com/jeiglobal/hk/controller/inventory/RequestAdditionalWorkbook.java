@@ -50,7 +50,7 @@ public class RequestAdditionalWorkbook {
 	@RequestMapping(value={"/ja/inventory/requestAdditionalWorkbook"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String workbookstatus(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam(defaultValue="") String subj) {
 		log.debug("Getting inventory workbookstatus");
-		
+
 		//header에 포함할 스크립트 
 		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
 		List<String> headerScript = new ArrayList<String>();
@@ -64,10 +64,27 @@ public class RequestAdditionalWorkbook {
 		// 가맹점 과목 리스트
 		List<WorkbookstatusDto.WorkbookStatusMstsubj> workbookStatusMstsubj = workbookstatusService.getWorkbookStatusMstsubj(jisaCD, subjdeptCD);
 		
+		if(("").equals(subj)){
+			for(WorkbookstatusDto.WorkbookStatusMstsubj subjlist : workbookStatusMstsubj){
+					subj = subjlist.getSubj();
+					break;
+			}
+		}
+
+		//과목 등급 리스트
+		List<String> workbookStatusDungList = workbookstatusService.getWorkbookStatusDungList(jisaCD, subj);
+		
+		//가맹점 세트별 수량 리스트
+		List<WorkbookstatusDto.WorkbookStatusSetList> workbookStatusSetList = workbookstatusService.getWorkbookStatusSetList(jisaCD, deptCD, subj);
+		
 		model.addAttribute("jisaCD", jisaCD);
 		model.addAttribute("deptCD", deptCD);
 		model.addAttribute("subj", subj);
+		
 		model.addAttribute("subjlist", workbookStatusMstsubj);
+		model.addAttribute("wbdung", workbookStatusDungList);
+		model.addAttribute("setlist", workbookStatusSetList);
+		
 		return "inventory/requestAdditionalWorkbook/setsubj";
 	}
 }

@@ -4,160 +4,91 @@
 		<h2 class="conTit">Workbook Status(Center)</h2>
 		<div class="list02 pt20">
 			Ship to Calgary : 
-			<select name="" id="" style="width:200px">
+			<select name="subjRAW" id="subjRAW" style="width:200px">
 				<#list subjlist as subjlistIndex>
 					<#if subj == subjlistIndex.subj>
-						<option value="${subjlistIndex.jisaCD },${subjlistIndex.deptCD },${subjlistIndex.subj },'' " selected="selected">${subjlistIndex.subjnm }</option>
+						<option value="${subjlistIndex.jisaCD },${subjlistIndex.deptCD },${subjlistIndex.subj } " selected="selected">${subjlistIndex.subjnm }</option>
 					<#else>
-						<option value="${subjlistIndex.jisaCD },${subjlistIndex.deptCD },${subjlistIndex.subj },'' ">${subjlistIndex.subjnm }</option>
+						<option value="${subjlistIndex.jisaCD },${subjlistIndex.deptCD },${subjlistIndex.subj } ">${subjlistIndex.subjnm }</option>
 					</#if>
 				</#list>
 			</select>
 		</div>
-		
+		<#if subj != "">
 		<div class="tbl01 mt5 tbl_status">
 			<table>
 				<thead>
 					<tr class="line">
-						<th colspan="2" class="no_line">A</th>
-						<th colspan="2">B</th>
-						<th colspan="2">C</th>
-						<th colspan="2">D</th>
-						<th colspan="2">E</th>
-						<th colspan="2">F</th>
-						<th colspan="2">G</th>
-						<th colspan="2">H</th>
-						<th colspan="2">I</th>
-						<th colspan="2">J</th>
-						<th colspan="2">K</th>
-						<th colspan="2">L</th>
+						<#list wbdung as wbdungIndex>
+							<#if wbdungIndex_index = 0>
+								<th colspan="2" class="no_line">${wbdungIndex }</th>
+							<#else>
+								<th colspan="2">${wbdungIndex }</th>
+							</#if>
+						</#list>
 					</tr>
 				</thead>
 				<tbody>
+					<#assign chk = "0"><#assign qty = "0"><#assign stocqty = "0"><#assign stableqty = "0">
+					<#list setlist as setlistIndex>
+						<tr class="line2">
+							<#list wbdung as wbdungIndex>				
+								<#list setlistIndex.dungList as dungListIndex>
+									<#if wbdungIndex == dungListIndex.wbgrade>									
+										<#if wbdungIndex_index = 0>
+											<td class="no_line">												
+												${dungListIndex.wbname }												
+											</td>
+										<#else>
+											<td>												
+												${dungListIndex.wbname }												
+											</td>
+										</#if>
+											<td class="col_n"> 				<!--  gt :> , gte : >= , lt < , lte <= -->
+												<input type="text" style="width:20px" id="input_${wbdungIndex }_${dungListIndex.caskey }" value="" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }"  />
+											</td>
+										<#assign chk = "1">
+									</#if>					
+								</#list>
+								
+								<#if chk == "0">
+									<#if wbdungIndex_index = 0>
+										<td class="no_line col_gray"></td>
+									<#else>
+										<td class="col_gray"></td>
+									</#if>
+									<td class="col_n col_gray"></td>
+								</#if>
+								<#assign chk = "0">
+							</#list>
+						</tr>
+					</#list>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="tbl01 mt5 tbl_status">
+			<table>
+				<tbody>
 					<tr class="line2">
-						<td class="no_line">A-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>B-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>C-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>D-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>E-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>F-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>G-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>H-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>I-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>G-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>K-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>L-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-					</tr>
-					<tr class="line2">
-						<td class="no_line">A-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>B-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>C-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>D-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>E-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>F-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>G-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>H-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>I-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>G-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>K-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>L-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-					</tr>
-					<tr class="line2">
-						<td class="no_line">A-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>B-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>C-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>D-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>E-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>F-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>G-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>H-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>I-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>G-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>K-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>L-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-					</tr>
-					<tr class="line2">
-						<td class="no_line">A-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>B-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>C-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>D-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>E-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>F-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>G-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>H-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>I-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>G-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>K-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-						<td>L-DIAG</td>
-						<td class="col_n"><input type="text" style="width:20px" /></td>
-					</tr>
-					<tr class="line2 total">
-						<td colspan="2" class="no_line">152</td>
-						<td colspan="2">152</td>
-						<td colspan="2">152</td>
-						<td colspan="2">152</td>
-						<td colspan="2">152</td>
-						<td colspan="2">152</td>
-						<td colspan="2">152</td>
-						<td colspan="2">152</td>
-						<td colspan="2">152</td>
-						<td colspan="2">152</td>
-						<td colspan="2">152</td>
-						<td colspan="2">152</td>
+						<td class="no_line">Reason :</td>
+						<td class="col_n" style="width:90%">
+							<input type="text" name="inOutReqNote" id="inOutReqNote" style="width:100%"/>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		
+		<input type="hidden" id="jisaCD" value="${jisaCD }">
+		<input type="hidden" id="deptCD" value="${deptCD }">
+		<input type="hidden" id="subj" value="${subj }">
+		<div id="allset" style=""></div>
+		
 		<div class="btnArea">
-			<a href="#"><span>Confirm &amp; Ship Inventory</span></a>
+			<a href="javascript:$.getRequestAWSave();"><span>Confirm &amp; Request Inventory</span></a>
 		</div>
+		</#if>
 	</div>
 <!--// Main Content -->
 <#include "/include/footer.ftl">

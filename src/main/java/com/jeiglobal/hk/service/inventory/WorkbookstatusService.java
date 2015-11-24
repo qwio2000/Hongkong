@@ -111,12 +111,13 @@ public class WorkbookstatusService {
 		
 	}
 
-	public String addInventoryShipInventoryUpt(String jisaCD, String deptCD, String subj, String allset, String reqCD, String workId) {
+	public String addInventoryShipInventoryUpt(String jisaCD, String deptCD, String subj, String allset, String reqCD, String inOutReqNote, String workId) {
 		param.put("jisaCD", jisaCD);
 		param.put("deptCD", deptCD);
 		param.put("subj", subj);
 		param.put("allset", allset);
 		param.put("reqCD", reqCD);
+		param.put("inOutReqNote", inOutReqNote);
 		param.put("workId", workId);
 		return workbookstatusRepository.findInventoryShipInventoryUpt(param);
 		
