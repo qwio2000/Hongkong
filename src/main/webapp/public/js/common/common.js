@@ -104,8 +104,16 @@ $(function(){
 
 			if(!$("#"+element).val()) { alert("검색어를 2글자이상 입력하세요 \n\n특수문자는 검색 불가능합니다");$("#"+element).val('');$("#"+element).focus(); return false; }
 			if($("#"+element).val().length < 2) { alert("검색어는 2글자이상 입력하셔야 합니다\n\n특수문자는 검색 불가능합니다");$("#"+element).focus(); return false; }
-		},
+		},		
+		// 입력값 필수
+		inputValueCheck: function(element, comment, length) {
 
+			var schValue = jQuery.trim($("#"+element).val().replace(_SEARCHWDRULE,''));
+			$("#"+element).val(schValue);
+
+			if(!$("#"+element).val()) { alert(comment+"입력하세요");$("#"+element).val('');$("#"+element).focus(); return false; }
+			if($("#"+element).val().length > parseInt(length)) { alert(comment +" "+ length +"글자이상 입력이 불가능합니다.");$("#"+element).val("");$("#"+element).focus(); return false; }
+		},
 		//전체선택,해제
 		check_all:function(element1,element2) {
 

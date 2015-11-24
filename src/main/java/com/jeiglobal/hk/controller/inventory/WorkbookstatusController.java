@@ -254,10 +254,10 @@ public class WorkbookstatusController {
 	//지사 정기교재 발송 필요수량 조회 및 조정 [현재고 수량 수정]
 	@RequestMapping(value={"/ja/inventory/workbookstatusShipInventorySave"}, method={RequestMethod.POST,RequestMethod.HEAD})
 	@ResponseBody
-	public Map<String, Object> workbookstatusShipInventorySave(Model model, HttpServletRequest request, String jisaCD, String deptCD, String subj, String allset, String reqCD) {
+	public Map<String, Object> workbookstatusShipInventorySave(Model model, HttpServletRequest request, String jisaCD, String deptCD, String subj, String allset, String inOutReqNote, String reqCD) {
 		String workId = CommonUtils.getWorkId(request);
 		
-		workbookstatusService.addInventoryShipInventoryUpt(jisaCD, deptCD, subj, allset, reqCD, workId);
+		workbookstatusService.addInventoryShipInventoryUpt(jisaCD, deptCD, subj, allset, reqCD, inOutReqNote, workId);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("saveOK", messageSourceAccesor.getMessage("Inventory.workbookstatus.Inventory.success"));		

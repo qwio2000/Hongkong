@@ -29,7 +29,7 @@
 							<td>''</td>
 							<td class="left">
 								<select name="subjgo" id="subjgo_${mstlistIndex_index }" style="width:200px">
-									<option value="">choice</option>
+									<option value=""></option>
 									<#list mstlistIndex.subj as subjIndex>
 										<option value="${subjIndex.jisaCD },${subjIndex.deptCD },${subjIndex.subj },'' ">${subjIndex.subjnm }</option>
 									</#list>
