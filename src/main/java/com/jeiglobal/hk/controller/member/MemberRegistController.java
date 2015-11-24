@@ -129,6 +129,12 @@ public class MemberRegistController {
 		GuardianInfo guardianInfo = null;
 		List<RegistSubject> registSubjects = null;
 		if("2".equals(type)){//타 과목
+			int count = memberRegistService.getMemSubjMstCount(memKey, loginInfo.getDeptCD());
+			if(count > 0){//다른 가맹점에 이미 유지중인 과목이 있는 경우
+				model.addAttribute("message", msa.getMessage("member.regist.already.anotherdept"));
+				model.addAttribute("mode", "back");
+				return "alertAndRedirect";
+			}
 			memMst = memberRegistService.getMemMst(memKey);
 			cal.setTime(sdf.parse(memMst.getMBirthDay()));
 			registSubjects = memberRegistService.getRegistSubjects(memKey, loginInfo);

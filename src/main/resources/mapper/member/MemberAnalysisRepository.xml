@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jeiglobal.hk.repository.member.MemberAnalysisRepository">
-	<select id="findMemberAnalysisByGradeCount" parameterType="com.jeiglobal.hk.domain.auth.LoginInfo" resultType="int">
-		SELECT COUNT(*)
-		FROM
-			(
-			SELECT a.memKey, a.gradeCD, COUNT(1)
-			FROM globalbiz.MemMst AS a
-				INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey AND b.statusCD = '1'
-			WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD}
-			GROUP BY a.memKey
-			) AS a
+	<select id="findMembersByGrade" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$MemberAnalysisByGrade">
+		SELECT a.mgYY, a.mgMM, a.subj, a.gradeCD, globalbiz.FuncCodeDtlNM(a.jisaCD, '0003', a.gradeCD, '', 'Y') AS gradeCDNM, a.membersCnt, a.membersRate
+		FROM globalmagam.StatMembersBySchGrade AS a
+			INNER JOIN globalbiz.CodeDtl AS b ON b.mstCD = '0003' AND a.gradeCD = b.dtlCD AND b.jisaCD = #{jisaCD}
+		WHERE a.jisaCD = #{jisaCD} AND a.deptCD = #{deptCD} AND a.subj = #{subj} AND a.mgYYMM = #{searchYYMM}
+		ORDER BY b.sortVal1 ASC
 	</select>
-	<select id="findMemberAnalysisByGrade" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$MemberAnalysisByGrade">
-		SELECT dtlCD, dtlCDNM, COUNT(b.memKey) AS countOfGrades, FORMAT(COUNT(b.memKey) / #{totCount} * 100, 2) AS ratio
-		FROM globalbiz.CodeDtl AS a
-			LEFT JOIN (
-				SELECT a.memKey, a.gradeCD
-				FROM globalbiz.MemMst AS a
-					INNER JOIN globalbiz.MemSubjMst AS b ON a.memKey = b.memKey AND b.statusCD = '1'
-				WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD}
-				GROUP BY a.memKey
-				) AS b ON a.dtlCD = b.gradeCD
-		WHERE a.jisaCD = #{jisaCD} AND a.mstCD = '0003'
-		GROUP BY a.dtlCD
-		ORDER BY a.sortVal1 ASC
+	<select id="findMembersByWbGrade" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$MemberByGrade">
+		SELECT subj, wbGrade, subjCnt, subjRate
+		FROM (
+			SELECT subj, wbGrade, subjCnt, subjRate, '1' AS sort
+			FROM globalmagam.StatSubjByGrade 
+			WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} AND subj = #{subj} AND mgYYMM = #{searchYYMM}
+			UNION
+			SELECT subj, 'Total', SUM(subjCnt) AS subjCnt, '100.00', '0'
+			FROM globalmagam.StatSubjByGrade 
+			WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} AND subj = #{subj} AND mgYYMM = #{searchYYMM}
+		) AS a
+		ORDER BY sort, wbGrade
 	</select>
 	<select id="findMemberByMonths" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$MemberByMonthFA">
 		SELECT mgYY, mgMM, '', memBegin, memNew, memDrop, memNet, memEnd, 
@@ -47,5 +42,11 @@
 				FROM globalmagam.SalesCenters 
 				WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} AND subj != 'TT' AND mgYYMM = #{searchYYMM}
 		) AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND a.mgYYMM = b.mgYYMM
+	</select>
+	<select id="findMembersByMultiSubj" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$MemberByMultiSubj">
+		SELECT b.deptName, multi1+multi2+multi3+multi4+multi5+multi6 AS monthSale, multi1, multi1Rate, multi2, multi2Rate, multi3, multi3Rate, multi4, multi4Rate, multi5, multi5Rate, multi6, multi6Rate
+		FROM globalbiz.DeptMst AS b
+			LEFT JOIN globalmagam.StatMembersByMultiSubj AS a ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND a.subj = #{subj} AND a.mgYYMM = #{searchYYMM}
+		WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD}
 	</select>
 </mapper>
