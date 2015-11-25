@@ -49,4 +49,32 @@
 			LEFT JOIN globalmagam.StatMembersByMultiSubj AS a ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND a.subj = #{subj} AND a.mgYYMM = #{searchYYMM}
 		WHERE b.jisaCD = #{jisaCD} AND b.deptCD = #{deptCD}
 	</select>
+	<select id="findDeptSearchPop" parameterType="java.lang.String" resultType="hashMap">
+		SELECT jisaCD, deptCD, deptName, stateName
+		FROM globalbiz.ViewsDeptMst
+		WHERE jisaCD = #{jisaCD} AND statusCD = '1' AND deptCD != '00000'
+		ORDER BY stateName, deptName
+	</select>
+	<select id="findMembersByMonthsJA" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$MemberByMonthFA">
+		SELECT mgYY, mgMM, '', memBegin, memNew, memDrop, memNet, memEnd, 
+			FORMAT(IFNULL(memNew / memBegin * 100, 0.00), 2) AS memNewRate, 
+			FORMAT(IFNULL(memDrop / memBegin * 100, 0.00), 2) AS memDropRate
+		FROM globalmagam.SalesJisa
+		WHERE jisaCD = #{jisaCD} AND deptCD = '00000' AND subj = 'TT' AND mgYYMM BETWEEN #{beforeYYMM} AND #{searchYYMM}
+		ORDER BY mgYYMM
+	</select>
+	<select id="findMemberBySubjectJA" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$MemberBySubject">
+		SELECT subj, subjEnd, FORMAT(IFNULL(subjEnd / b.subjEndSum * 100, 0.00), 2) AS subjRatio, b.subjEndSum
+		FROM (
+			SELECT jisaCD, deptCD, mgYYMM, subj, subjEnd
+			FROM globalmagam.SalesJisa 
+			WHERE jisaCD = #{jisaCD} AND deptCD = '00000' AND subj != 'TT' AND mgYYMM = #{searchYYMM}
+			GROUP BY subj
+		) AS a 
+			INNER JOIN (
+				SELECT jisaCD, deptCD, mgYYMM, SUM(subjEnd) AS subjEndSum
+				FROM globalmagam.SalesJisa 
+				WHERE jisaCD = #{jisaCD} AND deptCD = '00000' AND subj != 'TT' AND mgYYMM = #{searchYYMM}
+		) AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND a.mgYYMM = b.mgYYMM
+	</select>
 </mapper>

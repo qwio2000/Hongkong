@@ -1,9 +1,27 @@
 <#include "/include/header.ftl">
 <!-- Main Content -->
-<!-- 적용시에는 아래 라이브러리를 header 에 넣을것~ 지금은 테스트~ -->
-<link rel="stylesheet" type="text/css" href="${jsPath }/Nwagon/Nwagon.css" />
-<script type="text/javascript" src="${jsPath }/Nwagon/Nwagon.js"></script>
 <div class="content">
+	<form id="searchForm" name="searchForm" action="/ja/members/analysis" method="GET">	
+	<ul class="memSearch">
+		<li>
+			<label for=""><a href="javascript:;" onClick="$.openDeptSearch();">조직찾기</a></label>
+			<input type="text" name="deptName" id="deptName" value="${deptName }" class="searchInput" style="width:230px" onClick="$.openDeptSearch();" readOnly />
+			<input type="hidden" name="deptCD" id="deptCD" value="${deptCD }">
+		</li>
+		<li>
+			<label for="searchYYMM">검색기간</label>
+			<select name="searchYYMM" id="searchYYMM" style="width:242px">
+			<#list YYMMs as yymm>
+				<option value="${yymm }" <#if searchYYMM == yymm>selected</#if>>${yymm }</option>
+			</#list>
+			</select>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<a id="memberAnalysisJASubmit" href="javascript:;"><span>검색</span></a>
+		<a id="memberAnalysisJAInit" href="javascript:;"><span style="width:110px">Reset</span></a>
+	</div>	
+	</form>
 	<h2 class="conTit">Members by Month</h2>
 	<div class="tbl01">
 		<table>
@@ -28,197 +46,121 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="line2">
-					<th class="no_line">JUL 2013</th>
-					<td>0</td>
-					<td>2</td>
-					<td>0</td>
-					<td><strong>2</strong></td>
-					<td>0.00</td>
-					<td>0.00</td>
-				</tr>
-				<tr class="line2">
-					<th class="no_line">AUG 2013</th>
-					<td>0</td>
-					<td>2</td>
-					<td>0</td>
-					<td><strong>2</strong></td>
-					<td>0.00</td>
-					<td>0.00</td>
-				</tr>
-				<tr class="line2">
-					<th class="no_line">SEP 2013</th>
-					<td>0</td>
-					<td>2</td>
-					<td>0</td>
-					<td><strong>2</strong></td>
-					<td>0.00</td>
-					<td>0.00</td>
-				</tr>
+				<#if memberByMonths?has_content>
+				<#list memberByMonths as member>
+					<tr class="line2">
+						<th class="no_line" style="padding-left: 0px; text-align: center;">${member.displayYYMM }</th>
+						<td>${member.memBegin }</td>
+						<td>${member.memNew }</td>
+						<td>${member.memDrop }</td>
+						<td><strong>${member.memEnd }</strong></td>
+						<td>${member.memNewRate?string("##0.00")}</td>
+						<td>${member.memDropRate?string("##0.00") }</td>
+					</tr>
+				</#list>
+				<#else>
+					<tr>
+						<td colspan="7">No Contents</td>
+					</tr>
+				</#if>
 			</tbody>
 		</table>
 	</div>
-	<h2 class="conTit">By Grade</h2>
-	<div class="tbl01 tbl_w100">
-		<table>
-			<thead>
-				<tr class="bg_gray">
-					<th class="b_r">Grade</th>
-					<th>PK</th>
-					<th>K</th>
-					<th>1ST</th>
-					<th>2ST</th>
-					<th>3RD</th>
-					<th>4TH</th>
-					<th>5TH</th>
-					<th>6TH</th>
-					<th>7TH</th>
-					<th>8TH</th>
-					<th>9TH</th>
-					<th>10TH</th>
-					<th>11TH</th>
-					<th>12TH</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td class="col_gray b_r">Count</td>
-					<td>1</td>
-					<td>1</td>
-					<td>3</td>
-					<td>4</td>
-					<td>1</td>
-					<td>7</td>
-					<td>4</td>
-					<td>2</td>
-					<td>2</td>
-					<td>0</td>
-					<td>0</td>
-					<td>1</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td class="col_gray b_r">Radio</td>
-					<td>2.63%</td>
-					<td>2.63%</td>
-					<td>7.89%</td>
-					<td>10.53%</td>
-					<td>2.63%</td>
-					<td>18.42%</td>
-					<td>10.53%</td>
-					<td>5.26%</td>
-					<td>5.26%</td>
-					<td>0.00%</td>
-					<td>0.00%</td>
-					<td>2.63%</td>
-					<td>0.00%</td>
-					<td>0.00%</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<div class="graphArea pt30">
-		<img src="/public/img/temp/graph01.jpg" alt="" />
-	</div>
-	<h2 class="conTit">Member Analysis</h2>
-
-	<div class="tbl01">
+	<h2 class="conTit">By Subject</h2>
+	<div class="clearfix">
+	<div class="tbl01 float_l" style="width:500px;">
 		<table>
 			<colgroup>
-				<col width="100">
-				<col>
-				<col width="230">
-				<col width="230">
+				<col style="width:33%" />
+				<col style="width:33%" />
+				<col style="width:33%" />
 			</colgroup>
 			<thead>
 				<tr class="line">
-					<th rowspan="2" class="no_line">Num</th>
-					<th rowspan="2">Level</th>
-					<th colspan="2">Subject</th>
-				</tr>
-				<tr class="line">
-					<th>Number</th>
-					<th>%</th>
+					<th class="no_line">Subject</th>
+					<th>Count</th>
+					<th>Ratio</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="total line2">
-					<td class="no_line"></td>
-					<td>Total</td>
-					<td>14</td>
-					<td>100</td>
-				</tr>
+			<#list bySubject as subject>
 				<tr class="line2">
-					<td class="no_line">1</td>
-					<td>A</td>
-					<td>0</td>
-					<td>0</td>
+					<th class="no_line" style="text-align: center;padding-left: 0px;">${subject.subj }</th>
+					<td>${subject.subjEnd }</td>
+					<td>${subject.subjRatio?string("##0.00") }%</td>
 				</tr>
-				<tr class="line2">
-					<td class="no_line">2</td>
-					<td>B</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr class="line2">
-					<td class="no_line">3</td>
-					<td>C</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
+			</#list>
+			<#if !bySubject?has_content>
+			<tr>
+				<td colspan="3">No Contents</td>
+			</tr>
+			</#if>
 			</tbody>
 		</table>
 	</div>
-
-	<div class="tbl01 tbl_w100">
-		<table>
-			<thead>
-				<tr class="line">
-					<th rowspan="2" class="no_line" style="width:100px">Learning<br>Center</th>
-					<th rowspan="2" style="width:100px">This month's <br>sale</th>
-					<th colspan="2">1 subject(s)</th>
-					<th colspan="2">2 subjects</th>
-					<th colspan="2">3 subjects</th>
-					<th colspan="2">4 subjects</th>
-					<th colspan="2">5 subjects</th>
-					<th colspan="2">At least 6<br>subjects</th>
-				</tr>
-				<tr class="line bg_gray">
-					<th>Member<br>Count</th>
-					<th>%</th>
-					<th>Member<br>Count</th>
-					<th>%</th>
-					<th>Member<br>Count</th>
-					<th>%</th>
-					<th>Member<br>Count</th>
-					<th>%</th>
-					<th>Member<br>Count</th>
-					<th>%</th>
-					<th>Member<br>Count</th>
-					<th>%</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr class="line2">
-					<td class="no_line">HQ</td>
-					<td>36</td>
-					<td>29</td>
-					<td>80.56</td>
-					<td>7</td>
-					<td>19.44</td>
-					<td>0</td>
-					<td>0.00</td>
-					<td>0</td>
-					<td>0.00</td>
-					<td>0</td>
-					<td>0.00</td>
-					<td>0</td>
-					<td>0.00</td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="graphArea float_r">
+		<div id="chart-content" style="width:400px;height:300px;" ></div>
 	</div>
+	</div>
+<script>
+var chart = jui.include("chart.builder");
+var names = {
+	<#list bySubject as subject>
+		<#if subject_index != 0>
+		,
+		</#if>
+		${subject.subj}: "${subject.subj}"
+	</#list>
+};
+<#if bySubject?has_content>
+// The SVG icon of style components can be used in chart
+chart("#chart-content", {
+    icon: {
+        type: "jennifer",
+        path: "/public/js/jui/img/icon-list.ttf"
+    },
+    
+    padding : 50,
+    axis : {
+        data : [
+            {
+	            <#list bySubject as subject>
+	        		<#if subject_index != 0>
+	        		,
+	        		</#if>
+	        		${subject.subj}: ${subject.subjEnd}
+	        	</#list>
+            }
+        ]
+    },
+    brush : {
+        type : "pie",
+        format : function(k, v) {
+            return names[k] + ": " + v;
+        },
+        showText : true
+    },
+    widget : [
+    	{
+            type : "title",
+            text : "Subject"
+        }, {
+            type : "tooltip",
+            orient : "left",
+            format : function(k, v) {
+                return this.icon("label") + v;
+            }
+        }, {
+            type : "legend",
+            icon : "{chart}",
+            format : function(k) {
+                return names[k];
+            }
+        }
+    ]
+});
+</#if>
+</script>
 </div>
 <!--// Main Content -->
 <#include "/include/footer.ftl">

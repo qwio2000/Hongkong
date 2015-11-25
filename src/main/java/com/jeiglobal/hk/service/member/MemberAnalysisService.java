@@ -122,5 +122,53 @@ public class MemberAnalysisService {
 		param.put("subj", subj);
 		return memberAnalysisRepository.findMembersByMultiSubj(param);
 	}
+
+	/**
+	 * @param jisaCD
+	 * @return List<Map<String,Object>>
+	 */
+	public List<Map<String, Object>> getDeptSearchPop(String jisaCD) {
+		return memberAnalysisRepository.findDeptSearchPop(jisaCD);
+	}
+
+	/**
+	 * @param jisaCD
+	 * @param deptCD
+	 * @param searchYYMM 
+	 * @return List<MemberByMonthFA>
+	 * @throws ParseException 
+	 */
+	public List<MemberByMonthFA> getMemberByMonths(String jisaCD, String searchYYMM) throws ParseException {
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM");
+		cal.setTime(simpleDateFormat.parse(searchYYMM));
+		cal.add(Calendar.MONTH, -11);
+		String beforeYYMM = simpleDateFormat.format(cal.getTime());
+		
+		param.clear();
+		param.put("jisaCD", jisaCD);
+		param.put("beforeYYMM", beforeYYMM);
+		param.put("searchYYMM", searchYYMM);
+		
+		List<MemberByMonthFA> memberByMonths = memberAnalysisRepository.findMembersByMonthsJA(param);
+		for (MemberByMonthFA memberByMonthFA : memberByMonths) {
+			String source = memberByMonthFA.getMgYY()+"-"+memberByMonthFA.getMgMM();
+			memberByMonthFA.setDisplayYYMM(new SimpleDateFormat("MMM yyyy", Locale.ENGLISH).format(simpleDateFormat.parse(source)));
+		}
+		return memberByMonths;
+	}
+
+	/**
+	 * @param jisaCD
+	 * @param searchYYMM
+	 * @return List<MemberBySubject>
+	 */
+	public List<MemberBySubject> getMemberBySubject(String jisaCD,
+			String searchYYMM) {
+		param.clear();
+		param.put("jisaCD", jisaCD);
+		param.put("searchYYMM", searchYYMM);
+		return memberAnalysisRepository.findMemberBySubjectJA(param);
+	}
 	
 }

@@ -11,6 +11,7 @@ import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.jeiglobal.hk.domain.auth.*;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.*;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
 import com.jeiglobal.hk.utils.*;
@@ -90,12 +91,90 @@ public class MemberAnalysisController {
 		return "member/analysis/memberAnalysisGrade";
 	}
 	
+	@RequestMapping(value={"/ja/members/analysis/grade"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getMemberAnalysisGradeJAPage(Model model, @ModelAttribute LoginInfo loginInfo, String searchYYMM, String subj, 
+			@RequestParam(defaultValue="") String deptName, @RequestParam(defaultValue="00000") String deptCD) throws ParseException{
+		log.debug("Getting MemberAnalysis Grade JA Page");
+		List<String> headerCss = new ArrayList<String>();
+		headerCss.add("jui/jui.min");
+		headerCss.add("jui/jennifer.theme.min");
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("jui/jui.min");
+		headerScript.add("memberAnalysis");
+		model.addAttribute("headerCss", headerCss);
+		model.addAttribute("headerScript", headerScript);
+		
+		if(searchYYMM == null){
+			searchYYMM = CommonUtils.changeDateFormat("yyyy-MM-dd", "yyyy-MM", CommonUtils.getCurrentYMD());
+		}else{
+			searchYYMM = CommonUtils.changeDateFormat("MM / yyyy", "yyyy-MM", searchYYMM);
+		}
+		subj = (subj == null ? "TT" : subj);
+		if(!"TT".equals(subj)){
+			model.addAttribute("byWbGrade", memberAnalysisService.getMemberByWbGrade(loginInfo.getJisaCD(), loginInfo.getDeptCD(), searchYYMM, subj));
+		}
+		model.addAttribute("multiSubj", memberAnalysisService.getMembersByMultiSubj(loginInfo.getJisaCD(), loginInfo.getDeptCD(), searchYYMM, subj));
+		model.addAttribute("byGrade", memberAnalysisService.getMembersByGrade(loginInfo.getJisaCD(), loginInfo.getDeptCD(), searchYYMM, subj));
+		model.addAttribute("subjs", commonService.getOpenSubjsByJisaCD(loginInfo.getJisaCD()));
+		model.addAttribute("YYMMs", CommonUtils.getMonthsByOneYearBefore());
+		model.addAttribute("searchSubj", subj);
+		model.addAttribute("searchYYMM", CommonUtils.changeDateFormat("yyyy-MM", "MM / yyyy", searchYYMM));
+		model.addAttribute("deptName", deptName);
+		model.addAttribute("deptCD", deptCD);
+		return "member/analysis/memberAnalysisGradeJA";
+	}
+	
 	//지사 => Member => Member Analysis
 	@RequestMapping(value={"/ja/members/analysis"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getMemberAnalysisJAPage(Model model, @ModelAttribute LoginInfo loginInfo){
+	public String getMemberAnalysisJAPage(Model model, @ModelAttribute LoginInfo loginInfo, String searchYYMM,
+			@RequestParam(defaultValue="") String deptName, @RequestParam(defaultValue="00000") String deptCD) throws ParseException{
 		log.debug("Getting Member Analysis JA Page");
+		List<String> headerCss = new ArrayList<String>();
+		headerCss.add("jui/jui.min");
+		headerCss.add("jui/jennifer.theme.min");
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("jui/jui.min");
+		headerScript.add("memberAnalysis");
+		model.addAttribute("headerCss", headerCss);
+		model.addAttribute("headerScript", headerScript);
+		
+		if(searchYYMM == null){
+			searchYYMM = CommonUtils.changeDateFormat("yyyy-MM-dd", "yyyy-MM", CommonUtils.getCurrentYMD());
+		}else{
+			searchYYMM = CommonUtils.changeDateFormat("MM / yyyy", "yyyy-MM", searchYYMM);
+		}
+		List<MemberByMonthFA> memberByMonths = null;
+		List<MemberBySubject> bySubject = null;
+		if("00000".equals(deptCD)){
+			memberByMonths = memberAnalysisService.getMemberByMonths(loginInfo.getJisaCD(), searchYYMM);
+			bySubject = memberAnalysisService.getMemberBySubject(loginInfo.getJisaCD(), searchYYMM);
+		}else{
+			memberByMonths = memberAnalysisService.getMemberByMonths(loginInfo.getJisaCD(), deptCD, searchYYMM);
+			bySubject = memberAnalysisService.getMemberBySubject(loginInfo.getJisaCD(), deptCD, searchYYMM);
+		}
+		model.addAttribute("bySubject", bySubject);
+		model.addAttribute("memberByMonths", memberByMonths);
+		model.addAttribute("YYMMs", CommonUtils.getMonthsByOneYearBefore());
+		model.addAttribute("searchYYMM", CommonUtils.changeDateFormat("yyyy-MM", "MM / yyyy", searchYYMM));
+		model.addAttribute("deptName", deptName);
+		model.addAttribute("deptCD", deptCD);
 		return "member/analysis/memberAnalysisJA";
 	}
+	
+	/**
+	 * 조직찾기
+	 */
+	@RequestMapping(value={"/ja/members/analysis/deptSearchPop"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getDeptSearchPop(Model model, @ModelAttribute LoginInfo loginInfo) {
+		List<Map<String, Object>> dataDeptSearchPop = memberAnalysisService.getDeptSearchPop(loginInfo.getJisaCD());
+		log.debug("Getting Dept Search Pop Page");
+		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberAnalysis");
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("deptSearchPop", dataDeptSearchPop);
+		return "member/analysis/deptSearchPop";
+	}	
 	
 	//지사 => Member => SubjectReport
 	@RequestMapping(value={"/ja/members/analysis/subject"},method = {RequestMethod.GET, RequestMethod.HEAD})

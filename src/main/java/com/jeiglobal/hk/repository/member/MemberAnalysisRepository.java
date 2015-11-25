@@ -34,4 +34,10 @@ public interface MemberAnalysisRepository {
 
 	public MemberByMultiSubj findMembersByMultiSubj(Map<String, Object> param);
 
+	public List<Map<String, Object>> findDeptSearchPop(String jisaCD);
+
+	public List<MemberByMonthFA> findMembersByMonthsJA(Map<String, Object> param);
+
+	public List<MemberBySubject> findMemberBySubjectJA(Map<String, Object> param);
+
 }
