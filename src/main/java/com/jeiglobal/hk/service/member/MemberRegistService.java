@@ -444,5 +444,16 @@ public class MemberRegistService {
 	public MemRegistClose getRegistCloseInfoByJisaCD(String jisaCD) {
 		return memberRegistRepository.findRegistCloseInfoByJisaCD(jisaCD);
 	}
+	/**
+	 * @param memKey
+	 * @param deptCD
+	 * @return int
+	 */
+	public int getMemSubjMstCount(String memKey, String deptCD) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("deptCD", deptCD);
+		param.put("memKey", memKey);
+		return memberRegistRepository.findMemSubjMstCount(param);
+	}
 	
 }

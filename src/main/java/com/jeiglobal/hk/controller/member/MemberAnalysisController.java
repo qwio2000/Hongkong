@@ -1,5 +1,6 @@
 package com.jeiglobal.hk.controller.member;
 
+import java.text.*;
 import java.util.*;
 
 import lombok.extern.slf4j.*;
@@ -10,7 +11,6 @@ import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.jeiglobal.hk.domain.auth.*;
-import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberAnalysisByGrade;
 import com.jeiglobal.hk.service.*;
 import com.jeiglobal.hk.service.member.*;
 import com.jeiglobal.hk.utils.*;
@@ -40,14 +40,54 @@ public class MemberAnalysisController {
 	
 	//RequestMethod.HEAD : GET 요청에서 컨텐츠(자원)는 제외하고 헤더(Meta 정보)만 가져옴.
 	@RequestMapping(value={"/fa/members/analysis"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getMemberAnalysisPage(Model model, @ModelAttribute LoginInfo loginInfo){
-//		List<String> headerScript = new ArrayList<String>();
-//		headerScript.add("memberAnalysis");
-		log.debug("Getting MemberAnalysis Search Page");
-		List<MemberAnalysisByGrade> analysisByGrade = memberAnalysisService.getMemberAnalysisByGrade(loginInfo);  
-		model.addAttribute("analysisByGrade", analysisByGrade);
-//		model.addAttribute("headerScript", headerScript);
+	public String getMemberAnalysisPage(Model model, @ModelAttribute LoginInfo loginInfo, String searchYYMM) throws ParseException{
+		log.debug("Getting MemberAnalysis Search Page, {}", searchYYMM);
+		if(searchYYMM == null){
+			searchYYMM = CommonUtils.changeDateFormat("yyyy-MM-dd", "yyyy-MM", CommonUtils.getCurrentYMD());
+		}else{
+			searchYYMM = CommonUtils.changeDateFormat("MM / yyyy", "yyyy-MM", searchYYMM);
+		}
+		List<String> headerCss = new ArrayList<String>();
+		headerCss.add("jui/jui.min");
+		headerCss.add("jui/jennifer.theme.min");
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("jui/jui.min");
+		model.addAttribute("headerCss", headerCss);
+		model.addAttribute("headerScript", headerScript);
+		model.addAttribute("memberByMonths", memberAnalysisService.getMemberByMonths(loginInfo.getJisaCD(), loginInfo.getDeptCD(), searchYYMM));
+		model.addAttribute("bySubject", memberAnalysisService.getMemberBySubject(loginInfo.getJisaCD(), loginInfo.getDeptCD(), searchYYMM));
+		model.addAttribute("YYMMs", CommonUtils.getMonthsByOneYearBefore());
+		model.addAttribute("searchYYMM", CommonUtils.changeDateFormat("yyyy-MM", "MM / yyyy", searchYYMM));
+		
 		return "member/analysis/memberAnalysis";
+	}
+	@RequestMapping(value={"/fa/members/analysis/grade"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getMemberAnalysisGradePage(Model model, @ModelAttribute LoginInfo loginInfo, String searchYYMM, String subj) throws ParseException{
+		log.debug("Getting MemberAnalysis Grade Page");
+		List<String> headerCss = new ArrayList<String>();
+		headerCss.add("jui/jui.min");
+		headerCss.add("jui/jennifer.theme.min");
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("jui/jui.min");
+		model.addAttribute("headerCss", headerCss);
+		model.addAttribute("headerScript", headerScript);
+		
+		if(searchYYMM == null){
+			searchYYMM = CommonUtils.changeDateFormat("yyyy-MM-dd", "yyyy-MM", CommonUtils.getCurrentYMD());
+		}else{
+			searchYYMM = CommonUtils.changeDateFormat("MM / yyyy", "yyyy-MM", searchYYMM);
+		}
+		subj = (subj == null ? "TT" : subj);
+		if(!"TT".equals(subj)){
+			model.addAttribute("byWbGrade", memberAnalysisService.getMemberByWbGrade(loginInfo.getJisaCD(), loginInfo.getDeptCD(), searchYYMM, subj));
+		}
+		model.addAttribute("multiSubj", memberAnalysisService.getMembersByMultiSubj(loginInfo.getJisaCD(), loginInfo.getDeptCD(), searchYYMM, subj));
+		model.addAttribute("byGrade", memberAnalysisService.getMembersByGrade(loginInfo.getJisaCD(), loginInfo.getDeptCD(), searchYYMM, subj));
+		model.addAttribute("subjs", commonService.getOpenSubjsByDeptCD(loginInfo.getJisaCD(), loginInfo.getDeptCD(), "2"));
+		model.addAttribute("YYMMs", CommonUtils.getMonthsByOneYearBefore());
+		model.addAttribute("searchSubj", subj);
+		model.addAttribute("searchYYMM", CommonUtils.changeDateFormat("yyyy-MM", "MM / yyyy", searchYYMM));
+		return "member/analysis/memberAnalysisGrade";
 	}
 	
 	//지사 => Member => Member Analysis

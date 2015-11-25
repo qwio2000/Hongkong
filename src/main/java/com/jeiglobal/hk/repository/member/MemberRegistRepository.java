@@ -72,4 +72,6 @@ public interface MemberRegistRepository {
 
 	public MemRegistClose findRegistCloseInfoByJisaCD(String jisaCD);
 
+	public int findMemSubjMstCount(Map<String, Object> param);
+
 }

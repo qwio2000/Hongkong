@@ -4,6 +4,10 @@ import java.util.*;
 
 import com.jeiglobal.hk.domain.auth.*;
 import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberAnalysisByGrade;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberByGrade;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberByMonthFA;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberByMultiSubj;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberBySubject;
 import com.jeiglobal.hk.repository.*;
 
 /**
@@ -20,7 +24,14 @@ public interface MemberAnalysisRepository {
 
 	public int findMemberAnalysisByGradeCount(LoginInfo loginInfo);
 
-	public List<MemberAnalysisByGrade> findMemberAnalysisByGrade(
-			Map<String, Object> param);
+	public List<MemberByMonthFA> findMemberByMonths(Map<String, Object> param);
+
+	public List<MemberBySubject> findMemberBySubject(Map<String, Object> param);
+
+	public List<MemberAnalysisByGrade> findMembersByGrade(Map<String, Object> param);
+
+	public List<MemberByGrade> findMembersByWbGrade(Map<String, Object> param);
+
+	public MemberByMultiSubj findMembersByMultiSubj(Map<String, Object> param);
 
 }
