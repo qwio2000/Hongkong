@@ -28,9 +28,12 @@ public class WorkbookstatusDto {
 		private String shipevery;
 		private String nextship;
 		private String nextshipt;
+		private String additionalworkbook;
+		private String additionalworkbookt;		
+		private String gradetotinoutship;
 		
 		private String promoitem;
-		private String additionalworkbook;
+		
 		private List<WorkbookstatusDto.WorkbookStatusMstsubj> subj;
 	}
 	

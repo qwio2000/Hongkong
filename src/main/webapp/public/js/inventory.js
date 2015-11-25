@@ -215,6 +215,42 @@ $(function(){
 				
 			});
 		},
+		
+		getEditmodify:function(id,gubun){
+			var OrderQtysum = 0;
+			var ShipQtysum = 0;
+			
+			if(gubun == "modify"){
+				$("#modify_"+id).css("display","none");
+				$("#edit_"+id).css("display","");
+				$("#OrderQty_"+id).attr("readonly",false);//제거 input 요소를 readonly 속성
+				$("#OrderQty_"+id).focus();
+			}else if(gubun == "edit"){
+				$("#modify_"+id).css("display","");
+				$("#edit_"+id).css("display","none");
+				$("#OrderQty_"+id).attr("readonly",true);
+				$("#ShipQty_"+id).val(parseInt($("#OrderQty_"+id).val()) );
+				
+				$("[id^=OrderQty_]").each(function (i, v) {
+						OrderQtysum = OrderQtysum + parseInt($(this).val());
+			    });
+				$("[id^=ShipQty_]").each(function (i, v) {
+						ShipQtysum = ShipQtysum + parseInt($(this).val());
+			    });
+				
+				$("#OrderQtysum").text(OrderQtysum);
+				$("#ShipQtysum").text(ShipQtysum);
+				
+			}
+		},
+		
+		getBtnCalendar:function(){
+	
+			$("#hiddenPicker").datepicker("setDate", new Date());
+	
+			$("#hiddenPicker").datepicker("show");
+		},
+		
 
 		getNextPrint:function(jisaCD,deptCD,subj,gubun,pgubun){ 
 			location.href="/ja/inventory/workbookstatusPrint?jisaCD="+jisaCD+"&deptCD="+deptCD+"&subj="+subj+"&gubun="+gubun+"&pgubun="+pgubun+" "	
@@ -222,6 +258,10 @@ $(function(){
 		
 		getInOutPrint:function(jisaCD,deptCD,lastship,pgubun){ 
 			location.href="/ja/inventory/IvnWorkBookInOutPrint?jisaCD="+jisaCD+"&deptCD="+deptCD+"&lastship="+lastship+"&pgubun="+pgubun+" "	
+		},
+		
+		getAdditionalworkbook:function(jisaCD,deptCD,additionalworkbook){ 
+			location.href="/ja/inventory/requestAWShipToCerritos?jisaCD="+jisaCD+"&deptCD="+deptCD+"&additionalworkbook="+additionalworkbook+" "	
 		},
 		
 		getReload:function(){  //페이지 새로고침
@@ -248,7 +288,7 @@ $(function(){
 	    var deptCD = myArray[1];
 	    var subj = myArray[2];
 	   
-    	document.location.href = "/ja/inventory/requestAdditionalWorkbook?subj="+subj+" ";
+    	document.location.href = "/fa/inventory/requestAdditionalWorkbook?subj="+subj+" ";
 	  
 	});
 	
@@ -277,5 +317,33 @@ $(function(){
 	if(window.location.pathname == '/ja/inventory/IvnWorkBookInOutPrint'){
 		$.getInOutallPrint();
 	}
+	
+	
+	$("[id^=OrderQty_]").keyup(function(event){		
+        $(this).val( $(this).val().replace(/[^0-9]/gi,"") );
+    });
+	
+	
+	$("#hiddenPicker").datepicker({
+		changeMonth: true,
+		changeYear: true,
+		yearRange: '1950:2015',
+		dateFormat: 'mm/dd/yy',
+		onSelect: function(dataText, inst){
+			var today = new Date();
+			var dataSplit = dataText.split("/");
+			var yy = dataSplit[2];
+			var mm = dataSplit[0];
+			var dd = dataSplit[1];
+			var dob = new Date(yy, mm-1, dd);
+	
+			if(today > dob){
+				alert('당일 이후부터 선택이 가능합니다.');
+				return;
+			}
+			$("#searchInput").val(dd+"/"+mm+"/"+yy)
+			$("#inOutSignYMD").val(yy+"-"+mm+"-"+dd)
+		}
+	});
 	
 });

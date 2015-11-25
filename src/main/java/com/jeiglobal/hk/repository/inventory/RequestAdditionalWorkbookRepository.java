@@ -1,5 +1,9 @@
 package com.jeiglobal.hk.repository.inventory;
 
+import java.util.List;
+import java.util.Map;
+
+import com.jeiglobal.hk.domain.inventory.RequestAdditionalWorkbookDto;
 import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
 
 /**
@@ -14,5 +18,14 @@ import com.jeiglobal.hk.repository.PrimaryRepositoryAnnoInterface;
 
 @PrimaryRepositoryAnnoInterface
 public interface RequestAdditionalWorkbookRepository {
+	
+	List<RequestAdditionalWorkbookDto.IvnWorkBookRequestAW> findIvnWorkBookRequestAW(Map<String, Object> map);
+	
+	List<RequestAdditionalWorkbookDto.ShipToCerritos> findShipToCerritos(Map<String, Object> map);
+	
+	List<RequestAdditionalWorkbookDto.ShipToCerritosDate> findShipToCerritosDate(Map<String, Object> map);
+	
+	
+	
 
 }

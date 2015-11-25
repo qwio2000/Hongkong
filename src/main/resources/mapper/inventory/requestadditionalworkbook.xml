@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jeiglobal.hk.repository.inventory.RequestAdditionalWorkbookRepository">
+	<!-- 가맹점 긴급교재 메인 리스트 -->
+	<select id="findIvnWorkBookRequestAW" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.RequestAdditionalWorkbookDto$IvnWorkBookRequestAW">
+			<![CDATA[ 
+			SELECT 
+				a.jisaCD, #{deptCD} AS deptCD, a.subj,
+				GROUP_CONCAT(
+					 CONCAT_WS('|', a.casKey, a.casSet, a.wbSet, a.wbGrade, a.wbName, IFNULL(b.wbInOutCal,0), IFNULL(b.wbInOutShip,0) ) 
+				ORDER BY a.casKey SEPARATOR ',' ) AS alllist
+				,IFNULL(MAX(b.inOutReqNote),'') AS inOutReqNote
+			FROM globalbiz.IvnWorkBookMst AS a
+			LEFT JOIN(
+				SELECT a.jisaCD, a.deptCD, b.subj, b.casKey, SUM(IFNULL(b.wbInOutCal,0)) AS wbInOutCal, SUM(IFNULL(b.wbInOutShip,0)) AS wbInOutShip
+				,a.inOutReqNote
+				FROM globalbiz.IvnWorkBookInOutMst AS a
+				INNER JOIN globalbiz.IvnWorkBookInOutDtl AS b
+				ON a.aidx=b.fidx
+				WHERE a.jisaCD=#{jisaCD} AND a.deptCD=#{deptCD} AND a.subj=#{subj}
+					AND a.inOutSignYMD ='' AND a.inOutReqCD = '13' AND a.signID=''
+				GROUP BY b.subj, b.casKey	
+			)AS b
+			ON a.jisaCD=b.jisaCD AND a.subj=b.subj AND a.casKey=b.casKey
+			WHERE a.jisaCD=#{jisaCD}  AND a.subj=#{subj}
+			GROUP BY a.subj, RIGHT(a.casKey,2)
+			]]>
+	</select>
+	
+	<!-- 지사 긴급교재 승인 리스트 -->
+	<select id="findShipToCerritos" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.RequestAdditionalWorkbookDto$ShipToCerritos">
+			<![CDATA[ 
+			SELECT 
+				b.aidx, b.fidx, a.jisaCD, a.deptCD, a.subj
+				, globalbiz.FuncCodeDtlNM(a.jisaCD,'0002',a.subj,'','') AS subjNM 
+				, a.inOutReqYMD, DATE_FORMAT(a.inOutReqYMD,'%m/%d/%Y') AS inOutReqYMDT
+				, b.casKey, b.wbName, b.wbInOutShip, a.inOutReqNote
+			FROM globalbiz.IvnWorkBookInOutMst AS a
+			INNER JOIN globalbiz.IvnWorkBookInOutDtl AS b
+			ON a.aidx=b.fidx
+			WHERE a.inOutReqYMD=#{additionalworkbook} AND a.inOutSignYMD = ''  AND a.signID = ''
+				AND a.jisaCD=#{jisaCD} AND a.deptCD=#{deptCD}
+			]]>
+	</select>
+	
+	<!-- 지사 긴급교재 승인 날짜 date -->
+	<select id="findShipToCerritosDate" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.RequestAdditionalWorkbookDto$ShipToCerritosDate">
+			<![CDATA[ 
+			SELECT 
+				inOutReqYMD, DATE_FORMAT(inOutReqYMD,'%m/%d/%Y') AS inOutReqYMDT
+			FROM globalbiz.IvnWorkBookInOutMst 
+			WHERE jisaCD=#{jisaCD} AND deptCD=#{deptCD}
+			AND inOutSignYMD = ''  AND signID = '' AND inOutReqCD = '13'
+			GROUP BY inOutReqYMD
+			]]>
+	</select>
+	
+		
+
+</mapper>
