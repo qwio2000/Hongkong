@@ -111,10 +111,10 @@ public class MemberAnalysisController {
 		}
 		subj = (subj == null ? "TT" : subj);
 		if(!"TT".equals(subj)){
-			model.addAttribute("byWbGrade", memberAnalysisService.getMemberByWbGrade(loginInfo.getJisaCD(), loginInfo.getDeptCD(), searchYYMM, subj));
+			model.addAttribute("byWbGrade", memberAnalysisService.getMemberByWbGrade(loginInfo.getJisaCD(), deptCD, searchYYMM, subj));
 		}
-		model.addAttribute("multiSubj", memberAnalysisService.getMembersByMultiSubj(loginInfo.getJisaCD(), loginInfo.getDeptCD(), searchYYMM, subj));
-		model.addAttribute("byGrade", memberAnalysisService.getMembersByGrade(loginInfo.getJisaCD(), loginInfo.getDeptCD(), searchYYMM, subj));
+		model.addAttribute("multiSubj", memberAnalysisService.getMembersByMultiSubj(loginInfo.getJisaCD(), deptCD, searchYYMM, subj));
+		model.addAttribute("byGrade", memberAnalysisService.getMembersByGrade(loginInfo.getJisaCD(), deptCD, searchYYMM, subj));
 		model.addAttribute("subjs", commonService.getOpenSubjsByJisaCD(loginInfo.getJisaCD()));
 		model.addAttribute("YYMMs", CommonUtils.getMonthsByOneYearBefore());
 		model.addAttribute("searchSubj", subj);
