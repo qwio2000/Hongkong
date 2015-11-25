@@ -62,6 +62,7 @@ public class MemberAnalysisController {
 		
 		return "member/analysis/memberAnalysis";
 	}
+	
 	@RequestMapping(value={"/fa/members/analysis/grade"},method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String getMemberAnalysisGradePage(Model model, @ModelAttribute LoginInfo loginInfo, String searchYYMM, String subj) throws ParseException{
 		log.debug("Getting MemberAnalysis Grade Page");
@@ -174,7 +175,7 @@ public class MemberAnalysisController {
 		model.addAttribute("headerScript", headerScript);
 		model.addAttribute("deptSearchPop", dataDeptSearchPop);
 		return "member/analysis/deptSearchPop";
-	}	
+	}
 	
 	//지사 => Member => SubjectReport
 	@RequestMapping(value={"/ja/members/analysis/subject"},method = {RequestMethod.GET, RequestMethod.HEAD})
@@ -189,7 +190,5 @@ public class MemberAnalysisController {
 		log.debug("Getting Drop Analysis Page");
 		return "member/analysis/dropAnalysis";
 	}
-	
-	
 	
 }

@@ -42,7 +42,7 @@
 					<#if !byGrade?has_content><td colspan="2">No Content</td></#if>
 				</tr>
 				<tr>
-					<td class="col_gray b_r">Radio</td>
+					<td class="col_gray b_r">Ratio</td>
 					<#list byGrade as grade>
 						<td>${grade.membersRate?string("##0.00") }%</td>
 					</#list>
