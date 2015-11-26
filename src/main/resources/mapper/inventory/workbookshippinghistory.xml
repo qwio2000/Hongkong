@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jeiglobal.hk.repository.inventory.WorkbookShippingHistoryRepository">
+	<!-- 가맹점 신청한 교재 및 지사에서 발송한 내역 조회  -->
+	<select id="findRestockHistory" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookShippingHistoryDto$RestockHistory">
+				<![CDATA[ 
+				SELECT 
+					a.dtlCD AS mon
+					, IFNULL(b.inOutSignYMD,'') AS inOutSignYMD
+					, IFNULL(b.wbInOutCal,0) AS wbInOutCal
+					, IFNULL(b.wbInOutShip,0) AS wbInOutShip
+				FROM(
+					SELECT '01' AS dtlCD   UNION ALL SELECT '02' UNION ALL SELECT '03' UNION ALL SELECT '04' UNION ALL SELECT '05' UNION ALL SELECT '06'
+					 UNION ALL SELECT '07' UNION ALL SELECT '08' UNION ALL SELECT '09' UNION ALL SELECT '10' UNION ALL SELECT '11' UNION ALL SELECT '12'
+				) AS a
+				LEFT JOIN(
+					SELECT 
+						CONVERT(a.inOutSignYMD, CHAR(7)) AS inOutSignYMD
+						, SUBSTRING(CONVERT(a.inOutSignYMD, CHAR(7)),6,2) AS dtlCD
+						, SUM(b.wbInOutCal) AS wbInOutCal -- 전산 수량
+						, SUM(b.wbInOutShip) AS wbInOutShip -- 입력 수량	
+					FROM globalbiz.IvnWorkBookInOutMst AS a
+					INNER JOIN globalbiz.IvnWorkBookInOutDtl AS b 
+					ON a.aidx=b.fidx
+					WHERE IFNULL(a.inOutSignYMD,'') <> ''
+						AND b.jisaCD=#{jisaCD} AND b.deptCD=#{deptCD}
+						AND CONVERT(a.inOutSignYMD, CHAR(4))=#{yy}
+					GROUP BY CONVERT(a.inOutSignYMD, CHAR(7))
+				)AS b
+				ON a.dtlCD=b.dtlCD;				
+				]]>
+	</select>
+	
+	<!-- 가맹점 신청한 교재 및 지사에서 발송한 내역 조회  년 리스트 -->
+	<select id="findgetRestockHistoryyy" statementType="CALLABLE" parameterType="HASHMAP" resultType="String">
+		<![CDATA[ 
+		SELECT 
+			CONVERT(inOutSignYMD, CHAR(4)) AS yy 
+		FROM globalbiz.IvnWorkBookInOutMst 
+		WHERE jisaCD=#{jisaCD} AND deptCD=#{deptCD}
+			AND IFNULL(CONVERT(inOutSignYMD, CHAR(4)),'') <> ''
+		GROUP BY CONVERT(inOutSignYMD, CHAR(4))
+		ORDER BY CONVERT(inOutSignYMD, CHAR(4)) DESC
+		]]>	
+	</select>
+	
+	
+	
+	
+	
+</mapper>
