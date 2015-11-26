@@ -185,11 +185,28 @@
 <!-- 판촉물 주문내역 레이어 팝업-->
 <script id="promoOrderDetailContentTemplate" type="text/x-handlebars-template">
 	<div class="line">
-		<ul class="list02">
-			{{#each promoOrderDtllist}}
-			<li><span class="tit">{{itemName}}</span> <span class="text">{{orderAmt}} </span></li>
-			{{/each}}
-		</ul>
+		<div class="tbl01">
+			<table>
+				<thead>
+					<tr>
+						<th>Item Name</th>
+						<th style="width:60px">Price</th>
+						<th style="width:60px">Order Qty</th>
+						<th style="width:80px">Amount</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#each promoOrderDtllist}}
+					<tr>
+						<td class="left">{{itemName}}</td>
+						<td>{{itemPrice}}</td>
+						<td>{{orderQty}}</td>
+						<td>{{orderAmt}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</div>
 	</div>
 </script>
 <!-- //판촉물 주문내역 -->
