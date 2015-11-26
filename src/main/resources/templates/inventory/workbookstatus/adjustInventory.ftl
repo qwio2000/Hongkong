@@ -51,7 +51,7 @@
 											<td>${dungListIndex.wbname }</td>
 										</#if>
 											<td class="col_n"> 				<!--  gt :> , gte : >= , lt < , lte <= -->	
-												<input type="text" style="width:20px" name="" id="input_${wbdungIndex }_${dungListIndex.caskey }"  value="${stocqty }" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" autoqty="${qty?replace("-","") }" stocqty="${stocqty }" />
+												<input type="text" style="width:20px" name="" id="input_${wbdungIndex }_${dungListIndex.caskey }" value="${stocqty }" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" autoqty="${qty?replace("-","") }" stocqty="${stocqty }" />
 											</td>
 										<#assign chk = "1">
 									</#if>					

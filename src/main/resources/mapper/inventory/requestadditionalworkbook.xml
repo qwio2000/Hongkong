@@ -39,7 +39,7 @@
 			FROM globalbiz.IvnWorkBookInOutMst AS a
 			INNER JOIN globalbiz.IvnWorkBookInOutDtl AS b
 			ON a.aidx=b.fidx
-			WHERE a.inOutReqYMD=#{additionalworkbook} AND a.inOutSignYMD = ''  AND a.signID = ''
+			WHERE a.inOutReqYMD=#{additionalworkbook} AND a.inOutSignYMD = ''  AND a.signID = '' AND a.inOutReqCD = '13'
 				AND a.jisaCD=#{jisaCD} AND a.deptCD=#{deptCD}
 			]]>
 	</select>
@@ -48,11 +48,13 @@
 	<select id="findShipToCerritosDate" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.RequestAdditionalWorkbookDto$ShipToCerritosDate">
 			<![CDATA[ 
 			SELECT 
-				#{jisaCD} AS jisaCD, #{deptCD} AS deptCD, inOutReqYMD, DATE_FORMAT(inOutReqYMD,'%m/%d/%Y') AS inOutReqYMDT
-			FROM globalbiz.IvnWorkBookInOutMst 
-			WHERE jisaCD=#{jisaCD} AND deptCD=#{deptCD}
-			AND inOutSignYMD = ''  AND signID = '' AND inOutReqCD = '13'
-			GROUP BY inOutReqYMD
+				#{jisaCD} AS jisaCD, #{deptCD} AS deptCD, a.inOutReqYMD, DATE_FORMAT(a.inOutReqYMD,'%m/%d/%Y') AS inOutReqYMDT
+			FROM globalbiz.IvnWorkBookInOutMst AS a
+			INNER JOIN globalbiz.IvnWorkBookInOutDtl AS b
+			ON a.aidx=b.fidx
+			WHERE a.jisaCD=#{jisaCD} AND a.deptCD=#{deptCD}
+			AND a.inOutSignYMD = ''  AND a.signID = '' AND a.inOutReqCD = '13'
+			GROUP BY a.inOutReqYMD
 			]]>
 	</select>
 	
