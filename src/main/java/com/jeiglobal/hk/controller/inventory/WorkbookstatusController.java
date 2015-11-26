@@ -109,7 +109,7 @@ public class WorkbookstatusController {
 	
 		String subjnm = "";
 		for(WorkbookstatusDto.WorkbookStatusMstsubj subjlist : workbookStatusMstsubj){
-			System.out.println(subjlist.getSubj());
+			//System.out.println(subjlist.getSubj());
 			if((subj).equals(subjlist.getSubj())){
 				subjnm = subjlist.getSubjnm();
 			}			

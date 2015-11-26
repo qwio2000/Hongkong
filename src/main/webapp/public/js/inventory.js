@@ -215,6 +215,109 @@ $(function(){
 				
 			});
 		},
+		
+		getShipTCUpt:function(gubun){  //지사 긴급교재 삭제
+			var myArray = $("#subjShip").val().split(',');				
+		    var jisaCD = myArray[0];
+		    var deptCD = myArray[1];
+		    var additionalworkbook = myArray[2];	
+		    var signDate = $("#inOutSignYMD").val();
+		    
+		    
+			if(gubun == "D"){
+				if (confirm("정말 삭제하시겠습니까?") == true){    //확인
+					$.getShipTCDtlUpt(jisaCD,deptCD,additionalworkbook,signDate,gubun);
+				}else{   //취소
+				    return;
+				}
+			}else{
+				if(signDate == ""){
+					alert("Ship Date 입력바랍니다. ");
+					return;
+				}else{
+					$.getShipTCDtlUpt(jisaCD,deptCD,additionalworkbook,signDate,gubun);
+				}
+			}
+			
+
+			
+		},
+		
+		getShipTCDtlUpt:function(jisaCD,deptCD,additionalworkbook,signDate,gubun){  //지사 긴급교재 dtl 삭제		    
+		    var data = "";
+		    var cnt = "";
+		    var aidx = "";
+		    var fidx = "";
+		    
+		    $("#allset").html("");
+		    
+			$("[id^=ShipQty_]").each(function (i, v) {
+				cnt = $("#"+$(this).attr("id")).val();
+				aidx =$(this).attr("aidx");
+				fidx = $(this).attr("fidx");
+				
+				$("#allset").append(cnt+","+aidx+","+fidx+"@@");
+				
+			});
+			
+			data = $("#allset").html();
+
+			var searchUrl = "/ja/inventory/requestAWShipToCerritosUpt";						
+			var paramData = "jisaCD="+jisaCD+"&deptCD="+deptCD+"&additionalworkbook="+additionalworkbook+"&data="+data+"&signDate="+signDate+"&gubun="+gubun;
+	
+			$.ajax({
+				type: "POST"
+				,url: searchUrl
+				,data: paramData					
+				,success: function(data){	
+					alert(data.saveOK);
+					document.location.href = "/ja/inventory/workbookstatus";
+				}
+				,error: function (data, textStatus) { 
+					alert(textStatus); 			
+				}
+				,async: false
+			});
+		},
+		
+		getEditmodify:function(id,gubun){
+			var OrderQtysum = 0;
+			var ShipQtysum = 0;
+			
+			if(gubun == "modify"){
+				$("#modify_"+id).css("display","none");
+				$("#edit_"+id).css("display","");
+				$("#OrderQty_"+id).attr("readonly",false);//제거 input 요소를 readonly 속성
+				$("#OrderQty_"+id).focus();
+			}else if(gubun == "edit"){
+				$("#modify_"+id).css("display","");
+				$("#edit_"+id).css("display","none");
+				$("#OrderQty_"+id).attr("readonly",true);
+				if($("#OrderQty_"+id).val() == ""){
+					$("#OrderQty_"+id).val(0);
+				}
+				$("#ShipQty_"+id).val(parseInt($("#OrderQty_"+id).val()) );
+				
+				$("[id^=OrderQty_]").each(function (i, v) {
+						OrderQtysum = parseInt(OrderQtysum) + parseInt($(this).val());
+			    });
+				$("[id^=ShipQty_]").each(function (i, v) {
+						ShipQtysum = parseInt(ShipQtysum) + parseInt($(this).val());
+			    });
+				
+				$("#OrderQtysum").text(OrderQtysum);
+				$("#ShipQtysum").text(ShipQtysum);
+				
+			}
+		},
+		
+		getBtnCalendar:function(){
+	
+			$("#hiddenPicker").datepicker("setDate", new Date());
+	
+			$("#hiddenPicker").datepicker("show");
+		},
+		
 
 		getNextPrint:function(jisaCD,deptCD,subj,gubun,pgubun){ 
 			location.href="/ja/inventory/workbookstatusPrint?jisaCD="+jisaCD+"&deptCD="+deptCD+"&subj="+subj+"&gubun="+gubun+"&pgubun="+pgubun+" "	
@@ -224,6 +327,10 @@ $(function(){
 			location.href="/ja/inventory/IvnWorkBookInOutPrint?jisaCD="+jisaCD+"&deptCD="+deptCD+"&lastship="+lastship+"&pgubun="+pgubun+" "	
 		},
 		
+		getAdditionalworkbook:function(jisaCD,deptCD,additionalworkbook){ 
+			location.href="/ja/inventory/requestAWShipToCerritos?jisaCD="+jisaCD+"&deptCD="+deptCD+"&additionalworkbook="+additionalworkbook+" "	
+		},
+		
 		getReload:function(){  //페이지 새로고침
 			location.reload();
 		}
@@ -231,7 +338,6 @@ $(function(){
 	
 
 	$("[id^=subjgo]").change(function() {
-		
 		var myArray = $(this).val().split(',');	    
 	    var jisaCD = myArray[0];
 	    var deptCD = myArray[1];
@@ -242,18 +348,20 @@ $(function(){
 	
 	
 	$("#subjRAW").change(function() {
-		
 		var myArray = $(this).val().split(',');	    
 	    var jisaCD = myArray[0];
 	    var deptCD = myArray[1];
-	    var subj = myArray[2];
-	   
-    	document.location.href = "/ja/inventory/requestAdditionalWorkbook?subj="+subj+" ";
-	  
+	    var subj = myArray[2];	   
+    	document.location.href = "/fa/inventory/requestAdditionalWorkbook?subj="+subj+" ";	  
 	});
 	
-	
-	
+	$("#subjShip").change(function() {
+		var myArray = $(this).val().split(',');	    
+	    var jisaCD = myArray[0];
+	    var deptCD = myArray[1];
+	    var additionalworkbook = myArray[2];	   
+    	document.location.href = "/ja/inventory/requestAWShipToCerritos?jisaCD="+jisaCD+"&deptCD="+deptCD+"&additionalworkbook="+additionalworkbook+" ";  
+	});
 	
 	
 	$("[id^=select_]").change(function (i, v) {	
@@ -277,5 +385,37 @@ $(function(){
 	if(window.location.pathname == '/ja/inventory/IvnWorkBookInOutPrint'){
 		$.getInOutallPrint();
 	}
+	
+	
+	$("[id^=OrderQty_]").keyup(function(event){		
+        $(this).val( $(this).val().replace(/[^0-9]/gi,"") );
+    });
+	
+	$("[id^=input_]").keyup(function(event){		
+        $(this).val( $(this).val().replace(/[^0-9]/gi,"") );
+    });
+	
+	
+	$("#hiddenPicker").datepicker({
+		changeMonth: true,
+		changeYear: true,
+		yearRange: '1950:2015',
+		dateFormat: 'mm/dd/yy',
+		onSelect: function(dataText, inst){
+			var today = new Date();
+			var dataSplit = dataText.split("/");
+			var yy = dataSplit[2];
+			var mm = dataSplit[0];
+			var dd = dataSplit[1];
+			var dob = new Date(yy, mm-1, dd);
+	
+			if(today > dob){
+				alert('당일 이후부터 선택이 가능합니다.');
+				return;
+			}
+			$("#searchInput").val(dd+"/"+mm+"/"+yy)
+			$("#inOutSignYMD").val(yy+"-"+mm+"-"+dd)
+		}
+	});
 	
 });

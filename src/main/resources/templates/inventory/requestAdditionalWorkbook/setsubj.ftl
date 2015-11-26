@@ -29,12 +29,20 @@
 					</tr>
 				</thead>
 				<tbody>
-					<#assign chk = "0"><#assign qty = "0"><#assign stocqty = "0"><#assign stableqty = "0">
+					<#assign chk = "0"><#assign qty = "0"><#assign stocqty = "0"><#assign stableqty = "0"><#assign saveYN = "N"><#assign inoutreqnote = "">
 					<#list setlist as setlistIndex>
 						<tr class="line2">
 							<#list wbdung as wbdungIndex>				
 								<#list setlistIndex.dungList as dungListIndex>
-									<#if wbdungIndex == dungListIndex.wbgrade>									
+									<#if wbdungIndex == dungListIndex.wbgrade>	
+										<#assign wbinoutcal = dungListIndex.wbinoutcal> <!--  긴급교재 입력 저장값 -->
+										<#if setlistIndex.inoutreqnote != "">
+											<#assign saveYN = "Y">
+											<#assign inoutreqnote = setlistIndex.inoutreqnote > 
+										</#if>	
+										<#if wbinoutcal == "0">
+											<#assign wbinoutcal = "">
+										</#if>		
 										<#if wbdungIndex_index = 0>
 											<td class="no_line">												
 												${dungListIndex.wbname }												
@@ -45,7 +53,7 @@
 											</td>
 										</#if>
 											<td class="col_n"> 				<!--  gt :> , gte : >= , lt < , lte <= -->
-												<input type="text" style="width:20px" id="input_${wbdungIndex }_${dungListIndex.caskey }" value="" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }"  />
+												<input type="text" style="width:20px" name="" id="input_${wbdungIndex }_${dungListIndex.caskey }"  value="${wbinoutcal }" caskey="${dungListIndex.caskey }" wbgrade="${dungListIndex.wbgrade }" />
 											</td>
 										<#assign chk = "1">
 									</#if>					
@@ -71,9 +79,9 @@
 			<table>
 				<tbody>
 					<tr class="line2">
-						<td class="no_line">Reason :</td>
+						<td class="no_line">Reason : </td>
 						<td class="col_n" style="width:90%">
-							<input type="text" name="inOutReqNote" id="inOutReqNote" style="width:100%"/>
+							<input type="text" name="inOutReqNote" id="inOutReqNote" value="${inoutreqnote }" style="width:100%"/>
 						</td>
 					</tr>
 				</tbody>
@@ -84,10 +92,11 @@
 		<input type="hidden" id="deptCD" value="${deptCD }">
 		<input type="hidden" id="subj" value="${subj }">
 		<div id="allset" style=""></div>
-		
-		<div class="btnArea">
-			<a href="javascript:$.getRequestAWSave();"><span>Confirm &amp; Request Inventory</span></a>
-		</div>
+		<#if saveYN == "N">
+			<div class="btnArea">
+				<a href="javascript:$.getRequestAWSave();"><span>Confirm &amp; Request Inventory</span></a>
+			</div>
+		</#if>
 		</#if>
 	</div>
 <!--// Main Content -->
