@@ -8,6 +8,9 @@ import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberByGrade;
 import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberByMonthFA;
 import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberByMultiSubj;
 import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberBySubject;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.SubjectReport;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.SubjectReportBottom;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.SubjectReportBottomSub;
 import com.jeiglobal.hk.repository.*;
 
 /**
@@ -39,5 +42,11 @@ public interface MemberAnalysisRepository {
 	public List<MemberByMonthFA> findMembersByMonthsJA(Map<String, Object> param);
 
 	public List<MemberBySubject> findMemberBySubjectJA(Map<String, Object> param);
+
+	public List<SubjectReport> findSubjectReport(Map<String, Object> param);
+
+	public List<SubjectReportBottom> findSubjReportBottom(Map<String, Object> param);
+
+	public SubjectReportBottomSub findSubjReportBottomSub(Map<String, Object> param);
 
 }

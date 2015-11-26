@@ -179,8 +179,23 @@ public class MemberAnalysisController {
 	
 	//지사 => Member => SubjectReport
 	@RequestMapping(value={"/ja/members/analysis/subject"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getMemberSubjectReportPage(Model model, @ModelAttribute LoginInfo loginInfo){
-		log.debug("Getting Subject Report Page");
+	public String getMemberSubjectReportPage(Model model, @ModelAttribute LoginInfo loginInfo,
+			String searchYY, @RequestParam(defaultValue="") String deptName, @RequestParam(defaultValue="00000") String deptCD) throws ParseException{
+		log.debug("Getting Subject Report Page {} , {}", deptCD, searchYY);
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberAnalysis");
+		model.addAttribute("headerScript", headerScript);
+		if(searchYY == null){
+			searchYY = CommonUtils.changeDateFormat("yyyy-MM-dd", "yyyy", CommonUtils.getCurrentYMD());
+		}
+		model.addAttribute("months", CommonUtils.getMonths(2));
+		model.addAttribute("subjectReport", memberAnalysisService.getSubjectReport(loginInfo.getJisaCD(), deptCD, searchYY));
+		model.addAttribute("searchYY", searchYY);
+		model.addAttribute("displayYears", memberAnalysisService.getDisplayYears(searchYY));
+		model.addAttribute("years", memberAnalysisService.getLastFiveYears());
+		model.addAttribute("deptName", deptName);
+		model.addAttribute("deptCD", deptCD);
+		model.addAttribute("subjs", commonService.getOpenSubjsByJisaCD(loginInfo.getJisaCD()));
 		return "member/analysis/subjectReport";
 	}
 	
@@ -191,4 +206,15 @@ public class MemberAnalysisController {
 		return "member/analysis/dropAnalysis";
 	}
 	
+	@RequestMapping(value={"/ja/members/analysis/subjectReport"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	@ResponseBody
+	public Map<String, Object> getSubjReportJson(@ModelAttribute LoginInfo loginInfo,
+			String deptCD, int pastMonth) throws ParseException{
+		log.debug("Getting Subject Report, deptCD : {}, pastMonth : {}", deptCD, pastMonth);
+		List<SubjectReportBottom> subjReports = memberAnalysisService.getSubjReportBottom(loginInfo.getJisaCD(), deptCD, pastMonth);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("subjReports", subjReports);
+		map.put("pastMonth", pastMonth);
+		return map;
+	}
 }

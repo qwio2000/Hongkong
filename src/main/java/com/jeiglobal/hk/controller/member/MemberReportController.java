@@ -300,7 +300,7 @@ public class MemberReportController {
 			String memKey, String subj, String memName,
 			@ModelAttribute LoginInfo loginInfo) {
 		//퇴회 사유
-		List<CodeDtl> dropReasons = commonService.getCodeDtls("0021", loginInfo.getJisaCD(), 1, "Y");
+		List<CodeDtl> dropReasons = commonService.getCodeDtls("0201", loginInfo.getJisaCD(), 1, "Y");
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("memberReportDetail");
 		model.addAttribute("memKey", memKey);

@@ -77,4 +77,60 @@
 				WHERE jisaCD = #{jisaCD} AND deptCD = '00000' AND subj != 'TT' AND mgYYMM = #{searchYYMM}
 		) AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD AND a.mgYYMM = b.mgYYMM
 	</select>
+	<select id="findSubjectReport" statementType="CALLABLE" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$SubjectReport">
+		CALL globalmagam.SPStatProgBySubj(#{jisaCD}, #{deptCD}, #{searchYY}, '')
+	</select>
+	<select id="findSubjReportBottom" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$SubjectReportBottom">
+		SELECT *
+		FROM (
+			SELECT DATE_FORMAT(CONCAT(mgYYMM,'-01'), '%Y/%m') AS mgYYMM, a.deptCD, c.deptName, IFNULL(d.stateName, '') AS stateName, globalmagam.FuncDeptSubjReport(a.jisaCD, a.deptCD, #{searchYYMM}, '1', #{totalFlag}) AS subjReport, b.totEnd, 1 AS sort
+			FROM globalmagam.SalesCenters AS a
+			INNER JOIN globalbiz.DeptMst AS c ON a.jisaCD = c.jisaCD AND a.deptCD = c.deptCD
+			LEFT JOIN globalbiz.StateInfo AS d ON c.jisaCD = d.jisaCD AND c.stateCD = d.stateCD
+				LEFT JOIN (
+					SELECT jisaCD, deptCD, SUM(subjEnd) AS totEnd
+					FROM globalmagam.SalesCenters
+					WHERE mgYYMM = #{searchYYMM}
+					GROUP BY mgYYMM, deptCD
+				) AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD
+			WHERE a.jisaCD = #{jisaCD} AND a.mgYYMM = #{searchYYMM}
+			<if test="deptCD != null and deptCD != '00000'">
+				AND a.deptCD = #{deptCD}
+			</if>
+			GROUP BY a.deptCD
+			UNION
+			SELECT DATE_FORMAT(CONCAT(mgYYMM,'-01'), '%Y/%m') AS mgYYMM, 'Total', 'Total', 'Total', globalmagam.FuncDeptSubjReport(a.jisaCD, a.deptCD, #{searchYYMM}, '2', #{totalFlag}) AS subjReport, b.totEnd, 2 AS sort
+			FROM globalmagam.SalesCenters AS a
+				LEFT JOIN (
+					SELECT jisaCD, deptCD, SUM(subjEnd) AS totEnd
+					FROM globalmagam.SalesCenters
+					WHERE mgYYMM = #{searchYYMM}
+					<if test="totalFlag == '1'.toString()">
+					GROUP BY mgYYMM, jisaCD
+					</if>
+					<if test="totalFlag == '2'.toString()">
+					GROUP BY mgYYMM, jisaCD, deptCD
+					</if>
+				) AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD
+			WHERE a.jisaCD = #{jisaCD} AND a.mgYYMM = #{searchYYMM}
+			<if test="deptCD != null and deptCD != '00000'">
+				AND a.deptCD = #{deptCD}
+			</if>
+			GROUP BY a.jisaCD
+		) AS result
+		ORDER BY sort, deptCD
+	</select>
+	<select id="findSubjReportBottomSub" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$SubjectReportBottomSub">
+		SELECT DATE_FORMAT(CONCAT(mgYYMM,'-01'), '%Y/%m') AS mgYYMM, a.deptCD, globalmagam.FuncDeptSubjReport(a.jisaCD, a.deptCD, #{subYYMM}, '1', '') AS subjReport, b.totEnd
+		FROM globalmagam.SalesCenters AS a
+			LEFT JOIN (
+				SELECT jisaCD, deptCD, SUM(subjEnd) AS totEnd
+				FROM globalmagam.SalesCenters
+				WHERE mgYYMM = #{subYYMM}
+				GROUP BY mgYYMM, deptCD
+			) AS b ON a.jisaCD = b.jisaCD AND a.deptCD = b.deptCD
+		WHERE a.jisaCD = #{jisaCD} AND a.deptCD = #{deptCD} AND mgYYMM = #{subYYMM}
+		GROUP BY a.deptCD
+		ORDER BY a.deptCD
+	</select>
 </mapper>
