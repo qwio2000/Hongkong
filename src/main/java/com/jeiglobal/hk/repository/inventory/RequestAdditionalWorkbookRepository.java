@@ -25,6 +25,8 @@ public interface RequestAdditionalWorkbookRepository {
 	
 	List<RequestAdditionalWorkbookDto.ShipToCerritosDate> findShipToCerritosDate(Map<String, Object> map);
 	
+	String findShipToCerritosUpt(Map<String, Object> map);
+	
 	
 	
 

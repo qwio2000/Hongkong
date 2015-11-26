@@ -48,7 +48,7 @@
 	<select id="findShipToCerritosDate" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.RequestAdditionalWorkbookDto$ShipToCerritosDate">
 			<![CDATA[ 
 			SELECT 
-				inOutReqYMD, DATE_FORMAT(inOutReqYMD,'%m/%d/%Y') AS inOutReqYMDT
+				#{jisaCD} AS jisaCD, #{deptCD} AS deptCD, inOutReqYMD, DATE_FORMAT(inOutReqYMD,'%m/%d/%Y') AS inOutReqYMDT
 			FROM globalbiz.IvnWorkBookInOutMst 
 			WHERE jisaCD=#{jisaCD} AND deptCD=#{deptCD}
 			AND inOutSignYMD = ''  AND signID = '' AND inOutReqCD = '13'
@@ -56,6 +56,12 @@
 			]]>
 	</select>
 	
+	<!-- 지사 긴급교재 승인 update or delete -->
+	<select id="findShipToCerritosUpt" statementType="CALLABLE" parameterType="HASHMAP" resultType="String">
+			<![CDATA[ 
+			CALL SPInventoryShipToCerritosUpt(#{jisaCD},#{deptCD},#{additionalworkbook},#{data},#{signDate},#{gubun},#{workId});
+			]]>
+	</select>
 		
 
 </mapper>

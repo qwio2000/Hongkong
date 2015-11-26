@@ -54,7 +54,9 @@ public class RequestAdditionalWorkbookDto {
 	}
 	
 	@Data
-	public static class ShipToCerritosDate{
+	public static class ShipToCerritosDate{		
+		private String jisaCD;
+		private String deptCD;
 		private String inoutreqymd;
 		private String inoutreqymdt;
 	}

@@ -64,4 +64,17 @@ public class RequestAdditionalWorkbookService {
 		
 		return requestAdditionalWorkbookRepository.findShipToCerritosDate(param);
 	}
+
+	public String addShipToCerritosUpt(String jisaCD, String deptCD, String additionalworkbook, String data, String signDate, String gubun,
+			String workId) {
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		param.put("additionalworkbook", additionalworkbook);
+		param.put("data", data);
+		param.put("signDate", signDate);
+		param.put("gubun", gubun);
+		param.put("workId", workId);
+		
+		return requestAdditionalWorkbookRepository.findShipToCerritosUpt(param);
+	}
 }

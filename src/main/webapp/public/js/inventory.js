@@ -216,6 +216,70 @@ $(function(){
 			});
 		},
 		
+		getShipTCUpt:function(gubun){  //지사 긴급교재 삭제
+			var myArray = $("#subjShip").val().split(',');				
+		    var jisaCD = myArray[0];
+		    var deptCD = myArray[1];
+		    var additionalworkbook = myArray[2];	
+		    var signDate = $("#inOutSignYMD").val();
+		    
+		    
+			if(gubun == "D"){
+				if (confirm("정말 삭제하시겠습니까?") == true){    //확인
+					$.getShipTCDtlUpt(jisaCD,deptCD,additionalworkbook,signDate,gubun);
+				}else{   //취소
+				    return;
+				}
+			}else{
+				if(signDate == ""){
+					alert("Ship Date 입력바랍니다. ");
+					return;
+				}else{
+					$.getShipTCDtlUpt(jisaCD,deptCD,additionalworkbook,signDate,gubun);
+				}
+			}
+			
+
+			
+		},
+		
+		getShipTCDtlUpt:function(jisaCD,deptCD,additionalworkbook,signDate,gubun){  //지사 긴급교재 dtl 삭제		    
+		    var data = "";
+		    var cnt = "";
+		    var aidx = "";
+		    var fidx = "";
+		    
+		    $("#allset").html("");
+		    
+			$("[id^=ShipQty_]").each(function (i, v) {
+				cnt = $("#"+$(this).attr("id")).val();
+				aidx =$(this).attr("aidx");
+				fidx = $(this).attr("fidx");
+				
+				$("#allset").append(cnt+","+aidx+","+fidx+"@@");
+				
+			});
+			
+			data = $("#allset").html();
+
+			var searchUrl = "/ja/inventory/requestAWShipToCerritosUpt";						
+			var paramData = "jisaCD="+jisaCD+"&deptCD="+deptCD+"&additionalworkbook="+additionalworkbook+"&data="+data+"&signDate="+signDate+"&gubun="+gubun;
+	
+			$.ajax({
+				type: "POST"
+				,url: searchUrl
+				,data: paramData					
+				,success: function(data){	
+					alert(data.saveOK);
+					document.location.href = "/ja/inventory/workbookstatus";
+				}
+				,error: function (data, textStatus) { 
+					alert(textStatus); 			
+				}
+				,async: false
+			});
+		},
+		
 		getEditmodify:function(id,gubun){
 			var OrderQtysum = 0;
 			var ShipQtysum = 0;
@@ -229,13 +293,16 @@ $(function(){
 				$("#modify_"+id).css("display","");
 				$("#edit_"+id).css("display","none");
 				$("#OrderQty_"+id).attr("readonly",true);
+				if($("#OrderQty_"+id).val() == ""){
+					$("#OrderQty_"+id).val(0);
+				}
 				$("#ShipQty_"+id).val(parseInt($("#OrderQty_"+id).val()) );
 				
 				$("[id^=OrderQty_]").each(function (i, v) {
-						OrderQtysum = OrderQtysum + parseInt($(this).val());
+						OrderQtysum = parseInt(OrderQtysum) + parseInt($(this).val());
 			    });
 				$("[id^=ShipQty_]").each(function (i, v) {
-						ShipQtysum = ShipQtysum + parseInt($(this).val());
+						ShipQtysum = parseInt(ShipQtysum) + parseInt($(this).val());
 			    });
 				
 				$("#OrderQtysum").text(OrderQtysum);
@@ -271,7 +338,6 @@ $(function(){
 	
 
 	$("[id^=subjgo]").change(function() {
-		
 		var myArray = $(this).val().split(',');	    
 	    var jisaCD = myArray[0];
 	    var deptCD = myArray[1];
@@ -282,18 +348,20 @@ $(function(){
 	
 	
 	$("#subjRAW").change(function() {
-		
 		var myArray = $(this).val().split(',');	    
 	    var jisaCD = myArray[0];
 	    var deptCD = myArray[1];
-	    var subj = myArray[2];
-	   
-    	document.location.href = "/fa/inventory/requestAdditionalWorkbook?subj="+subj+" ";
-	  
+	    var subj = myArray[2];	   
+    	document.location.href = "/fa/inventory/requestAdditionalWorkbook?subj="+subj+" ";	  
 	});
 	
-	
-	
+	$("#subjShip").change(function() {
+		var myArray = $(this).val().split(',');	    
+	    var jisaCD = myArray[0];
+	    var deptCD = myArray[1];
+	    var additionalworkbook = myArray[2];	   
+    	document.location.href = "/ja/inventory/requestAWShipToCerritos?jisaCD="+jisaCD+"&deptCD="+deptCD+"&additionalworkbook="+additionalworkbook+" ";  
+	});
 	
 	
 	$("[id^=select_]").change(function (i, v) {	
@@ -320,6 +388,10 @@ $(function(){
 	
 	
 	$("[id^=OrderQty_]").keyup(function(event){		
+        $(this).val( $(this).val().replace(/[^0-9]/gi,"") );
+    });
+	
+	$("[id^=input_]").keyup(function(event){		
         $(this).val( $(this).val().replace(/[^0-9]/gi,"") );
     });
 	
