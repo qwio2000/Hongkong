@@ -221,21 +221,21 @@ $(function(){
 		    var jisaCD = myArray[0];
 		    var deptCD = myArray[1];
 		    var additionalworkbook = myArray[2];	
-		    var signDate = $("#inOutSignYMD").val();
+		    var inOutSignYMD = $("#inOutSignYMD").val();
 		    
 		    
 			if(gubun == "D"){
 				if (confirm("정말 삭제하시겠습니까?") == true){    //확인
-					$.getShipTCDtlUpt(jisaCD,deptCD,additionalworkbook,signDate,gubun);
+					$.getShipTCDtlUpt(jisaCD,deptCD,additionalworkbook,inOutSignYMD,gubun);
 				}else{   //취소
 				    return;
 				}
 			}else{
-				if(signDate == ""){
+				if(inOutSignYMD == ""){
 					alert("Ship Date 입력바랍니다. ");
 					return;
 				}else{
-					$.getShipTCDtlUpt(jisaCD,deptCD,additionalworkbook,signDate,gubun);
+					$.getShipTCDtlUpt(jisaCD,deptCD,additionalworkbook,inOutSignYMD,gubun);
 				}
 			}
 			
@@ -243,7 +243,7 @@ $(function(){
 			
 		},
 		
-		getShipTCDtlUpt:function(jisaCD,deptCD,additionalworkbook,signDate,gubun){  //지사 긴급교재 dtl 삭제		    
+		getShipTCDtlUpt:function(jisaCD,deptCD,additionalworkbook,inOutSignYMD,gubun){  //지사 긴급교재 dtl 삭제		    
 		    var data = "";
 		    var cnt = "";
 		    var aidx = "";
@@ -263,7 +263,7 @@ $(function(){
 			data = $("#allset").html();
 
 			var searchUrl = "/ja/inventory/requestAWShipToCerritosUpt";						
-			var paramData = "jisaCD="+jisaCD+"&deptCD="+deptCD+"&additionalworkbook="+additionalworkbook+"&data="+data+"&signDate="+signDate+"&gubun="+gubun;
+			var paramData = "jisaCD="+jisaCD+"&deptCD="+deptCD+"&additionalworkbook="+additionalworkbook+"&data="+data+"&inOutSignYMD="+inOutSignYMD+"&gubun="+gubun;
 	
 			$.ajax({
 				type: "POST"
@@ -363,6 +363,9 @@ $(function(){
     	document.location.href = "/ja/inventory/requestAWShipToCerritos?jisaCD="+jisaCD+"&deptCD="+deptCD+"&additionalworkbook="+additionalworkbook+" ";  
 	});
 	
+	$("#yyRestock").change(function() {
+		document.location.href = "/fa/inventory/workbookShippingHistory?yy="+$("#yyRestock").val()+" ";
+	});
 	
 	$("[id^=select_]").change(function (i, v) {	
 		var myArray = $(this).val().split(',');	   
@@ -391,8 +394,8 @@ $(function(){
         $(this).val( $(this).val().replace(/[^0-9]/gi,"") );
     });
 	
-	$("[id^=input_]").keyup(function(event){		
-        $(this).val( $(this).val().replace(/[^0-9]/gi,"") );
+	$("[id^=input_]").keyup(function(event){
+			$(this).val( $(this).val().replace(/[^0-9]/gi,"") );
     });
 	
 	

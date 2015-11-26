@@ -127,7 +127,7 @@ public class RequestAdditionalWorkbook {
 	@RequestMapping(value={"/ja/inventory/requestAWShipToCerritosUpt"}, method={RequestMethod.POST,RequestMethod.HEAD})
 	@ResponseBody
 	public Map<String, Object> requestAWShipToCerritosUpt(Model model, HttpServletRequest request, String jisaCD, String deptCD, String additionalworkbook, String data
-			, String gubun, String signDate) {
+			, String gubun, String inOutSignYMD) {
 		log.debug("Getting inventory requestAWShipToCerritosUpt");
 		
 		//header에 포함할 스크립트 
@@ -140,7 +140,7 @@ public class RequestAdditionalWorkbook {
 		String workId = CommonUtils.getWorkId(request);
 		
 		//가맹점 긴급교재 신청한 승인 or 반려 
-		String shipToCerritosUpt = requestAdditionalWorkbookService.addShipToCerritosUpt(jisaCD, deptCD, additionalworkbook, data, signDate, gubun, workId);
+		String shipToCerritosUpt = requestAdditionalWorkbookService.addShipToCerritosUpt(jisaCD, deptCD, additionalworkbook, data, inOutSignYMD, gubun, workId);
 		
 		if(("D").equals(gubun)){
 			message = messageSourceAccesor.getMessage("Inventory.workbookstatus.requestAWShipToCerritos.delete");
