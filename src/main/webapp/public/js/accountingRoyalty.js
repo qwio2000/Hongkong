@@ -40,7 +40,6 @@ $(function(){
 
 					if(jsonData.totalCnt == 0){
 						$('.report_detail').hide();
-						e.preventDefault();
 					}
 				},
 				error:function (xhr, ajaxOptions, thrownError){	

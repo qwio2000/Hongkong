@@ -303,7 +303,7 @@
 				
 	</div>
 	<!-- Amnouncement -->
-	<div class="amnounce">
+	<div class="amnounce all">
 		<h2 class="conTit">Amnouncement</h2>
 		<div class="list01">
 			<ul class="clear">
