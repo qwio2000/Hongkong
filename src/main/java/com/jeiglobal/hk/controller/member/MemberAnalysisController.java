@@ -201,9 +201,40 @@ public class MemberAnalysisController {
 	
 	//지사 => Member => Drop Analysis
 	@RequestMapping(value={"/ja/members/analysis/drop"},method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String getDropAnalysisPage(Model model, @ModelAttribute LoginInfo loginInfo){
+	public String getDropAnalysisPage(Model model, @ModelAttribute LoginInfo loginInfo, String searchYY){
 		log.debug("Getting Drop Analysis Page");
+		List<String> headerCss = new ArrayList<String>();
+		headerCss.add("jui/jui.min");
+		headerCss.add("jui/jennifer.theme.min");
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("jui/jui.min");
+		headerScript.add("memberAnalysis");
+		model.addAttribute("headerCss", headerCss);
+		model.addAttribute("headerScript", headerScript);
+		if(searchYY == null){
+			searchYY = CommonUtils.getCurrentYMD().substring(0, 4);
+		}
+		model.addAttribute("dropReasons", commonService.getCodeDtls("0201", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("drops", memberAnalysisService.getDropAnalysis(loginInfo.getJisaCD(), searchYY));
+		model.addAttribute("years", memberAnalysisService.getLastFiveYears());
+		model.addAttribute("searchYY", searchYY);
 		return "member/analysis/dropAnalysis";
+	}
+	//지사 => Member => Drop Analysis
+	@RequestMapping(value={"/ja/members/analysis/drop/{deptCD}"},method = {RequestMethod.GET, RequestMethod.HEAD})
+	public String getDropAnalysisPopPage(Model model, @ModelAttribute LoginInfo loginInfo, String searchYY, @PathVariable String deptCD, String deptName){
+		log.debug("Getting Drop Analysis Page");
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("memberAnalysis");
+		model.addAttribute("headerScript", headerScript);
+		if(searchYY == null){
+			searchYY = CommonUtils.getCurrentYMD().substring(0, 4);
+		}
+		model.addAttribute("dropReasons", commonService.getCodeDtls("0201", loginInfo.getJisaCD(), 1, "Y"));
+		model.addAttribute("drops", memberAnalysisService.getDropAnalysisPop(loginInfo.getJisaCD(), searchYY, deptCD));
+		model.addAttribute("searchYY", searchYY);
+		model.addAttribute("deptName", deptName);
+		return "member/analysis/dropAnalysisPop";
 	}
 	
 	@RequestMapping(value={"/ja/members/analysis/subjectReport"},method = {RequestMethod.GET, RequestMethod.HEAD})

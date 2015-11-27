@@ -141,3 +141,6 @@ $(function(){
 		$.getSubjReport();
 	}
 });
+function dropDetail(searchYY, deptCD, deptName){
+	$.openPop('/ja/members/analysis/drop/'+deptCD+'?searchYY='+searchYY+'&deptName='+deptName, 'memberReportPop', 'width=1200,height=800,scrollbars=yes,resizable=no');
+}

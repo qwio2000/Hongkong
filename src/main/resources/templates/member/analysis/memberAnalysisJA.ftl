@@ -50,12 +50,12 @@
 				<#list memberByMonths as member>
 					<tr class="line2">
 						<th class="no_line" style="padding-left: 0px; text-align: center;">${member.displayYYMM }</th>
-						<td>${member.memBegin }</td>
-						<td>${member.memNew }</td>
-						<td>${member.memDrop }</td>
-						<td><strong>${member.memEnd }</strong></td>
-						<td>${member.memNewRate?string("##0.00")}</td>
-						<td>${member.memDropRate?string("##0.00") }</td>
+						<td>${member.subjBegin }</td>
+						<td>${member.subjNew }</td>
+						<td>${member.subjDrop }</td>
+						<td><strong>${member.subjEnd }</strong></td>
+						<td>${member.subjNewRate?string("##0.00")}</td>
+						<td>${member.subjDropRate?string("##0.00") }</td>
 					</tr>
 				</#list>
 				<#else>

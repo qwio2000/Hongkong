@@ -1,26 +1,75 @@
 <#include "/include/header.ftl">
+<#macro zeroNonDisplay arg>
+	<#if arg != 0>
+		${arg }
+	</#if>
+</#macro>
 <!-- Main Content -->
-<!-- 적용시에는 아래 라이브러리를 header 에 넣을것~ 지금은 테스트~ -->
-<link rel="stylesheet" type="text/css" href="${jsPath }/Nwagon/Nwagon.css" />
-<script type="text/javascript" src="${jsPath }/Nwagon/Nwagon.js"></script>
 <div class="content">
-	<h2 class="conTit">Drop Analysis (Year 2014)</h2>
+	<h2 class="conTit">Drop Analysis (Year ${searchYY?default(.now?string("yyyy")) })</h2>
+	<form id="dropAnalysisForm" action="/ja/members/analysis/drop" method="get">
 	<div class="list02 pt20 clearfix">
 		<div class="float_l">
-			<select name="" id="" style="width:162px">
-				<option value="">2014</option>
+			<select name="searchYY" id="searchYY" style="width:162px">
+				<#list years as year>
+					<option value="${year }" <#if year == searchYY?default(.now?string("yyyy"))>selected</#if>>${year }</option>
+				</#list>
 			</select>
-			<span class="btnArea mt0"><a href="#"><span style="width:70px">Go</span></a></span>
+			<span class="btnArea mt0"><a href="javascript:$('#dropAnalysisForm').submit();"><span style="width:70px">Go</span></a></span>
 		</div>
 	</div>
-	<div class="graphArea pt10">
-		<img src="/public/img/temp/graph01.jpg" alt="">
-	</div>
+	</form>
+	<#if drops?reverse[0].totalDrop gt 0 >
+	<div id="chart-content" class="graphArea pt10" style="height: 400px;"></div>
+	<script>
+	
+	var chart = jui.include("chart.builder");
+
+	chart("#chart-content", {
+	    axis : [{
+	        x : {
+	            type : "block",
+	            domain : [ 
+	                      	<#list dropReasons as reason>
+			      	        	<#if reason_index != 0>,</#if>
+			      	            "${reason.dtlCDNM}"
+		      	       		</#list>
+	                      ],
+	            textRotate : function(chart, grid){ return -8;},
+	            line : true,
+	            orient : "Right"
+	        },
+	        y : {
+	            type : "range",
+	            domain : [ 0, 100],
+	            step : 5
+	        },
+	        data : [
+	            { value : ${drops?reverse[0].dropCnt01} },
+	            { value : ${drops?reverse[0].dropCnt02} },
+	            { value : ${drops?reverse[0].dropCnt03} },
+	            { value : ${drops?reverse[0].dropCnt04} },
+	            { value : ${drops?reverse[0].dropCnt05} },
+	            { value : ${drops?reverse[0].dropCnt06} },
+	            { value : ${drops?reverse[0].dropCnt07} },
+	            { value : ${drops?reverse[0].dropCnt08} },
+	            { value : ${drops?reverse[0].dropCnt09} },
+	            { value : ${drops?reverse[0].dropCnt10} },
+	        ]
+	    }],
+	    brush : [{
+	        type : "column",
+	        outerPadding : 20,
+	        target : "value"
+	    }]
+	});
+	</script>
+	</#if>
 	<div class="tbl01">
 		<table>
 			<colgroup>
-				<col style="width:50px" />
 				<col />
+				<col style="width:75px" />
 				<col style="width:75px" />
 				<col style="width:75px" />
 				<col style="width:75px" />
@@ -34,62 +83,47 @@
 			</colgroup>
 			<thead>
 				<tr class="line">
-					<th class="no_line">State</th>
-					<th>Center Name</th>
-					<th>Too much <br />activity</th>
-					<th>Want to <br />try other programs</th>
-					<th>Lack of Progress</th>
-					<th>Quality of the instructors</th>
-					<th>Quality of instructors</th>
-					<th>Financial difficulty</th>
-					<th>Due to <br />Vacation</th>
-					<th>Due to <br />moving</th>
-					<th>Other</th>
+					<th class="no_line">Center Name</th>
+					<#list dropReasons as reason>
+						<th>${reason.dtlCDNM }</th>
+					</#list>
 					<th>Total</th>
 				</tr>
 			</thead>
 			<tbody>
+				<#list drops as drop>
+				<#if drop?has_next>
 				<tr class="line2">
-					<td class="no_line">Tx</td>
-					<td class="left pl10"><a href="">Austin</a></td>
-					<td>22</td>
-					<td>4</td>
-					<td>1</td>
-					<td></td>
-					<td></td>
-					<td>3</td>
-					<td>8</td>
-					<td>3</td>
-					<td>4</td>
-					<td>45</td>
+					<td class="left pl10 no_line"><a href="javascript:dropDetail('${searchYY?default(.now?string('yyyy')) }','${drop.deptCD }','${drop.deptName }');">${drop.deptName }</a></td>
+					<td><@zeroNonDisplay drop.dropCnt01 /></td>
+					<td><@zeroNonDisplay drop.dropCnt02 /></td>
+					<td><@zeroNonDisplay drop.dropCnt03 /></td>
+					<td><@zeroNonDisplay drop.dropCnt04 /></td>
+					<td><@zeroNonDisplay drop.dropCnt05 /></td>
+					<td><@zeroNonDisplay drop.dropCnt06 /></td>
+					<td><@zeroNonDisplay drop.dropCnt07 /></td>
+					<td><@zeroNonDisplay drop.dropCnt08 /></td>
+					<td><@zeroNonDisplay drop.dropCnt09 /></td>
+					<td><@zeroNonDisplay drop.dropCnt10 /></td>
+					<td><@zeroNonDisplay drop.totalDrop /></td>
 				</tr>
-				<tr class="line2">
-					<td class="no_line">Tx</td>
-					<td class="left pl10"><a href="">Katy-Richmond</a></td>
-					<td>22</td>
-					<td>4</td>
-					<td>1</td>
-					<td></td>
-					<td></td>
-					<td>3</td>
-					<td>8</td>
-					<td>3</td>
-					<td>4</td>
-					<td>45</td>
-				</tr>
-				<tr class="total line2">
-					<td colspan="2" class="no_line">TOTAL</td>
-					<td>2,243[2]</td>
-					<td>124[1]</td>
-					<td>1</td>
-					<td></td>
-					<td></td>
-					<td>3</td>
-					<td>8</td>
-					<td>3</td>
-					<td>4</td>
-					<td>4,515</td>
-				</tr>
+				<#else>
+					<tr class="total line2">
+						<td class="no_line">${drop.deptName }</td>
+						<td>${drop.dropCnt01 }</td>
+						<td>${drop.dropCnt02 }</td>
+						<td>${drop.dropCnt03 }</td>
+						<td>${drop.dropCnt04 }</td>
+						<td>${drop.dropCnt05 }</td>
+						<td>${drop.dropCnt06 }</td>
+						<td>${drop.dropCnt07 }</td>
+						<td>${drop.dropCnt08 }</td>
+						<td>${drop.dropCnt09 }</td>
+						<td>${drop.dropCnt10 }</td>
+						<td>${drop.totalDrop }</td>
+					</tr>
+				</#if>
+				</#list>
 			</tbody>
 
 		</table>

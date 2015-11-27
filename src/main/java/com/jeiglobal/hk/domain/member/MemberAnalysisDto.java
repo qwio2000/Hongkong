@@ -32,13 +32,13 @@ public class MemberAnalysisDto {
 		private String mgYY;
 		private String mgMM;
 		private String displayYYMM;
-		private int memBegin;
-		private int memNew;
-		private int memDrop;
-		private int memNet;
-		private int memEnd;
-		private double memNewRate;
-		private double memDropRate;
+		private int subjBegin;
+		private int subjNew;
+		private int subjDrop;
+		private int subjNet;
+		private int subjEnd;
+		private double subjNewRate;
+		private double subjDropRate;
 	}
 	
 	@Data
@@ -129,6 +129,75 @@ public class MemberAnalysisDto {
 		private String[] splitAry;
 	}
 	
+	@Data
+	@NoArgsConstructor
+	public static class DropAnalysis{
+		private String deptCD;
+		private String deptName;
+		private Integer dropCnt01;
+		private Integer dropCnt02;
+		private Integer dropCnt03;
+		private Integer dropCnt04;
+		private Integer dropCnt05;
+		private Integer dropCnt06;
+		private Integer dropCnt07;
+		private Integer dropCnt08;
+		private Integer dropCnt09;
+		private Integer dropCnt10;
+		private Integer totalDrop;
+		
+		public DropAnalysis(String deptCD, String deptName, Integer dropCnt01, Integer dropCnt02, Integer dropCnt03, Integer dropCnt04, Integer dropCnt05, Integer dropCnt06, Integer dropCnt07, Integer dropCnt08, Integer dropCnt09, Integer dropCnt10){
+			this.deptCD = deptCD;
+			this.deptName = deptName;
+			this.dropCnt01 = dropCnt01;
+			this.dropCnt02 = dropCnt02;
+			this.dropCnt03 = dropCnt03;
+			this.dropCnt04 = dropCnt04;
+			this.dropCnt05 = dropCnt05;
+			this.dropCnt06 = dropCnt06;
+			this.dropCnt07 = dropCnt07;
+			this.dropCnt08 = dropCnt08;
+			this.dropCnt09 = dropCnt09;
+			this.dropCnt10 = dropCnt10;
+			this.totalDrop = dropCnt01 + dropCnt02 + dropCnt03 + dropCnt04 + dropCnt05 + dropCnt06 + dropCnt07 + dropCnt08 + dropCnt09 + dropCnt10;
+		}
+	}                  
+	                   
+	@Data
+	@NoArgsConstructor
+	public static class DropAnalysisPop{
+		private String jisaCD;
+		private String month;
+		private String monthName;
+		private Integer dropCnt01;
+		private Integer dropCnt02;
+		private Integer dropCnt03;
+		private Integer dropCnt04;
+		private Integer dropCnt05;
+		private Integer dropCnt06;
+		private Integer dropCnt07;
+		private Integer dropCnt08;
+		private Integer dropCnt09;
+		private Integer dropCnt10;
+		private Integer totalDrop;
+		
+		public DropAnalysisPop(String jisaCD, String month, String monthName, Integer dropCnt01, Integer dropCnt02, Integer dropCnt03, Integer dropCnt04, Integer dropCnt05, Integer dropCnt06, Integer dropCnt07, Integer dropCnt08, Integer dropCnt09, Integer dropCnt10){
+			this.jisaCD = jisaCD;
+			this.month = month;
+			this.monthName = monthName;
+			this.dropCnt01 = dropCnt01;
+			this.dropCnt02 = dropCnt02;
+			this.dropCnt03 = dropCnt03;
+			this.dropCnt04 = dropCnt04;
+			this.dropCnt05 = dropCnt05;
+			this.dropCnt06 = dropCnt06;
+			this.dropCnt07 = dropCnt07;
+			this.dropCnt08 = dropCnt08;
+			this.dropCnt09 = dropCnt09;
+			this.dropCnt10 = dropCnt10;
+			this.totalDrop = dropCnt01 + dropCnt02 + dropCnt03 + dropCnt04 + dropCnt05 + dropCnt06 + dropCnt07 + dropCnt08 + dropCnt09 + dropCnt10;
+		}
+	}                  
 	
-}
-	
+}                      
+	                   

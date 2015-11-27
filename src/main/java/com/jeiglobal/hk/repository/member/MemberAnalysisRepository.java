@@ -3,6 +3,8 @@ package com.jeiglobal.hk.repository.member;
 import java.util.*;
 
 import com.jeiglobal.hk.domain.auth.*;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.DropAnalysis;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.DropAnalysisPop;
 import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberAnalysisByGrade;
 import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberByGrade;
 import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberByMonthFA;
@@ -48,5 +50,9 @@ public interface MemberAnalysisRepository {
 	public List<SubjectReportBottom> findSubjReportBottom(Map<String, Object> param);
 
 	public SubjectReportBottomSub findSubjReportBottomSub(Map<String, Object> param);
+
+	public List<DropAnalysis> findDropAnalysis(Map<String, Object> param);
+
+	public List<DropAnalysisPop> findDropAnalysisPop(Map<String, Object> param);
 
 }

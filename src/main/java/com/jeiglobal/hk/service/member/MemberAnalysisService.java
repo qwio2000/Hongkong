@@ -6,6 +6,8 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.DropAnalysis;
+import com.jeiglobal.hk.domain.member.MemberAnalysisDto.DropAnalysisPop;
 import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberAnalysisByGrade;
 import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberByGrade;
 import com.jeiglobal.hk.domain.member.MemberAnalysisDto.MemberByMonthFA;
@@ -256,6 +258,63 @@ public class MemberAnalysisService {
 			}
 		}
 		return subjReportBottom;
+	}
+
+	/**
+	 * @param jisaCD
+	 * @param searchYY
+	 * @return List<DropAnalysis>
+	 */
+	public List<DropAnalysis> getDropAnalysis(String jisaCD, String searchYY) {
+		param.clear();
+		param.put("jisaCD", jisaCD);
+		param.put("searchYY", searchYY);
+		List<DropAnalysis> drops = memberAnalysisRepository.findDropAnalysis(param);
+		int total01 = 0, total02 = 0, total03 = 0, total04 = 0, total05 = 0, total06 = 0, total07 = 0, total08 = 0, total09 = 0, total10 = 0;
+		for (DropAnalysis dropAnalysis : drops) {
+			total01 += dropAnalysis.getDropCnt01();
+			total02 += dropAnalysis.getDropCnt02();
+			total03 += dropAnalysis.getDropCnt03();
+			total04 += dropAnalysis.getDropCnt04();
+			total05 += dropAnalysis.getDropCnt05();
+			total06 += dropAnalysis.getDropCnt06();
+			total07 += dropAnalysis.getDropCnt07();
+			total08 += dropAnalysis.getDropCnt08();
+			total09 += dropAnalysis.getDropCnt09();
+			total10 += dropAnalysis.getDropCnt10();
+		}
+		drops.add(new DropAnalysis("Total", "Total", total01, total02, total03, total04, total05, total06, total07, total08, total09, total10));
+		return drops;
+	}
+
+	/**
+	 * @param jisaCD
+	 * @param searchYY
+	 * @param deptCD
+	 * @return Object
+	 */
+	public List<DropAnalysisPop> getDropAnalysisPop(String jisaCD, String searchYY,
+			String deptCD) {
+		param.clear();
+		param.put("jisaCD", jisaCD);
+		param.put("searchYY", searchYY);
+		param.put("deptCD", deptCD);
+		List<DropAnalysisPop> drops = memberAnalysisRepository.findDropAnalysisPop(param);
+		int total01 = 0, total02 = 0, total03 = 0, total04 = 0, total05 = 0, total06 = 0, total07 = 0, total08 = 0, total09 = 0, total10 = 0;
+		for (DropAnalysisPop dropAnalysis : drops) {
+			total01 += dropAnalysis.getDropCnt01();
+			total02 += dropAnalysis.getDropCnt02();
+			total03 += dropAnalysis.getDropCnt03();
+			total04 += dropAnalysis.getDropCnt04();
+			total05 += dropAnalysis.getDropCnt05();
+			total06 += dropAnalysis.getDropCnt06();
+			total07 += dropAnalysis.getDropCnt07();
+			total08 += dropAnalysis.getDropCnt08();
+			total09 += dropAnalysis.getDropCnt09();
+			total10 += dropAnalysis.getDropCnt10();
+		}
+		drops.add(new DropAnalysisPop("Total", "Total", "Total", total01, total02, total03, total04, total05, total06, total07, total08, total09, total10));
+		return drops;
 	}
 	
 }

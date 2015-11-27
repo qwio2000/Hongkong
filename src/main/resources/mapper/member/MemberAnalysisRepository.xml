@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jeiglobal.hk.repository.member.MemberAnalysisRepository">
+<resultMap type="com.jeiglobal.hk.domain.member.MemberAnalysisDto$DropAnalysis" id="dropAnalysisMap">
+	<constructor>
+		<idArg column="deptCD" javaType="java.lang.String"/>
+		<arg column="deptName" javaType="java.lang.String"/>
+		<arg column="dropCnt01" javaType="int"/>
+		<arg column="dropCnt02" javaType="int"/>
+		<arg column="dropCnt03" javaType="int"/>
+		<arg column="dropCnt04" javaType="int"/>
+		<arg column="dropCnt05" javaType="int"/>
+		<arg column="dropCnt06" javaType="int"/>
+		<arg column="dropCnt07" javaType="int"/>
+		<arg column="dropCnt08" javaType="int"/>
+		<arg column="dropCnt09" javaType="int"/>
+		<arg column="dropCnt10" javaType="int"/>
+	</constructor>
+</resultMap>
+<resultMap type="com.jeiglobal.hk.domain.member.MemberAnalysisDto$DropAnalysisPop" id="dropAnalysisPopMap">
+	<constructor>
+		<idArg column="month" javaType="java.lang.String"/>
+		<arg column="jisaCD" javaType="java.lang.String"/>
+		<arg column="monthName" javaType="java.lang.String"/>
+		<arg column="dropCnt01" javaType="int"/>
+		<arg column="dropCnt02" javaType="int"/>
+		<arg column="dropCnt03" javaType="int"/>
+		<arg column="dropCnt04" javaType="int"/>
+		<arg column="dropCnt05" javaType="int"/>
+		<arg column="dropCnt06" javaType="int"/>
+		<arg column="dropCnt07" javaType="int"/>
+		<arg column="dropCnt08" javaType="int"/>
+		<arg column="dropCnt09" javaType="int"/>
+		<arg column="dropCnt10" javaType="int"/>
+	</constructor>
+</resultMap>
 	<select id="findMembersByGrade" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$MemberAnalysisByGrade">
 		SELECT a.mgYY, a.mgMM, a.subj, a.gradeCD, globalbiz.FuncCodeDtlNM(a.jisaCD, '0003', a.gradeCD, '', 'Y') AS gradeCDNM, a.membersCnt, a.membersRate
 		FROM globalmagam.StatMembersBySchGrade AS a
@@ -22,9 +55,9 @@
 		ORDER BY sort, wbGrade
 	</select>
 	<select id="findMemberByMonths" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$MemberByMonthFA">
-		SELECT mgYY, mgMM, '', memBegin, memNew, memDrop, memNet, memEnd, 
-			FORMAT(IFNULL(memNew / memBegin * 100, 0.00), 2) AS memNewRate, 
-			FORMAT(IFNULL(memDrop / memBegin * 100, 0.00), 2) AS memDropRate
+		SELECT mgYY, mgMM, '', subjBegin, subjNew, subjDrop, subjNet, subjEnd, 
+			FORMAT(IFNULL(subjNew / subjBegin * 100, 0.00), 2) AS subjNewRate, 
+			FORMAT(IFNULL(subjDrop / subjBegin * 100, 0.00), 2) AS subjDropRate
 		FROM globalmagam.SalesCenters 
 		WHERE jisaCD = #{jisaCD} AND deptCD = #{deptCD} AND subj = 'TT' AND mgYYMM BETWEEN #{beforeYYMM} AND #{searchYYMM}
 		ORDER BY mgYYMM
@@ -56,9 +89,9 @@
 		ORDER BY stateName, deptName
 	</select>
 	<select id="findMembersByMonthsJA" parameterType="hashMap" resultType="com.jeiglobal.hk.domain.member.MemberAnalysisDto$MemberByMonthFA">
-		SELECT mgYY, mgMM, '', memBegin, memNew, memDrop, memNet, memEnd, 
-			FORMAT(IFNULL(memNew / memBegin * 100, 0.00), 2) AS memNewRate, 
-			FORMAT(IFNULL(memDrop / memBegin * 100, 0.00), 2) AS memDropRate
+		SELECT mgYY, mgMM, '', subjBegin, subjNew, subjDrop, subjNet, subjEnd, 
+			FORMAT(IFNULL(subjNew / subjBegin * 100, 0.00), 2) AS subjNewRate, 
+			FORMAT(IFNULL(subjDrop / subjBegin * 100, 0.00), 2) AS subjDropRate
 		FROM globalmagam.SalesJisa
 		WHERE jisaCD = #{jisaCD} AND deptCD = '00000' AND subj = 'TT' AND mgYYMM BETWEEN #{beforeYYMM} AND #{searchYYMM}
 		ORDER BY mgYYMM
@@ -132,5 +165,140 @@
 		WHERE a.jisaCD = #{jisaCD} AND a.deptCD = #{deptCD} AND mgYYMM = #{subYYMM}
 		GROUP BY a.deptCD
 		ORDER BY a.deptCD
+	</select>
+	<select id="findDropAnalysis" parameterType="hashMap" resultMap="dropAnalysisMap">
+		SELECT a.deptCD, a.deptName, IFNULL(t1.dropCnt01,0) AS dropCnt01, IFNULL(t2.dropCnt02,0) AS dropCnt02, IFNULL(t3.dropCnt03,0) AS dropCnt03, IFNULL(t4.dropCnt04,0) AS dropCnt04
+			, IFNULL(t5.dropCnt05,0) AS dropCnt05, IFNULL(t6.dropCnt06,0) AS dropCnt06, IFNULL(t7.dropCnt07,0) AS dropCnt07
+			, IFNULL(t8.dropCnt08,0) AS dropCnt08, IFNULL(t9.dropCnt09,0) AS dropCnt09, IFNULL(t10.dropCnt10,0) AS dropCnt10
+		FROM globalbiz.DeptMst AS a
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, SUM(dropCnt) AS dropCnt01
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '01'
+				GROUP BY jisaCD, deptCD 
+			) AS t1 ON a.jisaCD = t1.jisaCD AND a.deptCD = t1.deptCD
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, SUM(dropCnt) AS dropCnt02
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '02'
+				GROUP BY jisaCD, deptCD 
+			) AS t2 ON a.jisaCD = t2.jisaCD AND a.deptCD = t2.deptCD
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, SUM(dropCnt) AS dropCnt03
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '03'
+				GROUP BY jisaCD, deptCD 
+			) AS t3 ON a.jisaCD = t3.jisaCD AND a.deptCD = t3.deptCD
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, SUM(dropCnt) AS dropCnt04
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '04'
+				GROUP BY jisaCD, deptCD 
+			) AS t4 ON a.jisaCD = t4.jisaCD AND a.deptCD = t4.deptCD
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, SUM(dropCnt) AS dropCnt05
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '05'
+				GROUP BY jisaCD, deptCD 
+			) AS t5 ON a.jisaCD = t5.jisaCD AND a.deptCD = t5.deptCD
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, SUM(dropCnt) AS dropCnt06
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '06'
+				GROUP BY jisaCD, deptCD 
+			) AS t6 ON a.jisaCD = t6.jisaCD AND a.deptCD = t6.deptCD
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, SUM(dropCnt) AS dropCnt07
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '07'
+				GROUP BY jisaCD, deptCD 
+			) AS t7 ON a.jisaCD = t7.jisaCD AND a.deptCD = t7.deptCD
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, SUM(dropCnt) AS dropCnt08
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '08'
+				GROUP BY jisaCD, deptCD 
+			) AS t8 ON a.jisaCD = t8.jisaCD AND a.deptCD = t8.deptCD
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, SUM(dropCnt) AS dropCnt09
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '09'
+				GROUP BY jisaCD, deptCD 
+			) AS t9 ON a.jisaCD = t9.jisaCD AND a.deptCD = t9.deptCD
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, SUM(dropCnt) AS dropCnt10
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '10'
+				GROUP BY jisaCD, deptCD 
+			) AS t10 ON a.jisaCD = t10.jisaCD AND a.deptCD = t10.deptCD
+		WHERE a.jisaCD = #{jisaCD} AND a.deptCD != '00000' AND statusCD = '1'
+		ORDER BY deptCD
+	</select>
+	<select id="findDropAnalysisPop" parameterType="hashMap" resultMap="dropAnalysisPopMap">
+		SELECT a.jisaCD, a.dtlCD AS MONTH, a.dtlCDNMK AS MONTHNAME, IFNULL(t1.dropCnt01,0) AS dropCnt01, IFNULL(t2.dropCnt02,0) AS dropCnt02, IFNULL(t3.dropCnt03,0) AS dropCnt03, IFNULL(t4.dropCnt04,0) AS dropCnt04
+			, IFNULL(t5.dropCnt05,0) AS dropCnt05, IFNULL(t6.dropCnt06,0) AS dropCnt06, IFNULL(t7.dropCnt07,0) AS dropCnt07
+			, IFNULL(t8.dropCnt08,0) AS dropCnt08, IFNULL(t9.dropCnt09,0) AS dropCnt09, IFNULL(t10.dropCnt10,0) AS dropCnt10
+		FROM globalbiz.CodeDtl AS a 
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, mgMM, SUM(dropCnt) AS dropCnt01
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '01' AND deptCD = #{deptCD}
+				GROUP BY jisaCD, deptCD 
+			) AS t1 ON a.jisaCD = t1.jisaCD AND a.dtlCD = t1.mgMM
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, mgMM, SUM(dropCnt) AS dropCnt02
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '02' AND deptCD = #{deptCD}
+				GROUP BY jisaCD, deptCD 
+			) AS t2 ON a.jisaCD = t2.jisaCD AND a.dtlCD = t2.mgMM
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, mgMM, SUM(dropCnt) AS dropCnt03
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '03' AND deptCD = #{deptCD}
+				GROUP BY jisaCD, deptCD 
+			) AS t3 ON a.jisaCD = t3.jisaCD AND a.dtlCD = t3.mgMM
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, mgMM, SUM(dropCnt) AS dropCnt04
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '04' AND deptCD = #{deptCD}
+				GROUP BY jisaCD, deptCD 
+			) AS t4 ON a.jisaCD = t4.jisaCD AND a.dtlCD = t4.mgMM
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, mgMM, SUM(dropCnt) AS dropCnt05
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '05' AND deptCD = #{deptCD}
+				GROUP BY jisaCD, deptCD 
+			) AS t5 ON a.jisaCD = t5.jisaCD AND a.dtlCD = t5.mgMM
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, mgMM, SUM(dropCnt) AS dropCnt06
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '06' AND deptCD = #{deptCD}
+				GROUP BY jisaCD, deptCD 
+			) AS t6 ON a.jisaCD = t6.jisaCD AND a.dtlCD = t6.mgMM
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, mgMM, SUM(dropCnt) AS dropCnt07
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '07' AND deptCD = #{deptCD}
+				GROUP BY jisaCD, deptCD 
+			) AS t7 ON a.jisaCD = t7.jisaCD AND a.dtlCD = t7.mgMM
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, mgMM, SUM(dropCnt) AS dropCnt08
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '08' AND deptCD = #{deptCD}
+				GROUP BY jisaCD, deptCD 
+			) AS t8 ON a.jisaCD = t8.jisaCD AND a.dtlCD = t8.mgMM
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, mgMM, SUM(dropCnt) AS dropCnt09
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '09' AND deptCD = #{deptCD}
+				GROUP BY jisaCD, deptCD 
+			) AS t9 ON a.jisaCD = t9.jisaCD AND a.dtlCD = t9.mgMM
+			LEFT OUTER JOIN (
+				SELECT jisaCD, deptCD, mgMM, SUM(dropCnt) AS dropCnt10
+				FROM globalmagam.StatDropByReason
+				WHERE mgYY = #{searchYY} AND dropReason = '10' AND deptCD = #{deptCD}
+				GROUP BY jisaCD, deptCD 
+			) AS t10 ON a.jisaCD = t10.jisaCD AND a.dtlCD = t10.mgMM
+		WHERE a.mstCD = '0207' AND a.jisaCD = #{jisaCD}
 	</select>
 </mapper>
