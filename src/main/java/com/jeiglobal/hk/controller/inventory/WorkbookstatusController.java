@@ -306,7 +306,78 @@ public class WorkbookstatusController {
 		return "inventory/workbookstatus/faList";
 	}
 	
+	// HQ Inventory
+	// 상품별 세부수량 조회
+	@RequestMapping(value={"/ja/inventory/workbookstatusjaSubj"}, method={RequestMethod.GET,RequestMethod.HEAD})
+	public String workbookstatusjaSubj(Model model, @ModelAttribute LoginInfo loginInfo, @RequestParam(defaultValue="") String subj
+			, @RequestParam(defaultValue="") String gubun, @RequestParam(defaultValue="") String pgubun) {
+		log.debug("Getting inventory workbookstatusCalgary");
+		
+		//header에 포함할 스크립트 
+		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("inventory");		
+		model.addAttribute("headerScript", headerScript);	
+		
+		String jisaCD = loginInfo.getJisaCD();
+		String deptCD = loginInfo.getDeptCD();		
+		
+		String userType = loginInfo.getUserType();
+		
+		String subjdeptCD = deptCD;
+		// 가맹점 과목 리스트
+		List<WorkbookstatusDto.WorkbookStatusMstsubj> workbookStatusMstsubj = workbookstatusService.getWorkbookStatusMstsubj(jisaCD, subjdeptCD);
+		
+		if(("").equals(subj)){
+			for(WorkbookstatusDto.WorkbookStatusMstsubj subjlist : workbookStatusMstsubj){
+					subj = subjlist.getSubj();
+					break;
+			}
+		}
+		
+		//과목 등급 리스트
+		List<String> workbookStatusDungList = workbookstatusService.getWorkbookStatusDungList(jisaCD, subj);
+		
+		//가맹점 세트별 수량 리스트
+		List<WorkbookstatusDto.WorkbookStatusSetList> workbookStatusSetList = workbookstatusService.getWorkbookStatusSetList(jisaCD, deptCD, subj);
+
+		String shipevery = "";
+		for (WorkbookstatusDto.WorkbookStatusSetList workbookStatusSetList2 : workbookStatusSetList) {
+			shipevery =  workbookStatusSetList2.getShipevery();			
+		}
 	
+		String subjnm = "";
+		for(WorkbookstatusDto.WorkbookStatusMstsubj subjlist : workbookStatusMstsubj){
+			//System.out.println(subjlist.getSubj());
+			if((subj).equals(subjlist.getSubj())){
+				subjnm = subjlist.getSubjnm();
+			}			
+		}
+		
+		/*1/28/2015 at 12:00AM*/
+		Date today = new Date(); 
+		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy 'at' HH:mm a");
+		
+		
+		model.addAttribute("userType", userType);
+		model.addAttribute("jisaCD", jisaCD);
+		model.addAttribute("deptCD", deptCD);
+		model.addAttribute("subj", subj);
+		model.addAttribute("gubun", gubun);
+		model.addAttribute("subjnm", subjnm);
+		model.addAttribute("date", format.format(today));
+		model.addAttribute("subjlist", workbookStatusMstsubj);
+				
+		model.addAttribute("shipevery", shipevery);
+		model.addAttribute("wbdung", workbookStatusDungList);
+		model.addAttribute("setlist", workbookStatusSetList);
+
+		model.addAttribute("pgubun", pgubun);
+
+		return "inventory/workbookstatus/subj";
+	
+		
+	}
 
 	
 	

@@ -18,13 +18,11 @@
 					SELECT 
 						CONVERT(a.inOutSignYMD, CHAR(7)) AS inOutSignYMD
 						, SUBSTRING(CONVERT(a.inOutSignYMD, CHAR(7)),6,2) AS dtlCD
-						, SUM(b.wbInOutCal) AS wbInOutCal -- 전산 수량
-						, SUM(b.wbInOutShip) AS wbInOutShip -- 입력 수량	
+						, SUM(a.gradeTOTInOutCal) AS wbInOutCal -- 전산 수량
+						, SUM(a.gradeTOTInOutShip) AS wbInOutShip -- 입력 수량	
 					FROM globalbiz.IvnWorkBookInOutMst AS a
-					INNER JOIN globalbiz.IvnWorkBookInOutDtl AS b 
-					ON a.aidx=b.fidx
 					WHERE IFNULL(a.inOutSignYMD,'') <> ''
-						AND b.jisaCD=#{jisaCD} AND b.deptCD=#{deptCD}
+						AND a.jisaCD=#{jisaCD} AND a.deptCD=#{deptCD}
 						AND CONVERT(a.inOutSignYMD, CHAR(4))=#{yy}
 					GROUP BY CONVERT(a.inOutSignYMD, CHAR(7))
 				)AS b
@@ -44,6 +42,78 @@
 		ORDER BY CONVERT(inOutSignYMD, CHAR(4)) DESC
 		]]>	
 	</select>
+	
+	<!-- 가맹점 신청한 교재 및 지사에서 발송한 내역 조회  세부 리스트 팝업 -->
+	<select id="findHistoryRestockpop" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookShippingHistoryDto$HistoryRestockpop">
+		<![CDATA[ 
+		SELECT 
+			subj, globalbiz.FuncCodeDtlNM(a.jisaCD,'0002',a.subj,'E','') AS subjname
+			, inOutSignYMD, DATE_FORMAT(inOutSignYMD,'%m/%d/%Y') AS inOutSignYMDT
+			, SUM(wbInOutShip) AS wbInOutShip, SUM(rewbInOutShip) AS rewbInOutShip, SUM(wbInOutShip)+SUM(rewbInOutShip) AS totship
+		FROM(
+			SELECT 
+				jisaCD, deptCD, subj, inOutSignYMD
+				,CASE WHEN inOutReqCD <> '13' THEN gradeTOTInOutShip ELSE '0' END  AS wbInOutShip -- 입력 수량	
+				,CASE WHEN inOutReqCD = '13' THEN gradeTOTInOutShip ELSE '0' END  AS rewbInOutShip -- 긴급교재 입력
+			FROM globalbiz.IvnWorkBookInOutMst AS a
+			WHERE IFNULL(inOutSignYMD,'') <> ''
+				AND jisaCD=#{jisaCD} AND deptCD=#{deptCD}
+				AND CONVERT(inOutSignYMD, CHAR(7))= CONCAT(#{yy},'-',#{mm})
+		)AS a
+		GROUP BY subj, inOutSignYMD
+		]]>	
+	</select>
+	
+	<!-- 가맹점 긴급교재 신청 내역 -->
+	<select id="findRequestHistory" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookShippingHistoryDto$RequestHistory">
+		<![CDATA[ 
+		SELECT 
+			aidx, jisaCD, deptCD, subj, subjname
+			, inOutReqYMD, DATE_FORMAT(inOutReqYMD,'%m/%d/%Y') AS inOutReqYMDT
+			, userFstName, inOutReqNote, InOutCal, InOutShip
+			, inOutSignYMD, DATE_FORMAT(inOutSignYMD,'%m/%d/%Y') AS inOutSignYMDT
+			, (InOutCal-InOutShip) AS balance
+		FROM(
+			SELECT
+				a.aidx, a.jisaCD, a.deptCD
+				, a.subj, globalbiz.FuncCodeDtlNM(a.jisaCD,'0002',a.subj,'E','') AS subjname
+				, a.inOutReqYMD, b.userFstName
+				, a.inOutReqNote, a.gradeTOTInOutCal AS InOutCal
+				, CASE WHEN a.SignID <> '' AND a.inOutSignYMD <> '' THEN a.gradeTOTInOutShip ELSE 0 END AS InOutShip
+				, a.inOutSignYMD
+			FROM globalbiz.IvnWorkBookInOutMst  AS a
+			LEFT JOIN globalbiz.Users AS b
+			ON a.regID = b.userId
+			WHERE a.inOutReqCD = '13'
+			AND a.jisaCD=#{jisaCD} AND a.deptCD=#{deptCD}
+			AND CONVERT(a.inOutReqYMD, CHAR(4))=#{yy}
+		)AS a
+		ORDER BY inOutReqYMD
+		]]>	
+	</select>
+	
+	<!-- 가맹점 긴급교재 신청 내역 -->
+	<select id="findHistoryRequestpop" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookShippingHistoryDto$HistoryRequestpop">
+		<![CDATA[ 
+		SELECT 
+			a.inOutReqYMD, DATE_FORMAT(a.inOutReqYMD,'%m/%d/%Y') AS inOutReqYMDT
+			, b.subj, globalbiz.FuncCodeDtlNM(b.jisaCD,'0002',b.subj,'E','') AS subjname
+			, b.wbName, b.wbInOutCal
+			, CASE WHEN a.SignID <> '' AND a.inOutSignYMD <> '' THEN b.wbInOutShip ELSE 0 END AS InOutShip	
+			, c.userFstName
+			, a.inOutSignYMD, DATE_FORMAT(a.inOutSignYMD,'%m/%d/%Y') AS inOutSignYMDT
+			, a.inOutReqNote
+		FROM globalbiz.IvnWorkBookInOutMst AS a
+		INNER JOIN globalbiz.IvnWorkBookInOutDtl AS b
+		ON a.aidx = b.fidx
+		LEFT JOIN globalbiz.Users AS c
+			ON b.regID = c.userId
+		WHERE b.jisaCD=#{jisaCD} AND b.deptCD=#{deptCD} AND a.aidx=#{aidx}
+		]]>	
+	</select>
+	
+	
+	
 	
 	
 	

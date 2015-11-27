@@ -22,5 +22,14 @@ public interface WorkbookShippingHistoryRepository {
 	
 	List<String> findgetRestockHistoryyy(Map<String, Object> map);
 	
+	List<WorkbookShippingHistoryDto.HistoryRestockpop> findHistoryRestockpop(Map<String, Object> map);
+	
+	List<WorkbookShippingHistoryDto.RequestHistory> findRequestHistory(Map<String, Object> map);
+	
+	List<WorkbookShippingHistoryDto.HistoryRequestpop> findHistoryRequestpop(Map<String, Object> map);
+	
+	
+	
+	
 
 }
