@@ -22,4 +22,50 @@ public class WorkbookShippingHistoryDto {
 	
 	}
 	
+	@Data
+	public static class HistoryRestockpop{
+		private String subj;
+		private String subjname;
+		private String inoutsignymd;
+		private String inoutsignymdt;
+		private String wbinoutship;
+		private String rewbinoutship;
+		private String totship;
+	}
+	
+	@Data
+	public static class RequestHistory{
+		private String aidx;
+		private String jisacd;
+		private String deptcd; 
+		private String subj; 
+		private String subjname; 
+		private String inoutreqymd; 
+		private String inoutreqymdt; 
+		private String userfstname; 
+		private String inoutreqnote; 
+		private String inoutcal; 
+		private String inoutship; 
+		private String inoutsignymd;
+		private String inoutsignymdt;
+		private String balance;
+	}
+	
+	@Data
+	public static class HistoryRequestpop{
+		private String inoutreqymd;	
+		private String inoutreqymdt;	
+		private String subj;	
+		private String subjname;	
+		private String wbname;	
+		private String wbinoutcal;	
+		private String inoutship;	
+		private String userfstname;	
+		private String inoutsignymd;	
+		private String inoutsignymdt;	
+		private String inoutreqnote;
+	}
+	
+	
+	
 }

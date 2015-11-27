@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jeiglobal.hk.domain.inventory.WorkbookShippingHistoryDto;
+import com.jeiglobal.hk.domain.inventory.WorkbookShippingHistoryDto.HistoryRequestpop;
+import com.jeiglobal.hk.domain.inventory.WorkbookShippingHistoryDto.HistoryRestockpop;
+import com.jeiglobal.hk.domain.inventory.WorkbookShippingHistoryDto.RequestHistory;
 import com.jeiglobal.hk.repository.inventory.WorkbookShippingHistoryRepository;
 
 /**
@@ -41,5 +44,30 @@ public class WorkbookShippingHistoryService {
 		param.put("deptCD", deptCD);
 		
 		return workbookShippingHistoryRepository.findgetRestockHistoryyy(param);
+	}
+
+	public List<WorkbookShippingHistoryDto.HistoryRestockpop> getHistoryRestockpop(String jisaCD, String deptCD, String yy, String mm) {
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		param.put("yy", yy);
+		param.put("mm", mm);
+		
+		return workbookShippingHistoryRepository.findHistoryRestockpop(param);
+	}
+
+	public List<WorkbookShippingHistoryDto.RequestHistory> getRequestHistory(String jisaCD, String deptCD, String yy) {
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		param.put("yy", yy);
+		
+		return workbookShippingHistoryRepository.findRequestHistory(param);
+	}
+
+	public List<WorkbookShippingHistoryDto.HistoryRequestpop> getHistoryRequestpop(String jisaCD, String deptCD, String aidx) {
+		param.put("jisaCD", jisaCD);
+		param.put("deptCD", deptCD);
+		param.put("aidx", aidx);
+		
+		return workbookShippingHistoryRepository.findHistoryRequestpop(param);
 	}
 }

@@ -78,7 +78,7 @@
 								<td>
 									<div class="font_blue">
 										<#if restocklistIndex.wbinoutship != "0">
-										<a href="javascript:$.openPop('/fa/inventory/historyRestock?yy=${yy }&mon=${restocklistIndex.mon }','historyRestockPopup','width=924,height=700,left=300,scrollbars=yes,resizable=yes')">
+										<a href="javascript:$.openPop('/fa/inventory/historyRestockpop?yy=${yy }&mm=${restocklistIndex.mon }','historyRestockPopup','width=924,height=700,left=300,scrollbars=yes,resizable=yes')">
 											${restocklistIndex.wbinoutship?number }
 										</a>
 										<#else>
@@ -103,16 +103,18 @@
 			<table>
 				<colgroup>
 					<col width="60">
-					<col width="40">
+					<col width="60">
+					<col width="60">
 					<col width="260">
 					<col width="40">
 					<col width="40">
 					<col width="60">
 					<col width="40">
 				</colgroup>
-				<thead>
+				<thead>				
 					<tr class="line">
 						<th class="no_line">Request Date</th>
+						<th>subject</th>
 						<th>Requested By</th>
 						<th>Note</th>
 						<th>Requested</th>
@@ -122,22 +124,35 @@
 					</tr>					
 				</thead>
 				<tbody>
-					<tr class="line2">
-						<td class="no_line">1</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr class="line2 total">
-						<td colspan="3" class="no_line"></td>
-						<td>152</td>
-						<td>152</td>
-						<td>152</td>
-						<td>152</td>
-					</tr>
+					<#assign inoutcalSum = 0?number><#assign inoutshipSum = 0?number><#assign balanceSum = 0?number>
+					<#if requestlist?has_content>
+						<#list requestlist as requestIndex>
+						<tr class="line2">
+							<td class="no_line">
+								<a href="javascript:$.openPop('/fa/inventory/historyRequestpop?aidx=${requestIndex.aidx }&inoutreqymd=${requestIndex.inoutreqymd }','historyRestockPopup','width=924,height=700,left=300,scrollbars=yes,resizable=yes')">
+									${requestIndex.inoutreqymdt }
+								</a>
+							</td>
+							<td>${requestIndex.subjname }</td>
+							<td>${requestIndex.userfstname }</td>
+							<td>${requestIndex.inoutreqnote }</td>
+							<td>${requestIndex.inoutcal?number }</td>
+							<td>${requestIndex.inoutship?number }</td>
+							<td>${requestIndex.inoutsignymdt }</td>
+							<td>${requestIndex.balance?number }</td>
+							<#assign inoutcalSum = inoutcalSum + requestIndex.inoutcal?number>
+							<#assign inoutshipSum = inoutshipSum + requestIndex.inoutship?number>
+							<#assign balanceSum = balanceSum + requestIndex.balance?number>
+						</tr>
+						</#list>
+						<tr class="line2 total">
+							<td colspan="4" class="no_line"></td>
+							<td>${inoutcalSum }</td>
+							<td>${inoutshipSum }</td>
+							<td></td>
+							<td>${balanceSum }</td>
+						</tr>
+					</#if>
 				</tbody>
 			</table>
 		</div>
