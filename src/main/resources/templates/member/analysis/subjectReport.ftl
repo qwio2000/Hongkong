@@ -1,13 +1,10 @@
 <#include "/include/header.ftl">
-<#macro zeroNonDisplay arg>
-	<#if arg != 0>
-		${arg }
-	</#if>
-</#macro>
+<#assign currentYear = .now?string('yyyy')> 
+<#assign currentMonth = .now?string('MM')> 
 <!-- Main Content -->
 <div class="content">
 	<form id="searchForm" name="searchForm" action="/ja/members/analysis/subject" method="GET">	
-	<input type="hidden" id="searchYYMM" name="searchYYMM" value="${.now?string('yyyy-MM') }"/>
+	<input type="hidden" id="searchYYMM" name="searchYYMM" value="${currentYear + '-' + currentMonth}"/>
 	<ul class="memSearch">
 		<li>
 			<label for=""><a href="javascript:;" onClick="$.openDeptSearch();">조직찾기</a></label>
@@ -51,30 +48,30 @@
 				<#if report.subj != 'TT'>
 				<tr class="line2">
 					<th class="no_line no_left">${report.subjShortName }</th>
-					<td><@zeroNonDisplay report.prevMgMM01/></td>
-					<td><@zeroNonDisplay report.prevMgMM02/></td>
-					<td><@zeroNonDisplay report.prevMgMM03/></td>
-					<td><@zeroNonDisplay report.prevMgMM04/></td>
-					<td><@zeroNonDisplay report.prevMgMM05/></td>
-					<td><@zeroNonDisplay report.prevMgMM06/></td>
-					<td><@zeroNonDisplay report.prevMgMM07/></td>
-					<td><@zeroNonDisplay report.prevMgMM08/></td>
-					<td><@zeroNonDisplay report.prevMgMM09/></td>
-					<td><@zeroNonDisplay report.prevMgMM10/></td>
-					<td><@zeroNonDisplay report.prevMgMM11/></td>
-					<td><@zeroNonDisplay report.prevMgMM12/></td>
-					<td><@zeroNonDisplay report.mgMM01/></td>
-					<td><@zeroNonDisplay report.mgMM02/></td>
-					<td><@zeroNonDisplay report.mgMM03/></td>
-					<td><@zeroNonDisplay report.mgMM04/></td>
-					<td><@zeroNonDisplay report.mgMM05/></td>
-					<td><@zeroNonDisplay report.mgMM06/></td>
-					<td><@zeroNonDisplay report.mgMM07/></td>
-					<td><@zeroNonDisplay report.mgMM08/></td>
-					<td><@zeroNonDisplay report.mgMM09/></td>
-					<td><@zeroNonDisplay report.mgMM10/></td>
-					<td><@zeroNonDisplay report.mgMM11/></td>
-					<td><@zeroNonDisplay report.mgMM12/></td>
+					<td>${report.prevMgMM01}</td>
+					<td>${report.prevMgMM02}</td>
+					<td>${report.prevMgMM03}</td>
+					<td>${report.prevMgMM04}</td>
+					<td>${report.prevMgMM05}</td>
+					<td>${report.prevMgMM06}</td>
+					<td>${report.prevMgMM07}</td>
+					<td>${report.prevMgMM08}</td>
+					<td>${report.prevMgMM09}</td>
+					<td>${report.prevMgMM10}</td>
+					<td>${report.prevMgMM11}</td>
+					<td>${report.prevMgMM12}</td>
+					<td><#if currentYear?number gt searchYY?number || (currentYear?number == searchYY?number && currentMonth?number gt 1) >${report.mgMM01 }</#if></td>
+					<td><#if currentYear?number gt searchYY?number || (currentYear?number == searchYY?number && currentMonth?number gt 2) >${report.mgMM02 }</#if></td>
+					<td><#if currentYear?number gt searchYY?number || (currentYear?number == searchYY?number && currentMonth?number gt 3) >${report.mgMM03 }</#if></td>
+					<td><#if currentYear?number gt searchYY?number || (currentYear?number == searchYY?number && currentMonth?number gt 4) >${report.mgMM04 }</#if></td>
+					<td><#if currentYear?number gt searchYY?number || (currentYear?number == searchYY?number && currentMonth?number gt 5) >${report.mgMM05 }</#if></td>
+					<td><#if currentYear?number gt searchYY?number || (currentYear?number == searchYY?number && currentMonth?number gt 6) >${report.mgMM06 }</#if></td>
+					<td><#if currentYear?number gt searchYY?number || (currentYear?number == searchYY?number && currentMonth?number gt 7) >${report.mgMM07 }</#if></td>
+					<td><#if currentYear?number gt searchYY?number || (currentYear?number == searchYY?number && currentMonth?number gt 8) >${report.mgMM08 }</#if></td>
+					<td><#if currentYear?number gt searchYY?number || (currentYear?number == searchYY?number && currentMonth?number gt 9) >${report.mgMM09 }</#if></td>
+					<td><#if currentYear?number gt searchYY?number || (currentYear?number == searchYY?number && currentMonth?number gt 10) >${report.mgMM10 }</#if></td>
+					<td><#if currentYear?number gt searchYY?number || (currentYear?number == searchYY?number && currentMonth?number gt 11) >${report.mgMM11 }</#if></td>
+					<td><#if currentYear?number gt searchYY?number || (currentYear?number == searchYY?number && currentMonth?number gt 12) >${report.mgMM12 }</#if></td>
 				</tr>
 				</#if>
 			</#list>

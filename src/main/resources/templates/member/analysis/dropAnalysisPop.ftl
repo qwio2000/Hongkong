@@ -6,10 +6,10 @@
 </#macro>
 <!-- Main Content -->
 <div class="popup" style="min-width:300px">
-	<div class="popup_top"><h1>조직찾기</h1> <a href="javascript:self.close();" class="btn_popup_close">close</a></div>
+	<div class="popup_top"><h1>${deptName }</h1> <a href="javascript:self.close();" class="btn_popup_close">close</a></div>
 	<div class="popup_content">
 		<div class="pop_gm">
-		<h2 class="conTit">${deptName } : Drop Analysis by Month (Year ${searchYY }) </h2>
+		<h2 class="conTit">Drop Analysis by Month (Year ${searchYY }) </h2>
 			<div class="tbl01 tbl_w100">
 				<table>
 					<colgroup>
