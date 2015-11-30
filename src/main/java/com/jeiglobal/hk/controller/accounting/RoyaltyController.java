@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jeiglobal.hk.domain.accounting.RoyaltyOverviewList;
 import com.jeiglobal.hk.domain.auth.LoginInfo;
-import com.jeiglobal.hk.domain.member.MemberDto.MemberWeeklyScheduleInfo;
 import com.jeiglobal.hk.domain.member.MemberDto.MonthInfo;
 import com.jeiglobal.hk.domain.promotionitem.PromotionOrderItem;
 import com.jeiglobal.hk.service.accounting.ChargeService;

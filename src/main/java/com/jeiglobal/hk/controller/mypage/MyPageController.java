@@ -27,8 +27,6 @@ import com.jeiglobal.hk.service.center.CenterService;
 import com.jeiglobal.hk.utils.CommonUtils;
 import com.jeiglobal.hk.utils.MessageSourceAccessor;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * 클래스명 : MyPageController.java
  *
@@ -38,7 +36,6 @@ import lombok.extern.slf4j.Slf4j;
  * 
  * 설명 : 지사 + 가맹점 My Page 
  */
-@Slf4j
 @Controller
 public class MyPageController {
 
