@@ -530,6 +530,17 @@ public class DiagnosisController {
 	public String diagnosisIpprOmrPrint(Model model, String jisa, String omrdate, String memKey, String subj, String lang, String avg, String mujin)  {
 		log.debug("Getting OmrPrint List Page");
 		
+		List<String> headerCss = new ArrayList<String>();
+		headerCss.add("jui/jui.min");
+		headerCss.add("jui/jennifer.theme.min");
+		
+		List<String> headerScript = new ArrayList<String>();
+		headerScript.add("jui/jui.min");
+		headerScript.add("diganosisipprPrint");
+		model.addAttribute("headerCss", headerCss);
+		model.addAttribute("headerScript", headerScript);
+		
+		
 		//회원 기초정보
 		DiagnosisDto.DiagnosisOmrPrintLang diagnosisOmrPrintLang = diagnosisService.getDiagnosisOmrPrintLang(jisa, omrdate, memKey, subj, lang, mujin );	 
 		

@@ -48,7 +48,7 @@
 		<![CDATA[ 
 		SELECT 
 			subj, globalbiz.FuncCodeDtlNM(a.jisaCD,'0002',a.subj,'E','') AS subjname
-			, inOutSignYMD, DATE_FORMAT(inOutSignYMD,'%m/%d/%Y') AS inOutSignYMDT
+			, inOutSignYMD, IFNULL(DATE_FORMAT(inOutSignYMD,'%m/%d/%Y'),'') AS inOutSignYMDT
 			, SUM(wbInOutShip) AS wbInOutShip, SUM(rewbInOutShip) AS rewbInOutShip, SUM(wbInOutShip)+SUM(rewbInOutShip) AS totship
 		FROM(
 			SELECT 
@@ -71,7 +71,7 @@
 			aidx, jisaCD, deptCD, subj, subjname
 			, inOutReqYMD, DATE_FORMAT(inOutReqYMD,'%m/%d/%Y') AS inOutReqYMDT
 			, userFstName, inOutReqNote, InOutCal, InOutShip
-			, inOutSignYMD, DATE_FORMAT(inOutSignYMD,'%m/%d/%Y') AS inOutSignYMDT
+			, inOutSignYMD, IFNULL(DATE_FORMAT(inOutSignYMD,'%m/%d/%Y'),'') AS inOutSignYMDT
 			, (InOutCal-InOutShip) AS balance
 		FROM(
 			SELECT
@@ -101,7 +101,7 @@
 			, b.wbName, b.wbInOutCal
 			, CASE WHEN a.SignID <> '' AND a.inOutSignYMD <> '' THEN b.wbInOutShip ELSE 0 END AS InOutShip	
 			, c.userFstName
-			, a.inOutSignYMD, DATE_FORMAT(a.inOutSignYMD,'%m/%d/%Y') AS inOutSignYMDT
+			, a.inOutSignYMD, IFNULL(DATE_FORMAT(a.inOutSignYMD,'%m/%d/%Y'),'') AS inOutSignYMDT
 			, a.inOutReqNote
 		FROM globalbiz.IvnWorkBookInOutMst AS a
 		INNER JOIN globalbiz.IvnWorkBookInOutDtl AS b

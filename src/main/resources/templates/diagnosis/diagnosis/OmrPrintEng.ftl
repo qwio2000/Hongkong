@@ -1,16 +1,50 @@
+<#-- @ftlvariable name="loginInfo" type="com.jeiglobal.domain.auth.LoginInfo" -->
+<#-- @ftlvariable name="jisaAuthInfo" type="com.jeiglobal.hk.auth.Authority" -->
+<#-- @ftlvariable name="bmsAuthInfo" type="com.jeiglobal.hk.auth.Authority" -->
+<#-- @ftlvariable name="imgPath" type="java.lang.String" -->
+<#-- @ftlvariable name="cssPath type="java.lang.String" -->
+<#-- @ftlvariable name="jsPath" type="java.lang.String" -->
+<#-- @ftlvariable name="mainWeek" type="java.util.List" -->
+<#import "/spring.ftl" as spring/>
+<#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
 
 <#include "/function/diagnosis.ftl">
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!DOCTYPE html>
+<!--[if IE 7]><html lang="ko" class="ie7"><![endif]-->
+<!--[if IE 8]><html lang="ko" class="ie8"><![endif]-->
+<html lang="ko">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=euc-kr" />
-<title>Jaeneung Education</title>
-	<link href="${cssPath}/diagnosisIppr/ENG/style.css" rel="stylesheet" type="text/css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>Jaeneung Education</title>
+		<link href="${cssPath}/diagnosisIppr/ENG/style.css" rel="stylesheet" type="text/css">
+	</head>
+	
+	<link rel="stylesheet" type="text/css" href="${cssPath }/jquery-ui.1.11.4.min.css" />
+	<#if headerCss?has_content>
+	<#list headerCss as css>
+		<link rel="stylesheet" type="text/css" href="${cssPath }/${css}.css" />
+	</#list>
+	</#if>
+	<script type="text/javascript" src="${jsPath }/common/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="${jsPath }/common/handlebars-3.0.3-min.js"></script>
+	<script type="text/javascript" src="${jsPath }/common/common.js"></script>
+	<script type="text/javascript" src="${jsPath }/common/jquery-ui.1.11.4.min.js"></script>
+	<#if headerScript?has_content>
+	<#list headerScript as script>
+		<script type="text/javascript" src="${jsPath }/${script}.js"></script>
+	</#list>
+	</#if>
+	<script type="text/javascript">
+		var imgPath = '${imgPath}';
+		var jisaCD = '${loginInfo.jisaCD}';
+		var deptCD = '${loginInfo.deptCD}';
+		var userType = '${loginInfo.userType}';
+	</script>
+
 </head>
-
-
 <body bgcolor=white topmargin=0 leftmargin=0 marginwidth=0 marginheight=0>
 	<center>
 	<br><br><br><br>
@@ -30,7 +64,7 @@
 			<td><br></td>
 		</tr>
 		<tr>
-			<td WIDTH="450"><font size=3><b>EE(EE)</b></font></td>
+			<td WIDTH="450"><font size=3><b>${kwamok }()</b></font></td>
 			<TD WIDTH="190" ALIGN="right">Center : ?????????????</TD>
 		</tr>
 		<TR>
@@ -69,8 +103,10 @@
 					</tr>             
 					<tr height=180 width="640">
 						<td width="440" align=center>
-							차트들어가야됨!!!
-							<IMG SRC="/ChartFXInt62/Temp/CFT1020_10414918A10.png"  WIDTH="440" HEIGHT="240" >
+							<!-- 차트들어가야됨!!! -->
+							<div class="row">
+							    <div class="col col-4"><div id="chart"></div></div>
+							</div>
 						</td>      
 						 <#assign sung = (range.jung?number/range.tot?number) * 100><!--  gt :> , gte : >= , lt < , lte <= -->
 						 <#if sung?number gte 90>
@@ -437,4 +473,85 @@
 	</table>
 	</#if>
 </body>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+			var dominArry= "";	
+			var dominString = "";			
+		
+			
+			var rangeArry= "";
+			var rangeString = "";	
+			
+			var rangeallArry= "";
+			var rangeallString = "";
+			
+	
+			
+			<#if (range.tot1?number != 0)>
+				dominString = dominString + "[1],"
+				rangeString = rangeString + (${range.r1}*1.0/${range.tot1}) * 100 + ","
+				rangeallString = rangeallString + ${range.all1} + ","
+			</#if>
+			<#if (range.tot2?number != 0)>
+				dominString = dominString + "[2],"
+				rangeString = rangeString + (${range.r2}*1.0/${range.tot2}) * 100 + ","
+				rangeallString = rangeallString + ${range.all2} + ","
+			</#if>
+			<#if (range.tot3?number != 0)>
+				dominString = dominString + "[3],"
+				rangeString = rangeString + (${range.r3}*1.0/${range.tot3}) * 100 + ","
+				rangeallString = rangeallString + ${range.all3} + ","
+			</#if>
+			<#if (range.tot4?number != 0)>
+				dominString = dominString + "[4],"
+				rangeString = rangeString + (${range.r4}*1.0/${range.tot4}) * 100 + ","
+				rangeallString = rangeallString + ${range.all4} + ","
+			</#if>
+			<#if (range.tot5?number != 0)>
+				dominString = dominString + "[5],"
+				rangeString = rangeString + (${range.r5}*1.0/${range.tot5}) * 100 + ","
+				rangeallString = rangeallString + ${range.all5} + ","
+			</#if>
+			<#if (range.tot6?number != 0)>
+				dominString = dominString + "[6],"
+				rangeString = rangeString + (${range.r6}*1.0/${range.tot6}) * 100 + ","
+				rangeallString = rangeallString + ${range.all6} + ","
+			</#if>
+			<#if (range.tot7?number != 0)>
+				dominString = dominString + "[7],"
+				rangeString = rangeString + (${range.r7}*1.0/${range.tot7}) * 100 + ","
+				rangeallString = rangeallString + ${range.all7} + ","
+			</#if>
+			<#if (range.tot8?number != 0)>
+				dominString = dominString + "[8],"
+				rangeString = rangeString + (${range.r8}*1.0/${range.tot8}) * 100 + ","
+				rangeallString = rangeallString + ${range.all8} + ","
+			</#if>
+			<#if (range.tot9?number != 0)>
+				dominString = dominString + "[9],"
+				rangeString = rangeString + (${range.r9}*1.0/${range.tot9}) * 100 + ","
+				rangeallString = rangeallString + ${range.all9} + ","
+			</#if>
+			
+			dominArry 	 = dominString.split(",");
+			rangeArry 	 = rangeString.split(",");
+			rangeallArry = rangeallString.split(",");
+		
+		 	var data = [];
+			var domain = [];
+	            
+			for(var i = 0 ; i < dominArry.length-1 ; i++){
+					domain.push('"'+dominArry[i]+'"' )
+					data.push({ "나의성취율" : parseInt(rangeArry[i]), "전체회원평균" : rangeallArry[i]} )
+			}
+
+			var domain = domain ;
+			var data = data ;
+			var width =  440;
+			var height = 240;
+		   
+		   jei.getprintChart(domain, data, width, height);
+	});
+</script>
 </html>
