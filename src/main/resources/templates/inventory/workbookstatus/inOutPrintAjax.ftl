@@ -1,13 +1,9 @@
 
 				<div class="clearfix pt20">
-					<div class="float_l">
-					Ship to Calgary : ${subjnm } (${subj })   <!-- ENGLISH (EE) -->
-					</div>
-					<#if pgubun == "P">
-					<div class="float_r">
-					Printed on ${date } <!-- 1/28/2015 at 12:00AM -->
-					</div>
-					</#if>
+						<div class="float_l" style="width:550px">Ship to Calgary : ${subjnm } (${subj })   <!-- ENGLISH (EE) --></div>
+						<#if pgubun == "P">
+						<div class="float_r" style="width:230px;">Printed on  ${date }<!-- 1/28/2015 at 12:00AM --></div>
+						</#if>
 				</div>
 					
 				<div class="tbl01 mt5 tbl_status">

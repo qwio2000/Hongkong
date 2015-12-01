@@ -91,6 +91,7 @@ public class MenuIntercepter extends HandlerInterceptorAdapter{
 					|| ant.match("/fa/diagnosis/**", currentUrl) //지사에서 처방 관련
 					|| "/fa/popupMsg".equalsIgnoreCase(currentUrl) //가맹점 팝업
 					|| ant.match("/ja/inventory/**", currentUrl) //지사 inventory
+					|| ant.match("/fa/inventory/**", currentUrl) //가맹점 inventory
 				){ 
 
 				if(menuCodeCnt == 1){

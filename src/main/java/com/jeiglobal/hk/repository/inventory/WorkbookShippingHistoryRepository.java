@@ -28,6 +28,13 @@ public interface WorkbookShippingHistoryRepository {
 	
 	List<WorkbookShippingHistoryDto.HistoryRequestpop> findHistoryRequestpop(Map<String, Object> map);
 	
+	List<WorkbookShippingHistoryDto.ShippingHistory> findShippingHistory(Map<String, Object> map);
+	
+	List<WorkbookShippingHistoryDto.ShippingHistoryDtlList> findShippingHistoryDtlList(Map<String, Object> map);
+	
+	
+	
+	
 	
 	
 	

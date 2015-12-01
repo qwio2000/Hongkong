@@ -113,6 +113,50 @@
 	</select>
 	
 	
+	<!-- 지사 shipping history -->
+	<select id="findShippingHistory" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookShippingHistoryDto$ShippingHistory">
+		<![CDATA[ 
+		SELECT 
+			a.jisaCD, a.deptCD, a.deptName AS centername, a.stateName AS st, b.avgsubj
+		FROM globalbiz.ViewsDeptMst AS a
+		INNER JOIN(
+			SELECT jisaCD, deptCD, ROUND( (SUM(subjEnd)*1.0/ SUBSTRING(MAX(mgYYMM),6,2)) ,0) AS avgsubj
+			FROM globalmagam.SalesCenters
+			GROUP BY jisaCD, deptCD
+		)AS b
+		ON a.jisaCD=b.jisaCD AND a.deptCD=b.deptCD
+		WHERE a.jisaCD=#{jisaCD}  AND a.deptCD <>  '00000' AND a.statusCD=#{statusCD}
+		]]>	
+	</select>
+	
+	<!-- 지사 shipping history Dtl -->
+	<select id="findShippingHistoryDtlList" statementType="CALLABLE" parameterType="HASHMAP" resultType="com.jeiglobal.hk.domain.inventory.WorkbookShippingHistoryDto$ShippingHistoryDtlList">
+		<![CDATA[ 
+		SELECT 
+			a.dtlCD AS mon , IFNULL(b.inOutSignYMD,'') AS inOutSignYMD 
+			, IFNULL(b.wbInOutShip,'0') AS wbInOutShip
+		FROM( 
+			SELECT '01' AS dtlCD 
+			UNION ALL SELECT '02' UNION ALL SELECT '03' UNION ALL SELECT '04' UNION ALL SELECT '05' UNION ALL SELECT '06' UNION ALL SELECT '07' 
+			UNION ALL SELECT '08' UNION ALL SELECT '09' UNION ALL SELECT '10' UNION ALL SELECT '11' UNION ALL SELECT '12' 
+		) AS a 
+		LEFT JOIN( 	
+			SELECT 
+				CONVERT(a.inOutSignYMD, CHAR(7)) AS inOutSignYMD , SUBSTRING(CONVERT(a.inOutSignYMD, CHAR(7)),6,2) AS dtlCD 
+				, SUM(a.gradeTOTInOutShip) AS wbInOutShip -- 입력 수량 
+			FROM globalbiz.IvnWorkBookInOutMst AS a 
+			WHERE IFNULL(a.inOutSignYMD,'') <> '' 
+			AND a.jisaCD=#{jisaCD} AND  a.deptCD=#{deptCD}
+			AND CONVERT(a.inOutSignYMD, CHAR(4))=#{yy}
+			GROUP BY CONVERT(a.inOutSignYMD, CHAR(7))
+		)AS b 
+		ON a.dtlCD=b.dtlCD
+		]]>	
+	</select>
+	
+	
+	
+	
 	
 	
 	

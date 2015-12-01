@@ -170,6 +170,7 @@ public class WorkbookstatusController {
 		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("inventory");		
+		headerScript.add("common/printThis");	
 		model.addAttribute("headerScript", headerScript);	
 		
 		// 수량 수정한 과목 리스트
@@ -187,7 +188,7 @@ public class WorkbookstatusController {
 	
 	@RequestMapping(value={"/ja/inventory/IvnWorkBookInOutPrintSubj"}, method={RequestMethod.GET,RequestMethod.HEAD})
 	public String IvnWorkBookInOutPrintSubj(Model model, String jisaCD, String deptCD, String lastship, String subj, String pgubun ) {
-		log.debug("Getting inventory IvnWorkBookInOutPrint");	
+		log.debug("Getting inventory IvnWorkBookInOutPrintSubj");	
 		
 	
 		// 수량 수정한 과목 리스트
@@ -235,6 +236,7 @@ public class WorkbookstatusController {
 		//announcement를 추가했기 때문에 /public/js/announcement.js 를 header에 추가
 		List<String> headerScript = new ArrayList<String>();
 		headerScript.add("inventory");		
+		headerScript.add("common/printThis");		
 		model.addAttribute("headerScript", headerScript);	
 		
 		String subjdeptCD = deptCD;
@@ -341,10 +343,7 @@ public class WorkbookstatusController {
 		//가맹점 세트별 수량 리스트
 		List<WorkbookstatusDto.WorkbookStatusSetList> workbookStatusSetList = workbookstatusService.getWorkbookStatusSetList(jisaCD, deptCD, subj);
 
-		String shipevery = "";
-		for (WorkbookstatusDto.WorkbookStatusSetList workbookStatusSetList2 : workbookStatusSetList) {
-			shipevery =  workbookStatusSetList2.getShipevery();			
-		}
+
 	
 		String subjnm = "";
 		for(WorkbookstatusDto.WorkbookStatusMstsubj subjlist : workbookStatusMstsubj){
@@ -368,13 +367,12 @@ public class WorkbookstatusController {
 		model.addAttribute("date", format.format(today));
 		model.addAttribute("subjlist", workbookStatusMstsubj);
 				
-		model.addAttribute("shipevery", shipevery);
 		model.addAttribute("wbdung", workbookStatusDungList);
 		model.addAttribute("setlist", workbookStatusSetList);
 
 		model.addAttribute("pgubun", pgubun);
 
-		return "inventory/workbookstatus/subj";
+		return "inventory/workbookstatus/hqInventory";
 	
 		
 	}

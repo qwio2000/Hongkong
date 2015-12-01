@@ -1,7 +1,7 @@
 <#include "/include/header.ftl">
 <!-- Main Content -->
 	<div class="content">
-		<h2 class="conTit">Workbook Status(Center) &gt; Ship to Cerritos</h2>
+		<h2 class="conTit">Workbook Status(Center) &gt; Ship to Cerritos</h2>		
 		<div class="list02 pt20 clearfix">
 			<div class="float_l">
 				<select name="subjShip" id="subjShip" style="width:200px">
@@ -21,7 +21,7 @@
 				<span class="btnArea mt0">
 					<a href="javascript:$.getShipTCUpt('D')">
 						<span style="width:285px">Delete Requests from selected Date</span>
-					</a>
+					</a>					
 				</span>
 			</div>
 		</div>

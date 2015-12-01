@@ -65,7 +65,7 @@
 								<td class="no_line">
 									<div class="font_blue">
 										<#if restocklistIndex.wbinoutship != "0">
-										<a href="javascript:$.openPop('/fa/inventory/HistoryRestockPopup?yy=${yy }&mon=${restocklistIndex.mon }','historyRestockPopup','width=924,height=700,left=300,scrollbars=yes,resizable=yes')">
+										<a href="javascript:$.openPop('/fa/inventory/HistoryRestockPopup?jisaCD=${jisaCD }&deptCD=${deptCD }&yy=${yy }&mon=${restocklistIndex.mon }','historyRestockPopup','width=924,height=700,left=300,scrollbars=yes,resizable=yes')">
 											${restocklistIndex.wbinoutship?number }
 										</a>
 										<#else>
@@ -78,11 +78,9 @@
 								<td>
 									<div class="font_blue">
 										<#if restocklistIndex.wbinoutship != "0">
-										<a href="javascript:$.openPop('/fa/inventory/historyRestockpop?yy=${yy }&mm=${restocklistIndex.mon }','historyRestockPopup','width=924,height=700,left=300,scrollbars=yes,resizable=yes')">
+										<a href="javascript:$.openPop('/fa/inventory/historyRestockpop?jisaCD=${jisaCD }&deptCD=${deptCD }&yy=${yy }&mm=${restocklistIndex.mon }','historyRestockPopup','width=924,height=700,left=300,scrollbars=yes,resizable=yes')">
 											${restocklistIndex.wbinoutship?number }
 										</a>
-										<#else>
-											${restocklistIndex.wbinoutship?number }
 										</#if>
 									</div>
 									<div class="font_green">${restocklistIndex.wbinoutcal?number }</div>
