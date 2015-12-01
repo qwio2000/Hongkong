@@ -112,7 +112,7 @@ var names = {
 		${subject.subj}: "${subject.subj}"
 	</#list>
 };
-<#if bySubject?has_content>
+<#if bySubject?has_content && bySubject[0].subjEndSum gt 0>
 // The SVG icon of style components can be used in chart
 chart("#chart-content", {
     icon: {
