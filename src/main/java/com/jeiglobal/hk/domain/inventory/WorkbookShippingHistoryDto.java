@@ -1,5 +1,10 @@
 package com.jeiglobal.hk.domain.inventory;
 
+import java.util.List;
+
+import com.jeiglobal.hk.domain.inventory.WorkbookstatusDto.WorkbookStatusSetDungList;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -66,6 +71,23 @@ public class WorkbookShippingHistoryDto {
 		private String inoutreqnote;
 	}
 	
+	@Data
+	public static class ShippingHistory{
+		private String jisaCD;
+		private String deptCD;
+		private String centername;
+		private String st;
+		private String avgsubj;
+		private List<ShippingHistoryDtlList> dtlList;
+	}
+	
+	@Data
+	@AllArgsConstructor
+	public static class ShippingHistoryDtlList{
+		private String mon;
+		private String inoutsignymd;		
+		private String wbinoutship;	
+	}
 	
 	
 }

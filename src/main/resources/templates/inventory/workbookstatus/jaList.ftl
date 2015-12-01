@@ -62,9 +62,6 @@
 								<#if mstlistIndex.additionalworkbook != "">
 								<span class="txt_area">${mstlistIndex.additionalworkbookt } Qty.${mstlistIndex.gradetotinoutship }</span>
 								<div class="tbl_btn_area">
-									<a href="javascript:$.getAdditionalworkbook('${mstlistIndex.jisaCD }','${mstlistIndex.deptCD }','${mstlistIndex.additionalworkbook }') " class="icon_print">
-										<span class="hidden">Print</span>
-									</a>
 									<a href="javascript:$.getAdditionalworkbook('${mstlistIndex.jisaCD }','${mstlistIndex.deptCD }','${mstlistIndex.additionalworkbook }') " class="icon_delivery">
 										<span class="hidden">Delivery</span>
 									</a>

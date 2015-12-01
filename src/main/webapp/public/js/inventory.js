@@ -185,7 +185,19 @@ $(function(){
 				});
 				
 			});
+			
 		},
+		
+		getGoPrint:function(){ 
+			$("#printlist").printThis({
+			    debug: false,             // show the iframe for debugging
+			    importCSS: false,          // import page CSS
+			    printContainer: true,     // grab outer container as well as the contents of the selector
+			    loadCSS: "/public/css/common.css", // path to additional css file
+			    pageTitle: "",             // add title to print page
+			    removeInline: false        // remove all inline styles from print elements
+			});
+		}, 
 		
 		getInOutallPrint:function(){ 
 			var jisaCD = $("#jisaCD").val();
@@ -363,9 +375,14 @@ $(function(){
     	document.location.href = "/ja/inventory/requestAWShipToCerritos?jisaCD="+jisaCD+"&deptCD="+deptCD+"&additionalworkbook="+additionalworkbook+" ";  
 	});
 	
-	$("#yyRestock").change(function() {
+	$("#yyRestock").change(function() { 	// 가맹점 history
 		document.location.href = "/fa/inventory/workbookShippingHistory?yy="+$("#yyRestock").val()+" ";
 	});
+	
+	$("#yyjaRestock").change(function() {   // 지사 history
+		document.location.href = "/ja/inventory/shippingHistory?yy="+$("#yyRestock").val()+" ";
+	});
+	
 	
 	$("[id^=select_]").change(function (i, v) {	
 		var myArray = $(this).val().split(',');	   
