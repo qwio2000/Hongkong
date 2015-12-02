@@ -4,8 +4,8 @@ multipart:
     maxRequestSize: 10240KB
     
 uploadpath:
-        announcements: C:\upload\jeiglobal\hk\announcements
-        promotionitem : C:\workspace\HongKong\src\main\webapp\public\promotion\
+        announcements: C:\upload\jeiglobal\hk\announcements    # 게시판 업로드 경로
+        promotionitem : C:\workspace\HongKong\src\main\webapp\public\promotion\    # 프로모션> item 파일 업로드 경로
         
 serverurl:
      hongkong: http://localhost:8080

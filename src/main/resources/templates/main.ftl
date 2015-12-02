@@ -309,7 +309,7 @@
 			<ul class="clear">
 				<li><a href="#"><span class="title">· JKL Online Traning, L & M file and new Workbooks &nbsp;<img src="${imgPath }/icon_new.png" alt="new" /></span><span class="date">07/30/2014</span></a></li>
 				<li><a href="#"><span class="title">· JKL Online Traning, L & M file and new Workbooks &nbsp;<img src="${imgPath }/icon_new.png" alt="new" /></span><span class="date">07/30/2014</span></a></li>
-				<li><a href="#"><span class="title">· JKL Online Traning, L & M file and new Workbooks</span><span class="date">07/30/2014</span></a></li>
+				<li><a href="#"><span class="title">· JKL Online Traning, L & M file and new Workbooks &nbsp;<img src="${imgPath }/icon_new.png" alt="new" /></span><span class="date">07/30/2014</span></a></li>
 				<li><a href="#"><span class="title">· JKL Online Traning, L & M file and new Workbooks</span><span class="date">07/30/2014</span></a></li>
 				<li><a href="#"><span class="title">· JKL Online Traning, L & M file and new Workbooks</span><span class="date">07/30/2014</span></a></li>
 				<li><a href="#"><span class="title">· JKL Online Traning, L & M file and new Workbooks</span><span class="date">07/30/2014</span></a></li>
