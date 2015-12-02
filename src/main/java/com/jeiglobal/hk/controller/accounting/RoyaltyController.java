@@ -70,6 +70,7 @@ public class RoyaltyController {
 	public String getRoyaltyOverview(Model model, @ModelAttribute LoginInfo loginInfo, 
 			@RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM){
 		Calendar cal = Calendar.getInstance();
+		cal.add(cal.MONTH, -1); // 1개월전을 디폴트로		
 		String currentYear = new SimpleDateFormat("YYYY").format(cal.getTime());
 		String currentMonth = new SimpleDateFormat("MM").format(cal.getTime());
 		List<MonthInfo> months = CommonUtils.getMonths(1);	//월 목록(short Type:2)
@@ -108,6 +109,7 @@ public class RoyaltyController {
 	public String getRoyaltyReportOfCenter(Model model, @ModelAttribute LoginInfo loginInfo, 
 			@RequestParam(defaultValue="") String selYY){
 		Calendar cal = Calendar.getInstance();
+		cal.add(cal.MONTH, -1); // 1개월전을 디폴트로		
 		String currentYear = new SimpleDateFormat("YYYY").format(cal.getTime());
 		if("".equals(selYY)){
 			selYY=currentYear;
@@ -136,6 +138,7 @@ public class RoyaltyController {
 	public String getRoyaltyReport(Model model, @ModelAttribute LoginInfo loginInfo, 
 			@RequestParam(defaultValue="") String selYY, @RequestParam(defaultValue="") String selMM){
 		Calendar cal = Calendar.getInstance();
+		cal.add(cal.MONTH, -1); // 1개월전을 디폴트로
 		String currentYear = new SimpleDateFormat("YYYY").format(cal.getTime());
 		String currentMonth = new SimpleDateFormat("MM").format(cal.getTime());
 		List<MonthInfo> months = CommonUtils.getMonths(1);	//월 목록(short Type)
