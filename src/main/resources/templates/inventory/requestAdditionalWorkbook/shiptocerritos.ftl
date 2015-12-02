@@ -38,7 +38,7 @@
 					<col width="130" />
 					<col width="100" />
 					<col width="80" />
-					<col />
+					<col width="200" />
 				</colgroup>
 				<thead>
 					<tr>
