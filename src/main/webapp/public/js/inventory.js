@@ -235,9 +235,10 @@ $(function(){
 		    var additionalworkbook = myArray[2];	
 		    var inOutSignYMD = $("#inOutSignYMD").val();
 		    
-		    
+		
 			if(gubun == "D"){
 				if (confirm("정말 삭제하시겠습니까?") == true){    //확인
+					 $(".btnArea").hide();
 					$.getShipTCDtlUpt(jisaCD,deptCD,additionalworkbook,inOutSignYMD,gubun);
 				}else{   //취소
 				    return;
@@ -247,6 +248,7 @@ $(function(){
 					alert("Ship Date 입력바랍니다. ");
 					return;
 				}else{
+					 $(".btnArea").hide();
 					$.getShipTCDtlUpt(jisaCD,deptCD,additionalworkbook,inOutSignYMD,gubun);
 				}
 			}
@@ -274,6 +276,8 @@ $(function(){
 			
 			data = $("#allset").html();
 
+			 $(".btnArea").hide();
+			
 			var searchUrl = "/ja/inventory/requestAWShipToCerritosUpt";						
 			var paramData = "jisaCD="+jisaCD+"&deptCD="+deptCD+"&additionalworkbook="+additionalworkbook+"&data="+data+"&inOutSignYMD="+inOutSignYMD+"&gubun="+gubun;
 	
@@ -288,7 +292,7 @@ $(function(){
 				,error: function (data, textStatus) { 
 					alert(textStatus); 			
 				}
-				,async: false
+				
 			});
 		},
 		
