@@ -61,6 +61,10 @@ multipart:
 uploadpath:
         announcements: /home/devhk/upload/announcements
         promotionitem : /home/hk/webapps/ROOT/public/promotion/
+
+serverurl:
+     hongkong: http://hk.jei-global.com
+     globalbms: http://bms.jei-global.com
         
 spring:
     resources:
