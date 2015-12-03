@@ -397,7 +397,7 @@
 						}
 					]
 				});
-				//메인 팝업
+				//메인팝업
 				var idx = '${idxs?default("")}';
 				if(idx != ''){
 					popupOpen(idx);
