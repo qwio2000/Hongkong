@@ -18,7 +18,7 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 
 import com.jeiglobal.hk.common.FileDownload;
-import com.jeiglobal.hk.common.MenuIntercepter;
+import com.jeiglobal.hk.common.MenuInterceptor;
 import com.jeiglobal.hk.excel.*;
 import com.jeiglobal.hk.utils.MessageSourceAccessor;
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
@@ -53,7 +53,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
 	 * @return MenuIntercepter
 	 */
 	@Bean
-	public MenuIntercepter menuIntercepter(){ return new MenuIntercepter();}
+	public MenuInterceptor menuIntercepter(){ return new MenuInterceptor();}
 	
 	/**
 	 * PUT method Filter
