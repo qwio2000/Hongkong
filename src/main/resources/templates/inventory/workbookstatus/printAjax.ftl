@@ -63,20 +63,20 @@
 							<#list setlist as setlistIndex>
 								<#list setlistIndex.dungList as dungListIndex>
 										<#if wbdungIndex == dungListIndex.wbgrade>
-											<#assign stocqty = dungListIndex.stocqty>
-											<#assign stableqty = dungListIndex.stableqty>
-											<#assign qty = stocqty?number - stableqty?number>  <!-- 현재재고 - 적정재고 -->
-											<#if stableqty?number gt stocqty?number>
-												<#assign stocqtySum = stocqtySum + qty?replace("-","")?number>	
+											<#assign stocqty = dungListIndex.stocqty?number>
+											<#assign stableqty = dungListIndex.stableqty?number>
+											<#assign qty = stocqty - stableqty>  <!-- 현재재고 - 적정재고 -->
+											<#if stableqty gt stocqty>
+												<#assign stocqtySum = stocqtySum + qty>	
 											</#if>
 										</#if>
 								</#list>
 							</#list>
 						
 							<#if wbdungIndex_index = 0>	
-								<td colspan="2" class="no_line">${stocqtySum }</td>
+								<td colspan="2" class="no_line">${stocqtySum?replace("-","") }</td>
 							<#else>
-								<td colspan="2" >${stocqtySum }</td>
+								<td colspan="2" >${stocqtySum?replace("-","") }</td>
 							</#if>
 							<#assign stocqtySumTot = stocqtySumTot+stocqtySum>
 							<#assign stocqtySum = 0?number>
@@ -85,7 +85,7 @@
 			</tbody>
 		</table>
 		<div class="pt20">
-			Total: <strong>${stocqtySumTot }</strong>
+			Total: <strong>${stocqtySumTot?replace("-","") }</strong>
 		</div>
 	</div>
 </div>
